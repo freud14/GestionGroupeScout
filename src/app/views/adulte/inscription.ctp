@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	$(function() {
-		$('#AdultesAddForm').validate({
+		$('#AdulteAddForm').validate({
 			'#AdultesNom_utilisateur': { 'rule' : 'notempty', 'error' : '<?php __('Attention, ce champ doit &#234;tre obligatoirement rempli.') ?>' },
 			'#AdultesMot_de_passe': { 'rule' : 'notempty', 'error' : '<?php __('Attention, ce champ doit &#234;tre obligatoirement rempli.') ?>' },
 			'#AdultesTel_maison': { 'rule' : 'notempty', 'error' : '<?php __('Attention, ce champ doit &#234;tre obligatoirement rempli.') ?>' },
@@ -14,9 +14,9 @@
 </script>
 
 <div>
-	<?php echo $form->create('Adultes', array('url' => array('controller' => 'adultes', 'action' => 'inscription')));?>
+	<?php echo $form->create('Adulte', array('url' => array('controller' => 'Adulte', 'action' => 'inscription')));?>
 
-<h3><?php __('Information du compte'); ?></h3>
+<h3><?php echo $form->label(__('Informations du compte', true)); ?> </h3>
 <table border="0">
 	<tr>
 		<td >
@@ -30,34 +30,39 @@
 		<td>
 		<?php
 			echo $this->Form->input(__('Implication', true), array('type'=>'select', 'multiple'=>'checkbox', 'options'=>array(__('Animation',true),__('Gestion / Comptabilité',true),__('Accompagnement',true),__('Couture, costumes',true),__('Cuisine (cuistot)',true),__('Autre',true)), 'label'=>__('Souhaitez-vous vous impliquer ?')));
-			echo $this->Form->input('description', array('label' => __('Spécifier si autre', true)));
+			echo $this->Form->input('description', array('label' => array('class' => 'element', 'text' =>__('Spécifier si autre', true))));
 		?>
 		</td>
 	</tr>
 	<tr>
 		<td>
 		
-		<h3><?php __('Information personnelle', true); ?></h3>
+		<h3><?php echo $form->label(__('Informations personnelles', true)); ?> </h3>
 
 		<?php
 			echo $form->input('nom', array('label' => array('class' => 'element', 'text' =>__('Nom', true) . ' <span class="star">*</span>')));
-			echo $form->input('prenom', array('label' => __('Prénom', true) . ' <span class="star">*</span>'));
-			echo $form->label('sexe',__('Sexe'));
-			echo $form->radio('gender', array('M' =>__('Masculin'),'F' => __('Féminin')), array('label' => 'Sexe', 'legend' => false));
-			echo $form->input('tel_maison', array('label' => __('Téléphone à la maison', true) . ' <span class="star">*</span>'));
-			echo $form->input('tel__bureau', array('label' => __('Téléphone au bureau', true)));
-			echo $form->input('poste__bureau', array('label' => __('Numéro de poste du <br> téléphone au bureau', true)));
-			echo $form->input('tel_autre', array('label' => __('Cellulaire', true)));
-			echo $form->input('profession', array('label' => __('Emploi', true)));
+			echo $form->input('prenom', array('label' => array('class' => 'element', 'text' =>__('Prénom', true) . ' <span class="star">*</span>')));
+			echo $form->input('tel_maison', array('label' => array('class' => 'element', 'text' =>__('Téléphone à la maison', true) . ' <span class="star">*</span>')));
+			echo $form->label('sexe', __('Sexe', true).' *', array('class' => 'element'));
+			echo $form->radio('gender', array('M' => __('Masculin', true),'F' => __('Féminin', true)),array('label'=> false, 'legend' => false));
+			echo $form->input('tel__bureau', array('label' => array('class' => 'element', 'text' =>__('Téléphone au bureau', true))));
+			echo $form->input('poste__bureau', array('label' => array('class' => 'element', 'text' =>__('Numéro de poste du <br> téléphone au bureau', true))));
+			echo '<br>';
+			echo $form->input('tel_autre', array('label' => array('class' => 'element', 'text' =>__('Cellulaire', true))));
+			echo $form->input('profession', array('label' => array('class' => 'element', 'text' =>__('Emploi', true))));
 		?>
 		</td>
 		<td>
-			<?php echo '<h2>captcha à intégrer</h2>'; //$captchaTool->show(); ?> 
+		<!--	?php echo '<h2>captcha à intégrer</h2>'; //$captchaTool->show(); ?>--> 
 		</td>
 	</tr>
 </table>
+
+<p align="right">
+
+    <?php echo $this->Form->button(__('Annuler l\'inscription', true), array('type'=>'reset')); ?>
     <?php echo $this->Form->button(__('Valider l\'inscription', true), array('type'=>'submit')); ?>
 	<?php echo $form->end();?>
-
+</p>
 	<p style="clear:left;padding-top: 16px;"><?php __('Les champs marqu&eacute;s d\'une &eacute;toile (<span class="star">*</span>) sont obligatoires.', true); ?></p>
 </div>
