@@ -19,7 +19,6 @@ class InscrireEnfant extends AppModel {
 						)
 			)
 	);
-
 }
 
 ?>
