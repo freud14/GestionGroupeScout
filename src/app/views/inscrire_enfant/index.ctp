@@ -1,9 +1,7 @@
 <script>
-	$(document).ready(function() {
-		if() {
-		
-		}	
-	});
+	/*$(document).ready(function() {
+		$("div.error").
+	});*/
 
 </script>
 

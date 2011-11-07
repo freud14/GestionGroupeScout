@@ -4,3 +4,8 @@ label.element
 	display: inline-block;
 	vertical-align:top;
 }
+
+div.error
+{
+	background:red;
+}

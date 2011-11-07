@@ -9,7 +9,7 @@ class InscrireEnfant extends AppModel {
 			'required' => true,
 			'allowEmpty' => false,
 			'on' => 'create', // ou bien : 'update'
-			'message' => 'Votre message d\'erreur'
+			'message' => ''
 		)
 	);
 }
