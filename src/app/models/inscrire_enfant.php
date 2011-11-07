@@ -12,6 +12,7 @@ class InscrireEnfant extends AppModel {
 			'message' => ''
 		)
 	);
+
 }
 
 ?>
