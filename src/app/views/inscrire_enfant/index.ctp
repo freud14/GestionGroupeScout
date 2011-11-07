@@ -8,7 +8,7 @@
 	echo $form->label('sexe', 'Sexe');
 	echo $form->radio('gender', 
 			array('M' => 'Masculin','F' => 'Féminin'), 
-			array('label' => 'Sexe', 'legend' => false));
+			array('label'=> false, 'legend' => false));
 	
 	/*$elements = array();
 	for($i = date('Y') - 70; $i = date('Y') - 5; ++$i) {
