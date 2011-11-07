@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="http://www.102e.org/typo3temp/stylesheet_fc92b45ab8.css" />
-	<link rel="stylesheet" type="text/css" href="http://www.102e.org/typo3conf/ext/air_filemanager/pi1/gallery.css" />
-	<link href="http://www.102e.org/fileadmin/templates/jet_30/stylebase.css" rel="stylesheet" type="text/css" />
-	<link href="http://www.102e.org/fileadmin/templates/jet_30/stylesub.css" rel="stylesheet" type="text/css" />
-	<!--<script type="text/javascript" src="http://www.102e.org/typo3conf/ext/air_filemanager/pi1/jquery-1.2.2.min.js"></script>
-	<script type="text/javascript" src="http://www.102e.org/typo3conf/ext/air_filemanager/pi1/air_filemanager.js"></script>-->
+	<?php echo $html->css('stylesheet_fc92b45ab8'); ?>
+	<?php echo $html->css('gallery'); ?>
+	<?php echo $html->css('stylebase'); ?>
+	<?php echo $html->css('stylesub'); ?>
+	<?php echo $html->css('scout'); ?>
+	<?php echo $this->Html->script('jquery-1.6.4.min'); ?>
+	
 	<?php echo $scripts_for_layout; ?>
 	<title><?php echo $title_for_layout; ?> - Scouts - 102e groupe des Laurentides</title>
 </head>
@@ -16,79 +17,79 @@
 	<div id="header">
 		<div class="menu">
 			<ul>
-				<li class="link"><a href="index">Retour au coté « parent »</a></li>
+				<li class="link"><a href="<?php echo $this->webroot; ?>index">Retour au coté « parent »</a></li>
 
-				<li class="link"><a href="admin">Administration</a></li>
+				<li class="link"><a href="<?php echo $this->webroot; ?>admin">Administration</a></li>
 
 				<li>
-					<a href="liste">Liste</a> 
+					<a href="<?php echo $this->webroot; ?>liste">Liste</a> 
 
 					<ul>
-						<li><a href="liste_enfants">Liste des enfants</a></li>
+						<li><a href="<?php echo $this->webroot; ?>liste_enfants">Liste des enfants</a></li>
 
-						<li><a href="liste_membres">Liste des membres</a></li>
+						<li><a href="<?php echo $this->webroot; ?>liste_membres">Liste des membres</a></li>
 
-						<li><a href="liste_inscriptions">Liste des inscriptions</a></li>
+						<li><a href="<?php echo $this->webroot; ?>liste_inscriptions">Liste des inscriptions</a></li>
 
-						<li><a href="liste_unites">Liste des unités</a></li>
+						<li><a href="<?php echo $this->webroot; ?>liste_unites">Liste des unités</a></li>
 					</ul>
 				</li>
 
 				<li>
-					<a href="gestion_scouts">Gestion des scouts</a> 
+					<a href="<?php echo $this->webroot; ?>gestion_scouts">Gestion des scouts</a> 
 
 					<ul>
-						<li><a href="profil_jeunes">Profil des jeunes</a></li>
+						<li><a href="<?php echo $this->webroot; ?>profil_jeunes">Profil des jeunes</a></li>
 
 						<li>
-							<a href="gestion_unites">Gestion des unités</a> 
+							<a href="<?php echo $this->webroot; ?>gestion_unites">Gestion des unités</a> 
 
 							<ul>
-								<li><a href="assigner_jeune">Assigner un jeune</a></li>
+								<li><a href="<?php echo $this->webroot; ?>assigner_jeune">Assigner un jeune</a></li>
 
-								<li><a href="desinscrire_jeune">Désinscrire un jeune</a></li>
+								<li><a href="<?php echo $this->webroot; ?>desinscrire_jeune">Désinscrire un jeune</a></li>
 
-								<li><a href="creation_unite">Création des unités</a></li>
+								<li><a href="<?php echo $this->webroot; ?>creation_unite">Création des unités</a></li>
 							</ul>
 						</li>
 
-						<li><a href="lier_compte">Lier des comptes</a></li>
+						<li><a href="<?php echo $this->webroot; ?>lier_compte">Lier des comptes</a></li>
 
-						<li><a href="inscriptions_sans_compte">Inscription sans compte</a></li>
+						<li><a href="<?php echo $this->webroot; ?>inscriptions_sans_compte">Inscription sans compte</a></li>
 					</ul>
 				</li>
 
 				<li>
-					<a href="gestion_admin">Gestion administrative</a> 
+					<a href="<?php echo $this->webroot; ?>gestion_admin">Gestion administrative</a> 
 
 					<ul>
-						<li><a href="tarifs">Tarifs</a></li>
+						<li><a href="<?php echo $this->webroot; ?>tarifs">Tarifs</a></li>
 
-						<li><a href="paiements">Paiements</a></li>
+						<li><a href="<?php echo $this->webroot; ?>paiements">Paiements</a></li>
 
 						<li>
-							<a href="assigner">Assigner</a> 
+							<a href="<?php echo $this->webroot; ?>assigner">Assigner</a> 
 
 							<ul>
-								<li><a href="assigner_jeune">Jeune</a></li>
+								<li><a href="<?php echo $this->webroot; ?>assigner_jeune">Jeune</a></li>
 
-								<li><a href="assigner_animateur">Animateur</a></li>
+								<li><a href="<?php echo $this->webroot; ?>assigner_animateur">Animateur</a></li>
 							</ul>
 						</li>
 
-						<li><a href="desinscription">Désinscription d'un jeune</a></li>
+						<li><a href="<?php echo $this->webroot; ?>desinscription">Désinscription d'un jeune</a></li>
 					</ul>
 				</li>
 
 				<li>
-					<a href="gestion_sys">Gestion du système</a> 
+					<a href="<?php echo $this->webroot; ?>gestion_sys">Gestion du système</a> 
 
 					<ul>
-						<li><a href="droits">Gestion des droits</a></li>
+						<li><a href="<?php echo $this->webroot; ?>droits">Gestion des droits</a></li>
 
-						<li><a href="droits">Gestion des années</a></li>
+						<li><a href="<?php echo $this->webroot; ?>droits">Gestion des années</a></li>
 
-						<li><a href="droits">Gestion des fiches médicales</a></li>
+						<li><a href="<?php echo $this->webroot; ?>droits">Gestion des fiches médicales</a></li>
 					</ul>
 				</li>
 			</ul>

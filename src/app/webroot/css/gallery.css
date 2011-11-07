@@ -1,0 +1,9 @@
+.elem {
+	width:150px;
+	float:left;
+}
+
+
+.row {
+clear:left;
+}
