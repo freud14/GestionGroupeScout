@@ -14,7 +14,7 @@ class InscrireEnfantController extends AppController {
 	}
 	
 	function fiche_medicale() {
-	
+		$this->set('title',__('Fiche médicale',true));
 	}
 }
 ?>
