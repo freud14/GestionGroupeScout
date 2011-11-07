@@ -19,7 +19,7 @@
 <h3><?php __('Information du compte'); ?></h3>
 <table border="0">
 	<tr>
-		<td>
+		<td >
 		<?php
 			echo $form->input('nom_utilisateur', array('label' => array('class' => 'element', 'text' => __('Courriel', true) . ' <span class="star">*</span>')));
 			echo $form->input('mot_de_passe', array('label' => array('class' => 'element', 'text' =>__('Mot de passe', true) . ' <span class="star">*</span>')));
@@ -40,7 +40,7 @@
 		<h3><?php __('Information personnelle', true); ?></h3>
 
 		<?php
-			echo $form->input('nom', array('label' => __('Nom', true) . ' <span class="star">*</span>'));
+			echo $form->input('nom', array('label' => array('class' => 'element', 'text' =>__('Nom', true) . ' <span class="star">*</span>')));
 			echo $form->input('prenom', array('label' => __('Prénom', true) . ' <span class="star">*</span>'));
 			echo $form->label('sexe',__('Sexe'));
 			echo $form->radio('gender', array('M' =>__('Masculin'),'F' => __('Féminin')), array('label' => 'Sexe', 'legend' => false));

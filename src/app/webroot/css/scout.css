@@ -10,3 +10,7 @@ div.error
 {
 	background:red;
 }
+
+table tr td {
+	vertical-align:top;
+}
