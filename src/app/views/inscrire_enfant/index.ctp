@@ -1,15 +1,32 @@
-<?php 
-	echo $form->create(null, array('action' => 'fiche_medicale')); 
+<script>
+	$(document).ready(function() {
+		if() {
 		
-	echo $form->input('nom', array('label' => 'Nom'));
-	
-	echo $form->input('prenom', array('label' => 'Prénom'));
-			
-	echo $form->label('sexe', 'Sexe');
+		}	
+	});
+
+</script>
+
+<?php
+	echo $form->create(null); //, array('action' => 'fiche_medicale')); 
+?>
+
+<?php
+	echo $form->input('nom', array('label' => array('class' => 'element', 'text' => __('Nom', true).' *')));
+?>
+
+<?php
+	echo $form->input('prenom', array('label' => array('class' => 'element', 'text' => __('Prénom', true).' *')));
+?>
+
+<?php
+	echo $form->label('sexe', __('Sexe', true).' *', array('class' => 'element'));
 	echo $form->radio('gender', 
-			array('M' => 'Masculin','F' => 'Féminin'), 
+			array('M' => __('Masculin', true),'F' => __('Féminin', true)), 
 			array('label'=> false, 'legend' => false));
-	
+?>
+
+<?php
 	/*$elements = array();
 	for($i = date('Y') - 70; $i = date('Y') - 5; ++$i) {
 		$elements[] = $i;
@@ -20,12 +37,25 @@
 							'dateFormat' => 'DMY',
 							'minYear' => date('Y') - 70,
 							'maxYear' => date('Y') - 5));*/
+?>
+
+<?php
 	echo "<br/>";
-	echo $form->label('date_de_naissance', 'Date de naissance');
+	echo $form->label('date_de_naissance', __('Date de naissance', true).' *', array('class' => 'element'));
 	echo $form->day('jour_naissance');
 	echo $form->month('mois_naissance');						
 	echo $form->year('annee_naissance', date('Y') - 70, date('Y') - 5);
+?>
 
-	echo $form->input('assurance_maladie', array('label' => 'Numéro d\'assurance maladie'));
-	echo $form->end("Étape suivante");
+<?php
+	echo $form->input('assurance_maladie', array('label' => array('class' => 'element', 'text' => __('Numéro d\'assurance maladie', true).' *')));
+?>
+
+<?php
+	echo $form->label('adresse', __('Adresse', true).' *', array('class' => 'element'));
+	echo $form->textarea('adresse', array('rows' => 7, 'cols' => 35));
+?>
+
+<?php
+	echo $form->end(__('Étape suivante', true));
 ?>
