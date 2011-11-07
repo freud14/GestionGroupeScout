@@ -14,7 +14,9 @@ class InscrireEnfantController extends AppController {
 	}
 	
 	function fiche_medicale() {
-		$this->set('title',__('Fiche médicale',true));
+		$this->set('title_for_layout', __('Inscription d\'un enfant', true));
+		$this->set('titre',__('Fiche médicale',true));
+		$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
 	}
 }
 ?>
