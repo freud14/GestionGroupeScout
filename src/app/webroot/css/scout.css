@@ -1,6 +1,7 @@
 label.element
 {
 	width: 250px;
-	display: inline-block;
+	display:block; 
+	float:left;
 	vertical-align:top;
 }

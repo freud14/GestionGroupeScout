@@ -21,9 +21,9 @@
 	<tr>
 		<td>
 		<?php
-			echo $form->input('nom_utilisateur', array('label' => __('Courriel', true) . ' <span class="star">*</span>'));
-			echo $form->input('mot_de_passe', array('label' => __('Mot de passe', true) . ' <span class="star">*</span>'));
-			echo $form->input('mot_de_passe', array('label' => __('Mot de passe', true) . ' <span class="star">*</span>'));
+			echo $form->input('nom_utilisateur', array('label' => array('class' => 'element', 'text' => __('Courriel', true) . ' <span class="star">*</span>')));
+			echo $form->input('mot_de_passe', array('label' => array('class' => 'element', 'text' =>__('Mot de passe', true) . ' <span class="star">*</span>')));
+			echo $form->input('mot_de_passe', array('label' => array('class' => 'element', 'text' =>__('Mot de passe', true) . ' <span class="star">*</span>')));
 
 		?>
 		</td>
