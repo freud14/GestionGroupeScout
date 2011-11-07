@@ -31,10 +31,19 @@ class InscrireEnfantController extends AppController {
 		$this->set('title_for_layout', __('Inscription d\'un enfant', true));
 		$this->set('titre',__('Fiche médicale',true));
 		$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
+<<<<<<< HEAD
 	}
 	
 	public function getMaladieList(){
 		return $this->Malady->find('all');
+=======
+		$this->loadModel("Medicament");
+		pr($this->getMaladieList());
+	}
+	
+	public function getMaladieList(){
+		return $this->Medicament->find('all');
+>>>>>>> b5eee3bcf217110ded05e7e4cc6749127d353ada
 	}
 }
 ?>
