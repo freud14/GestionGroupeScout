@@ -2,14 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="http://www.102e.org/typo3temp/stylesheet_fc92b45ab8.css" />
-	<link rel="stylesheet" type="text/css" href="http://www.102e.org/typo3conf/ext/air_filemanager/pi1/gallery.css" />
-	<link href="http://www.102e.org/fileadmin/templates/jet_30/stylebase.css" rel="stylesheet" type="text/css" />
-	<link href="http://www.102e.org/fileadmin/templates/jet_30/stylesub.css" rel="stylesheet" type="text/css" />
-	<link href="<?php echo $this->webroot; ?>css/scout.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="<?php echo $this->webroot; ?>js/jquery-1.6.4.min.js"></script>
-	<!--<script type="text/javascript" src="http://www.102e.org/typo3conf/ext/air_filemanager/pi1/air_filemanager.js"></script>-->
+	<?php echo $html->css('stylesheet_fc92b45ab8'); ?>
+	
+	<?php echo $html->css('gallery'); ?>
+	
+	<?php echo $html->css('stylebase'); ?>
+	
+	<?php echo $html->css('stylesub'); ?>
+	
+	<?php echo $html->css('scout'); ?>
+	
+	<?php echo $this->Html->script('jquery-1.6.4.min'); ?>
+	
 	<?php echo $scripts_for_layout; ?>
+	
 	<title><?php echo $title_for_layout; ?> - Scouts - 102e groupe des Laurentides</title>
 </head>
 
@@ -34,7 +40,7 @@
 				<li><a href="<?php echo $this->webroot; ?>profil">Mon profil</a></li>
 			</ul>
 		</div>
-		<a href="index"><img src="http://www.102e.org/fileadmin/templates/jet_30/images/logo102.png" alt="jet 30" width="214" height="125" border="0" class="logo" /></a>
+		<a href="index"><img src="<?php echo $this->webroot; ?>img/logo102.png" alt="jet 30" width="214" height="125" border="0" class="logo" /></a>
 	</div>
 
 	<div id="body">

@@ -1,0 +1,249 @@
+/* CSS Document */
+
+
+/*------------------------------------------------header--------------------*/
+#header{
+	background:url(../img/headersub.gif) 0 0 no-repeat;
+	width:981px;
+	height:180px;
+	position:relative;
+	margin:0 auto;
+}
+
+/*------------------------------------------------header--------------------*/
+
+#ariane {
+
+border-bottom:1px solid #CCCCCC;
+font-size:14px;
+margin:0 20px;
+padding:2px 0;
+/*width:550px;*/
+}
+
+}
+
+#ariane a {
+	text-decoration:none;
+	font:bold 21px Arial, Helvetica, sans-serif;
+	color:#D76E08;
+
+	background-color:inherit;
+	border-bottom:#BCBCB5 dashed 1px;
+}
+
+
+#ariane a:link {
+	color:#D76E08;
+	text-decoration:none;
+}
+
+#ariane a:visited {
+	color:#D76E08;
+	text-decoration:none;
+}
+
+
+/*------------------------------------------------left--------------------*/
+#left{
+	width:357px;
+	float:left;
+}
+#left1{
+	width:324px;
+	background:url(../img/lft_box_bg.gif) 0 0 no-repeat #EAEADA;
+	border:#DDDDCA solid 7px;
+	margin:0 0 4px 0;
+	padding:5px 10px 6px 9px;
+	color:#878767;
+}
+#left1 p.pic1{
+	display:block;
+	background:url(../img/lft_pic1.gif) 0 0 no-repeat;
+	width:88px;
+	height:78px;
+	margin:5px 0 0 0;
+	float:left;
+}
+#left1 p.boxTxt1{
+	float:right;
+	padding:0 0 0 15px;
+	border-left:#F9F9F1 solid 2px;
+	font:normal 12px/17px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	width:199px;
+}
+#left1 p.boxTxt1 span{
+	font:normal 19px/17px Arial, Helvetica, sans-serif;
+	color:#D76E08;
+	background-color:inherit;
+	padding:0 0 0 25px;
+	margin:0 0 10px 0;
+	background:url(../img/one.gif) 0 0 no-repeat;
+	height:17px;
+	display:block;
+}
+#left2{
+	width:316px;
+	background:url(../img/lft_box_bg.gif) 0 0 no-repeat #EAEADA;
+	border:#DDDDCA solid 7px;
+	margin:0 0 4px 0;
+	padding:5px 10px 6px 17px;
+	color:#878767;
+}
+#left2 p.pic2{
+	display:block;
+	background:url(../img/lft_pic2.gif) 0 0 no-repeat;
+	width:74px;
+	height:74px;
+	margin:8px 0 0 0;
+	float:left;
+}
+#left2 p.boxTxt2{
+	float:right;
+	padding:0 0 0 15px;
+	border-left:#F9F9F1 solid 2px;
+	font:normal 12px/17px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	width:199px;
+}
+#left2 p.boxTxt2 span{
+	font:normal 19px/17px Arial, Helvetica, sans-serif;
+	color:#D76E08;
+	background-color:inherit;
+	padding:0 0 0 25px;
+	margin:0 0 10px 0;
+	background:url(../img/two.gif) 0 0 no-repeat;
+	height:17px;
+	display:block;
+}
+#left3{
+	width:324px;
+	background:url(../img/lft_box_bg.gif) 0 0 no-repeat #EAEADA;
+	border:#DDDDCA solid 7px;
+	margin:0;
+	padding:5px 10px 6px 9px;
+	color:#878767;
+}
+#left3 p.pic3{
+	display:block;
+	background:url(../img/lft_pic3.gif) 0 0 no-repeat;
+	width:94px;
+	height:71px;
+	margin:5px 0 0 0;
+	float:left;
+}
+#left3 p.boxTxt3{
+	float:right;
+	padding:0 0 0 15px;
+	border-left:#F9F9F1 solid 2px;
+	font:normal 12px/17px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	width:199px;
+}
+#left3 p.boxTxt3 span{
+	font:normal 19px/17px Arial, Helvetica, sans-serif;
+	color:#D76E08;
+	background-color:inherit;
+	padding:0 0 0 25px;
+	margin:0 0 10px 0;
+	background:url(../img/three.gif) 0 0 no-repeat;
+	height:17px;
+	display:block;
+}
+/*------------------------------------------------left--------------------*/
+
+/*------------------------------------------------right--------------------*/
+#right{
+	width:979px;
+	float:left;
+	background:url(../img/right_panel_bg_sub.gif) 0 0 repeat-y;
+	margin:0 0 16px 0;
+}
+#right p.rightTop{
+	display:block;
+	background:url(../img/right_top_sub.gif) 0 0 no-repeat;
+	width:979px;
+	height:26px;
+}
+
+#rightMiddle {
+
+margin:16px 16px 16px 16px;
+font-family:verdana,arial,sans-serif;
+font-size:14px;
+text-decoration:none;
+color:#62625C;
+line-height:22px;
+
+}
+
+#rightMiddle a {
+	color:#62625C;
+	text-decoration:none;
+	border-bottom:1px dotted #62625C;
+}
+
+#rightMiddle a:hover {
+
+	border-bottom:1px solid #62625C;
+}
+
+#rightMiddle .h1 {
+
+	font:bold 24px Arial, Helvetica, sans-serif;
+	border-bottom:#BCBCB5 dashed 1px;
+	background-color:inherit;
+	display:block;
+	line-height:30px;
+	color:black;
+	margin:0 0 7px 0;
+}
+
+#rightMiddle .h2 {
+	font:bold 21px Arial, Helvetica, sans-serif;
+	color:#D76E08;
+	background-color:inherit;
+	border-bottom:#BCBCB5 dashed 1px;
+	display:block;
+	line-height:26px;
+	margin:0 0 5px 0;
+	padding:0 0 0 5px;
+}
+
+#rightMiddle .h3 {
+	font:bold 16px Arial, Helvetica, sans-serif;
+	color:#D76E08;
+	background-color:inherit;
+	border-bottom:#BCBCB5 dashed 1px;
+	display:block;
+	line-height:24px;
+	padding:0 0 0 10px;
+	margin:0 0 4px 0;
+}
+
+
+#right p.rightTxt2{
+	font:normal 13px/18px Arial, Helvetica, sans-serif;
+	color:#62625C;
+	background-color:inherit;
+	float:left;
+	width:349px;
+
+}
+
+
+#right p.rightPic{
+	display:block;
+	background:url(../img/right_panel_pic.gif) 0 0 no-repeat;
+	width:166px;
+	height:155px;
+	float:left;
+}
+#right p.rightBottom{
+	display:block;
+	background:url(../img/right_bottom_sub.gif) 0 0 no-repeat;
+	width:979px;
+	height:20px;
+	float:left;
+}
+/*------------------------------------------------right--------------------*/
+
+
