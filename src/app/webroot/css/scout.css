@@ -11,7 +11,14 @@ div.error
 	background:red;
 }
 
-table tr td {
+table tr td 
+{
 	vertical-align:top;
 	padding-right:9px;
 }
+
+input[type="text"]
+{
+	width:150px;
+}
+
