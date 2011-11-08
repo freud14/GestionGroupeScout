@@ -1,5 +1,5 @@
 <?php
-/* ContactUrgence Fixture generated on: 2011-11-03 16:46:33 : 1320353193 */
+/* ContactUrgence Fixture generated on: 2011-11-08 14:01:30 : 1320778890 */
 class ContactUrgenceFixture extends CakeTestFixture {
 	var $name = 'ContactUrgence';
 

@@ -1,5 +1,5 @@
 <?php
-/* Implication Fixture generated on: 2011-11-03 16:46:38 : 1320353198 */
+/* Implication Fixture generated on: 2011-11-08 14:01:35 : 1320778895 */
 class ImplicationFixture extends CakeTestFixture {
 	var $name = 'Implication';
 

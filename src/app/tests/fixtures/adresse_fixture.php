@@ -1,7 +1,7 @@
 <?php
-/* Adress Fixture generated on: 2011-11-03 16:46:29 : 1320353189 */
-class AdressFixture extends CakeTestFixture {
-	var $name = 'Adress';
+/* Adresse Fixture generated on: 2011-11-08 14:01:24 : 1320778884 */
+class AdresseFixture extends CakeTestFixture {
+	var $name = 'Adresse';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),

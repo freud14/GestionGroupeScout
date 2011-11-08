@@ -1,5 +1,5 @@
 <?php
-/* Notification Fixture generated on: 2011-11-03 16:46:41 : 1320353201 */
+/* Notification Fixture generated on: 2011-11-08 14:01:39 : 1320778899 */
 class NotificationFixture extends CakeTestFixture {
 	var $name = 'Notification';
 
@@ -18,7 +18,7 @@ class NotificationFixture extends CakeTestFixture {
 			'id' => 1,
 			'type_sujet_id' => 1,
 			'detail' => 'Lorem ipsum dolor sit amet',
-			'date' => '2011-11-03 16:46:41',
+			'date' => '2011-11-08 14:01:39',
 			'sujet_id' => 1
 		),
 	);

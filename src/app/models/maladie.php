@@ -1,6 +1,6 @@
 <?php
-class Malady extends AppModel {
-	var $name = 'Malady';
+class Maladie extends AppModel {
+	var $name = 'Maladie';
 	var $validate = array(
 		'nom' => array(
 			'notempty' => array(
@@ -19,7 +19,7 @@ class Malady extends AppModel {
 		'FicheMedicale' => array(
 			'className' => 'FicheMedicale',
 			'joinTable' => 'fiche_medicales_maladies',
-			'foreignKey' => 'malady_id',
+			'foreignKey' => 'maladie_id',
 			'associationForeignKey' => 'fiche_medicale_id',
 			'unique' => true,
 			'conditions' => '',

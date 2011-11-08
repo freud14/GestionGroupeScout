@@ -1,5 +1,5 @@
 <?php
-/* Facture Test cases generated on: 2011-11-03 16:46:35 : 1320353195*/
+/* Facture Test cases generated on: 2011-11-08 14:01:31 : 1320778891*/
 App::import('Model', 'Facture');
 
 class FactureTestCase extends CakeTestCase {

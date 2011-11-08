@@ -1,7 +1,7 @@
 <?php
-/* Fratery Fixture generated on: 2011-11-03 16:46:37 : 1320353197 */
-class FrateryFixture extends CakeTestFixture {
-	var $name = 'Fratery';
+/* Fraterie Fixture generated on: 2011-11-08 14:01:33 : 1320778893 */
+class FraterieFixture extends CakeTestFixture {
+	var $name = 'Fraterie';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),

@@ -43,11 +43,11 @@ class FicheMedicale extends AppModel {
 
 
 	var $hasAndBelongsToMany = array(
-		'Malady' => array(
-			'className' => 'Malady',
+		'Maladie' => array(
+			'className' => 'Maladie',
 			'joinTable' => 'fiche_medicales_maladies',
 			'foreignKey' => 'fiche_medicale_id',
-			'associationForeignKey' => 'malady_id',
+			'associationForeignKey' => 'maladie_id',
 			'unique' => true,
 			'conditions' => '',
 			'fields' => '',

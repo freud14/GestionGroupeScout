@@ -1,7 +1,7 @@
 <?php
-/* Malady Fixture generated on: 2011-11-03 16:46:40 : 1320353200 */
-class MaladyFixture extends CakeTestFixture {
-	var $name = 'Malady';
+/* Maladie Fixture generated on: 2011-11-08 14:01:37 : 1320778897 */
+class MaladieFixture extends CakeTestFixture {
+	var $name = 'Maladie';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),

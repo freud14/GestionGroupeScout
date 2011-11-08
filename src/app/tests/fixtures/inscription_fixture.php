@@ -1,5 +1,5 @@
 <?php
-/* Inscription Fixture generated on: 2011-11-03 16:46:39 : 1320353199 */
+/* Inscription Fixture generated on: 2011-11-08 14:01:36 : 1320778896 */
 class InscriptionFixture extends CakeTestFixture {
 	var $name = 'Inscription';
 
@@ -22,12 +22,12 @@ class InscriptionFixture extends CakeTestFixture {
 			'id' => 1,
 			'enfant_id' => 1,
 			'groupe_age_id' => 1,
-			'date_inscription' => '2011-11-03 16:46:39',
+			'date_inscription' => '2011-11-08 14:01:36',
 			'annee_id' => 1,
 			'autorisation_photo' => 'Lorem ipsum dolor sit ame',
 			'autorisation_baignade' => 'Lorem ipsum dolor sit ame',
 			'unite_id' => 1,
-			'date_fin' => '2011-11-03 16:46:39'
+			'date_fin' => '2011-11-08 14:01:36'
 		),
 	);
 }
