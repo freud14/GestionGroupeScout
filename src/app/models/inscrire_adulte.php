@@ -5,6 +5,21 @@ class InscrireAdulte extends AppModel {
 	//var $uses = array('Notification'); 
 	
 	var $validate = array(
+	
+		'nom_utilisateur' => array(
+            'email' => array(
+                'rule' => 'email',
+                'message' => 'Une adresse email valide sera nécessaire pour vous connecter à votre compte'
+            )			
+		),
+		
+		'mot_de_passe' => array(
+            'email' => array(
+                'rule' => 'email',
+                'message' => 'Une adresse email valide sera nécessaire pour vous connecter à votre compte'
+            )			
+		),
+		
 		'nom' => array(
 				'regle1' => array(
 						'rule' => array('required', true),
@@ -19,6 +34,22 @@ class InscrireAdulte extends AppModel {
 						)
 			)
 	);
+	
+	
+	function identicalFieldValues( $field=array(), $compare_field=null ) 
+	{
+		foreach( $field as $key => $value ){
+			$v1 = $value;
+			$v2 = $this->data[$this->name][ $compare_field ];                 
+				
+				if($v1 !== $v2) {
+					return FALSE;
+				} else {
+					continue;
+				}
+				}
+			return TRUE;
+	}
 
 }
 
