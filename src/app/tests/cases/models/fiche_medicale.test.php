@@ -1,5 +1,5 @@
 <?php
-/* FicheMedicale Test cases generated on: 2011-11-08 14:01:31 : 1320778891*/
+/* FicheMedicale Test cases generated on: 2011-11-08 18:38:19 : 1320795499*/
 App::import('Model', 'FicheMedicale');
 
 class FicheMedicaleTestCase extends CakeTestCase {

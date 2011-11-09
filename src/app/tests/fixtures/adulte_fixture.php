@@ -1,5 +1,5 @@
 <?php
-/* Adulte Fixture generated on: 2011-11-08 14:01:25 : 1320778885 */
+/* Adulte Fixture generated on: 2011-11-08 18:38:12 : 1320795492 */
 class AdulteFixture extends CakeTestFixture {
 	var $name = 'Adulte';
 
@@ -8,7 +8,7 @@ class AdulteFixture extends CakeTestFixture {
 		'prenom' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 45, 'collate' => 'latin1_general_ci', 'charset' => 'latin1'),
 		'nom' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 45, 'collate' => 'latin1_general_ci', 'charset' => 'latin1'),
 		'tel_maison' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'sexe' => array('type' => 'binary', 'null' => true, 'default' => NULL, 'length' => 1),
+		'sexe' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'tel_bureau' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'poste_bureau' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'tel_autre' => array('type' => 'integer', 'null' => true, 'default' => NULL),
@@ -25,7 +25,7 @@ class AdulteFixture extends CakeTestFixture {
 			'prenom' => 'Lorem ipsum dolor sit amet',
 			'nom' => 'Lorem ipsum dolor sit amet',
 			'tel_maison' => 1,
-			'sexe' => 'Lorem ipsum dolor sit ame',
+			'sexe' => 1,
 			'tel_bureau' => 1,
 			'poste_bureau' => 1,
 			'tel_autre' => 1,

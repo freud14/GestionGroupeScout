@@ -1,5 +1,5 @@
 <?php
-/* ComptesNotification Fixture generated on: 2011-11-08 14:01:29 : 1320778889 */
+/* ComptesNotification Fixture generated on: 2011-11-08 18:38:17 : 1320795497 */
 class ComptesNotificationFixture extends CakeTestFixture {
 	var $name = 'ComptesNotification';
 

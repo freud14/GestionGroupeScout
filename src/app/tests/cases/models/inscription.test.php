@@ -1,5 +1,5 @@
 <?php
-/* Inscription Test cases generated on: 2011-11-08 14:01:36 : 1320778896*/
+/* Inscription Test cases generated on: 2011-11-08 18:38:24 : 1320795504*/
 App::import('Model', 'Inscription');
 
 class InscriptionTestCase extends CakeTestCase {

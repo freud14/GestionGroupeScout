@@ -1,5 +1,5 @@
 <?php
-/* Implication Test cases generated on: 2011-11-08 14:01:35 : 1320778895*/
+/* Implication Test cases generated on: 2011-11-08 18:38:22 : 1320795502*/
 App::import('Model', 'Implication');
 
 class ImplicationTestCase extends CakeTestCase {

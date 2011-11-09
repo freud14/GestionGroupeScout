@@ -1,5 +1,5 @@
 <?php
-/* ComptesNotification Test cases generated on: 2011-11-08 14:01:29 : 1320778889*/
+/* ComptesNotification Test cases generated on: 2011-11-08 18:38:17 : 1320795497*/
 App::import('Model', 'ComptesNotification');
 
 class ComptesNotificationTestCase extends CakeTestCase {

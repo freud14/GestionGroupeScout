@@ -1,5 +1,5 @@
 <?php
-/* AutorisationsCompte Test cases generated on: 2011-11-08 14:01:28 : 1320778888*/
+/* AutorisationsCompte Test cases generated on: 2011-11-08 18:38:16 : 1320795496*/
 App::import('Model', 'AutorisationsCompte');
 
 class AutorisationsCompteTestCase extends CakeTestCase {

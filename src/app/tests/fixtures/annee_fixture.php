@@ -1,5 +1,5 @@
 <?php
-/* Annee Fixture generated on: 2011-11-08 14:01:27 : 1320778887 */
+/* Annee Fixture generated on: 2011-11-08 18:38:14 : 1320795494 */
 class AnneeFixture extends CakeTestFixture {
 	var $name = 'Annee';
 
@@ -7,7 +7,7 @@ class AnneeFixture extends CakeTestFixture {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'date_debut' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'date_fin' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'inscription' => array('type' => 'binary', 'null' => false, 'default' => NULL, 'length' => 1),
+		'inscription' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_general_ci', 'engine' => 'InnoDB')
 	);
@@ -15,9 +15,9 @@ class AnneeFixture extends CakeTestFixture {
 	var $records = array(
 		array(
 			'id' => 1,
-			'date_debut' => '2011-11-08 14:01:27',
-			'date_fin' => '2011-11-08 14:01:27',
-			'inscription' => 'Lorem ipsum dolor sit ame'
+			'date_debut' => '2011-11-08 18:38:14',
+			'date_fin' => '2011-11-08 18:38:14',
+			'inscription' => 1
 		),
 	);
 }
