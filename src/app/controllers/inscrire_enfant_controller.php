@@ -10,6 +10,7 @@ class InscrireEnfantController extends AppController {
 	}
 	
 	function index() {
+		$this->loadModel('InformationGenerale');
 		if (!empty($this->data)) {
 			$this->InscrireEnfant->set($this->data);
 			if($this->InscrireEnfant->validates()) {
