@@ -42,6 +42,11 @@ class InscrireEnfantController extends AppController {
 		
 		$this->loadModel('Medicament');
 		$this->set('medicaments', $this->getMedicamentListe());
+		pr($this->data);
+		pr($this->params); 
+	}
+	function cache(){
+	
 	}
 	function autorisation(){
 	$this->set('title_for_layout', __('Autorisations', true));
@@ -59,5 +64,6 @@ class InscrireEnfantController extends AppController {
 	public function getMedicamentListe(){
 		return $this->Medicament->find('all');
 	}
+	
 }
 ?>
