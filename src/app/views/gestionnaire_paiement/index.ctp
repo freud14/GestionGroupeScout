@@ -1,6 +1,4 @@
-<?php
-	pr($frateries);
-?>
+
 <h3>Liste des enfants</h3>
 
 <table class="tableau_generique">
@@ -16,13 +14,27 @@
 		</tr>
 	</thead>
 	<tbody>
-
+		<?php foreach($inscriptions as $inscription) { ?>
+		<tr>
+			<td><?php echo $inscription['nom']; ?></td>
+			<td><?php echo $inscription['mode_paiement']; ?></td>
+			<td><?php echo $inscription['montant_paye']; ?></td>
+			<td><?php echo $inscription['cout_total']; ?></td>
+			<td><?php echo $inscription['etat']; ?></td>
+			<td><?php echo $inscription['date_dernier_paiement']; ?></td>
+			<td><?php echo $inscription['date_prochain_paiement']; ?></td>
+		</tr>
+		<?php } ?>
 	</tbody>
 </table>
-
-
-
 <?php
+	pr($inscriptions);
+?>
+<!--
+<?php
+	pr($frateries);
+?>
+	<?php
 	$prix_totaux = array();
 	$prix = array();
 	foreach($frateries as $fraterie) {
@@ -38,6 +50,7 @@
 	}
 	pr($prix_totaux);
 ?>
+
 <table class="tableau_generique">
 	<thead>
 		<tr>
@@ -59,4 +72,4 @@
 			</td>
 		</tr>
 	</tbody>
-</table>
+</table>-->

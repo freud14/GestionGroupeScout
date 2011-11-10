@@ -1,6 +1,6 @@
 <?php
 class GestionnairePaiement extends AppModel {
-	var $name = 'GestionnairePaiements';
+	var $name = 'GestionnairePaiement';
 	var $useTable = false;
 }
 
