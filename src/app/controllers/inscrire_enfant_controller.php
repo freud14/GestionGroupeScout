@@ -24,20 +24,18 @@ class InscrireEnfantController extends AppController {
 			$this->set('titre', __('Informations générales', true));
 			$this->set('ariane', __('<span style="color: green;">Informations générales</span> > Fiches médicales > Autorisations', true));
 		//}
-		$this->loadModel('GroupeAge');
-		$this->set('groupe_age', $this->GroupeAge->find('all'));
 	}
 	
 	function fiche_medicale() {
 		$this->set('title_for_layout', __('Inscription d\'un enfant', true));
 		$this->set('titre',__('Fiche médicale',true));
 		$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
-		//$this->loadModel("Malady");
-		//pr($this->getMaladieList());
+		$this->loadModel("Maladie");
+		$this->set('maladies', $this->getMaladieListe());
 	}
 	
-	public function getMaladieList(){
-		return $this->Maladie->find('all');
+	public function getMaladieListe(){
+		return $this->Maladie->find('all',array('fields' => array()));
 	}
 }
 ?>
