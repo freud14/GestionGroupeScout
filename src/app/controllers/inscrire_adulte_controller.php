@@ -16,6 +16,8 @@ class InscrireAdulteController extends AppController {
 		function beforeFilter(){
 			parent::beforeFilter();
 			$this->layout = 'parent';
+			$this->loadModel('Compte');
+			$this->loadModel('Adulte');
 		}
 
 
@@ -41,24 +43,25 @@ class InscrireAdulteController extends AppController {
 
 			if (!empty($this->data)) {
 			
-			$this->InscrireAdulte->set($this->data);
+		//	$this->InscrireAdulte->set($this->data);
 					
-					if($this->InscrireAdulte->validates()) {
-						echo "valide";
-					} else {
-						echo "invalide";
-					}
+		//			if($this->InscrireAdulte->validates()) {
+		//				echo "valide";
+		//			} else {
+		//				echo "invalide";
+		//			}
 
-			$this->InscrireAdulte->create();
-			if ($this->InscrireAdulte->save($this->data)) {
-				$this->Session->setFlash(__('The News has been saved', true));
-				$this->redirect(array('action'=>'index'));
+			$this->Compte->create();
+			$this->Adulte->create();
+			if ($this->Compte->save($this->data)) {
+				pr($this->data);
+				$this->Session->setFlash(__('Inscription terminée', true));
 			} else {
-				$this->Session->setFlash(__('The News could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
 			}
 		}
 
 		}
-
+		
 }
 ?>
