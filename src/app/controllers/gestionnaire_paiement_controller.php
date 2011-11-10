@@ -18,14 +18,20 @@ class GestionnairePaiementController extends AppController {
 		//$this->set('inscriptions', $this->_getInscriptions());
 		
 		//$this->loadModel("Maladie");
+		$locale = localeconv();
 		$inscriptions = $this->GestionnairePaiement->getInscriptions();
-		foreach($inscriptions as &$inscription) {
+		/*foreach($inscriptions as &$inscription) {
 			if($inscription[0]['type_paiement'] == '') {
 				$inscription[0]['type_paiement'] = __('Indéterminé', true);
 			}
 			
+			$inscription[0]['montant_paye'] .= ' '.$locale['currency_symbol'];
+			
 			if($inscription['versements']['montant_total'] == '') {
 				$inscription['versements']['montant_total'] = __('Indéterminé', true);
+			}
+			else {
+				$inscription['versements']['montant_total'] .= ' '.$locale['currency_symbol'];
 			}
 			
 			if($inscription[0]['statut'] == 0) {
@@ -34,8 +40,23 @@ class GestionnairePaiementController extends AppController {
 			else {
 				$inscription[0]['statut'] = __('Payé', true);
 			}
-		}
+			
+			if($inscription[0]['derniere_date_paiement'] == '') {
+				$inscription[0]['derniere_date_paiement'] = __('Non disponible', true);
+			}
+			else {
+				$inscription[0]['derniere_date_paiement'] = strftime("%e %B %Y", strtotime($inscription[0]['derniere_date_paiement']));
+			}
+			
+			if($inscription[0]['prochain_paiement'] == '') {
+				$inscription[0]['prochain_paiement'] = __('Non disponible', true);
+			}
+			else {
+				$inscription[0]['prochain_paiement'] = strftime("%e %B %Y", strtotime($inscription[0]['prochain_paiement']));
+			}
+		}*/
 		$this->set('inscriptions', $inscriptions);
+		
 		
 		$this->loadModel("Fraterie");
 		$this->set('frateries', $this->Fraterie->find('all', array('recursive' => 2)));
