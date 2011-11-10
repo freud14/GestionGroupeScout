@@ -3,37 +3,55 @@
 
 
 
-<?php echo $form->input(__('Afficher',true), array('type' => 'select', 'options' => array('tous', 'louveteaux')))?> 
+<?php 
+//	pr($option);
+//	pr($enfant);
+	echo '<table border="0">'.
+		'<tr>'.
+		'<td >';
+			echo $form->input(__('Afficher',true), array('type' => 'select', 'options' => $option));
+	echo '</td>'.
+		'<td >';
+			echo $this->Form->button(__('Exporter sur excel', true), array('type'=>'summit')); 
+	echo'</td>'.
+		'</tr>'.
+		'</table>';
+
+
+
+	?> 
 
 <br><br>
 
 	<div>
 	
+<?php 
 
-	<table border="1">
-		<tr>
-			<td >
-				Nom
-			</td>
-			<td >
-				Sexe
-			</td>
-			<td >
-				Âge
-			</td>
+	foreach($unite as $value){
+		echo '<div>';
+		echo '<h3>'. $value . '</h3>';
+		echo '<table border="1">'.
+		'<tr>'.
+			'<td >'.
+				'Nom' .
+			'</td>'.
+			'<td >'.
+				'Sexe'.
+			'</td>'.
+			'<td >'.
+				'Âge'.
+			'</td>'.
+		'</tr>';
 
-		</tr>
 
-		<?php
-			pr($enfant); 
+		//	pr($enfant); 
 			
 			foreach ($enfant as $value){
-					echo '<tr>';
-						echo '<td>';
+					echo '<tr>'.
+						 '<td>';
 							echo $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom'];
-						echo '</td>';
-					
-						echo '<td>';
+					echo '</td>'.					
+						  '<td>';
 					
 					
 							//Puisque valeur numérique, on convertie
@@ -44,24 +62,20 @@
 							}
 						
 						
-						echo '</td>';
-
-						echo '<td>';
+					echo '</td>'.
+					      '<td>';
 							echo $value['Enfant']['date_naissance'];
-						echo '</td>';
-					echo '</tr>';	
+					echo '</td>'.
+					     '</tr>';	
 				}
 
 				
-			
-
-		?>
-	</table>
+		echo'</table>';		
+		echo '</div>';
+	}?>
+	
 	<div>
 
 <br>
-<p  align="right">
-	<?php echo $this->Form->button(__('Exporter sur excel', true), array('type'=>'summit')); ?>
-</p>
 
 </div>

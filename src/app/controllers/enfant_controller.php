@@ -27,12 +27,35 @@ class EnfantController extends AppController {
 		 */
 		 public function index() {
 			$enfant = $this->Enfant->find('all', array('recursive' => 2));
+			$option = array();
+			
+
+			foreach($enfant as $value){
+				$option = array();
+				$unite = array();
+				
+				$option[] = 'Tous';
+
+				foreach($value['Inscription'] as $ins){
+					if ($ins['Unite']['nom'] != null){
+
+						$option[] = $ins['Unite']['nom'];
+						
+						$unite[] = $ins['Unite']['nom'];
+					}
+				}
+							
+			}
+
 
 		//	pr($enfant);
 			$this->set('titre','Liste des unités');
 			$this->set('ariane', __('<span style="color: green;">Liste </span> > Liste des unités', true));
 			$this->set('title_for_layout', __('Liste des unités', true));
+			
 			$this->set('enfant', $enfant);
+			$this->set('option', $option);
+			$this->set('unite', $unite);
 		}
 
 }
