@@ -26,11 +26,9 @@ class EnfantController extends AppController {
 		 * @return void
 		 */
 		 public function index() {
-			$enfant = $this->Enfant->find('all');
-			//$unite = $this->Enfant->find('all'
+			$enfant = $this->Enfant->find('all', array('recursive' => 2));
 
-
-			pr($enfant);
+		//	pr($enfant);
 			$this->set('titre','Liste des unités');
 			$this->set('ariane', __('<span style="color: green;">Liste </span> > Liste des unités', true));
 			$this->set('title_for_layout', __('Liste des unités', true));

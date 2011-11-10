@@ -1,6 +1,8 @@
 <div>
 <h3><?php echo $form->label(__('Informations du compte', true)); ?> </h3>
 
+
+
 <?php echo $form->input(__('Afficher',true), array('type' => 'select', 'options' => array('tous', 'louveteaux')))?> 
 
 <br><br>
@@ -22,29 +24,38 @@
 
 		</tr>
 
-		<tr>
 		<?php
 			pr($enfant); 
 			
 			foreach ($enfant as $value){
+					echo '<tr>';
 						echo '<td>';
-						echo $enfant['Enfant']['nom'];
+							echo $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom'];
 						echo '</td>';
 					
 						echo '<td>';
-						echo $enfant['Enfant']['sexe'];
+					
+					
+							//Puisque valeur numérique, on convertie
+							if ($value['Enfant']['sexe'] == 1){
+								echo 'M';
+							} else {
+								echo 'F';
+							}
+						
+						
 						echo '</td>';
 
 						echo '<td>';
-						echo $enfant['Enfant']['date_naissance'];
+							echo $value['Enfant']['date_naissance'];
 						echo '</td>';
+					echo '</tr>';	
 				}
 
 				
 			
 
 		?>
-	</tr>
 	</table>
 	<div>
 
