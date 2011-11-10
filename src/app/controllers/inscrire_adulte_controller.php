@@ -40,16 +40,23 @@ class InscrireAdulteController extends AppController {
 			$this->set('title_for_layout', __('Inscription d\'un membre', true));
 
 			if (!empty($this->data)) {
-					$this->InscrireAdulte->set($this->data);
+			
+			$this->InscrireAdulte->set($this->data);
 					
 					if($this->InscrireAdulte->validates()) {
 						echo "valide";
 					} else {
 						echo "invalide";
 					}
-					pr($this->InscrireAdulte->invalidFields());
-				}
-			
+
+			$this->InscrireAdulte->create();
+			if ($this->InscrireAdulte->save($this->data)) {
+				$this->Session->setFlash(__('The News has been saved', true));
+				$this->redirect(array('action'=>'index'));
+			} else {
+				$this->Session->setFlash(__('The News could not be saved. Please, try again.', true));
+			}
+		}
 
 		}
 
