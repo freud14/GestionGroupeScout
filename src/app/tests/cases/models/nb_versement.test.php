@@ -1,5 +1,5 @@
 <?php
-/* NbVersement Test cases generated on: 2011-11-08 14:01:38 : 1320778898*/
+/* NbVersement Test cases generated on: 2011-11-08 18:38:26 : 1320795506*/
 App::import('Model', 'NbVersement');
 
 class NbVersementTestCase extends CakeTestCase {

@@ -11,7 +11,24 @@ div.error
 	background:red;
 }
 
-table tr td {
+table tr td 
+{
 	vertical-align:top;
 	padding-right:9px;
 }
+
+table.tableau_generique tr td, table.tableau_generique tr th
+{
+	border:1px solid black;
+}
+
+table.tableau_generique
+{
+	border-collapse: collapse;
+}
+
+input[type="text"]
+{
+	width:150px;
+}
+

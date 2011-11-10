@@ -23,8 +23,8 @@ class Enfant extends AppModel {
 			),
 		),
 		'date_naissance' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'date' => array(
+				'rule' => array('date'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -53,6 +53,16 @@ class Enfant extends AppModel {
 			),
 		),
 		'tel_maison' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'sexe' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',

@@ -29,7 +29,7 @@
 					<a href="<?php echo $this->webroot; ?>enfant">Enfant</a> 
 
 					<ul>
-						<li><a href="<?php echo $this->webroot; ?>inscriptions">Inscription des enfants</a></li>
+						<li><a href="<?php echo $this->webroot; ?>inscrire_enfant">Inscription des enfants</a></li>
 
 						<li><a href="<?php echo $this->webroot; ?>profil_enfant">Profil des enfants</a></li>
 					</ul>

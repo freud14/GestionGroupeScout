@@ -1,5 +1,5 @@
 <?php
-/* GroupeAge Fixture generated on: 2011-11-08 14:01:34 : 1320778894 */
+/* GroupeAge Fixture generated on: 2011-11-08 18:38:22 : 1320795502 */
 class GroupeAgeFixture extends CakeTestFixture {
 	var $name = 'GroupeAge';
 
@@ -8,7 +8,7 @@ class GroupeAgeFixture extends CakeTestFixture {
 		'nom' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 45, 'collate' => 'latin1_general_ci', 'charset' => 'latin1'),
 		'age_min' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'age_max' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'sexe' => array('type' => 'binary', 'null' => false, 'default' => NULL, 'length' => 1),
+		'sexe' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_general_ci', 'engine' => 'InnoDB')
 	);
@@ -19,7 +19,7 @@ class GroupeAgeFixture extends CakeTestFixture {
 			'nom' => 'Lorem ipsum dolor sit amet',
 			'age_min' => 1,
 			'age_max' => 1,
-			'sexe' => 'Lorem ipsum dolor sit ame'
+			'sexe' => 1
 		),
 	);
 }

@@ -1,5 +1,5 @@
 <?php
-/* Facture Fixture generated on: 2011-11-08 14:01:31 : 1320778891 */
+/* Facture Fixture generated on: 2011-11-08 18:38:18 : 1320795498 */
 class FactureFixture extends CakeTestFixture {
 	var $name = 'Facture';
 
@@ -18,7 +18,7 @@ class FactureFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'no_facture' => 'Lorem ipsum dolor sit amet',
-			'date_facturation' => '2011-11-08 14:01:31',
+			'date_facturation' => '2011-11-08 18:38:18',
 			'inscription_id' => 1,
 			'nb_versement_id' => 1,
 			'fraterie_id' => 1

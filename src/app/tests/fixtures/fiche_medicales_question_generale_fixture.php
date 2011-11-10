@@ -1,5 +1,5 @@
 <?php
-/* FicheMedicalesQuestionGenerale Fixture generated on: 2011-11-08 14:01:33 : 1320778893 */
+/* FicheMedicalesQuestionGenerale Fixture generated on: 2011-11-08 18:38:21 : 1320795501 */
 class FicheMedicalesQuestionGeneraleFixture extends CakeTestFixture {
 	var $name = 'FicheMedicalesQuestionGenerale';
 
