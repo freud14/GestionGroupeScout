@@ -32,10 +32,16 @@ class InscrireEnfantController extends AppController {
 		$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
 		$this->loadModel("Maladie");
 		$this->set('maladies', $this->getMaladieListe());
+		$this->loadModel('QuestionGenerale');
+		$this->set('questions', $this->getQuestionListe());
 	}
 	
 	public function getMaladieListe(){
-		return $this->Maladie->find('all',array('fields' => array()));
+		return $this->Maladie->find('all');
+	}
+	
+	public function getQuestionListe(){
+		return $this->QuestionGenerale->find('all');
 	}
 }
 ?>
