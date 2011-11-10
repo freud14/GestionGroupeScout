@@ -3,13 +3,7 @@
  /*if (isset($_POST["nomboutont"]){
  
  }*/
- 	if ( array_key_exists ('precedent',$this->params['form']))
- 	{
- 		pr($this->params['form']);
- 	}elseif( array_key_exists ('suivant',$this->params['form']))
- 	{
- 		$this->redirect('autorisation');
- 	}
+ 	
 	echo $form->create(null);?>
 	
 	<h3><?php echo __('Antécédents médicaux',true); ?></h3>

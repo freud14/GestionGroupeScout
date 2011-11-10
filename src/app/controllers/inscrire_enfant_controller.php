@@ -30,6 +30,15 @@ class InscrireEnfantController extends AppController {
 	}
 	
 	function fiche_medicale() {
+		if ( array_key_exists ('precedent',$this->params['form']))
+ 		{
+ 			pr($this->params['form']);
+ 		}elseif( array_key_exists ('suivant',$this->params['form']))
+ 		{
+ 			$this -> Session -> write("session", $this->params['data']);
+			$this -> Session -> write("url", $this->params['url']);
+ 			$this->redirect('autorisation');
+ 		}
 		$this->set('title_for_layout', __('Inscription d\'un enfant', true));
 		$this->set('titre',__('Fiche médicale',true));
 		$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
@@ -49,7 +58,8 @@ class InscrireEnfantController extends AppController {
 	
 	}
 	function autorisation(){
-	$this->set('title_for_layout', __('Autorisations', true));
+		pr(($this -> Session -> read()));
+		$this->set('title_for_layout', __('Autorisations', true));
 		$this->set('titre',__('Autorisations',true));
 		$this->set('ariane', __('Informations générales > Fiches médicales > <span style="color: green;">Autorisations</span>', true));
 	}
