@@ -29,9 +29,9 @@
 	echo '<h3>'. __('Questions générales sur votre jeune',true). '</h3>';
 	
 	$tab = array();
-	pr($questions);
+	
 	foreach($questions as $value){
-		$tab[] = $question['texte'];
+		$tab[] = $value['QuestionGenerale']['texte'];
 	}
 	
 	echo '<table><tr><th></th><th>'.$form->label('oui',__('Oui',true)). $form->label('non',__('Non',true)).'</th></tr>';
@@ -47,8 +47,13 @@
 	echo '<table><tr><td><h3>'. __('Médicament(s) autorisé(s)',true) . '<h3> </td><td><h3>'.
 	__('Médicament(s) sous prescription avec posologie ',true). '</h3></td></tr>';
 	$tab = array();
-	$tab[] = 'med aut1';
-	$tab[] = 'med aut2';
+	
+	foreach($medicaments as $value){
+		$tab[] = $value['Medicament']['nom'];
+	}
+	
+	
+	
 	echo '<tr><td>'.$this->Form->input('medicamentautorise', array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab, 'label'=>' ')).'</td><td>';
 	echo $form->input(' ', array('type' => 'textarea', true)). '</td></tr>';
 	echo '<tr><td> <h3>' . __('Allergie(s)',true) .'</h3>' .$form->input(' ', array('type' => 'textarea', true)). '</td></tr>';
