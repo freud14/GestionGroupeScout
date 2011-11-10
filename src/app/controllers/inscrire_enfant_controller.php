@@ -43,6 +43,11 @@ class InscrireEnfantController extends AppController {
 		$this->loadModel('Medicament');
 		$this->set('medicaments', $this->getMedicamentListe());
 	}
+	function autorisation(){
+	$this->set('title_for_layout', __('Autorisations', true));
+		$this->set('titre',__('Autorisations',true));
+		$this->set('ariane', __('Informations générales > Fiches médicales > <span style="color: green;">Autorisations</span>', true));
+	}
 	
 	public function getMaladieListe(){
 		return $this->Maladie->find('all');

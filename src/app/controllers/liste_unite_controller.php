@@ -5,7 +5,7 @@
  *
  * @property Post $Post
  */
-class EnfantController extends AppController {
+class ListeUniteController extends AppController {
 
 		 var $helpers = array('Html', 'Javascript', 'Form');  
 		 var $name = 'enfant';
@@ -16,6 +16,7 @@ class EnfantController extends AppController {
 		function beforeFilter(){
 			parent::beforeFilter();
 			$this->layout = 'admin';
+			$this->loadModel('Unite');
 		}
 
 
@@ -26,27 +27,25 @@ class EnfantController extends AppController {
 		 * @return void
 		 */
 		 public function index() {
+		 	
 			$enfant = $this->Enfant->find('all', array('recursive' => 2));
+			$unite = $this->Unite->find('all', array('recursive' => 2));
+			pr($unite);
 			$option = array();
-			
 
+			$option[] = 'Tous';
+		
 			foreach($enfant as $value){
-				$option = array();
-				$unite = array();
-				
-				$option[] = 'Tous';
-
 				foreach($value['Inscription'] as $ins){
 					if ($ins['Unite']['nom'] != null){
 
 						$option[] = $ins['Unite']['nom'];
-						
-						$unite[] = $ins['Unite']['nom'];
+					
+						pr($option);
 					}
 				}
 							
 			}
-
 
 		//	pr($enfant);
 			$this->set('titre','Liste des unités');
@@ -55,7 +54,6 @@ class EnfantController extends AppController {
 			
 			$this->set('enfant', $enfant);
 			$this->set('option', $option);
-			$this->set('unite', $unite);
 		}
 
 }
