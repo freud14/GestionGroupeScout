@@ -16,13 +16,13 @@
 	<tbody>
 		<?php foreach($inscriptions as $inscription) { ?>
 		<tr>
-			<td><?php echo $inscription['nom']; ?></td>
-			<td><?php echo $inscription['mode_paiement']; ?></td>
-			<td><?php echo $inscription['montant_paye']; ?></td>
-			<td><?php echo $inscription['cout_total']; ?></td>
-			<td><?php echo $inscription['etat']; ?></td>
-			<td><?php echo $inscription['date_dernier_paiement']; ?></td>
-			<td><?php echo $inscription['date_prochain_paiement']; ?></td>
+			<td><?php echo $inscription[0]['enfant_nom']; ?></td>
+			<td><?php echo $inscription[0]['type_paiement']; ?></td>
+			<td><?php echo $inscription[0]['montant_paye']; ?></td>
+			<td><?php echo $inscription['versements']['montant_total']; ?></td>
+			<td><?php echo $inscription[0]['statut']; ?></td>
+			<td><?php echo $inscription[0]['derniere_date_paiement']; ?></td>
+			<td><?php echo $inscription[0]['prochain_paiement']; ?></td>
 		</tr>
 		<?php } ?>
 	</tbody>

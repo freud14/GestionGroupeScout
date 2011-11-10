@@ -24,6 +24,9 @@ class InscrireEnfantController extends AppController {
 			$this->set('titre', __('Informations générales', true));
 			$this->set('ariane', __('<span style="color: green;">Informations générales</span> > Fiches médicales > Autorisations', true));
 		//}
+		
+		$this->loadModel('GroupeAge');
+		$this->set('groupe_age', $this->GroupeAge->find('all'));
 	}
 	
 	function fiche_medicale() {
