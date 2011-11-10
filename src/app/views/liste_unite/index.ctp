@@ -4,8 +4,8 @@
 
 
 <?php 
-//	pr($option);
-//	pr($enfant);
+	pr($option);
+	pr($enfant);
 	echo '<table border="0">'.
 		'<tr>'.
 		'<td >';
@@ -27,7 +27,7 @@
 	
 <?php 
 
-	foreach($unite as $value){
+	foreach($option as $value){
 		echo '<div>';
 		echo '<h3>'. $value . '</h3>';
 		echo '<table border="1">'.
@@ -46,29 +46,29 @@
 
 		//	pr($enfant); 
 			
-			foreach ($enfant as $value){
-					echo '<tr>'.
-						 '<td>';
-							echo $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom'];
-					echo '</td>'.					
-						  '<td>';
-					
-					
-							//Puisque valeur numérique, on convertie
-							if ($value['Enfant']['sexe'] == 1){
-								echo 'M';
-							} else {
-								echo 'F';
-							}
-						
-						
-					echo '</td>'.
-					      '<td>';
-							echo $value['Enfant']['date_naissance'];
-					echo '</td>'.
-					     '</tr>';	
-				}
+			foreach ($enfant as $enf){
 
+							echo '<tr>'.
+								 '<td>';
+									echo $enf['Enfant']['prenom'] . ' ' . $enf['Enfant']['nom'];
+							echo '</td>'.					
+								  '<td>';
+							
+							
+									//Puisque valeur numérique, on convertie
+									if ($ene['Enfant']['sexe'] == 1){
+										echo 'M';
+									} else {
+										echo 'F';
+									}
+								
+								
+							echo '</td>'.
+								  '<td>';
+									echo $enf['Enfant']['date_naissance'];
+							echo '</td>'.
+								 '</tr>';	
+		}
 				
 		echo'</table>';		
 		echo '</div>';
