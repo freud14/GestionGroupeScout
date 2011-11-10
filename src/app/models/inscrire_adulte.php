@@ -13,13 +13,6 @@ class InscrireAdulte extends AppModel {
             )			
 		),
 		
-		'mot_de_passe' => array(
-            'email' => array(
-                'rule' => 'email',
-                'message' => 'Une adresse email valide sera nécessaire pour vous connecter à votre compte'
-            )			
-		),
-		
 		'nom' => array(
 				'regle1' => array(
 						'rule' => array('required', true),

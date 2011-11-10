@@ -1,16 +1,24 @@
 <div>
-<h3><?php echo $form->label(__('Informations du compte', true)); ?> </h3>
+<h3><?php echo $form->label(__('Liste des unités', true)); ?> </h3>
 
 
 
 <?php 
-	pr($option);
-	pr($enfant);
+//	pr($option);
+//	pr($enfant);
 	echo '<table border="0">'.
 		'<tr>'.
 		'<td >';
-			echo $form->input(__('Afficher',true), array('type' => 'select', 'options' => $option));
+		 echo $form->create('ListeUnite', array('url' => array('controller' => 'ListeUnite', 'action' => 'Index')));
+
+
+			echo $this->Form->input(__('Afficher',true), array('type' => 'select', 'options' => $option));
+
 	echo '</td>'.
+		'<td >';
+			echo $this->Form->button(__('Appliquer', true), array('type'=>'summit')); 
+			echo $form->end();
+		echo '</td>'.
 		'<td >';
 			echo $this->Form->button(__('Exporter sur excel', true), array('type'=>'summit')); 
 	echo'</td>'.
@@ -18,18 +26,16 @@
 		'</table>';
 
 
-
 	?> 
 
 <br><br>
-
 	<div>
 	
 <?php 
 
-	foreach($option as $value){
+	foreach($unite as $value){
 		echo '<div>';
-		echo '<h3>'. $value . '</h3>';
+		echo '<h3>'. $value['Unite']['nom'] . '</h3>';
 		echo '<table border="1">'.
 		'<tr>'.
 			'<td >'.
@@ -43,33 +49,34 @@
 			'</td>'.
 		'</tr>';
 
-
-		//	pr($enfant); 
+		foreach($value['Inscription'] as $inscription){
 			
-			foreach ($enfant as $enf){
-
-							echo '<tr>'.
-								 '<td>';
-									echo $enf['Enfant']['prenom'] . ' ' . $enf['Enfant']['nom'];
-							echo '</td>'.					
-								  '<td>';
-							
-							
-									//Puisque valeur numérique, on convertie
-									if ($ene['Enfant']['sexe'] == 1){
-										echo 'M';
-									} else {
-										echo 'F';
-									}
-								
-								
-							echo '</td>'.
-								  '<td>';
-									echo $enf['Enfant']['date_naissance'];
-							echo '</td>'.
-								 '</tr>';	
-		}
+				echo '<tr>' .
+					 '<td>';
+					 	echo $inscription['Enfant']['prenom'] . ' ' . $inscription['Enfant']['nom'];
 				
+				echo '</td>'.
+				      '<td>';
+						
+						if($inscription['Enfant']['sexe'] == 1){
+							echo 'M';
+						}else{
+							echo 'F';
+						}
+
+				echo '</td>'.
+				     '<td>';
+
+					echo $inscription['Enfant']['date_naissance'];
+				
+				echo '</td>'.
+					 '</tr>';
+
+
+
+		}
+
+						
 		echo'</table>';		
 		echo '</div>';
 	}?>
