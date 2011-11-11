@@ -18,6 +18,7 @@ class InscrireAdulteController extends AppController {
 			$this->layout = 'parent';
 			$this->loadModel('Compte');
 			$this->loadModel('Adulte');
+			$this->loadModel('AdultesImplication');
 		}
 
 
@@ -42,22 +43,24 @@ class InscrireAdulteController extends AppController {
 			$this->set('title_for_layout', __('Inscription d\'un membre', true));
 
 			if (!empty($this->data)) {
-			
-		//	$this->InscrireAdulte->set($this->data);
-					
-		//			if($this->InscrireAdulte->validates()) {
-		//				echo "valide";
-		//			} else {
-		//				echo "invalide";
-		//			}
 
 			$this->Compte->create();
 			$this->Adulte->create();
-			if ($this->Compte->save($this->data)) {
+			$this->AdultesImplication->create();
+			
+			$this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']));
+
+			$this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['sexe'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau'=> $this->data['InscrireAdulte']['poste_bureau'], 'profession'=> $this->data['InscrireAdulte']['profession'], 'compte_id' => $this->Compte->user('id'), 'courriel'=> $this->data['InscrireAdulte']['courriel']));
+
+
+			if ($this->Compte->save($this->data) && ($this->Adulte->save($this->data)) && ($this->AdultesImplication->save($this->data))) {
 				pr($this->data);
 				$this->Session->setFlash(__('Inscription terminée', true));
+
+				echo 'yes';
 			} else {
 				$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
+				echo 'no';
 			}
 		}
 
