@@ -13,10 +13,10 @@
 	$tab = array(0 => array(),1 => array(), 2 => array());
 	$tab1 = array(0 => array(),1 => array(), 2 => array());
 	
-	foreach($maladies as $value)
+	foreach($maladies as $valeur)
 	{
 		
-		$tab[$count % 3][] =  array($value['Maladie']['id'] =>$value['Maladie']['nom']);
+		$tab[$count % 3][] =  array($valeur['Maladie']['id'] =>$valeur['Maladie']['nom']);
 		
 		$count++;
 	}
@@ -26,12 +26,14 @@
 	$tab[2][] = "autre";
 	?>
 	
-	<table><tr><td>	
-	<?php echo $this->Form->input('antecedent1', array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab[0],'label' => false,  ));?>
+	<?php
+	
+	//echo $form->input('Model.name', array('multiple' => 'checkbox', 'options' => $options, 'selected' => $selected));
+	 echo $this->Form->input('antecedent1', array('type'=>'select', 'multiple'=>'checkbox','options'=>$tab[0],'label' => false, 'selected' => $antecedents ));?>
 	 </td><td>
-	<?php echo $this->Form->input('antecedent2', array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab[1], 'label'=>false)); ?>
+	<?php echo $this->Form->input('antecedent2', array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab[1], 'label'=>false, 'selected' => $antecedents)); ?>
 	</td><td>
-	<?php echo $this->Form->input('antecedent3', array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab[2],'label'=>false));
+	<?php echo $this->Form->input('antecedent3', array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab[2],'label'=>false, 'selected' => $antecedents));
 	echo $form->input(' ',array('disabled'=> 'disabled'));?>
 	
 	</td></tr></table></br> 
@@ -65,14 +67,14 @@
 	<?php
 	$tab = array();
 	
-	foreach($medicaments as $value){
-		$tab[] = $value['Medicament']['nom'];
+	foreach($medicaments as $valeur){
+		$tab[] = array($valeur['Medicament']['id'] => $valeur['Medicament']['nom']);
 	}
 	
 	
 ?>	
 	<tr><td>
-	<?php echo $this->Form->input('medicamentautorise', array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab, 'label'=>' '));?></td>
+	<?php echo $this->Form->input('medicamentautorise', array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab, 'label'=>' ','selected' => $resultmedicaments));?></td>
 	<td><?php echo $form->input(' ', array('type' => 'textarea', true));?> </td></tr>
 	<tr><td> <h3><?php echo __('Allergie(s)',true) ;?></h3> 
 	<?php echo $form->input(' ', array('type' => 'textarea', true));?> </td></tr>

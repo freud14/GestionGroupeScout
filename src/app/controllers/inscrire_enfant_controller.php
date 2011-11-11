@@ -33,13 +33,36 @@ class InscrireEnfantController extends AppController {
 	function fiche_medicale() {
 		if ( array_key_exists ('precedent',$this->params['form']))
  		{
+ 		//si le bouton précédent est cliqué
  			pr($this->params['form']);
  		}elseif( array_key_exists ('suivant',$this->params['form']))
  		{
+ 		//si le bouton suivant est cliqué
  			$this -> Session -> write("session", $this->params['data']);
 			$this -> Session -> write("url", $this->params['url']);
  			$this->redirect('autorisation');
+ 		}else{
+ 			// si on revient sur la page avec des informations déjà enregistrée
+ 			$session = $this -> Session -> read('session.InscrireEnfant');
+ 			pr($session);
+ 			$antecedent = array();
+ 			$medicaments = array();
+ 			$buffer = array_merge((array)$session['antecedent1'], (array)$session['antecedent2'],(array)$session['antecedent3']);
+ 
+  			foreach($buffer as $valeur){
+ 				$antecedent[] = $valeur;
+ 			}
+ 			
+ 		
+ 			foreach($session['medicamentautorise'] as $valeur)
+ 			{
+ 				$medicaments[] = $valeur;
+ 			}
+ 			pr($antecedent);
+ 			$this->set('antecedents',$antecedent);
+ 			$this->set('resultmedicaments',$medicaments);
  		}
+ 		
 		$this->set('title_for_layout', __('Inscription d\'un enfant', true));
 		$this->set('titre',__('Fiche médicale',true));
 		$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
@@ -52,13 +75,17 @@ class InscrireEnfantController extends AppController {
 		
 		$this->loadModel('Medicament');
 		$this->set('medicaments', $this->getMedicamentListe());
-		pr($this->data);
-		pr($this->params); 
+		//pr($this->data);
+		//pr($this->params); 
+		
 	}
-	function cache(){
 	
-	}
 	function autorisation(){
+	if(array_key_exists ('precedent',$this->params['form']))
+ 		{
+			$this->redirect('fiche_medicale');
+		
+		}		
 		pr(($this -> Session -> read()));
 		$this->set('title_for_layout', __('Autorisations', true));
 		$this->set('titre',__('Autorisations',true));
