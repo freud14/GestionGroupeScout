@@ -6,7 +6,7 @@ class InformationGenerale extends AppModel {
 	var $validate = array(
 		'nom' => array(
 				'regle1' => array(
-						'rule' => array('maxLength', 45), //array('required', true),
+						'rule' => '/.*/', //array('required', true),
 						'required' => true,
 						'allowEmpty' => false,
 						'on' => 'create',
