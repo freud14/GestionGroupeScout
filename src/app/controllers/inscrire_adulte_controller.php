@@ -19,6 +19,7 @@ class InscrireAdulteController extends AppController {
 			$this->loadModel('Compte');
 			$this->loadModel('Adulte');
 			$this->loadModel('AdultesImplication');
+			$this->loadModel('Implication');
 		}
 
 
@@ -32,8 +33,8 @@ class InscrireAdulteController extends AppController {
 			}
 
 		/**
-		 * add method
-		 *
+		 * Initialise les noms de la view inscription
+		 * Appelle la fonction d'enregistrement de membre
 		 * @return void
 		 */
 		public function inscription() {
@@ -42,25 +43,72 @@ class InscrireAdulteController extends AppController {
 			$this->set('ariane', __('<span style="color: green;">Inscription d\'un membre', true));
 			$this->set('title_for_layout', __('Inscription d\'un membre', true));
 
-			if (!empty($this->data)) {
+			//Initialise les checkboxs d'implications
+			$this->set('option',$this->_initImplication());
+			
+			//enregistrement des membres
 
+			if (!empty($this->data)) {
+					
+				$this->_ajoutMembre();
+
+			}
+			
+		}
+
+
+
+		/**
+		 *Enregistrement de membre
+		 * @return void
+		 */
+		private function _initImplication(){
+			
+			$implication = $this->Implication->find('all');
+	
+			$option = array();
+			foreach($implication as $value){
+					$option[$value['Implication']['id']] = $value['Implication']['nom'];
+			}
+
+			return $option;
+		}
+
+
+
+
+
+			/**
+		 *Enregistrement de membre
+		 * @return void
+		 */
+		private function _ajoutMembre(){
+
+				//Créer les intances de la bd nécessaire
 			$this->Compte->create();
 			$this->Adulte->create();
 			$this->AdultesImplication->create();
+				$this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']));
+				
+				$this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['gender'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 'profession' => $this->data['InscrireAdulte']['profession'], 'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 'compte_id' => $this->Compte->id));
 
-			$this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']));
 
-			$this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['gender'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 'profession' => $this->data['InscrireAdulte']['profession'], 'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 'compte_id' => $this->Compte->id));
+
+				//Enregistrement des données dans la base de données
+		//	if (($this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']))) && ($this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['gender'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 'profession' => $this->data['InscrireAdulte']['profession'], 'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 'compte_id' => $this->Compte->id)))){
+
 			
-			foreach($this->data['InscrireAdulte']['Implication'] as $impl) {
-				$this->AdultesImplication->save(array('implication_id' => 1, 'adulte_id' => $this->Adulte->id));
-				echo $impl;
-			}
-			echo	$this->Compte->id;
-
 			pr($this->data);
+				//Si une implication est existante	
+	//			if ((isset($this->data['InscrireAdulte']['implication'])) && (!empty($this->data['InscrireAdulte']['implication']))){
 
-		//	if ($this->Compte->save($this->data) && ($this->Adulte->save($this->data)) && ($this->AdultesImplication->save($this->data))) {
+				
+					foreach($this->data['InscrireAdulte']['Implication'] as $impl) {
+						$this->AdultesImplication->save(array('implication_id' => 1, 'adulte_id' => $this->Adulte->id));
+					}
+	//			}
+
+				//Si l'enregistrement a bien été fait, affiche le bon messasge
 				$this->Session->setFlash(__('Inscription terminée', true));
 
 				echo 'yes';
@@ -70,7 +118,5 @@ class InscrireAdulteController extends AppController {
 		//	}
 		}
 
-		}
-		
 }
 ?>
