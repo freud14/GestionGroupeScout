@@ -7,59 +7,31 @@ class GestionnairePaiementController extends AppController {
 		parent::beforeFilter();
 		$this->layout = 'parent';
 		setlocale(LC_ALL, 'fr_CA.utf8');
+		$this->set('title_for_layout', __('Gestionaire de paiements', true));
 	}
 	
 	function index() {
-		$this->set('title_for_layout', __('Gestionaire de paiements', true));
 		$this->set('titre',__('Gestionaire de paiements',true));
 		$this->set('ariane', __('Gestionaire de paiements', true));
 		
 		//$this->loadModel("Inscription");
 		//$this->set('inscriptions', $this->_getInscriptions());
+		$id_compte = 0;
+		$this->set('inscriptions', $this->GestionnairePaiement->getInscriptions($id_compte));
 		
-		//$this->loadModel("Maladie");
-		$locale = localeconv();
-		$inscriptions = $this->GestionnairePaiement->getInscriptions();
-		/*foreach($inscriptions as &$inscription) {
-			if($inscription[0]['type_paiement'] == '') {
-				$inscription[0]['type_paiement'] = __('Indéterminé', true);
-			}
-			
-			$inscription[0]['montant_paye'] .= ' '.$locale['currency_symbol'];
-			
-			if($inscription['versements']['montant_total'] == '') {
-				$inscription['versements']['montant_total'] = __('Indéterminé', true);
-			}
-			else {
-				$inscription['versements']['montant_total'] .= ' '.$locale['currency_symbol'];
-			}
-			
-			if($inscription[0]['statut'] == 0) {
-				$inscription[0]['statut'] = __('Impayé', true);
-			}
-			else {
-				$inscription[0]['statut'] = __('Payé', true);
-			}
-			
-			if($inscription[0]['derniere_date_paiement'] == '') {
-				$inscription[0]['derniere_date_paiement'] = __('Non disponible', true);
-			}
-			else {
-				$inscription[0]['derniere_date_paiement'] = strftime("%e %B %Y", strtotime($inscription[0]['derniere_date_paiement']));
-			}
-			
-			if($inscription[0]['prochain_paiement'] == '') {
-				$inscription[0]['prochain_paiement'] = __('Non disponible', true);
-			}
-			else {
-				$inscription[0]['prochain_paiement'] = strftime("%e %B %Y", strtotime($inscription[0]['prochain_paiement']));
-			}
-		}*/
-		$this->set('inscriptions', $inscriptions);
+		//$this->loadModel("Versement");
+		//$this->set('frateries', $this->Fraterie->find('all', array('recursive' => 2)));
+		//$this->set('montants_versement', $this->Versement->find('all', array('conditions' => 'Versement.date IS NOT NULL', 'fields' => 'DISTINCT Versement.date', 'order' => 'Versement.date')));
+		//$this->set('frateries', $this->Versement->find('all', array('order' => array('Fraterie.position', 'Versement.position'))));
+	}
+	
+	function effectuer_paiement() {
+		$this->set('titre',__('Effectuer un paiement',true));
+		$this->set('ariane', __('Gestionaire de paiements > Effectuer un paiement', true));
 		
-		
-		$this->loadModel("Fraterie");
-		$this->set('frateries', $this->Fraterie->find('all', array('recursive' => 2)));
+		$this->loadModel('Versement');
+		$this->set('frateries', $this->Versement->find('all', array('order' => array('Fraterie.position', 'Versement.position'))));
+		$this->set('versements', $this->Versement->find('all', array('conditions' => 'NbVersement.nb_versements = 1', 'order' => array('Fraterie.position', 'Versement.position'))));
 	}
 	
 	/*function _getInscriptions() {

@@ -3,7 +3,7 @@ class GestionnairePaiement extends AppModel {
 	var $name = 'GestionnairePaiement';
 	var $useTable = false;
 	
-	function getInscriptions() {
+	function getInscriptions($id_compte) {
 		return $this->query('	SELECT
 						CONCAT(enfants.prenom, " ", enfants.nom) AS enfant_nom,
 						IF(paiement_types.nom = "Credit", paiement_types.type_carte, paiement_types.nom) AS type_paiement,
@@ -29,7 +29,7 @@ class GestionnairePaiement extends AppModel {
 										ON adultes_enfants.adulte_id = adultes.id
 										JOIN comptes
 											ON 	adultes.compte_id = comptes.id /*AND
-												comptes_id = $id_compte*/
+												comptes_id = '.intval($id_compte).'*/
 							LEFT JOIN factures
 								ON inscriptions.id = factures.inscription_id
 								LEFT JOIN paiements

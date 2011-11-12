@@ -1,3 +1,6 @@
+/*
+	Permet de trouver le statut des paiements d'un membre.
+*/
 SELECT
 	CONCAT(enfants.prenom, " ", enfants.nom) AS enfant_nom,
 	IF(paiement_types.nom = 'Credit', paiement_types.type_carte, paiement_types.nom) AS type_paiement,
@@ -49,3 +52,29 @@ GROUP BY
 	paiement_types.nom, 
 	paiement_types.type_carte,
 	versements.montant;
+
+/*
+	Permet de trouver la grille des prix.
+*/
+SELECT
+	frateries.position,
+	versements.date,
+	versements.montant,
+	versements.position,
+	nb_versements.nb_versements
+FROM	
+	versements
+		JOIN frateries
+			ON versements.fraterie_id = frateries.id
+		JOIN nb_versements
+			ON versements.nb_versement_id = nb_versements.id
+ORDER BY
+	frateries.position,
+	versements.position;
+
+SELECT 
+	DISTINCT versements.date
+FROM	
+	versements
+ORDER BY
+	versements.date;
