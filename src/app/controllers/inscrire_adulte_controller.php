@@ -86,6 +86,7 @@ class InscrireAdulteController extends AppController {
 
 				//Créer les intances de la bd nécessaire
 			$this->Compte->create();
+			$this->Compte->id;
 			$this->Adulte->create();
 			$this->AdultesImplication->create();
 //				$this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']));
@@ -95,7 +96,7 @@ class InscrireAdulteController extends AppController {
 
 
 				//Enregistrement des données dans la base de données
-		if (($this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']))) && ($this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['gender'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 'profession' => $this->data['InscrireAdulte']['profession'], 'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 'compte_id' => $this->Compte->id, 'tel_autre' =>  $this->data['InscrireAdulte']['tel_autre'])))){
+		if (($this->Compte->save(array('nom_utilisateur' =>$this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']))) && ($this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['gender'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 'profession' => $this->data['InscrireAdulte']['profession'], 'courriel'=> $this->Compte->nom_utilisateur, 'compte_id' => $this->Compte->id, 'tel_autre' => $this->data['InscrireAdulte']['tel_autre'])))){
 
 			
 			pr($this->data);
@@ -114,6 +115,10 @@ class InscrireAdulteController extends AppController {
 				echo 'yes';
 		} else {
 			$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
+
+			echo $this->Compte->id;
+			echo $this->Compte->nom_utilisateur;
+			echo $this->Compte->mot_de_passe;
 			echo 'no';
 		}
 		}
