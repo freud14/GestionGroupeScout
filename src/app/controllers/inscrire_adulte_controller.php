@@ -47,21 +47,24 @@ class InscrireAdulteController extends AppController {
 			$this->Compte->create();
 			$this->Adulte->create();
 			$this->AdultesImplication->create();
-			
+
 			$this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']));
 
-			$this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['sexe'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau'=> $this->data['InscrireAdulte']['poste_bureau'], 'profession'=> $this->data['InscrireAdulte']['profession'], 'compte_id' => $this->Compte->user('id'), 'courriel'=> $this->data['InscrireAdulte']['courriel']));
+			$this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['gender'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 'profession' => $this->data['InscrireAdulte']['profession'], 'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 'compte_id' => $this->Compte->id));
+		
+		$this->AdultesImplication->save(array('id_adulte' => $this->AdultesImplication->id));
+			echo	$this->Compte->id;
 
+			pr($this->data);
 
-			if ($this->Compte->save($this->data) && ($this->Adulte->save($this->data)) && ($this->AdultesImplication->save($this->data))) {
-				pr($this->data);
+		//	if ($this->Compte->save($this->data) && ($this->Adulte->save($this->data)) && ($this->AdultesImplication->save($this->data))) {
 				$this->Session->setFlash(__('Inscription terminée', true));
 
 				echo 'yes';
-			} else {
-				$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
-				echo 'no';
-			}
+		//	} else {
+		//		$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
+		//		echo 'no';
+		//	}
 		}
 
 		}

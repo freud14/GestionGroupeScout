@@ -45,8 +45,8 @@
 			echo $form->input('tel_maison', array('label' => array('class' => 'element', 'text' =>__('Téléphone à la maison', true) . ' <span class="star">*</span>')));
 			echo $form->label('sexe', __('Sexe', true).' *', array('class' => 'element'));
 			echo $form->radio('gender', array('M' => __('Masculin', true),'F' => __('Féminin', true)),array('label'=> false, 'legend' => false));
-			echo $form->input('tel__bureau', array('label' => array('class' => 'element', 'text' =>__('Téléphone au bureau', true))));
-			echo $form->input('poste__bureau', array('label' => array('class' => 'element', 'text' =>__('Numéro de poste du <br> téléphone au bureau', true))));
+			echo $form->input('tel_bureau', array('label' => array('class' => 'element', 'text' =>__('Téléphone au bureau', true))));
+			echo $form->input('poste_bureau', array('label' => array('class' => 'element', 'text' =>__('Numéro de poste du <br> téléphone au bureau', true))));
 			echo '<br>';
 			echo $form->input('tel_autre', array('label' => array('class' => 'element', 'text' =>__('Cellulaire', true))));
 			echo $form->input('profession', array('label' => array('class' => 'element', 'text' =>__('Emploi', true))));
