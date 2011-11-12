@@ -88,34 +88,34 @@ class InscrireAdulteController extends AppController {
 			$this->Compte->create();
 			$this->Adulte->create();
 			$this->AdultesImplication->create();
-				$this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']));
+//				$this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']));
 				
-				$this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['gender'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 'profession' => $this->data['InscrireAdulte']['profession'], 'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 'compte_id' => $this->Compte->id));
+//				$this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['gender'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 'profession' => $this->data['InscrireAdulte']['profession'], 'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 'compte_id' => $this->Compte->id));
 
 
 
 				//Enregistrement des données dans la base de données
-		//	if (($this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']))) && ($this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['gender'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 'profession' => $this->data['InscrireAdulte']['profession'], 'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 'compte_id' => $this->Compte->id)))){
+		if (($this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe']))) && ($this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 'nom' => $this->data['InscrireAdulte']['nom'], 'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 'sexe' => $this->data['InscrireAdulte']['gender'], 'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 'profession' => $this->data['InscrireAdulte']['profession'], 'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 'compte_id' => $this->Compte->id)))){
 
 			
 			pr($this->data);
 				//Si une implication est existante	
-	//			if ((isset($this->data['InscrireAdulte']['implication'])) && (!empty($this->data['InscrireAdulte']['implication']))){
+				if ((isset($this->data['InscrireAdulte']['implication'])) && (!empty($this->data['InscrireAdulte']['implication']))){
 
 				
 					foreach($this->data['InscrireAdulte']['Implication'] as $impl) {
-						$this->AdultesImplication->save(array('implication_id' => 1, 'adulte_id' => $this->Adulte->id));
+						$this->AdultesImplication->save(array('implication_id' => $impl, 'adulte_id' => $this->Adulte->id));
 					}
-	//			}
+				}
 
 				//Si l'enregistrement a bien été fait, affiche le bon messasge
 				$this->Session->setFlash(__('Inscription terminée', true));
 
 				echo 'yes';
-		//	} else {
-		//		$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
-		//		echo 'no';
-		//	}
+		} else {
+			$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
+			echo 'no';
+		}
 		}
 
 }
