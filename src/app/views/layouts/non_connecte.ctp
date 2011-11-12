@@ -16,7 +16,7 @@
 	
 	<?php echo $scripts_for_layout; ?>
 	
-	<title><?php echo $title_for_layout; ?> - 102e Groupe scout des Laurentides</title>
+	<title><?php echo $title_for_layout; ?> - Scouts - 102e groupe des Laurentides</title>
 </head>
 
 <body>
@@ -25,19 +25,9 @@
 			<ul>
 				<li class="link"><a href="<?php echo $this->webroot; ?>">Accueil</a></li>
 
-				<li>
-					<a href="<?php echo $this->webroot; ?>enfant">Enfant</a> 
+				<li><a href="<?php echo $this->webroot; ?>inscription_adulte">Inscription</a></li>
 
-					<ul>
-						<li><a href="<?php echo $this->webroot; ?>information_generale">Inscription des enfants</a></li>
-
-						<li><a href="<?php echo $this->webroot; ?>profil_enfant">Profil des enfants</a></li>
-					</ul>
-				</li>
-
-				<li><a href="<?php echo $this->webroot; ?>gestionnaire_paiement">Gestionnaire des paiements</a></li>
-
-				<li><a href="<?php echo $this->webroot; ?>profil">Mon profil</a></li>
+				<li><a href="<?php echo $this->webroot; ?>connexion">Connexion</a></li>
 			</ul>
 		</div>
 		<a href="<?php echo $this->webroot; ?>"><img src="<?php echo $this->webroot; ?>img/logo102.png" alt="jet 30" width="214" height="125" border="0" class="logo" /></a>

@@ -3,13 +3,19 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<?php echo $html->css('stylesheet_fc92b45ab8'); ?>
+	
 	<?php echo $html->css('gallery'); ?>
+	
 	<?php echo $html->css('stylebase'); ?>
+	
 	<?php echo $html->css('stylesub'); ?>
+	
 	<?php echo $html->css('scout'); ?>
+	
 	<?php echo $this->Html->script('jquery-1.6.4.min'); ?>
 	
 	<?php echo $scripts_for_layout; ?>
+	
 	<title><?php echo $title_for_layout; ?> - Scouts - 102e groupe des Laurentides</title>
 </head>
 
@@ -17,7 +23,7 @@
 	<div id="header">
 		<div class="menu">
 			<ul>
-				<li class="link"><a href="<?php echo $this->webroot; ?>index">Retour au coté « parent »</a></li>
+				<li class="link"><a href="<?php echo $this->webroot; ?>">Retour au coté « parent »</a></li>
 
 				<li class="link"><a href="<?php echo $this->webroot; ?>admin">Administration</a></li>
 
@@ -94,7 +100,7 @@
 				</li>
 			</ul>
 		</div>
-		<a href="index"><img src="http://www.102e.org/fileadmin/templates/jet_30/images/logo102.png" alt="jet 30" width="214" height="125" border="0" class="logo" /></a>
+		<a href="<?php echo $this->webroot; ?>"><img src="<?php echo $this->webroot; ?>img/logo102.png" alt="jet 30" width="214" height="125" border="0" class="logo" /></a>
 	</div>
 
 	<div id="body">
