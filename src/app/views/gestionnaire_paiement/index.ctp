@@ -19,8 +19,8 @@
 		<?php foreach($inscriptions as $inscription) { ?>
 		<tr>
 			<?php
-				if($inscription[0]['type_paiement'] == '') {
-					$inscription[0]['type_paiement'] = __('Indéterminé', true);
+				if($inscription['paiement_types']['type_paiement'] == '') {
+					$inscription['paiement_types']['type_paiement'] = __('Indéterminé', true);
 				}
 			
 				$inscription[0]['montant_paye'] .= ' '.$locale['currency_symbol'];
@@ -53,8 +53,9 @@
 					$inscription[0]['prochain_paiement'] = strftime("%e %B %Y", strtotime($inscription[0]['prochain_paiement']));
 				}
 			?>
+			
 			<td><?php echo $inscription[0]['enfant_nom']; ?></td>
-			<td><?php echo $inscription[0]['type_paiement']; ?></td>
+			<td><?php echo $inscription['paiement_types']['type_paiement']; ?></td>
 			<td><?php echo $inscription[0]['montant_paye']; ?></td>
 			<td><?php echo $inscription['versements']['montant_total']; ?></td>
 			<td><?php echo $inscription[0]['statut']; ?></td>

@@ -23,7 +23,7 @@
 
 <?php
 	echo $form->label('sexe', __('Sexe', true).' <span class="star">*</span>', array('class' => 'element'));
-	echo $form->radio('gender', 
+	echo $form->radio('sexe', 
 			array('M' => __('Masculin', true),'F' => __('Féminin', true)), 
 			array('label'=> false, 'legend' => false));
 ?>

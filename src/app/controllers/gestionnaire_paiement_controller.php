@@ -29,53 +29,69 @@ class GestionnairePaiementController extends AppController {
 		$this->set('titre',__('Effectuer un paiement',true));
 		$this->set('ariane', __('Gestionaire de paiements > Effectuer un paiement', true));
 		
+		$id_compte = 0;
+		
 		$this->loadModel('Versement');
-		$this->set('frateries', $this->Versement->find('all', array('order' => array('Fraterie.position', 'Versement.position'))));
-		$this->set('versements', $this->Versement->find('all', array('conditions' => 'NbVersement.nb_versements = 1', 'order' => array('Fraterie.position', 'Versement.position'))));
-	}
-	
-	/*function _getInscriptions() {
-		$retour = array();
-		$inscriptions = $this->Inscription->find('all', array('recursive' => 4));
-		pr($inscriptions);
-		foreach($inscriptions as $inscription) {
-			$retour[] = array();
-			$i = count($retour) - 1;
-			$retour[$i]['nom'] = $inscription['Enfant']['nom'];
-			$retour[$i]['mode_paiement'] = __('Indéterminé', true);
-			$retour[$i]['montant_paye'] = 0;
-			$retour[$i]['cout_total'] = 0;
-			$retour[$i]['etat'] = 'Impayé';
-			$retour[$i]['date_dernier_paiement'] = 'N/A';
-			$retour[$i]['date_prochain_paiement'] = 'N/A';
+		$versements = $this->Versement->find('all', array('conditions' => 'NbVersement.nb_versements = 1', 'order' => array('Fraterie.position', 'Versement.position')));
 
-			$factures = $inscription['Facture'];
-			foreach($factures as $facture) {
-				$paiements = $facture['Paiement'];
-				$date_dernier_paiement = 0;
-				foreach($paiements as $paiement) {
-					$retour[$i]['montant_paye'] += $paiement['montant'];
-					
-					//On regarde si le type de paiement est spécifié.
-					if(array_key_exists('nom', $paiement['PaiementType'])) {
-						$retour[$i]['mode_paiement'] = $paiement['PaiementType']['nom'];
-					}
-					
-					//On trouve la date du dernier paiement
-					$date_tmp = strtotime($paiement['date_paiements']);
-					if($date_tmp > $date_dernier_paiement) {
-						$retour[$i]['date_dernier_paiement'] = $paiement['date_paiements'];
-					}
+		$nb_inscription_paye = $this->GestionnairePaiement->getNbInscriptionPayé($id_compte);
+		$inscriptions = $this->GestionnairePaiement->getInscriptionNonPayé($id_compte);
+
+		/*echo '$inscriptions<br />';
+		pr($inscriptions);
+		echo '$versements<br />';
+		pr($versements);
+		echo '$this->data<br />';
+		pr($this->data);*/
+		if(!empty($this->data)) {
+			$indexProchainVersement = 0;
+			for($i = 0; $i < count($versements); ++$i) {
+				$indexProchainVersement = $i;
+				if($versements[$i]['Fraterie']['position'] == $nb_inscription_paye + 1) {
+					break;
 				}
-				
-				//On trouve le coût de l'inscription
-				$versements = $facture['NbVersement'];
-				foreach($versements as $versement) {
-					//if($versement
+				else if($versements[$i]['Fraterie']['position'] > $nb_inscription_paye + 1) {
+					--$indexProchainVersement;
+					break;
 				}
 			}
+			
+			$position = $nb_inscription_paye + 1;
+			$inscriptionAPayer = array();
+			foreach($inscriptions as $inscription) {
+				if(array_key_exists('inscription'.$inscription['Inscription']['id'], $this->data['GestionnairePaiement']) &&
+					 $this->data['GestionnairePaiement']['inscription'.$inscription['Inscription']['id']] == $inscription['Inscription']['id']) {
+					
+					$inscriptionAPayer[$inscription['Inscription']['id']] = $versements[$indexProchainVersement]['Versement'];
+					++$position;
+					if($position > $versements[$indexProchainVersement]['Fraterie']['position'] &&
+					   $indexProchainVersement < count($versements) - 1) {
+						++$indexProchainVersement;					
+					}
+					
+				}
+			}
+			
+			$this->loadModel('Facture');
+			$idModePaiement = $this->data['GestionnairePaiement']['mode'];
+			foreach($inscriptionAPayer as $idInscription => $versement) {
+				$this->Facture->create();
+				$insert = array('no_facture' => 'a', 'date_facturation' => DboSource::expression('NOW()'), 'inscription_id' => $idInscription, 'nb_versement_id' => $versement['nb_versement_id'], 'fraterie_id' => $versement['fraterie_id'], 'paiement_type_id' => $idModePaiement);
+				//pr($insert);
+				$this->Facture->save($insert);
+			}
+			
+			$this->redirect(array('controller'=>'gestionnaire_paiement', 'action'=>'index'));
+			//echo '$inscriptionAPayer<br />';
+			//pr($inscriptionAPayer);
 		}
-		return $retour;
-	}*/
+		//else {
+			$this->set('versements', $versements);
+					
+			$this->set('nb_inscription_paye', $nb_inscription_paye);
+			$this->set('inscriptions', $inscriptions);
+		//}
+		
+	}
 }
 ?>

@@ -72,9 +72,67 @@ ORDER BY
 	frateries.position,
 	versements.position;
 
+/*
+	Permet de trouver les dates des versements.
+*/
 SELECT 
 	DISTINCT versements.date
 FROM	
 	versements
 ORDER BY
 	versements.date;
+
+/*
+	Permet de sortir le nombre d'enfant déjà payé 
+	pour un compte.
+*/
+SELECT
+	COUNT(inscriptions.id) as prochaine_position
+FROM
+	inscriptions
+		JOIN enfants
+			ON inscriptions.enfant_id = enfants.id
+			JOIN adultes_enfants
+				ON enfants.id = adultes_enfants.enfant_id
+				JOIN adultes
+					ON adultes_enfants.adulte_id = adultes.id
+					JOIN comptes
+						ON 	adultes.compte_id = comptes.id /*AND
+							comptes.id = $id_compte*/
+		JOIN factures
+			ON factures.inscription_id = inscriptions.id
+WHERE 
+	inscriptions.date_fin IS NULL AND
+	inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1);
+
+/*
+	Permet de sortir les enfants qui n'ont pas encore de 
+	factures pour l'année en cours.
+*/
+SELECT
+	/* comptes.id,
+	comptes.nom_utilisateur,*/
+	Enfant.id,
+	Enfant.nom,
+	Enfant.prenom,
+	Inscription.id
+FROM
+	inscriptions Inscription
+		JOIN enfants Enfant
+			ON Inscription.enfant_id = Enfant.id
+			JOIN adultes_enfants
+				ON Enfant.id = adultes_enfants.enfant_id
+				JOIN adultes
+					ON adultes_enfants.adulte_id = adultes.id
+					JOIN comptes
+						ON 	adultes.compte_id = comptes.id /*AND
+							comptes.id = $id_compte*/
+		LEFT JOIN factures
+			ON factures.inscription_id = Inscription.id
+WHERE 
+	Inscription.date_fin IS NULL AND
+	Inscription.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) AND
+	factures.id IS NULL;
+
+
+
