@@ -29,17 +29,20 @@
 	<?php
 	
 	//echo $form->input('Model.name', array('multiple' => 'checkbox', 'options' => $options, 'selected' => $selected));
-	 echo $this->Form->input('antecedent1', array('type'=>'select', 'multiple'=>'checkbox','options'=>$tab[0],'label' => false, 'selected' => $antecedents ));?>
+	 echo $this->Form->input('antecedent1', 
+	 			array('type'=>'select', 'multiple'=>'checkbox','options'=>$tab[0], 'label' => false, 'selected' => $antecedents ));?>
 	 </td><td>
-	<?php echo $this->Form->input('antecedent2', array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab[1], 'label'=>false, 'selected' => $antecedents)); ?>
+	<?php echo $this->Form->input('antecedent2', 
+				array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab[1], 'label'=>false, 'selected' => $antecedents)); ?>
 	</td><td>
-	<?php echo $this->Form->input('antecedent3', array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab[2],'label'=>false, 'selected' => $antecedents));
+	<?php echo $this->Form->input('antecedent3', 
+				array('type'=>'select','multiple'=>'checkbox', 'options'=>$tab[2],'label'=>false, 'selected' => $antecedents));
 	echo $form->input(' ',array('disabled'=> 'disabled'));?>
 	
 	</td></tr></table></br> 
-	<h3><?php __('Questions générales sur votre jeune',true);?></h3>
 	
-	
+	<h3>
+	<?php echo __('Questions générales sur votre jeune',true);?></h3>
 	
 	<table><tr><th></th><th>
 	<?php
@@ -47,15 +50,25 @@
 	echo $form->label('oui',__('Oui',true)). $form->label('non',__('Non',true));?>
 	</th></tr>
 	<?php
-	foreach($questions as $value){
 		
-		echo '<tr><td>'. $value['QuestionGenerale']['texte'].'</td><td>'.$form->radio('q'.$value['QuestionGenerale']['id'], 
-			array('O' => '','N' => ''), 
+	echo $this->Form->radio('antecedent23', 
+			array(1 => '', 2 => ''),
+			array( 'legend' => false,'label' => false)); 
+	//test
+	/*echo $form->input('describeJob', array('label' => false,'div' => false,'type' => 'select','multiple'=>'checkbox','legend' => 'false','options' =>
+	  array('Physical' => 'Physical','Mental' => 'Mental', 'Stressful' => 'Stressful',  'Easy-going' => 'Easy-going', 
+	  'Secure' => 'Secure', 'Non-secure' => 'Non-secure', 'Exhausting' => 'Exhausting', 'Relaxing' => 'Relaxing' ),
+	      )); */
+	$tab = array();
+	foreach($questions as $value){
+		$tab[] = array($value['QuestionGenerale']['id'] => $value['QuestionGenerale']['texte']);
+		/*echo '<tr><td>'. $value['QuestionGenerale']['texte'].'</td><td>'.$form->radio('q'.$value['QuestionGenerale']['id'], 
+			array('O' => '','N' => ''),
 			array('label'=> false, 'legend' => false));
-		echo '</td></tr>';
+		echo '</td></tr>';*/
 	}
 	?>
-	
+	<tr><td></td></tr>
 
 	
 	</table></td></tr><td><tr>
@@ -74,7 +87,11 @@
 	
 ?>	
 	<tr><td>
-	<?php echo $this->Form->input('medicamentautorise', array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab, 'label'=>' ','selected' => $resultmedicaments));?></td>
+	
+	<?php echo $this->Form->input('medicamentautorise', array('type'=>'select', 
+	'multiple'=>'checkbox', 'options'=>$tab, 'label'=>' ','selected' => $resultmedicaments));?>
+	
+	</td>
 	<td><?php echo $form->input(' ', array('type' => 'textarea', true));?> </td></tr>
 	<tr><td> <h3><?php echo __('Allergie(s)',true) ;?></h3> 
 	<?php echo $form->input(' ', array('type' => 'textarea', true));?> </td></tr>

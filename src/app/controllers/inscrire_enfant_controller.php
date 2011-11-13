@@ -29,7 +29,12 @@ class InscrireEnfantController extends AppController {
 		$this->loadModel('GroupeAge');
 		$this->set('groupe_age', $this->GroupeAge->find('all'));
 	}
-	
+	function confirmation_inscription()
+	{
+		$this->set('title_for_layout', __('Inscription d\'un enfant réussie', true));
+		$this->set('titre',__('Fin de l\'inscrtiption',true));
+		//$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
+	}
 	function fiche_medicale() {
 		if ( array_key_exists ('precedent',$this->params['form']))
  		{
