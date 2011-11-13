@@ -23,7 +23,7 @@
 		<?php
 			echo $form->input('nom_utilisateur', array('label' => array('class' => 'element', 'text' => __('Courriel', true) . ' <span class="star">*</span>')));
 			echo $form->input('mot_de_passe', array('label' => array('class' => 'element', 'text' =>__('Mot de passe', true) . ' <span class="star">*</span>')));
-			echo $form->input('mot_de_passe', array('label' => array('class' => 'element', 'text' =>__('Mot de passe', true) . ' <span class="star">*</span>')));
+			echo $form->input('mot_de_passe_confirmation', array('label' => array('class' => 'element', 'text' =>__('Mot de passe', true) . ' <span class="star">*</span>')));
 
 		?>
 		</td>
@@ -44,7 +44,7 @@
 			echo $form->input('prenom', array('label' => array('class' => 'element', 'text' =>__('Prénom', true) . ' <span class="star">*</span>')));
 			echo $form->input('tel_maison', array('label' => array('class' => 'element', 'text' =>__('Téléphone à la maison', true) . ' <span class="star">*</span>')));
 			echo $form->label('sexe', __('Sexe', true).' *', array('class' => 'element'));
-			echo $form->radio('gender', array('M' => __('Masculin', true),'F' => __('Féminin', true)),array('label'=> false, 'legend' => false));
+			echo $form->radio('genre', array('M' => __('Masculin', true),'F' => __('Féminin', true)),array('label'=> false, 'legend' => false, 'default' => 'M'));
 			echo $form->input('tel_bureau', array('label' => array('class' => 'element', 'text' =>__('Téléphone au bureau', true))));
 			echo $form->input('poste_bureau', array('label' => array('class' => 'element', 'text' =>__('Numéro de poste du <br> téléphone au bureau', true))));
 			echo '<br>';
