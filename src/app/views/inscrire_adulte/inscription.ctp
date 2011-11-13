@@ -40,6 +40,7 @@
 		<h3><?php echo $form->label(__('Informations personnelles', true)); ?> </h3>
 
 		<?php
+
 			echo $form->input('nom', array('label' => array('class' => 'element', 'text' =>__('Nom', true) . ' <span class="star">*</span>')));
 			echo $form->input('prenom', array('label' => array('class' => 'element', 'text' =>__('Prénom', true) . ' <span class="star">*</span>')));
 			echo $form->input('tel_maison', array('label' => array('class' => 'element', 'text' =>__('Téléphone à la maison', true) . ' <span class="star">*</span>')));

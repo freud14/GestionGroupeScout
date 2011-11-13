@@ -14,9 +14,17 @@ class InscrireAdulte extends AppModel {
                 'message' => 'Une adresse email valide sera nécessaire pour vous connecter à votre compte'
             )			
 		),
+		
+		'mot_de_passe' => array(
+        		'identicalFieldValues' => array(
+				'rule' => array('identicalFieldValues', 'mot_de_passe_confirmation' ),
+				'message' => 'Please re-enter your password twice so that the values match'
+                )
+        ),
+
 		'nom' => array(
 				'regle1' => array(
-						'rule' => array('required', true),
+						'rule' => '/.*/',
 						'required' => true,
 						'allowEmpty' => false,
 						'on' => 'create',
@@ -31,7 +39,7 @@ class InscrireAdulte extends AppModel {
 			),
 		'prenom' => array(
 				'regle1' => array(
-						'rule' => array('required', true),
+						'rule' => '/.*/',
 						'required' => true,
 						'allowEmpty' => false,
 						'on' => 'create',
@@ -45,16 +53,30 @@ class InscrireAdulte extends AppModel {
 			),
 		'tel_maison' => array(
 				'regle1' => array(
-						'rule' => array('phone', null, 'ca'),
+						'rule' => array('phone', null, 'us'),
 						'required' => true,
 						'allowEmpty' => false,
 						'on' => 'create',
-						'message' => 'Rentrer un numéro de téléphone valide'
+						'message' => 'Rentrer un numéro de téléphone valide ex. 555-555-5555'
 						)
 			)
 
 	);
 	
+	
+	function identicalFieldValues( $field=array(), $compare_field=null ) 
+    {
+        foreach( $field as $key => $value ){
+            $v1 = $value;
+            $v2 = $this->data[$this->name][ $compare_field ];                 
+            if($v1 !== $v2) {
+                return FALSE;
+            } else {
+                continue;
+            }
+        }
+        return TRUE;
+    } 
 }
 
 ?>
