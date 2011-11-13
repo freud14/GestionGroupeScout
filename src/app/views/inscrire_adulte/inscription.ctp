@@ -29,7 +29,7 @@
 		</td>
 		<td>
 		<?php
-	echo $this->Form->input(__('mplication', true), array('type'=>'select', 'multiple'=>'checkbox', 'options'=> $option, 'label'=>__('Souhaitez-vous vous impliquer ?', true)));
+	echo $this->Form->input(__('Implication', true), array('type'=>'select', 'multiple'=>'checkbox', 'options'=> $option, 'label'=>__('Souhaitez-vous vous impliquer ?', true)));
 			echo $this->Form->input('description', array('label' => array('class' => 'element', 'text' =>__('Spécifier si autre', true))));
 		?>
 		</td>
