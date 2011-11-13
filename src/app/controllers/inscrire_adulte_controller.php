@@ -105,7 +105,7 @@ class InscrireAdulteController extends AppController {
 								   'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 
 								   'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 
 								   'profession' => $this->data['InscrireAdulte']['profession'], 
-								   'courriel'=> $this->Compte->nom_utilisateur, 
+								   'courriel'=> $this->date['InscrireAdulte']['nom_utilisateur'], 
 								   'compte_id' => $this->Compte->id, 
 								   'tel_autre' => $this->data['InscrireAdulte']['tel_autre'])))){
 
