@@ -22,8 +22,10 @@
 		<td >
 		<?php
 			echo $form->input('nom_utilisateur', array('label' => array('class' => 'element', 'text' => __('Courriel', true) . ' <span class="star">*</span>')));
-			echo $form->input('mot_de_passe', array('label' => array('class' => 'element', 'text' =>__('Mot de passe', true) . ' <span class="star">*</span>')));
-			echo $form->input('mot_de_passe_confirmation', array('label' => array('class' => 'element', 'text' =>__('Mot de passe', true) . ' <span class="star">*</span>')));
+			echo $form->label('motdepasse', __('Mot de passe', true).' *', array('class' => 'element'));
+			echo $form->password('mot_de_passe');
+			echo $form->label('motdepasseC', __('Mot de passe', true).' *', array('class' => 'element'));
+			echo $form->password('mot_de_passe_confirmation');
 
 		?>
 		</td>

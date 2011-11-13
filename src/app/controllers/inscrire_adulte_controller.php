@@ -49,7 +49,7 @@ class InscrireAdulteController extends AppController {
 			//enregistrement des membres
 
 			if (!empty($this->data)) {
-					
+				pr($this->data);	
 				$this->_ajoutMembre();
 
 			}

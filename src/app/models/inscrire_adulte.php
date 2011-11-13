@@ -16,12 +16,10 @@ class InscrireAdulte extends AppModel {
 		),
 		
 		'mot_de_passe' => array(
-        		'identicalFieldValues' => array(
-				'rule' => array('identicalFieldValues', 'mot_de_passe_confirmation' ),
-				'message' => 'Please re-enter your password twice so that the values match'
-                )
-        ),
-
+				'rule' => array('equaltofield','mot_de_passe_confirmation'),
+				'message' => 'Les mots de passe doivent être identiques',
+				'on' => 'create' 
+				), 
 		'nom' => array(
 				'regle1' => array(
 						'rule' => '/.*/',
@@ -63,20 +61,16 @@ class InscrireAdulte extends AppModel {
 
 	);
 	
-	
-	function identicalFieldValues( $field=array(), $compare_field=null ) 
+	function equaltofield($check,$otherfield)
     {
-        foreach( $field as $key => $value ){
-            $v1 = $value;
-            $v2 = $this->data[$this->name][ $compare_field ];                 
-            if($v1 !== $v2) {
-                return FALSE;
-            } else {
-                continue;
-            }
+        $fname = '';
+        foreach ($check as $key => $value){
+            $fname = $key;
+            break;
         }
-        return TRUE;
+        return $this->data[$this->name][$otherfield] === $this->data[$this->name][$fname];
+    }
+	
     } 
-}
 
-?>
+ ?>
