@@ -24,7 +24,7 @@ class Adulte extends AppModel {
 		),
 		'tel_maison' => array(
 			'numeric' => array(
-				'rule' => array('numeric'),
+				'rule' => array('notempty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
