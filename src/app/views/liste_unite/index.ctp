@@ -20,7 +20,7 @@
 			echo $form->end();
 		echo '</td>'.
 		'<td >';
-			echo $this->Form->button(__('Exporter sur excel', true), array('type'=>'summit')); 
+			echo $this->Form->button(__('Exporter sur excel...', true), array('type'=>'summit')); 
 	echo'</td>'.
 		'</tr>'.
 		'</table>';
@@ -32,10 +32,15 @@
 	<div>
 	
 <?php 
-
 	foreach($unite as $value){
 		echo '<div>';
-		echo '<h3>'. $value['Unite']['nom'] . '</h3>';
+		if($value['GroupeAge']['sexe'] == 1){
+
+			$sexe = 'Masculin';
+		} else {
+			$sexe = 'Feminin';
+		}
+		echo '<h3>'. $value['Unite']['nom'] . ' | ' .  $value['GroupeAge']['age_min'] . '-' . $value['GroupeAge']['age_max'] . ' | Sexe : ' .  $sexe . '</h3>';
 		echo '<table border="1">'.
 		'<tr>'.
 			'<td >'.

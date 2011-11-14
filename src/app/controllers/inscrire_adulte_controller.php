@@ -24,28 +24,11 @@ class InscrireAdulteController extends AppController {
 
 
 		/**
-		 * view method
-		 *
-		 * @param string $id
-		 * @return void
-		 */
-		 public function view() {
-				if ( array_key_exists ('inscrire',$this->params['form'])){
-
-					 $this->redirect(array('controller' => 'InformationGenerale', 'action' => 'index'));
-
- 				}elseif( array_key_exists ('accueil',$this->params['form'])){
-					$this->redirect('http://www.102e.org/membres.html');
-				}
- 	
-			}
-
-		/**
 		 * Initialise les noms de la view inscription
 		 * Appelle la fonction d'enregistrement de membre
 		 * @return void
 		 */
-		public function inscription() {
+		public function index() {
 
 			$this->set('titre','Devenir un membre');
 			$this->set('ariane', __('<span style="color: green;">Inscription d\'un membre', true));
@@ -63,6 +46,30 @@ class InscrireAdulteController extends AppController {
 			}
 			
 		}
+
+		
+
+		/**
+		 * view method
+		 *
+		 * @param string $id
+		 * @return void
+		 */
+		 public function view() {
+			$this->set('titre','Inscription réussite avec succès');
+			$this->set('ariane', __('<span style="color: green;">Inscription d\'un membre < Inscription réussite', true));
+
+				if ( array_key_exists ('inscrire',$this->params['form'])){
+
+					 $this->redirect(array('controller' => 'InformationGenerale', 'action' => 'index'));
+
+ 				}elseif( array_key_exists ('accueil',$this->params['form'])){
+					$this->redirect('http://www.102e.org/membres.html');
+				}
+ 	
+		}
+
+
 
 
 

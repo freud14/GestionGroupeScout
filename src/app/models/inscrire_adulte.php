@@ -16,10 +16,37 @@ class InscrireAdulte extends AppModel {
 		),
 		
 		'mot_de_passe' => array(
-				'rule' => array('compareChamps','mot_de_passe_confirmation'),
-				'message' => 'Les mots de passe doivent être identiques',
-				'on' => 'create' 
-				), 
+				'regle1' => array(
+						'rule' => array('compareChamps','mot_de_passe_confirmation'),
+						'required' => true,
+						'allowEmpty' => false,
+						'message' => 'Les mots de passe doivent être identiques',
+						'on' => 'create'), 
+				
+				'regle2' => array(
+						'rule' => '/.*/',
+						'required' => true,
+						'allowEmpty' => false,
+						'on' => 'create',
+						'message' => 'Le champ ne peut être vide.'
+						)
+		),
+ 		'mot_de_passe_confirmation' => array(
+				'regle1' => array(
+						'rule' => array('compareChamps','mot_de_passe'),
+						'required' => true,
+						'allowEmpty' => false,
+						'message' => 'Les mots de passe doivent être identiques',
+						'on' => 'create'), 
+				
+				'regle2' => array(
+						'rule' => '/.*/',
+						'required' => true,
+						'allowEmpty' => false,
+						'on' => 'create',
+						'message' => 'Le champ ne peut être vide.'
+						)
+		),
 		'nom' => array(
 				'regle1' => array(
 						'rule' => '/.*/',
@@ -77,13 +104,13 @@ class InscrireAdulte extends AppModel {
 						)
 			),
 
-		'genre' => array(
+		'sexe' => array(
 				'regle1' => array(
 						'rule' => '/[MF]{1}/',
 						'required' => true,
 						'allowEmpty' => false,
 						'on' => 'create',
-						'message' => 'Le sexe de l\'enfant doit être spécifié.'
+						'message' => 'Le sexe doit être spécifié.'
 						)
 			),
 
