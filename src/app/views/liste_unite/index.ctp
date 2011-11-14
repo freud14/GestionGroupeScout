@@ -43,13 +43,13 @@
 		echo '<h3>'. $value['Unite']['nom'] . ' | ' .  $value['GroupeAge']['age_min'] . '-' . $value['GroupeAge']['age_max'] . ' | Sexe : ' .  $sexe . '</h3>';
 		echo '<table border="1">'.
 		'<tr>'.
-			'<td >'.
+			'<td class="nom_enfant">'.
 				'Nom' .
 			'</td>'.
-			'<td >'.
+			'<td>'.
 				'Sexe'.
 			'</td>'.
-			'<td >'.
+			'<td>'.
 				'Âge'.
 			'</td>'.
 		'</tr>';
