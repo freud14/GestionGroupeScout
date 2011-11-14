@@ -7,17 +7,13 @@
  */
 class ListeUniteController extends AppController {
 
-		 var $helpers = array('Html', 'Javascript', 'Form');  
+		 var $helpers = array('Html', 'Form');  
 		 var $name = 'ListeUnite';
-		// var $components = array(array('Recaptcha.Captcha' => array(
-          //      'private_key' => '6Ldq4MkSAAAAACIFrlwaf209zjAOhktImcx_FjlS', 
-            //    'public_key' => '6Ldq4MkSAAAAABiDfADZgxzR3Nn_wB4qppT9QBKy'))); 
 
 		function beforeFilter(){
 			parent::beforeFilter();
 			$this->layout = 'admin';
 			$this->loadModel('Unite');
-		//	$this->loadModel('Enfant');
 		}
 
 
@@ -28,7 +24,7 @@ class ListeUniteController extends AppController {
 		 */
 		 public function index() {
 	
-	//Change la requête selon la sélection dans le droplist d'affichage, elle affiche les tableaux
+		//Change la requête selon la sélection dans le droplist d'affichage, elle affiche les tableaux
 		 if (!empty($this->data['ListeUnite'])){
 
 			if($this->data['ListeUnite']['Afficher'] == "0"){
