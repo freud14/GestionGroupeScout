@@ -87,7 +87,7 @@
 	$tab = array();
 	
 	foreach($medicaments as $valeur){
-		$tab[] = array($valeur['Medicament']['id'] => $valeur['Medicament']['nom']);
+		$tab[$valeur['Medicament']['id']] = $valeur['Medicament']['nom'];
 	}
 	
 	
