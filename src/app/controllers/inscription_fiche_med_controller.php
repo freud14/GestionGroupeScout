@@ -42,19 +42,22 @@ class InscriptionFicheMedController extends AppController {
 		 * @return void
 		 */
 		 public function navigation() {
+		// pr($this->Session->read('fiche_med'));
 			 $urlProvenance = $this -> Session -> read('url');
+			 $this -> Session -> write("url", $this->params['url']);
 			if ( array_key_exists ('precedent',$this->params['form']))
  			{
  			//si le bouton précédent est cliqué
- 				$this -> Session -> write("session", $this->params['data']);
+ 				$this -> Session -> write("fiche_med", $this->params['data']);
  				$this -> Session -> write("url", $this->params['url']);
  				$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
  			//pr($this->params['form']); 
  			}elseif( array_key_exists ('suivant',$this->params['form']))
  			{
  			//si le bouton suivant est cliqué
- 				$this -> Session -> write("session", $this->params['data']);
+ 				$this -> Session -> write("fiche_med", $this->params['data']);
  				$this -> Session -> write("url", $this->params['url']);
+ 				
  				$this->redirect(array('controller'=>'inscription_autorisation', 'action'=>'index'));
  			
  			}
@@ -63,11 +66,11 @@ class InscriptionFicheMedController extends AppController {
 		
 		public function index() {
 			
-	
+			//pr($this->Session->read('fiche_med.InformationGenerale'));
 			$this->navigation();		
  			// si on revient sur la page avec des informations déjà enregistrée
- 			$session = $this -> Session -> read('session.InscrireEnfant');
- 			//pr($session);
+ 			$session = $this -> Session -> read('fiche_med.InscriptionFicheMed');
+ 			
  			$antecedent = array();
  			$medicaments = array();
  			$buffer = array_merge((array)$session['antecedent1'], (array)$session['antecedent2'],(array)$session['antecedent3']);
@@ -106,7 +109,7 @@ class InscriptionFicheMedController extends AppController {
 		
 		$this->loadModel('Medicament');
 		$this->set('medicaments', $this->getMedicamentListe());
-		$this -> Session -> write("url", $this->params['url']);
+		
 		
 		
 	}
