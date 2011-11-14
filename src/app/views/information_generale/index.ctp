@@ -6,14 +6,14 @@
 </script>
 
 <?php
-	echo $form->create(null); //, array('action' => 'fiche_medicale')); 
-?>
+	echo $form->create(null); //, array('action' => 'fiche_medicale')); ?>
 <table>
 <tr>
 <td>
 <h3>Informations générales sur l'enfant</h3>
 
-<?php
+<?php 
+	
 	echo $form->input('nom', array('value' => $session['nom'],
 	'label' => array('class' => 'element', 'text' => __('Nom', true).' <span class="star">*</span>')));
 ?>
@@ -27,12 +27,16 @@
 	//echo $form->radio('sexe', 
 	//		array('M' => __('Masculin', true),'F' => __('Féminin', true)), 
 	//		array('label'=> 'Sexe', 'legend' => false));
-?>
-<?php echo $form->input('sexe', array(
+?>	
+<?php 
+
+echo $form->input('sexe', array(
 				'before' => $form->label('sexe', __('Sexe', true).' <span class="star">*</span>', array('class' => 'element')),
 				'separator' => ' ',
-				'options' => array('M' => __('Masculin', true),'F' => __('Féminin', true)),
+				'options' => array( 'M' => __('Masculin', true),'F' => __('Féminin', true)),
+				'selected' => 'Masculin',
 				'type' => 'radio',
+				'default' => $session['sexe'],
 				'legend' => false
 				)
 			);
@@ -177,7 +181,8 @@
 </table>
 <div style="text-align:right">
 <?php
-	echo $form->end(__('Étape suivante', true));
+	echo $form->button('Étape suivante', array('type'=>'submit','name' => 'suivant'));
+	echo $form->end();
 ?>
 </div>
 

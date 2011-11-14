@@ -65,8 +65,9 @@ class InscriptionFicheMedController extends AppController {
 		}
 		
 		public function index() {
-			
-			//pr($this->Session->read('fiche_med.InformationGenerale'));
+			pr($this->Session->read('info_gen.InformationGenerale'));
+			//pr($this->Session->read('info_gen.InformationGenerale'));
+			//pr("test");
 			$this->navigation();		
  			// si on revient sur la page avec des informations déjà enregistrée
  			$session = $this -> Session -> read('fiche_med.InscriptionFicheMed');
