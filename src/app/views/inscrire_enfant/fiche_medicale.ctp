@@ -16,7 +16,7 @@
 	foreach($maladies as $valeur)
 	{
 		
-		$tab[$count % 3][] =  array($valeur['Maladie']['id'] =>$valeur['Maladie']['nom']);
+		$tab[$count % 3][$valeur['Maladie']['id']] =  $valeur['Maladie']['nom'];
 		
 		$count++;
 	}
@@ -25,12 +25,13 @@
 	//pr($maladies);
 	$tab[2][] = "autre";
 	?>
-	
+	<table>
+	<tr><td>
 	<?php
 	
 	//echo $form->input('Model.name', array('multiple' => 'checkbox', 'options' => $options, 'selected' => $selected));
 	 echo $this->Form->input('antecedent1', 
-	 			array('type'=>'select', 'multiple'=>'checkbox','options'=>$tab[0], 'label' => false, 'selected' => $antecedents ));?>
+	 			array('type'=>'select', 'multiple'=>'checkbox','options'=>$tab[0], 'label' => false, 'selected' => $antecedents));?>
 	 </td><td>
 	<?php echo $this->Form->input('antecedent2', 
 				array('type'=>'select', 'multiple'=>'checkbox', 'options'=>$tab[1], 'label'=>false, 'selected' => $antecedents)); ?>
