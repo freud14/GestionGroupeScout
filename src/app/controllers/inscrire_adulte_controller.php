@@ -47,7 +47,36 @@ class InscrireAdulteController extends AppController {
 			
 		}
 
-		
+		public function profil(){
+			$this->set('titre','Mon profil');
+			$this->set('ariane', __('<span style="color: green;"> Mon profil', true));
+
+			//Initialise les checkboxs d'implications
+			$this->set('option',$this->_initImplication());
+
+			//Initialise le profil
+			$this->_initProfil();
+
+			
+		}	
+	private function _initProfil(){
+			
+			//A changer, test pour le moment
+			$profil = $this->Compte->Find('all',array('recursive' => 2,'conditions' => array( 'Compte.id' => 3)));
+			$compteProfil = array();
+			$adulteProfil = array();
+
+			foreach ($profil as $value){
+				
+				$compteProfil = $value['Compte'];
+				$adulteProfil = $value['Adulte'];
+
+			}
+			//Initialise le profil
+			$this->set('compteProfil', $compteProfil);
+			$this->set('adulteProfil', $adulteProfil);
+		}
+
 
 		/**
 		 * view method
@@ -71,8 +100,7 @@ class InscrireAdulteController extends AppController {
 
 
 
-
-
+	
 		/**
 		 *Enregistrement de membre
 		 * @return void

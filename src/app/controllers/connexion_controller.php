@@ -18,9 +18,8 @@ class ConnexionController extends AppController {
 		 * @bug Password ne se fait pas valider par le model ???
 		 */
 		 public function index() {
-			$this->set('titre','Connexion des membres');
-			$this->set('ariane', __('<span style="color: green;"> Connexion des membres', true));
-			$this->set('title_for_layout', __('Inscription d\'un membre', true));
+			$this->set('titre','Mon profil');
+			$this->set('ariane', __('<span style="color: green;"> Mon profil', true));
 			
 			// Si l'utilisateur existe, si son mot de passe est existant et si c'est le bon
 			if (!empty($this->data)){
