@@ -57,7 +57,7 @@ class InscrireAdulteController extends AppController {
 			//enregistrement des membres
 
 			if (!empty($this->data)) {
-			//	$this->redirect(array('action'=>'view'));
+				//$this->redirect(array('action'=>'view'));
 				$this->_ajoutMembre();
 
 			}
