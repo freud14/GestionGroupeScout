@@ -5,6 +5,12 @@ label.element
 	display:inline-block;
 	float:left;
 	vertical-align:top;
+	clear: both;
+}
+
+.input
+{
+	clear: both;
 }
 
 div.error
