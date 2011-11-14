@@ -1,6 +1,6 @@
 <?php 
 
-	echo $form->create(null, array('action' => 'autorisation')); 
+	echo $form->create(null, array('action' => 'index')); 
 	
 	
 	echo $form->label('champsobligatoires',__('Les champs suivis d\'une étoile (*) sont obligatoires',true));
