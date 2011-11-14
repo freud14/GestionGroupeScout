@@ -46,14 +46,12 @@
 	
 	<table><tr><th></th><th>
 	<?php
-	$question = array();
+	//$question = array();
 	echo $form->label('oui',__('Oui',true)). $form->label('non',__('Non',true));?>
 	</th></tr>
 	<?php
-		
-	echo $this->Form->radio('antecedent23', 
-			array(1 => '', 2 => ''),
-			array( 'legend' => false,'label' => false)); 
+	//pr($question);	
+	
 	//test
 	/*echo $form->input('describeJob', array('label' => false,'div' => false,'type' => 'select','multiple'=>'checkbox','legend' => 'false','options' =>
 	  array('Physical' => 'Physical','Mental' => 'Mental', 'Stressful' => 'Stressful',  'Easy-going' => 'Easy-going', 
@@ -61,13 +59,20 @@
 	      )); */
 	$tab = array();
 	foreach($questions as $value){
-		$tab[] = array($value['QuestionGenerale']['id'] => $value['QuestionGenerale']['texte']);
-		/*echo '<tr><td>'. $value['QuestionGenerale']['texte'].'</td><td>'.$form->radio('q'.$value['QuestionGenerale']['id'], 
+		$tab[] = $value['QuestionGenerale']['texte'];
+		echo '<tr><td>'. $value['QuestionGenerale']['texte'].'</td><td>'.$form->radio('q'.$value['QuestionGenerale']['id'], 
 			array('O' => '','N' => ''),
 			array('label'=> false, 'legend' => false));
-		echo '</td></tr>';*/
+		echo '</td></tr>';
 	}
+
+	/* RADIO BUTON
+	echo $form -> radio('questions',array('label' => false, 'legend' => false));
+	echo $this->Form->radio('antecedent23', 
+			$tab,
+			array( 'legend' => false,'label' => false)); */
 	?>
+	
 	<tr><td></td></tr>
 
 	
@@ -88,15 +93,20 @@
 ?>	
 	<tr><td>
 	
-	<?php echo $this->Form->input('medicamentautorise', array('type'=>'select', 
+	<?php echo $this->Form->input('medicamentautoriseLab', array('type'=>'select', 
 	'multiple'=>'checkbox', 'options'=>$tab, 'label'=>' ','selected' => $resultmedicaments));?>
 	
 	</td>
-	<td><?php echo $form->input(' ', array('type' => 'textarea', true));?> </td></tr>
-	<tr><td> <h3><?php echo __('Allergie(s)',true) ;?></h3> 
-	<?php echo $form->input(' ', array('type' => 'textarea', true));?> </td></tr>
-	<tr><td><h3><?php echo __('Peur(s) et phobie(s)',true);?> </h3>
-	<?php echo $form->input(' ', array('type' => 'textarea', true));?></td></tr>
+	<td><?php echo $form->input('prescription', array('type' => 'textarea', true,'label' => false, 'value' => $prescriptions));?>
+	 </td></tr>
+	<tr><td>
+	<h3><?php echo __('Allergie(s)',true) ;?></h3> 
+	<?php echo $form->input('allergie', array('type' => 'textarea', true,'label' => false,'value' => $allergies));?> 
+	</td></tr>
+	<tr><td>
+	<h3><?php echo __('Peur(s) et phobie(s)',true);?> </h3>
+	<?php echo $form->input('peur', array('type' => 'textarea', true,'label' => false,'value' => $peurs));?>
+	</td></tr>
 	</table>
 	<?php echo $form->button('Étape précédente', array('type'=>'submit','name' => 'precedent'));
 	echo $form->button('Étape suivante', array('type'=>'submit','name' => 'suivant'));
