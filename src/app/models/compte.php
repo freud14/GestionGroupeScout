@@ -3,25 +3,28 @@ class Compte extends AppModel {
 	var $name = 'Compte';
 	var $validate = array(
 		'nom_utilisateur' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
+            'email' => array(
+                'rule' => 'email',
+				'required' => true,
+				'allowEmpty' => false,
+                'message' => 'Une adresse email valide sera nécessaire pour vous connecter à votre compte'
+            ),			
+			 'regle' => array(
+                'rule' => '/,*/',
+				'required' => true,
+				'allowEmpty' => false,
+                'message' => 'Le champ ne peut être vide.'
+            )
 		),
 		'mot_de_passe' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+				'regle' => array(
+						'rule' => '/.*/',
+						'required' => true,
+						'allowEmpty' => false,
+						'on' => 'create',
+						'message' => 'Le champ ne peut être vide.'
+						)
+		)
 	);
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
