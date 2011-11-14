@@ -18,9 +18,13 @@ div.error
 	background:red;
 }
 
-table tr td 
+table tr td
 {
 	vertical-align:top;
+}
+
+.liste
+{
 	padding-right:75px;
 }
 

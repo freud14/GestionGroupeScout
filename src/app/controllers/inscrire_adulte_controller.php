@@ -15,7 +15,7 @@ class InscrireAdulteController extends AppController {
 
 		function beforeFilter(){
 			parent::beforeFilter();
-			$this->layout = 'parent';
+			$this->layout = 'non_connecte';
 			$this->loadModel('Compte');
 			$this->loadModel('Adulte');
 			$this->loadModel('AdultesImplication');
