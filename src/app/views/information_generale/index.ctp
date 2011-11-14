@@ -22,11 +22,21 @@
 ?>
 
 <?php
-	echo $form->label('sexe', __('Sexe', true).' <span class="star">*</span>', array('class' => 'element'));
-	echo $form->radio('sexe', 
-			array('M' => __('Masculin', true),'F' => __('Féminin', true)), 
-			array('label'=> false, 'legend' => false));
+	//echo $form->label('sexe', __('Sexe', true).' <span class="star">*</span>', array('class' => 'element'));
+	//echo $form->radio('sexe', 
+	//		array('M' => __('Masculin', true),'F' => __('Féminin', true)), 
+	//		array('label'=> 'Sexe', 'legend' => false));
 ?>
+<?php echo $form->input('sexe', array(
+				'before' => $form->label('sexe', __('Sexe', true).' <span class="star">*</span>', array('class' => 'element')),
+				'separator' => ' ',
+				'options' => array('M' => __('Masculin', true),'F' => __('Féminin', true)),
+				'type' => 'radio',
+				'legend' => false
+				)
+			);
+?>
+
 
 <?php
 	/*$elements = array();
@@ -39,14 +49,14 @@
 							'dateFormat' => 'DMY',
 							'minYear' => date('Y') - 70,
 							'maxYear' => date('Y') - 5));*/
+	//echo $form->dateTime('date_de_naissance','DMY', 'NONE', NULL , array('maxYear'=>date('Y') - 70,'minYear'=>date('Y') - 5), true); 
 ?>
 
 <?php
-	echo "<br/>";
 	echo $form->label('date_de_naissance', __('Date de naissance', true).' <span class="star">*</span>', array('class' => 'element'));
-	echo $form->day('jour_naissance');
-	echo $form->month('mois_naissance');						
-	echo $form->year('annee_naissance', date('Y') - 70, date('Y') - 5);
+	echo $form->day('date_de_naissance');
+	echo $form->month('date_de_naissance');						
+	echo $form->year('date_de_naissance', date('Y') - 70, date('Y') - 5);
 ?>
 
 <?php

@@ -30,6 +30,14 @@ class InscrireAdulteController extends AppController {
 		 * @return void
 		 */
 		 public function view() {
+				if ( array_key_exists ('inscrire',$this->params['form'])){
+
+					 $this->redirect(array('controller' => 'InformationGenerale', 'action' => 'index'));
+
+ 				}elseif( array_key_exists ('accueil',$this->params['form'])){
+					$this->redirect('http://www.102e.org/membres.html');
+				}
+ 	
 			}
 
 		/**
@@ -49,8 +57,8 @@ class InscrireAdulteController extends AppController {
 			//enregistrement des membres
 
 			if (!empty($this->data)) {
-				pr($this->data);	
-				$this->_ajoutMembre();
+				$this->redirect(array('action'=>'view'));
+			//	$this->_ajoutMembre();
 
 			}
 			
