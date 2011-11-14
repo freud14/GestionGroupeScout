@@ -110,7 +110,7 @@ class InscrireAdulte extends AppModel {
 						'required' => true,
 						'allowEmpty' => false,
 						'on' => 'create',
-						'message' => 'Le sexe de l\'enfant doit être spécifié.'
+						'message' => 'Le sexe doit être spécifié.'
 						)
 			),
 
