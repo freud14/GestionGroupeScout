@@ -57,7 +57,36 @@ class InscrireAdulte extends AppModel {
 						'on' => 'create',
 						'message' => 'Rentrer un numéro de téléphone valide ex. 555-555-5555'
 						)
-			)
+			),
+		'tel_bureau' => array(
+				'regle1' => array(
+						'rule' => array('phone', null, 'us'),
+						'required' => false,
+						'allowEmpty' => true,
+						'on' => 'create',
+						'message' => 'Rentrer un numéro de téléphone valide ex. 555-555-5555'
+						)
+			),
+		'tel_autre' => array(
+				'regle1' => array(
+						'rule' => array('phone', null, 'us'),
+						'required' => false,
+						'allowEmpty' => true,
+						'on' => 'create',
+						'message' => 'Rentrer un numéro de téléphone valide ex. 555-555-5555'
+						)
+			),
+
+		'genre' => array(
+				'regle1' => array(
+						'rule' => '/[MF]{1}/',
+						'required' => true,
+						'allowEmpty' => false,
+						'on' => 'create',
+						'message' => 'Le sexe de l\'enfant doit être spécifié.'
+						)
+			),
+
 
 	);
 	
