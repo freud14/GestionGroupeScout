@@ -1,7 +1,6 @@
 <?php
-class InscriptionConfirmationController extends AppController {
-      
-	var $name = 'InscriptionConfirmation';
+class InformationGeneraleController extends AppController {
+	var $name = 'InformationGenerale';
 	var $helpers = array("Html",'Form');
 	
 	function beforeFilter() {
@@ -10,33 +9,45 @@ class InscriptionConfirmationController extends AppController {
 		setlocale(LC_ALL, 'fr_CA.utf8');
 	}
 	
-	function navigation(){
-	$this -> Session -> write("url", $this->params['url']);
-	if ( array_key_exists ('paiement',$this->params['form']))
- 	{
- 		//si le bouton accepter est cliqué
- 		
- 		$this -> Session -> write("session", $this->params['data']);
- 		
- 		$this->redirect(array('controller'=>'gestionnaire_paiement', 'action'=>'index'));
- 	}elseif ( array_key_exists ('inscription',$this->params['form']))
- 	{
- 		//si le bouton précédent est cliqué
- 		
- 		//$this -> Session -> write("session", $this->params['data']);
- 		$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
- 		$this->redirect('../information_generale');
- 		}
-	}
-	function index()
-	{
-		$this->navigation();
-		$this->set('title_for_layout', __('Inscription d\'un enfant réussie', true));
-		$this->set('titre',__('Fin de l\'inscrtiption',true));
+	function index() {
+		if (!empty($this->data)) {
+		// Si c'est la page qui c'est rapeler elle meme avec de l'information
+			$this->InformationGenerale->set($this->data);
+			//if($this->InformationGenerale->validates()) {
+				$this -> Session -> write("url", $this->params['url']);
+				$this -> Session -> write('info_gen',$this->params['data']);
+			//}	
+				$this->redirect(array('controller'=>'inscription_fiche_med', 'action'=>'index'));
+		} else {	
+			$informationGenerale = $this->Session->read('info_gen.InformationGenerale'));
+			
+			if (empty($informationGenerale)){
+			
+			//si c'est la variable les champs de la variable session n'existe pas ont les crées
+				$informationGenerale = array('InformationGenerale' => array( 
+					'nom' => "" , 'prenom' => "" , 'sexe' => "" , 
+   					'date_de_naissance' => array('day' => "" , 'month' => "" , 'year' => ""),
+   					'assurance_maladie' => "" , 'adresse' => "" , 'ville' => "" ,'code_postal' => "" , 'etab_scolaire' => "" , 
+    					'niveau_scolaire' => "" , 'enseignant' => "" , 'groupe_age' => "" ,  'nom_tuteur' => "" , 
+   					'prenom_tuteur' => "" , 'sexe_tuteur' => "" , 'courriel_tuteur' => "" , 'telephone_maison_tuteur' => "" , 
+   					'telephone_bureau_tuteur' => "" , 'telephone_bureau_poste_tuteur' => "" , 'cellulaire_tuteur' => "" , 
+    					'emploi_tuteur' => "" , 'nom_urgence' => "" , 'prenom_urgence' => "" , 'telephone_principal_urgence' => "" , 
+    					'lien_jeune_urgence' => "" , 'particularite' => ""  ));
+    				$this->Session->write('info_gen', $informationGenerale);
+    				
+			}
+		}
 		
+		
+		$this->set('title_for_layout', __('Inscription d\'un enfant', true));
+		$this->set('titre', __('Informations générales', true));
+		$this->set('ariane', __('<span style="color: green;">Informations générales</span> > Fiches médicales > Autorisations', true));
+	
+		$this->loadModel('GroupeAge');
+		$this->set('groupe_age', $this->GroupeAge->find('all'));
+		
+		$informationGenerale = $this->Session->read('session.InformationGenerale');
+		$this->set('session',$informationGenerale);
 	}
-	
-
-	
 }
 ?>

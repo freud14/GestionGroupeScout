@@ -17,6 +17,7 @@ class InscriptionAutorisationController extends AppController {
 	
 	
 	function navigation(){
+		
 		$this -> Session -> write("url", $this->params['url']);
 		if(array_key_exists ('precedent',$this->params['form']))
  		{
@@ -25,14 +26,14 @@ class InscriptionAutorisationController extends AppController {
 		}elseif( array_key_exists ('accepter',$this->params['form']))
  		{
  		//si le bouton suivant est cliqué
- 			pr($this->params['data']);
+ 			//pr($this->params['data']);
  			$this -> Session -> write("session", $this->params['data']);
  			$this->redirect(array('controller'=>'inscription_confirmation', 'action'=>'index'));
 		}
 	
 	}
 	function index(){
-		
+			pr($this->Session->read('fiche_med'));
 			$this->navigation();
 		
 			$this->set('title_for_layout', __('Autorisations', true));
