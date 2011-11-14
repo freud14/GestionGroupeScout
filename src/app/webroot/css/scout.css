@@ -1,7 +1,8 @@
 label.element
 {
-	width: 250px;
-	display:block; 
+	/*width: 250px;*/
+	width: 150px;
+	display:inline-block;
 	float:left;
 	vertical-align:top;
 }
@@ -15,6 +16,11 @@ table tr td
 {
 	vertical-align:top;
 	padding-right:75px;
+}
+
+td.nom_enfant 
+{
+	width:150px;
 }
 
 table.tableau_generique tr td, table.tableau_generique tr th
