@@ -53,71 +53,7 @@ class InscrireEnfantController extends AppController {
 		//$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
 	}
 	
-	function fiche_medicale() {
-	$urlProvenance = $this -> Session -> read('url');
-	
-		if ( array_key_exists ('precedent',$this->params['form']))
- 		{
- 		//si le bouton précédent est cliqué
- 		
- 			$this -> Session -> write("session", $this->params['data']);
- 			$this -> Session -> write("url", $this->params['url']);
- 			$this->redirect('../information_generale');
- 			//pr($this->params['form']); 
- 		}elseif( array_key_exists ('suivant',$this->params['form']))
- 		{
- 		//si le bouton suivant est cliqué
- 			$this -> Session -> write("session", $this->params['data']);
- 			$this -> Session -> write("url", $this->params['url']);
- 			$this->redirect('autorisation');
- 		//}elseif($urlProvenance['url'] == 'inscrire_enfant/autorisation'){
- 		}else{	
- 			// si on revient sur la page avec des informations déjà enregistrée
- 			$session = $this -> Session -> read('session.InscrireEnfant');
- 			//pr($session);
- 			$antecedent = array();
- 			$medicaments = array();
- 			$buffer = array_merge((array)$session['antecedent1'], (array)$session['antecedent2'],(array)$session['antecedent3']);
- 
- 
-  			foreach($buffer as $valeur){
- 				$antecedent[] = $valeur;
- 			}
- 			
- 			if(isset($session['medicamentautorise']))		
- 			{
- 				foreach($session['medicamentautorise'] as $valeur)
- 				{
- 					$medicaments[] = $valeur;
- 				}
- 			}
- 			
- 			
- 			$this->set('antecedents',$antecedent);
- 			$this->set('resultmedicaments',$medicaments);
- 			$this->set('peurs',$session['peur']);
- 			$this->set('allergies',$session['allergie']);
- 			$this->set('prescriptions',$session['prescription']);
- 		}
- 		
- 		
-		$this->set('title_for_layout', __('Inscription d\'un enfant', true));
-		$this->set('titre',__('Fiche médicale',true));
-		$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
-		
-		$this->loadModel("Maladie");
-		$this->set('maladies', $this->getMaladieListe());
-		
-		$this->loadModel('QuestionGenerale');
-		$this->set('questions', $this->getQuestionListe());
-		//pr($this->getQuestionListe());
-		$this->loadModel('Medicament');
-		$this->set('medicaments', $this->getMedicamentListe());
-		$this -> Session -> write("url", $this->params['url']);
-		//pr($this->data);
-		//pr($this->params); 
-		
-	}
+	f
 	
 	function autorisation(){
 		if(array_key_exists ('precedent',$this->params['form']))

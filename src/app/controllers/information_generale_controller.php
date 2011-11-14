@@ -13,8 +13,8 @@ class InformationGeneraleController extends AppController {
 		if (!empty($this->data)) {
 			$this->InformationGenerale->set($this->data);
 			if($this->InformationGenerale->validates()) {
-				
-				$this->redirect(array('controller'=>'inscrire_enfant', 'action'=>'fiche_medicale'));
+				$this -> Session -> write("url", $this->params['url']);
+				$this->redirect(array('controller'=>'inscription_fiche_med', 'action'=>'index'));
 			} else {
 				//echo "invalide";
 			}
