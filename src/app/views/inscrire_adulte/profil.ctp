@@ -6,16 +6,14 @@
 	<tr>
 		<td class="liste" >
 		<?php
-			pr($adulteProfil);
-			echo $form->input('nom_utilisateur', array('value' => $compteProfil['nom_utilisateur'],'label' => array('class' => 'element',  'text' => __('Courriel', true) . ' <span class="star">*</span>')));
+			echo $form->input('nom_utilisateur', array('value' => $profil[0]['Compte']['nom_utilisateur'],'label' => array('class' => 'element',  'text' => __('Courriel', true) . ' <span class="star">*</span>')));
 			echo $form->input('mot_de_passe', array('label' => array('class' => 'element', 'text' =>__('Nouveau mot de passe', true) . ' <span class="star">*</span>')));
 			echo $form->input('mot_de_passe_confirmation', array('label' => array('class' => 'element', 'text' =>__('Confirmer mot de passe', true) . ' <span class="star">*</span>')));
 		?>
 		</td>
 		<td class="liste">
 		<?php
-	echo $this->Form->input(__('Implication', true), array('type'=>'select', 'multiple'=>'checkbox', 'options'=> $option, 'label'=>__('Souhaitez-vous vous impliquer ?', true)));
-			echo $this->Form->input('description', array('label' => array('class' => 'element', 'text' =>__('Spécifier si autre', true))));
+	echo $this->Form->input(__('Implication', true), array('type'=>'select', 'multiple'=>'checkbox', 'options'=> $option,  'selected'=> $profil[0]['Adulte'][0]['Implication'][0]['id'],'label'=>__('Souhaitez-vous vous impliquer ?', true)));
 		?>
 		</td>
 	</tr>
@@ -25,24 +23,24 @@
 		<h3><?php echo $form->label(__('Informations personnelles', true)); ?> </h3>
 
 		<?php
-
 			echo __('<p style="font-size:x-small;">Téléphone ex. 555-555-5555</p>', true);
-			echo $form->input('nom', array('value' => $adulteProfil['Adulte']['prenom'], 'label' => array('class' => 'element', 'text' =>__('Nom', true) . ' <span class="star">*</span>')));
-			echo $form->input('prenom', array('label' => array('class' => 'element', 'text' =>__('Prénom', true) . ' <span class="star">*</span>')));
-			echo $form->input('tel_maison', array('label' => array('class' => 'element', 'text' =>__('Téléphone à la maison', true) . ' <span class="star">*</span>')));
+			echo $form->input('nom', array('value' => $profil[0]['Adulte'][0]['nom'], 'label' => array('class' => 'element', 'text' =>__('Nom', true) . ' <span class="star">*</span>')));
+			echo $form->input('prenom', array('value' => $profil[0]['Adulte'][0]['prenom'], 'label' => array('class' => 'element', 'text' =>__('Prénom', true) . ' <span class="star">*</span>')));
+			echo $form->input('tel_maison', array('value' => $profil[0]['Adulte'][0]['tel_maison'],'label' => array('class' => 'element', 'text' =>__('Téléphone à la maison', true) . ' <span class="star">*</span>')));
 			echo $form->input('sexe', array(
 				'before' => $form->label('sexe', __('Sexe', true).' <span class="star">*</span>', array('class' => 'element')),
 				'separator' => ' ',
 				'options' => array('M' => __('Masculin', true),'F' => __('Féminin', true)),
 				'type' => 'radio',
-				'legend' => false
+				'legend' => false,
+				'default'=> $profil[0]['Adulte'][0]['sexe']
 				)
 			);
-			echo $form->input('tel_bureau', array('label' => array('class' => 'element', 'text' =>__('Téléphone au bureau', true))));
-			echo $form->input('poste_bureau', array('label' => array('class' => 'element', 'text' =>__('Numéro de poste du <br> téléphone au bureau', true))));
+			echo $form->input('tel_bureau', array('value' => $profil[0]['Adulte'][0]['tel_bureau'],'label' => array('class' => 'element', 'text' =>__('Téléphone au bureau', true))));
+			echo $form->input('poste_bureau', array('value' => $profil[0]['Adulte'][0]['poste_bureau'],'label' => array('class' => 'element', 'text' =>__('Numéro de poste du <br> téléphone au bureau', true))));
 			echo '<br>';
-			echo $form->input('tel_autre', array('label' => array('class' => 'element', 'text' =>__('Cellulaire', true))));
-			echo $form->input('profession', array('label' => array('class' => 'element', 'text' =>__('Emploi', true))));
+			echo $form->input('tel_autre', array('value' => $profil[0]['Adulte'][0]['tel_autre'],'label' => array('class' => 'element', 'text' =>__('Cellulaire', true))));
+			echo $form->input('profession', array('value' => $profil[0]['Adulte'][0]['profession'],'label' => array('class' => 'element', 'text' =>__('Emploi', true))));
 		?>
 		</td>
 		<td class="liste">
