@@ -1,10 +1,3 @@
-<script>
-	/*$(document).ready(function() {
-		$("div.error").
-	});*/
-
-</script>
-
 <?php
 	echo $form->create(null); //, array('action' => 'fiche_medicale')); ?>
 <table>

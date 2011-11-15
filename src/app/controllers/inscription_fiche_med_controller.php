@@ -43,21 +43,19 @@ class InscriptionFicheMedController extends AppController {
 		 */
 		 public function navigation() {
 		// pr($this->Session->read('fiche_med'));
+			$this -> Session -> write("fiche_med", $this->params['data']);
+ 			$this -> Session -> write("url", $this->params['url']);
 			 $urlProvenance = $this -> Session -> read('url');
 			 $this -> Session -> write("url", $this->params['url']);
 			if ( array_key_exists ('precedent',$this->params['form']))
  			{
  			//si le bouton précédent est cliqué
- 				$this -> Session -> write("fiche_med", $this->params['data']);
- 				$this -> Session -> write("url", $this->params['url']);
+ 				
  				$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
  			//pr($this->params['form']); 
  			}elseif( array_key_exists ('suivant',$this->params['form']))
  			{
- 			//si le bouton suivant est cliqué
- 				$this -> Session -> write("fiche_med", $this->params['data']);
- 				$this -> Session -> write("url", $this->params['url']);
- 				
+ 			//si le bouton suivant est cliqué	
  				$this->redirect(array('controller'=>'inscription_autorisation', 'action'=>'index'));
  			
  			}
@@ -65,36 +63,52 @@ class InscriptionFicheMedController extends AppController {
 		}
 		
 		public function index() {
-			pr($this->Session->read('info_gen.InformationGenerale'));
-			//pr($this->Session->read('info_gen.InformationGenerale'));
-			//pr("test");
-			$this->navigation();		
+			pr($this->Session->read('fiche_med.InscriptionFicheMed'));
+			$session = $this -> Session -> read('fiche_med.InscriptionFicheMed');
+			
+			if (!empty($this->data)) {
+			// Si c'est la page qui c'est rappeler elle meme avec de l'information
+				$this->navigation();		
+			}elseif(empty($session)){
+				$session = array('antecedent1' => array() , 
+    							'antecedent2' => array() , 
+   							'antecedent3' => array() , 
+    							'q1' => "" , 
+    							'q2' => "" , 
+    							'medicamentautoriseLab' => array() , 
+    							'prescription' => "" , 
+    							'allergie' => "" , 
+    							'peur' => ""
+    						) ;
+    				$this -> Session -> write('fiche_med');
+    				
+				//ne devrait pas etre dans le meme if
+			}
+			
  			// si on revient sur la page avec des informations déjà enregistrée
- 			$session = $this -> Session -> read('fiche_med.InscriptionFicheMed');
+ 			
  			
  			$antecedent = array();
  			$medicaments = array();
  			$buffer = array_merge((array)$session['antecedent1'], (array)$session['antecedent2'],(array)$session['antecedent3']);
  
- 
   			foreach($buffer as $valeur){
  				$antecedent[] = $valeur;
  			}
  			
- 			if(isset($session['medicamentautorise']))		
+ 			
+ 			foreach($session['medicamentautoriseLab'] as $valeur)
  			{
- 				foreach($session['medicamentautorise'] as $valeur)
- 				{
  					$medicaments[] = $valeur;
- 				}
  			}
+ 		
  			
  			
- 			$this->set('antecedents',$antecedent);
- 			$this->set('resultmedicaments',$medicaments);
- 			$this->set('peurs',$session['peur']);
- 			$this->set('allergies',$session['allergie']);
- 			$this->set('prescriptions',$session['prescription']);
+ 		$this->set('antecedents',$antecedent);
+ 		$this->set('resultmedicaments',$medicaments);
+ 		$this->set('peurs',$session['peur']);
+ 		$this->set('allergies',$session['allergie']);
+ 		$this->set('prescriptions',$session['prescription']);
  		
  		
  		
