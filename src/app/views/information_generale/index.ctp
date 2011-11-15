@@ -34,7 +34,6 @@ echo $form->input('sexe', array(
 				'before' => $form->label('sexe', __('Sexe', true).' <span class="star">*</span>', array('class' => 'element')),
 				'separator' => ' ',
 				'options' => array( 'M' => __('Masculin', true),'F' => __('Féminin', true)),
-				'selected' => 'Masculin',
 				'type' => 'radio',
 				'default' => $session['sexe'],
 				'legend' => false
@@ -59,9 +58,9 @@ echo $form->input('sexe', array(
 
 <?php
 	echo $form->label('date_de_naissance', __('Date de naissance', true).' <span class="star">*</span>', array('class' => 'element'));
-	echo $form->day('date_de_naissance');
-	echo $form->month('date_de_naissance');						
-	echo $form->year('date_de_naissance', date('Y') - 70, date('Y') - 5);
+	echo $form->day('date_de_naissance',$session['date_de_naissance']['day']);
+	echo $form->month('date_de_naissance',$session['date_de_naissance']['month']);						
+	echo $form->year('date_de_naissance', date('Y') - 70, date('Y') - 5,$session['date_de_naissance']['year']);
 ?>
 
 <?php
@@ -90,10 +89,10 @@ echo $form->input('sexe', array(
 <?php
 // NE se garde pas
 	echo $form->label('niveau_scolaire', __('Niveau scolaire', true).' <span class="star">*</span>', array('class' => 'element'));
-	echo $form->select('niveau_scolaire', array('pre' => __('Préscolaire', true),
+	echo $form->select('niveau_scolaire',array('pre' => __('Préscolaire', true),
 							'pri' => __('Primaire', true), 
 							'sec' => __('Secondaire', true)
-							)
+							),null,array('value' => $session['niveau_scolaire'])
 			);
 ?>
 
@@ -101,13 +100,13 @@ echo $form->input('sexe', array(
 	echo $form->input('enseignant', array('value'=>$session['enseignant'],'label' => array('class' => 'element', 'text' => __('Enseignement responsable', true))));
 ?>
 
-<h3>Unité</h3>
+<br><h3><?php echo __('Groupe d\'âge')?> </h3>
 <?php //ne se garde pas
 	$liste = array();
 	foreach($groupe_age as $groupe) {
 		$liste[$groupe['GroupeAge']['id']] = $groupe['GroupeAge']['nom']. "(".$groupe['GroupeAge']['age_min']."-".$groupe['GroupeAge']['age_max']." ans - ".($groupe['GroupeAge']['sexe'] == 'M' ? __("Masculin", true) : __("Féminin", true)).")";
 	}
-	echo $form->select('groupe_age', $liste);
+	echo $form->select('groupe_age', $liste,null,array('value' => $session['groupe_age']));
 ?>
 
 </td>
@@ -125,7 +124,7 @@ echo $form->input('sexe', array(
 	echo $form->label('sexe_tuteur', __('Sexe', true), array('class' => 'element'));
 	echo $form->radio('sexe_tuteur', 
 			array('M' => __('Masculin', true),'F' => __('Féminin', true)), 
-			array('label'=> false, 'legend' => false));
+			array('label'=> false, 'legend' => false,'default' => $session['sexe_tuteur'],));
 ?>
 
 <?php
@@ -181,6 +180,7 @@ echo $form->input('sexe', array(
 </table>
 <div style="text-align:right">
 <?php
+	echo $form->button('Annuler', array('type'=>'submit','name' => 'annuler'));
 	echo $form->button('Étape suivante', array('type'=>'submit','name' => 'suivant'));
 	echo $form->end();
 ?>

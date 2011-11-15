@@ -224,7 +224,7 @@ class InformationGenerale extends AppModel {
 			return true;
 		}
 		else {
-			pr($this->data);
+			//pr($this->data);
 			foreach($listeChamp as $champ) {
 				if(!empty($this->data['InformationGenerale'][$champ])) {
 					return false;
