@@ -14,18 +14,25 @@ class InformationGeneraleController extends AppController {
 		if (!empty($this->data)) {
 		
 		// Si c'est la page qui c'est rapeler elle meme avec de l'information
-			$this->InformationGenerale->set($this->data);
-			//if($this->InformationGenerale->validates()) {
+			if ( array_key_exists ('suivant',$this->params['form'])){
+			//Si le bouton suivant est cliquer
+				$this->InformationGenerale->set($this->data);
 				$this -> Session -> write("url", $this->params['url']);
 				$this -> Session -> write('info_gen',$this->params['data']);
-			//	pr($this->Session->read('info_gen.InformationGenerale'));
-			//}	
-			//
-				$this->redirect(array('controller'=>'inscription_fiche_med', 'action'=>'index'));
+				$informationGenerale = $this->Session->read('info_gen.InformationGenerale');
+				if($this->InformationGenerale->validates()) {
+				//si les champs sont bien remplits	
+					$this->redirect(array('controller'=>'inscription_fiche_med', 'action'=>'index'));
+				}	
+				pr($informationGenerale);
+			}elseif ( array_key_exists ('annuler',$this->params['form'])){
+				//DEVRAIT REDIRIGER VERS L'ACCUEIL
+			}
+				
 		} else {	
-			$informationGenerale = $this->Session->read('info_gen.InformationGenerale');
+			//Si c'est une autre page qui redirige
 			//var_dump($informationGenerale);
-			
+			$informationGenerale = $this->Session->read('info_gen.InformationGenerale');
 			if (empty($informationGenerale)){
 			
 			//si c'est la variable les champs de la variable session n'existe pas ont les crées
@@ -39,6 +46,7 @@ class InformationGeneraleController extends AppController {
     					'emploi_tuteur' => "" , 'nom_urgence' => "" , 'prenom_urgence' => "" , 'telephone_principal_urgence' => "" , 
     					'lien_jeune_urgence' => "" , 'particularite' => ""  );
     					$this->Session->write('info_gen', $informationGenerale);
+    					//pr('jambon');
     				
     				
 			}
@@ -51,7 +59,7 @@ class InformationGeneraleController extends AppController {
 	
 		$this->loadModel('GroupeAge');
 		$this->set('groupe_age', $this->GroupeAge->find('all'));
-		$informationGenerale = $this->Session->read('info_gen.InformationGenerale');
+		//pr($informationGenerale);
 		$this->set('session',$informationGenerale);
 	}
 }
