@@ -13,20 +13,31 @@ class ConnexionController extends AppController {
 		}
 		 public function navigation() {
 		
-			$this -> Session -> write("url", $this->params['url']); 
+			//si le bouton connexion est cliqué
 			if ( array_key_exists ('connexion',$this->params['form']))
  			{
- 			//si le bouton connexion est cliqué
- 				
+ 				$resultat = $this->validerInformation($this->data['Connexion']['nom_utilisateur'],$this->data['Connexion']['mot_de_passe']);		
+				
+				//si le mot de passe est valide
+				if(!empty($resultat))
+				{
+					$this -> Session -> write("authentification", $resultat);
+					$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
+					
+				}else{
+					$this -> Session -> write("authentification", null);
+					pr("looser");
+				}
  				$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
- 			
- 			}elseif( array_key_exists ('suivant',$this->params['form']))
+ 			//
+ 			/*}elseif( array_key_exists ('suivant',$this->params['form']))
  			{
  			//si le bouton suivant est cliqué	
  				$this->redirect(array('controller'=>'inscription_autorisation', 'action'=>'index'));
  			
- 			}
+ 			*/
  	
+			}
 		}
 
 		/**
@@ -37,23 +48,21 @@ class ConnexionController extends AppController {
 		 public function index() {
 			$this->set('titre',__('Connexion',true));
 			$this->set('title_for_layout', __('Connexion', true));
+			$this -> Session -> write("url", $this->params['url']);
+
 			
-			//$this->set('ariane', __('<span style="color: green;"> Mon profil', true));
 			
-			// Si l'utilisateur existe, si son mot de passe est existant et si c'est le bon
 			
 			
 			pr($this -> data);
 			if (!empty($this->data))
 			{
-				$this -> Session -> write("url", $this->params['url']);
-			
+				
+				$this -> navigation();
 				
 				$resultat = $this->validerInformation($this->data['Connexion']['nom_utilisateur'],$this->data['Connexion']['mot_de_passe']);
 				
-				pr('resultat');
-				var_dump($resultat);
-				pr('resultat');
+				
 				//si le mot de passe est valide
 				if(!empty($resultat))
 				{
@@ -71,15 +80,13 @@ class ConnexionController extends AppController {
 		function validerInformation($nom_utilisateur,$mot_de_passe)
 		{
 			$resultat = null;
-    			$conditions = array("Compte.nom_utilisateur" => $nom_utilisateur,'Compte.mot_de_passe' => $mot_de_passe);
-    			//Example usage with a model:
-    			
+    			$conditions = array("Compte.nom_utilisateur" => $nom_utilisateur,'Compte.mot_de_passe' => $mot_de_passe);    			
     			$resultat = $this->Compte->find('first', array('conditions' => $conditions,'fields' => 'Compte.id'));
     			
 			
 			if(!empty($resultat))
 			{
-			//	$resultat = array('autorisation' => $resultat['Autorisation'],'id_compte' => $resultat['Compte']['id']);	
+				$resultat = array('autorisation' => $resultat['Autorisation'],'id_compte' => $resultat['Compte']['id']);	
 			}
 			
 			
