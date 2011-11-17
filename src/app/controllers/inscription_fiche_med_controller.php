@@ -16,10 +16,9 @@ class InscriptionFicheMedController extends AppController {
 		function beforeFilter(){
 			parent::beforeFilter();
 			$this->layout = 'parent';
-			$this->loadModel('Compte');
-			$this->loadModel('Adulte');
-			$this->loadModel('AdultesImplication');
-			$this->loadModel('Implication');
+			$this->loadModel("Maladie");
+			$this->loadModel('QuestionGenerale');
+			$this->loadModel('Medicament');
 		}
 
 		public function getMaladieListe()
@@ -47,6 +46,7 @@ class InscriptionFicheMedController extends AppController {
  			
 			 $urlProvenance = $this -> Session -> read('url');
 			 $this -> Session -> write("url", $this->params['url']);
+			 
 			if ( array_key_exists ('precedent',$this->params['form']))
  			{
  			//si le bouton précédent est cliqué
@@ -63,16 +63,12 @@ class InscriptionFicheMedController extends AppController {
 		}
 		function validerConnexion()
 		{
-			$boolean = false;
-			$resultat = $this->Session -> read('autentification.id_compte');
-			if(empty($resultat))
-			{
-				$this->redirect(array('controller'=>'connexion', 'action'=>'index'));
-			}
+			
+			
 						
 		}
 		public function index() {
-			$this -> validerConnexion();
+		//	$this -> validerConnexion();
 			
 			if (empty($this->data)) 
 			{//Si ce n'est pas la page qui renvoit vers elle même
@@ -134,13 +130,11 @@ class InscriptionFicheMedController extends AppController {
 		$this->set('titre',__('Fiche médicale',true));
 		$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
 		
-		$this->loadModel("Maladie");
+		
 		$this->set('maladies', $this->getMaladieListe());
 		
-		$this->loadModel('QuestionGenerale');
 		$this->set('questions', $this->getQuestionListe());
 		
-		$this->loadModel('Medicament');
 		$this->set('medicaments', $this->getMedicamentListe());
 		
 		

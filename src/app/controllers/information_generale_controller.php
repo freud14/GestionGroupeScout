@@ -34,6 +34,7 @@ class InformationGeneraleController extends AppController {
 	}
 	function index() {
 	
+	
 		$this -> Session -> write("url", $this->params['url']);
 		if (empty($this->data)) {
 		//Si ce n'est pas la page qui renvoit vers elle même

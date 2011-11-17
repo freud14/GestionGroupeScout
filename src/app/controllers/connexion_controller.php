@@ -40,7 +40,7 @@ class ConnexionController extends AppController {
 			//$this->set('ariane', __('<span style="color: green;"> Mon profil', true));
 			
 			// Si l'utilisateur existe, si son mot de passe est existant et si c'est le bon
-			
+			pr($this->params['url']);
 			
 			
 			
