@@ -23,7 +23,6 @@
 	
 	
 	//pr($maladies);
-	$tab[2][] = "autre";
 	?>
 	<table>
 	<tr><td>
@@ -38,7 +37,7 @@
 	</td><td>
 	<?php echo $this->Form->input('antecedent3', 
 				array('type'=>'select','multiple'=>'checkbox', 'options'=>$tab[2],'label'=>false, 'selected' => $antecedents));
-	echo $form->input(' ',array('disabled'=> 'disabled'));?>
+	?>
 	
 	</td></tr></table></br> 
 	

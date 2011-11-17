@@ -10,7 +10,7 @@ class InscriptionAutorisationController extends AppController {
 			$this->loadModel('Adulte');
 			$this->loadModel('AdultesImplication');
 			$this->loadModel('Implication');
-			$this->laodModel('Annee');
+			$this->loadModel('Annee');
 	}
 
 	
@@ -56,11 +56,15 @@ class InscriptionAutorisationController extends AppController {
 					$this->Enfant->create();
 					$this->Inscription->create();
 					$this->Adresse->create();
+					$this->ContactUrgence->create();
+					$this->FicheMedical->create();
+					
+				
 					
 					$annee = $this->Annee->find('first', array('conditions' => array('annee.date_fin' => null)));
 
 								//Enregistrement des données dans la base de données
-						if ($this->Enfant->save(array('nom' => $this->Session->read('info_gen.InformationGeneral.nom'), 
+						if (($this->Enfant->save(array('nom' => $this->Session->read('info_gen.InformationGeneral.nom'), 
 												    'prenom' => $this->Session->read('info_gen.InformationGeneral.prenom'),
 													'date_de_naissance' => array($this->Session->read('info_gen.InformationGeneral.date_de_naissance.day'),
 																				$this->Session->read('info_gen.InformationGeneral.date_de_naissance.month'),
@@ -68,7 +72,7 @@ class InscriptionAutorisationController extends AppController {
 													'adresse_id' => $this->Adresse->id,
 													'no_ass_maladie' => $this->Session->read('info_gen.InformationGeneral.assurance_maladie'),
 													'sexe' => $this->Session->read('info_gen.InformationGeneral.sexe')
-													'particularite_jeunes' => $this->Session->read('info_gen.InformationGeneral.particularite')) &&
+													'particularite_jeunes' => $this->Session->read('info_gen.InformationGeneral.particularite')))) &&
 									($this->Adresse->save(array('adresses' => $this->Session->read('info_gen.InformationGeneral.adresse'),
 													'ville' => $this->Session->read('info_gen.InformationGeneral.ville'),
 													'code_postal' => $this->Session->read('info_gen.InformationGeneral.code_postal')))) &&
@@ -76,10 +80,27 @@ class InscriptionAutorisationController extends AppController {
 													'groupe_age_id' => $this->Session->read('info_gen.InformationGeneral.groupe_age'),
 													'date_inscription' => DboSource::expression('NOW()'),
 													'annee_id' => $annee['Annee']['id'],
-													'autorisation_photo' => $this->data['Autorisation']['message1']
-													
-													
-													
+													'autorisation_photo' => $this->data['Autorisation']['autorisation_photo'],
+													'autorisation_baignade' => $this->data['Autorisation']['autorisation_baignade']))) &&
+									($this->ContactUrgence->save(array('adulte_id' =>  $this->Session->read('authentification.Adulte.id'),
+													'enfant_id' => $this->Enfant->id,
+													'lien' => $this->Session->read('info_gen.InformationGeneral.lien_jeune_urgence')))) &&
+									($this->FicheMedical->save(array('enfant_id' => $this->Enfant->id,
+													'allergie' => $this->Session->read('fiche_med.InscriptionFicheMed.allergie'),
+													'activite_probleme'
+													'phobie' => $this->Session->read('fiche_med.InscriptionFicheMed.peur')
+
+							if (!empty($this->Session->read('fiche_med.InscriptionFicheMed.prescription'))){
+								$this->Prescription->create();
+								$this->Prescription->save(array('posologie' => $this->Session->read('fiche_med.InscriptionFicheMed.prescription'),
+													'fiche_medicale_id' => $this->FicheMedical->id));
+
+							}					
+
+							if (!empty($this->Session->read('fiche_med.InscriptionFicheMed.prescription'))){
+							
+						
+							}
 													
 													
 													{
@@ -92,7 +113,7 @@ class InscriptionAutorisationController extends AppController {
 									foreach($this->data['InscrireAdulte']['Implication'] as $impl) {
 										$this->AdultesImplication->create();
 										$this->AdultesImplication->save(array('implication_id' => $impl, 'adulte_id' => $this->Adulte->id));
-					:w
+				
 					}
 								}
 

@@ -79,7 +79,7 @@ class ConnexionController extends AppController {
 			
 			if(!empty($resultat))
 			{
-				$resultat = array('autorisation' => $resultat['Autorisation'],'id_compte' => $resultat['Compte']['id']);	
+			//	$resultat = array('autorisation' => $resultat['Autorisation'],'id_compte' => $resultat['Compte']['id']);	
 			}
 			
 			
