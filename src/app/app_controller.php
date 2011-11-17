@@ -6,12 +6,14 @@ class AppController extends Controller {
 	{
 		parent::beforeFilter();
 		
-		$resultat = $this->Session -> read('autentification.id_compte');
-
-		if(empty($resultat)&&($this-> params['url']['url'] != 'Connexion'))
+		$resultat = $this->Session -> read('authentification.id_compte');
+		
+		pr($this-> params['url']);
+		if(empty($resultat)&&($this-> params['url']['url'] != 'connexion'))
 		{
-			pr("redirigier");
-			$this->redirect(array('controller'=>'Connexion', 'action'=>'index'));
+			pr("jaime les courges");
+			//pr("redirigier");
+			$this->redirect(array('controller'=>'connexion', 'action'=>'index'));
 		}
 	}
 }
