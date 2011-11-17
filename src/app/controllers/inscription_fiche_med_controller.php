@@ -42,9 +42,9 @@ class InscriptionFicheMedController extends AppController {
 		 * @return void
 		 */
 		 public function navigation() {
-		// pr($this->Session->read('fiche_med'));
-			$this -> Session -> write("fiche_med", $this->params['data']);
- 			$this -> Session -> write("url", $this->params['url']);
+		
+			
+ 			
 			 $urlProvenance = $this -> Session -> read('url');
 			 $this -> Session -> write("url", $this->params['url']);
 			if ( array_key_exists ('precedent',$this->params['form']))
@@ -63,14 +63,16 @@ class InscriptionFicheMedController extends AppController {
 		}
 		
 		public function index() {
-			pr($this->Session->read('fiche_med.InscriptionFicheMed'));
-			$session = $this -> Session -> read('fiche_med.InscriptionFicheMed');
+				
 			
-			if (!empty($this->data)) {
-			// Si c'est la page qui c'est rappeler elle meme avec de l'information
-				$this->navigation();		
-			}elseif(empty($session)){
-				$session = array('antecedent1' => array() , 
+			if (empty($this->data)) 
+			{//Si ce n'est pas la page qui renvoit vers elle même
+			
+			$session = $this -> Session -> read('fiche_med.InscriptionFicheMed');
+				if (!empty($session)) 
+				{
+			//s'il n'y a pas d'information déjà existante
+					$session = array('antecedent1' => array() , 
     							'antecedent2' => array() , 
    							'antecedent3' => array() , 
     							'q1' => "" , 
@@ -79,10 +81,15 @@ class InscriptionFicheMedController extends AppController {
     							'prescription' => "" , 
     							'allergie' => "" , 
     							'peur' => ""
-    						) ;
-    				$this -> Session -> write('fiche_med');
-    				
-				//ne devrait pas etre dans le meme if
+    							) ;
+				}
+			}else{
+			//c'est la page elle même qui s'apelle
+    				$this -> Session -> write("fiche_med", $this->params['data']);
+    				$this -> Session -> write("url", $this->params['url']);
+    				$this->navigation();
+    				$session = $this -> Session -> read('fiche_med.InscriptionFicheMed');
+				
 			}
 			
  			// si on revient sur la page avec des informations déjà enregistrée
@@ -92,16 +99,18 @@ class InscriptionFicheMedController extends AppController {
  			$medicaments = array();
  			$buffer = array_merge((array)$session['antecedent1'], (array)$session['antecedent2'],(array)$session['antecedent3']);
  
-  			foreach($buffer as $valeur){
- 				$antecedent[] = $valeur;
+  			if(!empty($buffer)){
+  				foreach($buffer as $valeur){
+ 					$antecedent[] = $valeur;
+ 				}
  			}
- 			
- 			
- 			foreach($session['medicamentautoriseLab'] as $valeur)
+ 			if(!empty($session['medicamentautoriseLab']))
  			{
- 					$medicaments[] = $valeur;
+ 				foreach($session['medicamentautoriseLab'] as $valeur)
+ 				{
+ 						$medicaments[] = $valeur;
+ 				}
  			}
- 		
  			
  			
  		$this->set('antecedents',$antecedent);
