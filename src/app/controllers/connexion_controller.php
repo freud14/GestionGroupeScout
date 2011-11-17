@@ -12,7 +12,7 @@ class ConnexionController extends AppController {
 		}
 		 public function navigation() {
 		
-			$this -> Session -> write("url", $this->params['url']);
+			$this -> Session -> write("url", $this->params['url']); 
 			if ( array_key_exists ('connexion',$this->params['form']))
  			{
  			//si le bouton connexion est cliqué

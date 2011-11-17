@@ -7,6 +7,7 @@ class AppController extends Controller {
 		parent::beforeFilter();
 		
 		$resultat = $this->Session -> read('autentification.id_compte');
+
 		if(empty($resultat)&&($this-> params['url']['url'] != 'Connexion'))
 		{
 			pr("redirigier");
