@@ -16,12 +16,12 @@ class InformationGeneraleController extends AppController {
 				
 			$this->InformationGenerale->set($this->data);
 				
-			if($this->InformationGenerale->validates()) 
-			{
+			//if($this->InformationGenerale->validates()) 
+			//{
 				
 				//si les champs sont bien remplits	
 				$this->redirect(array('controller'=>'inscription_fiche_med', 'action'=>'index'));
-			}	
+			//}	
 			
 				
 		}elseif ( array_key_exists ('annuler',$this->params['form']))

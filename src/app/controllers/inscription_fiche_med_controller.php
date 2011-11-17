@@ -61,9 +61,18 @@ class InscriptionFicheMedController extends AppController {
  			}
  	
 		}
-		
+		function validerConnexion()
+		{
+			$boolean = false;
+			$resultat = $this->Session -> read('autentification.id_compte');
+			if(empty($resultat))
+			{
+				$this->redirect(array('controller'=>'connexion', 'action'=>'index'));
+			}
+						
+		}
 		public function index() {
-				
+			$this -> validerConnexion();
 			
 			if (empty($this->data)) 
 			{//Si ce n'est pas la page qui renvoit vers elle même

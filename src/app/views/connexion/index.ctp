@@ -5,10 +5,10 @@
 
 <?php 
 
-	echo $form->create('Connexion', array('url' => array('controller' => 'Connexion', 'action' => 'index')));
+	echo $form->create(null);
 	echo $form->input('nom_utilisateur', array('label' => array('class' => 'element', 'text' => __('Courriel', true) . ' <span class="star">*</span>')));
-	echo $form->label(__('Mot de passe*', true)); 
 	
+	echo $form->input('mot_de_passe',array('label' => array('class' => 'element', 'text' => __('Mot de passe', true) . ' <span class="star">*</span>')));
 	echo '<br>';
 
 	if ((isset($erreur)) && (!empty($erreur))){
@@ -16,7 +16,9 @@
 		echo $erreur;
 	}
 
-    echo $this->Form->button(__('Identification', true), array('type'=>'submit')); 
+    	echo $form->button('Annuler', array('type'=>'submit','name' => 'annuler'));
+	echo $form->button('Connexion', array('type'=>'submit','name' => 'connexion'));
+	echo $form->end();
 ?>
 </fieldset>
 

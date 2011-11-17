@@ -10,7 +10,23 @@ class ConnexionController extends AppController {
 			$this->layout = 'non_connecte';
 			$this->loadModel('Compte');
 		}
-
+		 public function navigation() {
+		
+			$this -> Session -> write("url", $this->params['url']);
+			if ( array_key_exists ('connexion',$this->params['form']))
+ 			{
+ 			//si le bouton connexion est cliqué
+ 				
+ 				$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
+ 			//pr($this->params['form']); 
+ 			}elseif( array_key_exists ('suivant',$this->params['form']))
+ 			{
+ 			//si le bouton suivant est cliqué	
+ 				$this->redirect(array('controller'=>'inscription_autorisation', 'action'=>'index'));
+ 			
+ 			}
+ 	
+		}
 
 		/**
 		 * Écran de connexion
@@ -18,11 +34,39 @@ class ConnexionController extends AppController {
 		 * @bug Password ne se fait pas valider par le model ???
 		 */
 		 public function index() {
-			$this->set('titre','Mon profil');
-			$this->set('ariane', __('<span style="color: green;"> Mon profil', true));
+			$this->set('titre',__('Connexion',true));
+			$this->set('title_for_layout', __('Connexion', true));
+			
+			//$this->set('ariane', __('<span style="color: green;"> Mon profil', true));
 			
 			// Si l'utilisateur existe, si son mot de passe est existant et si c'est le bon
-			if (!empty($this->data)){
+			
+			
+			
+			
+			if (!empty($this->data))
+			{
+				$this -> Session -> write("url", $this->params['url']);
+				pr($this->data['Connexion']);
+				$this->loadModel('Compte');
+				$resultat = $this->validerInformation($this->data['Connexion']['nom_utilisateur'],$this->data['Connexion']['mot_de_passe']);
+				//si le mot de passe est valide
+				if(!empty($resultat))
+				{
+					$this -> Session -> write("autentification", $resultat);
+					$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
+					
+				}else{
+					$this -> Session -> write("autentification", null);
+					pr("looser");
+				}
+				
+			}
+			/*	$this->set('questions', $this->getQuestionListe());
+				
+				
+				
+				//*********************************
 				$this->Connexion->set($this->data);
 				if($this->Connexion->validates()) {
 
@@ -45,12 +89,25 @@ class ConnexionController extends AppController {
 				
 
 				}
+			}*/
+		}
+		function validerInformation($nom_utilisateur,$mot_de_passe)
+		{
+			$resultat = null;
+    			$conditions = array("Compte.nom_utilisateur" => $nom_utilisateur,'Compte.mot_de_passe' => $mot_de_passe);
+    			//Example usage with a model:
+    			
+    			$resultat = $this->Compte->find('first', array('conditions' => $conditions,'fields' => 'Compte.id'));
+    			//pr($result);
+			pr($resultat['Autorisation'][0]);
+			if(!empty($resultat))
+			{
+				$resultat = array('autorisation' => $resultat['Autorisation'],'id_compte' => $resultat['Compte']['id']);	
 			}
+			pr('NArnia');
+			pr($resultat);
+		return $resultat;
+			//return $this->QuestionGenerale->find('all');
 		}
-
-		public function view() {
-
-		}
-
 	}
 ?>
