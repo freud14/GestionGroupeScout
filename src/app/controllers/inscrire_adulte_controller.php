@@ -117,7 +117,7 @@ class InscrireAdulteController extends AppController {
 			if (!empty($this->data)) {
 						//Créer les intances de la bd nécessaire
 					$this->Compte->create();
-					$this->Compte->id;
+					$this->Compte->create();
 					$this->Adulte->create();
 					
 
