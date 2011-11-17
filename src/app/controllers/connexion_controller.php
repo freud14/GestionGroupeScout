@@ -102,7 +102,7 @@ class ConnexionController extends AppController {
 			pr($resultat['Autorisation'][0]);
 			if(!empty($resultat))
 			{
-				$resultat = array('autorisation' => $resultat['Autorisation'],'id_compte' => $resultat['Compte']['id']);	
+			//	$resultat = array('autorisation' => $resultat['Autorisation'],'id_compte' => $resultat['Compte']['id']);	
 			}
 			pr('NArnia');
 			pr($resultat);

@@ -11,7 +11,7 @@ class AppController extends Controller {
 		if(empty($resultat)&&($this-> params['url']['url'] != 'Connexion'))
 		{
 			pr("redirigier");
-			$this->redirect(array('controller'=>'Connexion', 'action'=>'index'));
+		//	$this->redirect(array('controller'=>'Connexion', 'action'=>'index'));
 		}
 	}
 }
