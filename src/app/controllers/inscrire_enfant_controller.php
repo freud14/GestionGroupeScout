@@ -53,7 +53,7 @@ class InscrireEnfantController extends AppController {
 		//$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
 	}
 	
-	f
+
 	
 	function autorisation(){
 		if(array_key_exists ('precedent',$this->params['form']))

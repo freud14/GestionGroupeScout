@@ -36,7 +36,6 @@ class InscriptionConfirmationController extends AppController {
 		
 	}
 	
-
 	
 }
 ?>
