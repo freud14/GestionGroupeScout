@@ -8,6 +8,7 @@ class InscriptionAutorisationController extends AppController {
 			$this->layout = 'parent';
 			$this->loadModel('Enfant');
 			$this->loadModel('Adresse');
+			$this->loadModel('AdultesEnfant');
 			$this->loadModel('Inscription');
 			$this->loadModel('Prescription');
 			$this->loadModel('ContactUrgence');
@@ -54,7 +55,9 @@ class InscriptionAutorisationController extends AppController {
 
 
 			/**
-		 *Enregistrement d'un enfant 
+		 * Enregistrement d'un enfant
+		 * @todo Fait en conséquence qu'on n'a pas le temps de faire un compte sans enfant, cette fonction
+		 * N'est  pas gérée, l'enfant créer appartient automatiquement à la personne connecter qui l'inscrit (EnfantsAdulte)
 		 * @return void
 		 */
 		private function _ajoutEnfant(){
@@ -67,37 +70,55 @@ class InscriptionAutorisationController extends AppController {
 			$this->Adresse->create();
 			$this->ContactUrgence->create();
 			$this->FicheMedicale->create();
-			
+
+
+			//convertie le sexe en integer,  puisque la session le garde en string et que la bd est integer
+			if( $this->Session->read('info_gen.InformationGenerale.sexe') == 'M'){
+				$sexe = 1;
+			} else{
+				$sexe = 2;
+			}
 			//Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
 			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
-			pr($annee);
-
+			echo 'inb4 if';
 				//Enregistrement des données dans la base de données
-				if (($this->Enfant->save(array('nom' => $this->Session->read('info_gen.InformationGeneral.nom'), 
-											'prenom' => $this->Session->read('info_gen.InformationGeneral.prenom'),
-											'date_de_naissance' => array($this->Session->read('info_gen.InformationGeneral.date_de_naissance.day'),
-												$this->Session->read('info_gen.InformationGeneral.date_de_naissance.month'),
-												$this->Session->read('info_gen.InformationGeneral.date_de_naissance.year')),
+				if (($this->Enfant->save(array('nom' => $this->Session->read('info_gen.InformationGenerale.nom'), 
+											'prenom' => $this->Session->read('info_gen.InformationGenerale.prenom'),
+											'date_naissance' => array($this->Session->read('info_gen.InformationGenerale.date_de_naissance.day'),
+												$this->Session->read('info_gen.InformationGenerale.date_de_naissance.month'),
+												$this->Session->read('info_gen.InformationGenerale.date_de_naissance.year')),
 											'adresse_id' => $this->Adresse->id,
-											'no_ass_maladie' => $this->Session->read('info_gen.InformationGeneral.assurance_maladie'),
-											'sexe' => $this->Session->read('info_gen.InformationGeneral.sexe'),
-											'particularite_jeunes' => $this->Session->read('info_gen.InformationGeneral.particularite')))) &&
-							($this->Adresse->save(array('adresses' => $this->Session->read('info_gen.InformationGeneral.adresse'),
-											'ville' => $this->Session->read('info_gen.InformationGeneral.ville'),
-											'code_postal' => $this->Session->read('info_gen.InformationGeneral.code_postal')))) &&
+											'no_ass_maladie' => $this->Session->read('info_gen.InformationGenerale.assurance_maladie'),
+											'sexe' => $sexe,
+											'particularite_jeunes' => $this->Session->read('info_gen.InformationGenerale.particularite')))) &&
+							($this->Adresse->save(array('adresses' => $this->Session->read('info_gen.InformationGenerale.adresse'),
+											'ville' => $this->Session->read('info_gen.InformationGenerale.ville'),
+											'code_postal' => $this->Session->read('info_gen.InformationGenerale.code_postal')))) &&
+							($this->AdultesEnfant->save(array('adulte_id' =>  $this->Session->read('authentification.id_compte'),
+											'enfant_id' => $this->Enfant->id))) &&		
 							($this->Inscription->save(array('enfant_id' => $this->Enfant->id, 
-											'groupe_age_id' => $this->Session->read('info_gen.InformationGeneral.groupe_age'),
+											'groupe_age_id' => $this->Session->read('info_gen.InformationGenerale.groupe_age'),
 											'date_inscription' => DboSource::expression('NOW()'),
 											'annee_id' => $annee['Annee']['id'],
 											'autorisation_photo' => $this->data['Autorisation']['autorisation_photo'],
 											'autorisation_baignade' => $this->data['Autorisation']['autorisation_baignade']))) &&
-							($this->ContactUrgence->save(array('adulte_id' =>  $this->Session->read('authentification.Adulte.id'),
-											'enfant_id' => $this->Enfant->id,
-											'lien' => $this->Session->read('info_gen.InformationGeneral.lien_jeune_urgence')))) &&
 							($this->FicheMedicale->save(array('enfant_id' => $this->Enfant->id,
 											'allergie' => $this->Session->read('fiche_med.InscriptionFicheMed.allergie'),
 											'phobie' => $this->Session->read('fiche_med.InscriptionFicheMed.peur'))))){
 
+
+							echo 'contact';
+							//Contact d'urgence si il existe, on doit mettre la variable session dans un tableau sinon on ne peut pas savoir s'il est vide
+						    $contactUrgence = (array)$this->Session->read('info_gen.InformationGenerale.lien_jeune_urgence');
+							
+							if (!empty($contactUrgence)){
+
+								$this->ContactUrgence->save(array('adulte_id' =>  $this->Session->read('authentification.id_compte'),
+															'enfant_id' => $this->Enfant->id,
+															'lien' => $this->Session->read('info_gen.InformationGenerale.lien_jeune_urgence')));
+							}
+	
+							echo 'prescription';
 							// Pour vérifier le read, on doit le mettre dans une variable avant
 							$prescription = array();
 							$prescription = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.prescription'));
@@ -105,8 +126,9 @@ class InscriptionAutorisationController extends AppController {
 								$this->Prescription->create();
 								$this->Prescription->save(array('posologie' => $this->Session->read('fiche_med.InscriptionFicheMed.prescription'),
 													'fiche_medicale_id' => $this->FicheMedicale->id));
-							}					
+							}				
 
+							echo 'fichemedmalady';
 							//combine les tableaux d'antécédant
 							$antecedent = array();
 							
@@ -120,6 +142,7 @@ class InscriptionAutorisationController extends AppController {
 								}
 							}									
 							
+							echo 'medicament';
 							$medicament = array();
 							$medicament = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.medicamentautoriseLab'));
 							
