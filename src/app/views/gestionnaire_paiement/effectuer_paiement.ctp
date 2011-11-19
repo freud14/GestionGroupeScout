@@ -83,28 +83,28 @@ $(document).ready(function() {
 ?>
 </table>
 <p>
-Montant total: <span id="total">0</span> <?php echo $locale['currency_symbol']; ?>
+<?php __('Montant total:'); ?> <span id="total">0</span> <?php echo $locale['currency_symbol']; ?>
 </p>
 <div style="float:left;">
 <?php
-	echo $form->radio('mode', array(2 => 'Je vais payer l\'inscription complète en ligne'), array('legend' => false, 'value' => false));
+	echo $form->radio('mode', array(2 => __('Je vais payer l\'inscription complète en ligne', true)), array('legend' => false, 'value' => false));
 ?>
 <br />
 <?php
-	echo $form->radio('mode', array(5 => 'Je vais payer l\'inscription par paiements différés en ligne'), array('legend' => false, 'value' => false));
+	echo $form->radio('mode', array(5 => __('Je vais payer l\'inscription par paiements différés en ligne', true)), array('legend' => false, 'value' => false));
 ?>
 <br />
 <?php
-	echo $form->radio('mode', array(1 => 'Je vais payer l\'inscription complète en argent comptant et en main propre'), array('legend' => false, 'value' => false));
+	echo $form->radio('mode', array(1 => __('Je vais payer l\'inscription complète en argent comptant et en main propre', true)), array('legend' => false, 'value' => false));
 ?>
 </div>
 <div style="float:right;">
 <?php
-	echo $form->radio('mode', array(4 => 'Je vais payer l\'inscription via chèques postdatés'), array('legend' => false, 'value' => false));
+	echo $form->radio('mode', array(4 => __('Je vais payer l\'inscription via chèques postdatés', true)), array('legend' => false, 'value' => false));
 ?>
 <br />
 <?php
-	echo $form->radio('mode', array(3 => 'Je vais payer l\'inscription via chèque'), array('legend' => false, 'value' => false));
+	echo $form->radio('mode', array(3 => __('Je vais payer l\'inscription via chèque', true)), array('legend' => false, 'value' => false));
 ?>
 </div>
 <div style="clear:both;">

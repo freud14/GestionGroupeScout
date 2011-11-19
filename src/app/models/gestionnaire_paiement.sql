@@ -3,7 +3,7 @@
 */
 SELECT
 	CONCAT(enfants.prenom, " ", enfants.nom) AS enfant_nom,
-	IF(paiement_types.nom = 'Credit', paiement_types.type_carte, paiement_types.nom) AS type_paiement,
+	paiement_types.nom AS type_paiement,
 	SUM(COALESCE(paiements.montant, 0)) AS montant_paye,
 	versements.montant AS montant_total,
 	IF(SUM(COALESCE(paiements.montant, 0)) = versements.montant, 1, 0) AS statut,
@@ -14,7 +14,7 @@ SELECT
 		FROM 
 			versements prochain_versement 
 		WHERE 
-			prochain_versement.date > MAX(paiements.date_paiements)),
+			prochain_versement.date > COALESCE(MAX(paiements.date_paiements), 0)),
 		NULL) AS prochain_paiement
 FROM
 	inscriptions
@@ -26,13 +26,13 @@ FROM
 					ON adultes_enfants.adulte_id = adultes.id
 					JOIN comptes
 						ON 	adultes.compte_id = comptes.id /*AND
-							comptes_id = $id_compte*/
+							comptes_id = '.intval($id_compte).'*/
 		LEFT JOIN factures
 			ON inscriptions.id = factures.inscription_id
 			LEFT JOIN paiements
 				ON factures.id = paiements.facture_id
-				LEFT JOIN paiement_types
-					ON paiements.paiement_type_id = paiement_types.id
+			LEFT JOIN paiement_types
+				ON factures.paiement_type_id = paiement_types.id
 			LEFT JOIN frateries
 				ON factures.fraterie_id = frateries.id
 				LEFT JOIN versements
@@ -49,9 +49,12 @@ WHERE
 GROUP BY
 	enfants.prenom,
 	enfants.nom,
-	paiement_types.nom, 
-	paiement_types.type_carte,
-	versements.montant;
+	paiement_types.nom,
+	versements.montant,
+	inscriptions.date_fin,
+	inscriptions.annee_id
+ORDER BY
+	frateries.position;
 
 /*
 	Permet de trouver la grille des prix.
@@ -61,7 +64,9 @@ SELECT
 	versements.date,
 	versements.montant,
 	versements.position,
-	nb_versements.nb_versements
+	nb_versements.nb_versements,
+	frateries.id as frateries_id,
+	nb_versements.id as nb_versements_id
 FROM	
 	versements
 		JOIN frateries
