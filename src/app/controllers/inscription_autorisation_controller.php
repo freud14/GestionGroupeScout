@@ -6,10 +6,11 @@ class InscriptionAutorisationController extends AppController {
 	function beforeFilter(){
 			parent::beforeFilter();
 			$this->layout = 'parent';
-			$this->loadModel('Compte');
-			$this->loadModel('Adulte');
-			$this->loadModel('AdultesImplication');
-			$this->loadModel('Implication');
+			$this->loadModel('Enfant');
+			$this->loadModel('Adresse');
+			$this->loadModel('Inscription');
+			$this->loadModel('Prescription');
+			$this->loadModel('ContactUrgence');
 			$this->loadModel('Annee');
 			$this->loadModel('FicheMedicale');
 			$this->loadModel('FicheMedicalesMalady');
@@ -25,12 +26,11 @@ class InscriptionAutorisationController extends AppController {
  		{
 			$this->redirect(array('controller'=>'inscription_fiche_med', 'action'=>'index'));
 			
-		}elseif( array_key_exists ('accepter',$this->params['form']))
- 		{
+		}elseif( array_key_exists ('accepter',$this->params['form'])){
  		//si le bouton suivant est cliqué
  			//pr($this->params['data']);
  			$this -> Session -> write("session", $this->params['data']);
- 			$this->redirect(array('controller'=>'inscription_confirmation', 'action'=>'index'));
+ 			//$this->redirect(array('controller'=>'inscription_confirmation', 'action'=>'index'));
 		}
 	
 	}
@@ -69,7 +69,8 @@ class InscriptionAutorisationController extends AppController {
 			$this->FicheMedicale->create();
 			
 			//Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
-			$annee = $this->Annee->find('first', array('conditions' => array('annee.date_fin' => null)));
+			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
+			pr($annee);
 
 				//Enregistrement des données dans la base de données
 				if (($this->Enfant->save(array('nom' => $this->Session->read('info_gen.InformationGeneral.nom'), 
@@ -138,7 +139,7 @@ class InscriptionAutorisationController extends AppController {
 
 				} else {
 					//$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
-					echo  'jambin' ;
+					echo  'jambon' ;
 				}
 			} 
 	}

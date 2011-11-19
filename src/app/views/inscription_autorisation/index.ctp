@@ -1,7 +1,6 @@
 <?php 
 
-	echo $form->create('Autorisation', array('action' => 'index')); 
-	
+	echo $form->create('Autorisation', array('url' => array('controller' => 'InscriptionAutorisation', 'action' => 'index')));
 	
 	echo $form->label('champsobligatoires',__('Les champs suivis d\'une étoile (*) sont obligatoires',true));
 	echo '<h3>' .__('Autorisation des baignades',true). '</h3>';

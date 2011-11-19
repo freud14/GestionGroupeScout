@@ -80,7 +80,7 @@ class InscrireAdulteController extends AppController {
 					 $this->redirect(array('controller' => 'InformationGenerale', 'action' => 'index'));
 
  				}elseif( array_key_exists ('accueil',$this->params['form'])){
-					$this->redirect('http://www.102e.org/membres.html');
+					$this->redirect(array('controller' => 'Connexion', 'action' => 'index'));
 				}
  	
 		}
