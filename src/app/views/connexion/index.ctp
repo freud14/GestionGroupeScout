@@ -16,7 +16,7 @@
 		echo $erreur;
 	}
 
-    	echo $form->button('Annuler', array('type'=>'submit','name' => 'annuler'));
+    //	echo $form->button('Annuler', array('type'=>'submit','name' => 'annuler'));
 	echo $form->button('Connexion', array('type'=>'submit','name' => 'connexion'));
 	echo $form->end();
 ?>
