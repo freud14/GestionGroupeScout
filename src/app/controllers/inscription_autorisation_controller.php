@@ -78,15 +78,18 @@ class InscriptionAutorisationController extends AppController {
 			} else{
 				$sexe = 2;
 			}
+
+
 			//Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
 			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
 			echo 'inb4 if';
 				//Enregistrement des données dans la base de données
 				if (($this->Enfant->save(array('nom' => $this->Session->read('info_gen.InformationGenerale.nom'), 
 											'prenom' => $this->Session->read('info_gen.InformationGenerale.prenom'),
-											'date_naissance' => array($this->Session->read('info_gen.InformationGenerale.date_de_naissance.day'),
-												$this->Session->read('info_gen.InformationGenerale.date_de_naissance.month'),
-												$this->Session->read('info_gen.InformationGenerale.date_de_naissance.year')),
+											'date_naissance' => date('Y/M/d', strotime($this->Session->read('info_gen.InformationGenerale.date_de_naissance.year').
+												'/'. $this->Session->read('info_gen.InformationGenerale.date_de_naissance.month')
+															.'/'. $this->Session->read('info_gen.InformationGenerale.date_de_naissance.day')
+															)),
 											'adresse_id' => $this->Adresse->id,
 											'no_ass_maladie' => $this->Session->read('info_gen.InformationGenerale.assurance_maladie'),
 											'sexe' => $sexe,
