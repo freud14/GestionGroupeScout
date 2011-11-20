@@ -1,4 +1,4 @@
-<?php echo $form->create(null); //, array('action' => 'fiche_medicale'));  ?>
+<?php echo $form->create(null); //, array('action' => 'fiche_medicale'));   ?>
 <table>
 	<tr>
 		<td>
@@ -72,9 +72,9 @@
 
 			<h3>Informations scolaires</h3>
 
-<?php
-echo $form->input('etab_scolaire', array('value' => $session['etab_scolaire'], 'label' => array('class' => 'element', 'text' => __('Nom de l\'établissement scolaire', true) . ' <span class="star">*</span>')));
-?>
+			<?php
+			echo $form->input('etab_scolaire', array('value' => $session['etab_scolaire'], 'label' => array('class' => 'element', 'text' => __('Nom de l\'établissement scolaire', true) . ' <span class="star">*</span>')));
+			?>
 
 			<?php
 			// NE se garde pas
@@ -103,9 +103,9 @@ echo $form->input('etab_scolaire', array('value' => $session['etab_scolaire'], '
 		</td>
 		<td>
 			<h3>Autre parent ou tuteur</h3>
-<?php
-echo $form->input('nom_tuteur', array('value' => $session['nom_tuteur'], 'label' => array('class' => 'element', 'text' => __('Nom', true))));
-?>
+			<?php
+			echo $form->input('nom_tuteur', array('value' => $session['nom_tuteur'], 'label' => array('class' => 'element', 'text' => __('Nom', true))));
+			?>
 
 			<?php
 			echo $form->input('prenom_tuteur', array('value' => $session['prenom_tuteur'], 'label' => array('class' => 'element', 'text' => __('Prénom', true))));
@@ -168,10 +168,10 @@ echo $form->input('nom_tuteur', array('value' => $session['nom_tuteur'], 'label'
 	</tr>
 </table>
 <div style="text-align:right">
-<?php
-echo $form->button('Annuler', array('type' => 'submit', 'name' => 'annuler'));
-echo $form->button('Étape suivante', array('type' => 'submit', 'name' => 'suivant'));
-echo $form->end();
-?>
+	<?php
+	echo $form->button(__('Annuler', true), array('type' => 'submit', 'name' => 'annuler'));
+	echo $form->button(__('Étape suivante', true), array('type' => 'submit', 'name' => 'suivant'));
+	echo $form->end();
+	?>
 </div>
 

@@ -1,16 +1,36 @@
 <?php
 
+/**
+ * Cette classe gère la page des informations générales 
+ * pour l'inscription.
+ */
 class InformationGeneraleController extends AppController {
-
+	
+	/**
+	 * Le nom du contrôleur
+	 * @var type string
+	 */
 	var $name = 'InformationGenerale';
+	
+	/**
+	 * Les différents Helpers utilisés par le contrôleur et la vue.
+	 * @var type array
+	 */
 	var $helpers = array("Html", 'Form');
 
+	/**
+	 * Cette méthode initialise le contrôleur.
+	 */
 	function beforeFilter() {
 		parent::beforeFilter();
 		$this->layout = 'parent';
 		setlocale(LC_ALL, 'fr_CA.utf8');
 	}
 
+	/**
+	 * Cette méthode gère la navigation de la page vers
+	 * les étapes suivantes de l'inscription.
+	 */
 	function navigation() {
 
 		if (array_key_exists('suivant', $this->params['form'])) {
@@ -21,7 +41,7 @@ class InformationGeneraleController extends AppController {
 			//if($this->InformationGenerale->validates()) 
 			//{
 			//si les champs sont bien remplits	
-			$this->redirect(array('controller' => 'inscription_fiche_med', 'action' => 'index'));
+				$this->redirect(array('controller' => 'inscription_fiche_med', 'action' => 'index'));
 			//}	
 		} elseif (array_key_exists('annuler', $this->params['form'])) {
 
@@ -29,9 +49,11 @@ class InformationGeneraleController extends AppController {
 		}
 	}
 
+	/**
+	 * Cette méthode initialise et gère la page des 
+	 * informations générales.
+	 */
 	function index() {
-
-
 		$this->Session->write("url", $this->params['url']);
 		if (empty($this->data)) {
 			//Si ce n'est pas la page qui renvoit vers elle même

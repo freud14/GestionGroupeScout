@@ -1,10 +1,26 @@
 <?php
 
+/**
+ * Cette classe gère la gestion des paiements pour
+ * les parents.
+ */
 class GestionnairePaiementController extends AppController {
 
+	/**
+	 * Le nom du contrôleur
+	 * @var type string
+	 */
 	var $name = 'GestionnairePaiement';
+
+	/**
+	 * Les différents Helpers utilisés par le contrôleur et la vue.
+	 * @var type array
+	 */
 	var $helpers = array("Html", 'Form');
 
+	/**
+	 * Cette méthode initialise le contrôleur.
+	 */
 	function beforeFilter() {
 		parent::beforeFilter();
 		$this->layout = 'parent';
@@ -12,6 +28,14 @@ class GestionnairePaiementController extends AppController {
 		$this->set('title_for_layout', __('Gestionaire de paiements', true));
 	}
 
+	/**
+	 * Cette méthode sert à afficher le statut du paiement
+	 * d'un parent. Par défaut, les enfants du parent courrant
+	 * sont affichés. Si l'utilisateur actuel est un administrateur
+	 * et qu'un id est envoyé, les enfants du parent dont l'id
+	 * est envoyé sont affichés.
+	 * @param type $id L'id de l'adulte
+	 */
 	function index($id = NULL) {
 		if ($id == NULL) {
 			$this->set('titre', __('Gestionaire de paiements', true));
@@ -30,17 +54,19 @@ class GestionnairePaiementController extends AppController {
 		}
 	}
 
+	/**
+	 * Cette méthode sert à initialiser et à gérer le
+	 * paiement d'un membre. Par contre, elle ne permet pas
+	 * de spécifier la date de réception et de paiement
+	 * ce qui doit se faire par un administrateur.
+	 */
 	function effectuer_paiement() {
 		$this->set('titre', __('Effectuer un paiement', true));
 		$this->set('ariane', __('Gestionaire de paiements > Effectuer un paiement', true));
 
 		$id_adulte = 1;
 
-		//$this->loadModel('Versement');
-		//$versements = $this->Versement->find('all', array('conditions' => 'NbVersement.nb_versements = 1'/*, 'recursive' => 2*/,'order' => array('Fraterie.position', 'Versement.position')));
-
 		$versements = $this->GestionnairePaiement->getTarifs();
-		//pr($versements);
 
 		$nb_inscription_paye = $this->GestionnairePaiement->getNbInscriptionPayé($id_adulte);
 		$inscriptions = $this->GestionnairePaiement->getInscriptionNonPayé($id_adulte);
@@ -110,13 +136,13 @@ class GestionnairePaiementController extends AppController {
 
 			//On redirige l'utilisateur vers le gestionnaire des paiements
 			$this->redirect(array('controller' => 'gestionnaire_paiement', 'action' => 'index'));
-		}
-		//else {
-		$this->set('versements', $versements);
+			
+		} else {
+			$this->set('versements', $versements);
 
-		$this->set('nb_inscription_paye', $nb_inscription_paye);
-		$this->set('inscriptions', $inscriptions);
-		//}
+			$this->set('nb_inscription_paye', $nb_inscription_paye);
+			$this->set('inscriptions', $inscriptions);
+		}
 	}
 
 }

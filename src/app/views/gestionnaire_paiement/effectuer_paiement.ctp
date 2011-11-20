@@ -28,6 +28,7 @@ $locale = localeconv();
 <h3>Liste des enfants</h3>
 <script>
 	var versements = [<?php
+		//On affiche chacun des versements dans le tableau javascript
 		$count = count($versements);
 		$i = 0;
 		foreach ($versements as $versement) {
@@ -39,7 +40,7 @@ $locale = localeconv();
 		}
 		?>];
 
-					var nbEnfant = <?php echo $nb_inscription_paye; ?>;
+					var nbEnfant = <?php echo $nb_inscription_paye; //On assigne la variable JS au nombre d'inscription déjà payé. ?>;
 
 					$(document).ready(function() {
 						$(".inscription").click(function() {
@@ -73,21 +74,25 @@ $locale = localeconv();
 	</tr>
 	<?php
 	echo $this->Form->create(null);
-	//$tab = array();
 	foreach ($inscriptions as $inscription) {
 		echo '<tr>';
 		echo '<td>' . $inscription['Enfant']['prenom'] . ' ' . $inscription['Enfant']['nom'] . '</td>';
 		echo '<td style="text-align:center;">' . $this->Form->checkbox('inscription' . $inscription['Inscription']['id'], array('value' => $inscription['Inscription']['id'], 'class' => 'inscription')) . '</td>';
 		echo '</tr>';
-		//$tab[$inscription['Inscription']['id']] = ''; //$inscription['Enfant']['prenom'].' '.$inscription['Enfant']['nom'];
 	}
-	//echo $this->Form->input('inscriptions', array('type' => 'select', 'multiple' => 'checkbox', 'options' => $tab,'label' => false));
 	?>
 </table>
 <p>
 	<?php __('Montant total:'); ?> <span id="total">0</span> <?php echo $locale['currency_symbol']; ?>
 </p>
 <div style="float:left;">
+	<?php 
+	/*
+	 * Les IDs des différents types de paiement sont relatifs 
+	 * à la base de données. Ils sont donc statiques dans la 
+	 * base de données et ne doivent pas être changés.
+	 */
+	?>
 	<?php
 	echo $form->radio('mode', array(2 => __('Je vais payer l\'inscription complète en ligne', true)), array('legend' => false, 'value' => false));
 	?>
