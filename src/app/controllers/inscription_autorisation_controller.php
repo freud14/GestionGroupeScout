@@ -80,16 +80,23 @@ class InscriptionAutorisationController extends AppController {
 			}
 
 
+			echo date('Y-m-d', (strtotime($this->Session->read('info_gen.InformationGenerale.date_de_naissance.year').
+											 $this->Session->read('info_gen.InformationGenerale.date_de_naissance.month').
+														 $this->Session->read('info_gen.InformationGenerale.date_de_naissance.day')
+															)));
+			pr( $this->data['Autorisation']['autorisation_baignade'][0]);
+
 			//Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
 			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
 			echo 'inb4 if';
 				//Enregistrement des données dans la base de données
 				if (($this->Enfant->save(array('nom' => $this->Session->read('info_gen.InformationGenerale.nom'), 
 											'prenom' => $this->Session->read('info_gen.InformationGenerale.prenom'),
-											'date_naissance' => date('Y/M/d', strotime($this->Session->read('info_gen.InformationGenerale.date_de_naissance.year').
-												'/'. $this->Session->read('info_gen.InformationGenerale.date_de_naissance.month')
-															.'/'. $this->Session->read('info_gen.InformationGenerale.date_de_naissance.day')
-															)),
+											'date_naissance' => date('Y-m-d', (strtotime(
+											 	$this->Session->read('info_gen.InformationGenerale.date_de_naissance.year').
+											 	$this->Session->read('info_gen.InformationGenerale.date_de_naissance.month').
+												$this->Session->read('info_gen.InformationGenerale.date_de_naissance.day')
+															))),
 											'adresse_id' => $this->Adresse->id,
 											'no_ass_maladie' => $this->Session->read('info_gen.InformationGenerale.assurance_maladie'),
 											'sexe' => $sexe,
@@ -103,8 +110,8 @@ class InscriptionAutorisationController extends AppController {
 											'groupe_age_id' => $this->Session->read('info_gen.InformationGenerale.groupe_age'),
 											'date_inscription' => DboSource::expression('NOW()'),
 											'annee_id' => $annee['Annee']['id'],
-											'autorisation_photo' => $this->data['Autorisation']['autorisation_photo'],
-											'autorisation_baignade' => $this->data['Autorisation']['autorisation_baignade']))) &&
+											'autorisation_photo' => $this->data['Autorisation']['autorisation_photo'][0],
+											'autorisation_baignade' => $this->data['Autorisation']['autorisation_baignade'][0]))) &&
 							($this->FicheMedicale->save(array('enfant_id' => $this->Enfant->id,
 											'allergie' => $this->Session->read('fiche_med.InscriptionFicheMed.allergie'),
 											'phobie' => $this->Session->read('fiche_med.InscriptionFicheMed.peur'))))){
