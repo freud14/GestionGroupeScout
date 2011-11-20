@@ -54,7 +54,7 @@ class ConnexionController extends AppController {
 			
 			
 			
-			pr($this -> data);
+			//pr($this -> data);
 			if (!empty($this->data))
 			{
 				

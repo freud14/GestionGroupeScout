@@ -15,6 +15,9 @@ class ListeUniteController extends AppController {
 			$this->layout = 'admin';
 			$this->loadModel('Unite');
 			$this->loadModel('Enfant');
+			$this->loadModel('Adulte');
+			$this->loadModel('Compte');
+			//$this->loadModel('autorisation_Compte');
 		}
 
 
@@ -24,51 +27,86 @@ class ListeUniteController extends AppController {
 		 * @todo  faire l'exportation excel
 		 */
 		 public function index() {
+	
+			
 			$this->set('titre','Liste des unités');
 			$this->set('ariane', __('<span style="color: green;">Liste </span> > Liste des unités', true));
 			$this->set('title_for_layout', __('Liste des unités', true));
-
-			//Change la requête selon la sélection dans le droplist d'affichage, elle affiche les tableaux
-		 	if (!empty($this->data['ListeUnite'])){
-
-				if($this->data['ListeUnite']['Afficher'] == "0"){
-					$unite = $this->Unite->find('all', array('recursive' => 2));
-				} else {
-
-					$unite = $this->Unite->find('all', array('recursive' => 2, 'conditions' => array('Unite.Id' => $this->data['ListeUnite']['Afficher'])));
-
-				}	
+			$nomUnite = $this->_listeOption('Tous');
+			//Si une valeure autre que tous a été choisie
+		 	if ((!empty($this->data['ListeUnite']))&&($this->data['ListeUnite']['Afficher'] != "0")){
+				
+					$unite = $this->Unite->find('all', array('recursive' => 2, 
+					'conditions' => array('Unite.Id' => $this->data['ListeUnite']['Afficher'],'Unite.Nom ' => $nomUnite)));
 			} else {
 
-					$unite = $this->Unite->find('all', array('recursive' => 2));
+					$unite = $this->Unite->find('all', array('recursive' => 2,'conditions' => array('Unite.Nom ' => $nomUnite)));
 			
 			}
 
-			$this->_listeOption('Tous');
+			
 			$this->set('unite', $unite);
 		}
-
+		/**
+		*Retourne l'autorisation la plus haute du compte
+		*
+		*/
+		function _getAutorisation()
+		{
+			$accesNum = null;
+			$autorisation = $this-> Session -> read('authentification.autorisation');
+			if(!empty($autorisation))
+			{
+				foreach ($autorisation as $valeur)
+				{
+					$accesNum = $valeur['id'];
+				}
+			}
+			return $accesNum;
+		}
 		/**
 		 * Définit les options pour les droplists
 		 * Donne un nom au premier élément et met le nom
 		 * des unités par la suite
 		 */
 		private function _listeOption($option1){
+			 $autorisation = $this->_getAutorisation();
 			//Permet d'afficher les éléments de la droplist
-			$droplist = $this->Unite->find('all', array('recursive' => 2));
+			$droplist = array();
 			$option = array();
-			$enfant = array();
-
 			$option[] = $option1;
-	
-		
-			foreach($droplist as $value){
 			
-				$option[$value['Unite']['id']] = $value['Unite']['nom'];		
-							
+			//s'il n'a pas d'autorisation (un parent) on le renvoit a laccueil
+			if (empty($autorisation))
+			{
+				$this->redirect(array('controller'=>'accueil', 'action'=>'index'));
 			}
-
+			//si c'est un animateur on affiche juste les unites auquel il est assigné
+			elseif ($autorisation == 1)
+			{
+			
+				$unite = $this -> Compte ->find('all',array('recursive' => 2, 
+										'conditions' => array(
+										'Compte.Id' => $this -> Session-> read('authentification.id_compte')))
+									);
+				$unite = $unite['0']['Adulte']['0']['Unite'];
+				foreach($unite as $valeur)
+				{
+					$option[$valeur['id']] = $valeur['nom'];
+				}
+			}
+			else{
+				$unite = $this->Unite->find('all');
+				foreach($unite as $valeur){
+					$option[$valeur['Unite']['id']] = $valeur['Unite']['nom'];
+				}
+				
+				
+			}
+			
+			
 			$this->set('option', $option);
+			return $option;
 
 		}
 
@@ -77,6 +115,7 @@ class ListeUniteController extends AppController {
 		 * @todo  faire l'exportation excel
 		 */
 		 public function assigner() {
+		 	
 			$this->set('titre','Assigner des jeunes dans une unité');
 			$this->set('ariane', __('<span style="color: green;">Gestion des unités </span> > Assigner un jeune', true));
 			$this->set('title_for_layout', __('Assigner un jeune', true));
@@ -86,7 +125,7 @@ class ListeUniteController extends AppController {
 			$this->_listeOption('Jeunes non assignés');
 					
 			//Cherche les enfants et vérifie s'ils ont une unité pour distinguer les jeunes non assignés et assignés
-			pr($enfant);
+			
 			
 			//Change la requête selon la sélection dans le droplist d'affichage, elle affiche les tableaux
 		 	if (!empty($this->data['Voir'])){
@@ -106,6 +145,7 @@ class ListeUniteController extends AppController {
 		 } 
 		
 }
+
 
 
 ?>
