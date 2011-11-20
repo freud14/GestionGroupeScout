@@ -1,8 +1,10 @@
 <?php
+
 class GestionnairePaiement extends AppModel {
+
 	var $name = 'GestionnairePaiement';
 	var $useTable = false;
-	
+
 	function getInscriptions($id_adulte) {
 		return $this->query('	SELECT
 						inscriptions.id,
@@ -30,7 +32,7 @@ class GestionnairePaiement extends AppModel {
 									ON adultes_enfants.enfant_id = enfants.id
 									JOIN adultes
 										ON	adultes_enfants.adulte_id = adultes.id AND
-											adultes.id = '.intval($id_adulte).'
+											adultes.id = ' . intval($id_adulte) . '
 							LEFT JOIN factures
 								ON inscriptions.id = factures.inscription_id
 								LEFT JOIN frateries
@@ -52,7 +54,7 @@ class GestionnairePaiement extends AppModel {
 					ORDER BY
 						frateries.position;');
 	}
-	
+
 	function getNbInscriptionPayé($id_adulte) {
 		$retour = $this->query('SELECT
 						COUNT(inscriptions.id) as nb_inscription_paye
@@ -64,7 +66,7 @@ class GestionnairePaiement extends AppModel {
 									ON enfants.id = adultes_enfants.enfant_id
 									JOIN adultes
 										ON	adultes_enfants.adulte_id = adultes.id AND
-											adultes.id = '.intval($id_adulte).'
+											adultes.id = ' . intval($id_adulte) . '
 							JOIN factures
 								ON factures.inscription_id = inscriptions.id
 					WHERE 
@@ -72,7 +74,7 @@ class GestionnairePaiement extends AppModel {
 						inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1);');
 		return $retour[0][0]['nb_inscription_paye'];
 	}
-	
+
 	function getInscriptionNonPayé($id_adulte) {
 		return $this->query('	SELECT
 						/* comptes.id,
@@ -89,7 +91,7 @@ class GestionnairePaiement extends AppModel {
 									ON Enfant.id = adultes_enfants.enfant_id
 									JOIN adultes
 										ON	adultes_enfants.adulte_id = adultes.id AND
-											adultes.id = '.intval($id_adulte).'
+											adultes.id = ' . intval($id_adulte) . '
 							LEFT JOIN factures
 								ON factures.inscription_id = Inscription.id
 					WHERE 
@@ -97,7 +99,7 @@ class GestionnairePaiement extends AppModel {
 						Inscription.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) AND
 						factures.id IS NULL;');
 	}
-	
+
 	function getTarifs() {
 		$versements = $this->query("SELECT
 										frateries.position,
@@ -136,16 +138,16 @@ class GestionnairePaiement extends AppModel {
 										frateries.position,
 										versements.position,
 										tarifs.versement_position;");
-		
+
 		$retour = array();
 		$fraterie_id_precedent = 0;
 		$indexActuel = -1;
-		foreach($versements as $versement) {
-			if($indexActuel == -1 || $fraterie_id_precedent != $versement['frateries']['fraterie_id']) {
+		foreach ($versements as $versement) {
+			if ($indexActuel == -1 || $fraterie_id_precedent != $versement['frateries']['fraterie_id']) {
 				$retour[] = array('Fraterie' => array('id' => $versement['frateries']['fraterie_id'], 'position' => $versement['frateries']['position']),
-								'Versement' => array('montant' => $versement['versements']['montant'], 'nb_versement_id' => $versement['nb_versements']['nb_versement_id'], 'fraterie_id' => $versement['frateries']['fraterie_id']), 
-								'NbVersement' => array('id' => $versement['nb_versements']['nb_versement_id']), 
-								'Tarifs' => array());
+					'Versement' => array('montant' => $versement['versements']['montant'], 'nb_versement_id' => $versement['nb_versements']['nb_versement_id'], 'fraterie_id' => $versement['frateries']['fraterie_id']),
+					'NbVersement' => array('id' => $versement['nb_versements']['nb_versement_id']),
+					'Tarifs' => array());
 				$fraterie_id_precedent = $versement['frateries']['fraterie_id'];
 				$indexActuel = count($retour) - 1;
 			}
@@ -155,9 +157,10 @@ class GestionnairePaiement extends AppModel {
 			$retour[$indexActuel]['Tarifs'][$indexTarif]['nb_versement_id'] = $versement['tarifs']['versement_nb_versement_id'];
 			$retour[$indexActuel]['Tarifs'][$indexTarif]['fraterie_id'] = $versement['tarifs']['versement_fraterie_id'];
 		}
-		
+
 		return $retour;
 	}
+
 }
 
 ?>
