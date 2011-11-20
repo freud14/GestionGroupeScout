@@ -1,10 +1,30 @@
 <?php
 
+/**
+ * Cette classe permet de récupérer les données
+ * de paiements des membres.
+ */
 class GestionnairePaiement extends AppModel {
 
+	/**
+	 * Le nom du modèle
+	 * @var string
+	 */
 	var $name = 'GestionnairePaiement';
+
+	/**
+	 * Booléen de CakePHP indiquant les tables 
+	 * utilisées par le modèle.
+	 * @var bool 
+	 */
 	var $useTable = false;
 
+	/**
+	 * Cette méthode retourne le statut de paiement pour
+	 * un membre.
+	 * @param int $id_adulte L'id de l'adulte du membre.
+	 * @return array Retourne les données sous forme de tableau.
+	 */
 	function getInscriptions($id_adulte) {
 		return $this->query('	SELECT
 						inscriptions.id,
@@ -55,6 +75,13 @@ class GestionnairePaiement extends AppModel {
 						frateries.position;');
 	}
 
+	/**
+	 * Cette méthode retourne le nombre d'inscription
+	 * qu'un membre s'est engagé à payer.
+	 * @param int $id_adulte L'id de l'adulte du membre.
+	 * @return int Retourne le nombre d'inscription qu'un
+	 *  membre s'est engagé à payer.
+	 */
 	function getNbInscriptionPayé($id_adulte) {
 		$retour = $this->query('SELECT
 						COUNT(inscriptions.id) as nb_inscription_paye
@@ -75,10 +102,14 @@ class GestionnairePaiement extends AppModel {
 		return $retour[0][0]['nb_inscription_paye'];
 	}
 
+	/**
+	 * Cette méthode retourne la liste des inscriptions
+	 * non payé d'un membre.
+	 * @param int $id_adulte
+	 * @return array Retourne les données sous forme de tableau.
+	 */
 	function getInscriptionNonPayé($id_adulte) {
 		return $this->query('	SELECT
-						/* comptes.id,
-						comptes.nom_utilisateur,*/
 						Enfant.id,
 						Enfant.nom,
 						Enfant.prenom,
@@ -100,6 +131,12 @@ class GestionnairePaiement extends AppModel {
 						factures.id IS NULL;');
 	}
 
+	/**
+	 * Cette méthode retourne un tableau dont la forme
+	 * est utile pour récupérer les différents versements
+	 * par rapport à la fraterie.
+	 * @return array Retourne les données sous forme de tableau. 
+	 */
 	function getTarifs() {
 		$versements = $this->query("SELECT
 										frateries.position,

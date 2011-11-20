@@ -1,12 +1,34 @@
 <?php
+
 App::import('Sanitize');
+
+/**
+ * Cette classe sert de modèle pour la gestion des
+ * paiements des membres par les administrateurs.
+ */
 class PaiementMembre extends AppModel {
+
+	/**
+	 * Le nom du modèle
+	 * @var string 
+	 */
 	var $name = 'PaiementMembre';
-	var $useTable = false;
 	
+	/**
+	 * @var bool
+	 */
+	var $useTable = false;
+
+	/**
+	 * Cette méthode récupère le statut du 
+	 * paiement de tous les membres.
+	 * @param string $recherche Critère de recherche pour les membres.
+	 * @return array Retourne le statut du paiement de tous 
+	 * les membres.
+	 */
 	function getStatutPaiementMembre($recherche = NULL) {
 		$conditions = "";
-		if($recherche != NULL) {
+		if ($recherche != NULL) {
 			$recherche = Sanitize::escape($recherche);
 			$recherche = str_replace(array("%", "_"), array("\%", "\_"), $recherche);
 			$conditions = "WHERE 
@@ -15,8 +37,8 @@ class PaiementMembre extends AppModel {
 						CONCAT(Adulte.prenom, ' ', Adulte.nom) LIKE '%$recherche%' OR 
 						CONCAT(Adulte.nom, ' ', Adulte.prenom) LIKE '%$recherche%'";
 		}
-		
-		
+
+
 		return $this->query("	SELECT
 						Adulte.id,
 						Adulte.nom,
@@ -75,27 +97,28 @@ class PaiementMembre extends AppModel {
 						Adulte.prenom,
 						Adulte.courriel,
 						Adulte.tel_maison;");
-		
-		/*$retour = array();
-		for($i = 0; $i < count($status); ++$i) {
-			$retour[] = array();
-			$retourActuel = &$retour[count($retour) - 1];
-			$retourActuel['id'] = $status[$i]['Adulte']['id'];
-			$retourActuel['nom'] = $status[$i]['Adulte']['nom'];
-			$retourActuel['prenom'] = $status[$i]['Adulte']['prenom'];
-			$retourActuel['courriel'] = $status[$i]['Adulte']['courriel'];
-			$retourActuel['tel_maison'] = $status[$i]['Adulte']['tel_maison'];
-			$retourActuel['montant_total'] = 0;
-			$retourActuel['montant_paye'] = 0;
-			while($indexActuel == $status[$i]['Adulte']['id'] && $i < count($status)) {
-				$retourActuel['montant_total'] += $status[$i][0]['montant_total'];
-				$retourActuel['montant_paye'] += $status[$i][0]['montant_paye'];
-				++$i;
-			}
-		}
-		
-		return $retour;*/
+
+		/* $retour = array();
+		  for($i = 0; $i < count($status); ++$i) {
+		  $retour[] = array();
+		  $retourActuel = &$retour[count($retour) - 1];
+		  $retourActuel['id'] = $status[$i]['Adulte']['id'];
+		  $retourActuel['nom'] = $status[$i]['Adulte']['nom'];
+		  $retourActuel['prenom'] = $status[$i]['Adulte']['prenom'];
+		  $retourActuel['courriel'] = $status[$i]['Adulte']['courriel'];
+		  $retourActuel['tel_maison'] = $status[$i]['Adulte']['tel_maison'];
+		  $retourActuel['montant_total'] = 0;
+		  $retourActuel['montant_paye'] = 0;
+		  while($indexActuel == $status[$i]['Adulte']['id'] && $i < count($status)) {
+		  $retourActuel['montant_total'] += $status[$i][0]['montant_total'];
+		  $retourActuel['montant_paye'] += $status[$i][0]['montant_paye'];
+		  ++$i;
+		  }
+		  }
+
+		  return $retour; */
 	}
+
 }
 
 ?>
