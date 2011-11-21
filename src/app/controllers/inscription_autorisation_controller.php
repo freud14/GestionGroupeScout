@@ -101,25 +101,25 @@ class InscriptionAutorisationController extends AppController {
 						'no_ass_maladie' => $this->Session->read('info_gen.InformationGenerale.assurance_maladie'),
 						'sexe' => $this->Session->read('info_gen.InformationGenerale.sexe'),
 						'particularite_jeunes' => $this->Session->read('info_gen.InformationGenerale.particularite')))) &&
-					/*($this->AdultesEnfant->save(array('adulte_id' => $adulte['Adulte']['id'],
+					($this->AdultesEnfant->save(array('adulte_id' => $adulte['Adulte']['id'],
 						'enfant_id' => $this->Enfant->id))) &&
 					($this->Inscription->save(array('enfant_id' => $this->Enfant->id,
 						'groupe_age_id' => $this->Session->read('info_gen.InformationGenerale.groupe_age'),
 						'date_inscription' => DboSource::expression('NOW()'),
 						'annee_id' => $annee['Annee']['id'],
 						'autorisation_photo' => $photo,
-						'autorisation_baignade' => $baignade))) &&*/
+						'autorisation_baignade' => $baignade))) &&
 					($this->FicheMedicale->save(array('enfant_id' => $this->Enfant->id,
 						'allergie' => $this->Session->read('fiche_med.InscriptionFicheMed.allergie'),
-						'phobie' => $this->Session->read('fiche_med.InscriptionFicheMed.peur')))) /*&&
+						'phobie' => $this->Session->read('fiche_med.InscriptionFicheMed.peur')))) &&
 					($this->InformationScolaire->save(array('enfant_id' => $this->Enfant->id,
 						'nom_ecole' => $this->Session->read('info_gen.InformationGenerale.etab_scolaire'),
 						'niveau_scolaire' => $this->Session->read('info_gen.InformationGenerale.niveau_scolaire'),
-						'nom_enseignant' => $this->Session->read('info_gen.InformationGenerale.enseignant'))))*/) {
+						'nom_enseignant' => $this->Session->read('info_gen.InformationGenerale.enseignant'))))) {
 
 
 
-				/*//Contact d'urgence si il existe, on doit mettre la variable session dans un tableau sinon on ne peut pas savoir s'il est vide
+				//Contact d'urgence si il existe, on doit mettre la variable session dans un tableau sinon on ne peut pas savoir s'il est vide
 				$contactUrgence = (array) $this->Session->read('info_gen.InformationGenerale.lien_jeune_urgence');
 				if (!empty($contactUrgence)) {
 
@@ -136,46 +136,25 @@ class InscriptionAutorisationController extends AppController {
 					$this->Prescription->create();
 					$this->Prescription->save(array('posologie' => $this->Session->read('fiche_med.InscriptionFicheMed.prescription'),
 						'fiche_medicale_id' => $this->FicheMedicale->id));
-				}*/
+				}
 				
+				//combine les tableaux d'antécédant
 				$antecedant = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent1'), (array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent2'), (array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent3'));
 				for($i = 0; $i < count($antecedant); ++$i) {
 					if($antecedant[$i] != '') {
-						$this->FicheMedicale->FicheMedicalesMalady->create();
-						$this->FicheMedicale->FicheMedicalesMalady->save(array('fiche_medicale_id' => $this->FicheMedicale->id, 'maladie_id' => $antecedant[$i]));
-					}
-				}
-				/*$this->loadModel('Maladie');
-				$antecedant = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent1'), (array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent2'), (array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent3'));
-				$antecedantInsert = array();
-				for($i = 0; $i < count($antecedant); ++$i) {
-					if($antecedant[$i] != '') {
-						$this->Maladie->id = $antecedant[$i];
-						$antecedantInsert[] = $this->Maladie->read();
-					}
-				}
-				$antecedantInsert = array('FicheMedicale' => $this->FicheMedicale->read(), 'Maladie' => $antecedantInsert);
-				pr($antecedantInsert);
-				$this->FicheMedicale->saveAll($antecedantInsert);*/
-				
-				/*//combine les tableaux d'antécédant
-				$antecedant = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent1'), (array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent2'), (array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent3'));
-				//Si le tableau combiné n'est pas vide, créer les instances de FicheMedicalMalady nécessaire
-				if (!empty($antecedant)) {
-					foreach ($antecedant as $valeur) {
 						$this->FicheMedicalesMalady->create();
-						$this->FicheMedicalesMalady->saveAll(array('maladie_id' => $valeur, 'fiche_medicale_id' => $this->FicheMedicale->id));
+						$this->FicheMedicalesMalady->save(array('fiche_medicale_id' => $this->FicheMedicale->id, 'maladie_id' => $antecedant[$i]));
 					}
-				}*/
+				}
 
-				/*$medicament = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.medicamentautoriseLab'));
+				$medicament = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.medicamentautoriseLab'));
 				//Si le tableau combiné n'est pas vide, créer les instances de FicheMedicalMedicament nécessaire
 				if (!empty($medicament)) {
 					foreach ($medicament as $valeur) {
 						$this->FicheMedicalesMedicament->create();
 						$this->FicheMedicalesMedicament->save(array('medicament_id' => $valeur, 'fiche_medicale_id' => $this->FicheMedicale->id));
 					}
-				}*/
+				}
 
 				//Si l'enregistrement a bien été fait, affiche le bon messasge
 				$this->Session->setFlash(__('Inscription terminée', true));
