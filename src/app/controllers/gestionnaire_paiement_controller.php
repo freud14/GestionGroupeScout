@@ -123,7 +123,7 @@ class GestionnairePaiementController extends AppController {
 			$this->loadModel('Paiement');
 			foreach ($inscriptionAPayer as $idInscription => $versement) {
 				$this->Facture->create();
-				$insert = array('no_facture' => 'a', 'date_facturation' => DboSource::expression('NOW()'), 'inscription_id' => $idInscription, 'nb_versement_id' => $versement[0]['nb_versement_id'], 'fraterie_id' => $versement[0]['fraterie_id'], 'paiement_type_id' => $idModePaiement);
+				$insert = array('no_facture' => 'a', 'date_facturation' => DboSource::expression('NOW()'), 'inscription_id' => $idInscription, 'nb_versement_id' => $versement[0]['nb_versement_id'], 'fraterie_id' => $versement[0]['fraterie_id']);
 				$this->Facture->save($insert);
 
 				$idFacture = $this->Facture->id;
