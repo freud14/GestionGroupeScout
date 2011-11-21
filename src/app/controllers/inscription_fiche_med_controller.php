@@ -44,8 +44,8 @@ class InscriptionFicheMedController extends AppController {
 		
 			
  			
-			 $urlProvenance = $this -> Session -> read('url');
-			 $this -> Session -> write("url", $this->params['url']);
+			// $urlProvenance = $this -> Session -> read('url');
+			// $this -> Session -> write("url", $this->params['url']);
 			 
 			if ( array_key_exists ('precedent',$this->params['form']))
  			{
@@ -68,7 +68,7 @@ class InscriptionFicheMedController extends AppController {
 						
 		}
 		public function index() {
-		pr($this -> Session -> read());
+		//pr($this -> Session -> read());
 		//	$this -> validerConnexion();
 			
 			if (empty($this->data)) 
@@ -92,7 +92,7 @@ class InscriptionFicheMedController extends AppController {
 			}else{
 			//c'est la page elle même qui s'apelle
     				$this -> Session -> write("fiche_med", $this->params['data']);
-    				$this -> Session -> write("url", $this->params['url']);
+    				//$this -> Session -> write("url", $this->params['url']);
     				$this->navigation();
     				$session = $this -> Session -> read('fiche_med.InscriptionFicheMed');
 				
