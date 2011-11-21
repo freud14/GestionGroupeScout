@@ -14,10 +14,9 @@ class ListeUniteController extends AppController {
 			parent::beforeFilter();
 			$this->layout = 'admin';
 			$this->loadModel('Unite');
-			$this->loadModel('Enfant');
+			$this->loadModel('Inscription');
 			$this->loadModel('Adulte');
 			$this->loadModel('Compte');
-			//$this->loadModel('autorisation_Compte');
 		}
 
 
@@ -44,7 +43,6 @@ class ListeUniteController extends AppController {
 			
 			}
 
-			
 			$this->set('unite', $unite);
 		}
 		/**
@@ -87,7 +85,6 @@ class ListeUniteController extends AppController {
 			//si c'est un animateur on affiche juste les unites auquel il est assigné
 			elseif ($autorisation == 1)
 			{
-			
 				$unite = $this -> Compte ->find('all',array('recursive' => 2, 
 										'conditions' => array(
 										'Compte.Id' => $this -> Session-> read('authentification.id_compte')))
@@ -125,27 +122,54 @@ class ListeUniteController extends AppController {
 
 
 			//Option pour la droplist
-			$this->_listeOption('Jeunes non assignés');
-					
-			//Cherche les enfants et vérifie s'ils ont une unité pour distinguer les jeunes non assignés et assignés
-			
-			
-			//Change la requête selon la sélection dans le droplist d'affichage, elle affiche les tableaux
-		 	if (!empty($this->data['Voir'])){
+			$nomUnite =	$this->_listeOption('Jeunes non assignés');
+				
+			if (!empty($this->data)){
 
-				if($this->data['Voir']['Afficher'] == "0"){
-					$unite = $this->Enfant->find('all', array('recursive' => 2));
-				} else {
 
-					$unite = $this->Enfant->find('all', array('recursive' => 2, 'conditions' => array('Unite.Id' => $this->data['ListeUnite']['Afficher'])));
-
-				}	
+			//Si une valeure autre que tous a été choisie, cherche les enfants si ils sont dans une unité ou non par rappport à l'inscription
+		 	if ((!empty($this->data['ListeUnite']))&&($this->data['ListeUnite']['Afficher'] != "0")){
+				
+					$unite = $this->Inscription->find('all', array('recursive' => 2,
+					'conditions' => array('Inscription.unite_id' => $this->data['ListeUnite']['Afficher'], 'Unite.Nom ' => $nomUnite)));
+	
 			} else {
 
-					$enfant = $this->Enfant->find('all', array('recursive' => 2));
-			
+					$unite = $this->Inscription->find('all', array('conditions'=> array('Inscription.unite_id' => null, 'Inscription.date_fin' => null)));	
 			}
+
+			$this->_initEnfant($unite);
+
+			pr($unite);
+	
+			$this->set('unite', $unite);
+		 	}
+		 
 		 } 
+
+		 /**
+		 *Enregistrement de membre
+		 * @return void
+		 */
+		private function _initEnfant($requete){
+			
+	
+			$optionF = array();
+			$optionM = array();
+
+
+			foreach($requete as $value){
+				if($value['Enfant']['sexe'] == 1){
+					$optionM[$value['Enfant']['id']] = $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom']. ' -- Age ' . $value['Enfant']['date_naissance'] ;
+				} else {
+					$optionF[$value['Enfant']['id']] = $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom']. ' -- Age ' . $value['Enfant']['date_naissance'] ;
+
+				}
+			}
+
+			$this->set('optionF', $optionF);
+			$this->set('optionM', $optionM);
+		} 
 		
 }
 
