@@ -68,6 +68,7 @@ class InscriptionFicheMedController extends AppController {
 						
 		}
 		public function index() {
+		pr($this -> Session -> read());
 		//	$this -> validerConnexion();
 			
 			if (empty($this->data)) 

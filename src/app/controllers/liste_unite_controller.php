@@ -59,7 +59,10 @@ class ListeUniteController extends AppController {
 			{
 				foreach ($autorisation as $valeur)
 				{
-					$accesNum = $valeur['id'];
+					if($valeur['id'] > $accesNum)
+					{
+						$accesNum = $valeur['id'];
+					}
 				}
 			}
 			return $accesNum;
