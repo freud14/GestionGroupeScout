@@ -1,5 +1,5 @@
 <?php
-/* Adresse Fixture generated on: 2011-11-08 18:38:12 : 1320795492 */
+/* Adresse Fixture generated on: 2011-11-21 11:36:19 : 1321893379 */
 class AdresseFixture extends CakeTestFixture {
 	var $name = 'Adresse';
 

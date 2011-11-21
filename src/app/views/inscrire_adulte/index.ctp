@@ -1,5 +1,5 @@
 <div>
-	<?php echo $form->create('InscrireAdulte', array('url' => array('controller' => 'InscrireAdulte', 'action' => 'index')));?>
+	<?php echo $form->create('InscrireAdulte', array('url' => array('controller' => 'inscrire_adulte', 'action' => 'index')));?>
 
 <h3><?php echo $form->label(__('Informations du compte', true)); ?> </h3>
 <table border="0">

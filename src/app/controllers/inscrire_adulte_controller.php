@@ -102,7 +102,16 @@ class InscrireAdulteController extends AppController {
 		}
 
 
-
+		private function _creerSession(){
+		
+		$resultat = $this->Compte->find('first', array('conditions' => $conditions,'fields' => 'Compte.id'));
+    			pr($resultat);
+			
+			if(!empty($resultat))
+			{
+				$resultat = array('autorisation' => $resultat['Autorisation'],'id_compte' => $resultat['Compte']['id'],'id_adulte' => $resultat['Adulte']['0']['id']);	
+			}
+		}
 
 
 			/**
@@ -113,45 +122,41 @@ class InscrireAdulteController extends AppController {
 
 			if (!empty($this->data)) {
 
-					//Créer les intances de la bd nécessaire
-					$this->Compte->create();
-					$this->Compte->create();
-					$this->Adulte->create();
-
-					$this->InscrireAdulte->set($this->data);
-					if($this->InscrireAdulte->validates()) {
-								//Enregistrement des données dans la base de données
-						if ($this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 
-										'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe'])) && 
-									($this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 
-												   'nom' => $this->data['InscrireAdulte']['nom'], 
-												   'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 
-												   'sexe' => $this->data['InscrireAdulte']['genre'], 
-												   'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 
-												   'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 
-												   'profession' => $this->data['InscrireAdulte']['profession'], 
-												   'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 
-												   'compte_id' => $this->Compte->id, 
-												   'tel_autre' => $this->data['InscrireAdulte']['tel_autre'])))){
-
+				//Créer les intances de la bd nécessaire
+				$this->Compte->create();
+				$this->Compte->create();
+				$this->Adulte->create();
+				$this->InscrireAdulte->set($this->data);
+				if($this->InscrireAdulte->validates()) {
+							//Enregistrement des données dans la base de données
+					if ($this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 
+									'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe'])) && 
+								($this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 
+											   'nom' => $this->data['InscrireAdulte']['nom'], 
+											   'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 
+											   'sexe' => $this->data['InscrireAdulte']['sexe'], 
+											   'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 
+											   'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 
+											   'profession' => $this->data['InscrireAdulte']['profession'], 
+											   'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 
+											   'compte_id' => $this->Compte->id, 
+											   'tel_autre' => $this->data['InscrireAdulte']['tel_autre'])))){
+						
+							//Si une implication est existante	
+						if ((isset($this->data['InscrireAdulte']['Implication'])) && (!empty($this->data['InscrireAdulte']['Implication']))){
 							
-								//Si une implication est existante	
-								if ((isset($this->data['InscrireAdulte']['Implication'])) && (!empty($this->data['InscrireAdulte']['Implication']))){
-
-								
-									foreach($this->data['InscrireAdulte']['Implication'] as $impl) {
-										$this->AdultesImplication->create();
-										$this->AdultesImplication->save(array('implication_id' => $impl, 'adulte_id' => $this->Adulte->id));
-									}
-								}
-
-								//Si l'enregistrement a bien été fait, affiche le bon messasge
-								$this->Session->setFlash(__('Inscription terminée', true));
-								$this->redirect(array('action'=>'view'));
-						} else {
-							$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
+							foreach($this->data['InscrireAdulte']['Implication'] as $impl) {
+								$this->AdultesImplication->create();
+								$this->AdultesImplication->save(array('implication_id' => $impl, 'adulte_id' => $this->Adulte->id));
+							}
 						}
-			} 
+							//Si l'enregistrement a bien été fait, affiche le bon messasge
+							$this->Session->setFlash(__('Inscription terminée', true));
+							 $this->redirect(array('action' => 'view'));
+						} else {
+						$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
+					}
+				} 
 		}	
 	}
 

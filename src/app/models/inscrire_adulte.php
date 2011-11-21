@@ -105,14 +105,14 @@ class InscrireAdulte extends AppModel {
 			),
 
 		'sexe' => array(
-				'regle1' => array(
-						'rule' => '/[MF]{1}/',
-						'required' => true,
-						'allowEmpty' => false,
-						'on' => 'create',
-						'message' => 'Le sexe doit être spécifié.'
-						)
-			),
+			'regle1' => array(
+				'rule' => '/[12]{1}/',
+				'required' => true,
+				'allowEmpty' => false,
+				'on' => 'create',
+				'message' => 'Le sexe de l\'enfant doit être spécifié.'
+			)
+		),
 
 
 	);

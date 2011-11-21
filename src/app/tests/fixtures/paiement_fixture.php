@@ -1,5 +1,5 @@
 <?php
-/* Paiement Fixture generated on: 2011-11-08 18:38:27 : 1320795507 */
+/* Paiement Fixture generated on: 2011-11-21 11:36:32 : 1321893392 */
 class PaiementFixture extends CakeTestFixture {
 	var $name = 'Paiement';
 
@@ -17,11 +17,11 @@ class PaiementFixture extends CakeTestFixture {
 	var $records = array(
 		array(
 			'id' => 1,
-			'date_paiements' => '2011-11-08 18:38:27',
+			'date_paiements' => '2011-11-21 11:36:32',
 			'montant' => 1,
 			'facture_id' => 1,
 			'paiement_type_id' => 1,
-			'date_reception' => '2011-11-08 18:38:27'
+			'date_reception' => '2011-11-21 11:36:32'
 		),
 	);
 }

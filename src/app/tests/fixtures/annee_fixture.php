@@ -1,5 +1,5 @@
 <?php
-/* Annee Fixture generated on: 2011-11-08 18:38:14 : 1320795494 */
+/* Annee Fixture generated on: 2011-11-21 11:36:21 : 1321893381 */
 class AnneeFixture extends CakeTestFixture {
 	var $name = 'Annee';
 
@@ -15,8 +15,8 @@ class AnneeFixture extends CakeTestFixture {
 	var $records = array(
 		array(
 			'id' => 1,
-			'date_debut' => '2011-11-08 18:38:14',
-			'date_fin' => '2011-11-08 18:38:14',
+			'date_debut' => '2011-11-21 11:36:21',
+			'date_fin' => '2011-11-21 11:36:21',
 			'inscription' => 1
 		),
 	);

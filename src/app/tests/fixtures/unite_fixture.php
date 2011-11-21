@@ -1,5 +1,5 @@
 <?php
-/* Unite Fixture generated on: 2011-11-08 18:38:30 : 1320795510 */
+/* Unite Fixture generated on: 2011-11-21 11:36:35 : 1321893395 */
 class UniteFixture extends CakeTestFixture {
 	var $name = 'Unite';
 

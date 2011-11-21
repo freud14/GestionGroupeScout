@@ -4,9 +4,10 @@ class ConnexionController extends AppController {
 
 		 var $helpers = array('Html', 'Form');  
 		 var $name = 'Connexion';
+		 var $components = array('validerInformation');
 
 		function beforeFilter(){
-			$this -> Session -> write("url", $this->params['url']);
+			
 			parent::beforeFilter();
 			$this->layout = 'non_connecte';
 			$this->loadModel('Compte'); 
@@ -16,7 +17,7 @@ class ConnexionController extends AppController {
 			//si le bouton connexion est cliqué
 			if ( array_key_exists ('connexion',$this->params['form']))
  			{
- 				$resultat = $this->validerInformation($this->data['Connexion']['nom_utilisateur'],$this->data['Connexion']['mot_de_passe']);		
+ 				$resultat = $this->validerInformation->validerInformation($this->data['Connexion']['nom_utilisateur'],$this->data['Connexion']['mot_de_passe']);		
 				
 				//si le mot de passe est valide
 				if(!empty($resultat))
@@ -28,7 +29,7 @@ class ConnexionController extends AppController {
 					$this -> Session -> write("authentification", null);
 					pr("looser");
 				}
- 				$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
+ 			//$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
  			//
  			/*}elseif( array_key_exists ('suivant',$this->params['form']))
  			{
@@ -48,7 +49,7 @@ class ConnexionController extends AppController {
 		 public function index() {
 			$this->set('titre',__('Connexion',true));
 			$this->set('title_for_layout', __('Connexion', true));
-			$this -> Session -> write("url", $this->params['url']);
+			//$this -> Session -> write("url", $this->params['url']);
 
 			
 			
@@ -60,38 +61,10 @@ class ConnexionController extends AppController {
 				
 				$this -> navigation();
 				
-				$resultat = $this->validerInformation($this->data['Connexion']['nom_utilisateur'],$this->data['Connexion']['mot_de_passe']);
-				
-				
-				//si le mot de passe est valide
-				if(!empty($resultat))
-				{
-					$this -> Session -> write("authentification", $resultat);
-					$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
-					
-				}else{
-					$this -> Session -> write("authentification", null);
-					pr("looser");
-				}
-				
+							
 			}
 			
 		}
-		function validerInformation($nom_utilisateur,$mot_de_passe)
-		{
-			$resultat = null;
-    			$conditions = array("Compte.nom_utilisateur" => $nom_utilisateur,'Compte.mot_de_passe' => $mot_de_passe);    			
-    			$resultat = $this->Compte->find('first', array('conditions' => $conditions,'fields' => 'Compte.id'));
-    			
-			
-			if(!empty($resultat))
-			{
-				$resultat = array('autorisation' => $resultat['Autorisation'],'id_compte' => $resultat['Compte']['id']);	
-			}
-			
-			
-		return $resultat;
-			//return $this->QuestionGenerale->find('all');
-		}
+		
 	}
 ?>

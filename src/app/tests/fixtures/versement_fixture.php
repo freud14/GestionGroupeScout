@@ -1,5 +1,5 @@
 <?php
-/* Versement Fixture generated on: 2011-11-08 18:38:31 : 1320795511 */
+/* Versement Fixture generated on: 2011-11-21 11:36:36 : 1321893396 */
 class VersementFixture extends CakeTestFixture {
 	var $name = 'Versement';
 
@@ -19,7 +19,7 @@ class VersementFixture extends CakeTestFixture {
 			'id' => 1,
 			'fraterie_id' => 1,
 			'montant' => 1,
-			'date' => '2011-11-08 18:38:31',
+			'date' => '2011-11-21 11:36:36',
 			'position' => 1,
 			'nb_versement_id' => 1
 		),

@@ -60,7 +60,7 @@ class InformationGenerale extends AppModel {
 		//Vérifie si le sexe vaut M ou F.
 		'sexe' => array(
 			'regle1' => array(
-				'rule' => '/[MF]{1}/',
+				'rule' => '/[12]{1}/',
 				'required' => true,
 				'allowEmpty' => false,
 				'on' => 'create',
