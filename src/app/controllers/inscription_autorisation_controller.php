@@ -74,13 +74,6 @@ class InscriptionAutorisationController extends AppController {
 			$this->FicheMedicale->create();
 			$this->InformationScolaire->create();
 
-			//convertie le sexe en integer,  puisque la session le garde en string et que la bd est integer
-			if( $this->Session->read('info_gen.InformationGenerale.sexe') == 'M'){
-				$sexe = 1;
-			} else{
-				$sexe = 2;
-			}
-
 			//Pour les autorisations de photo et de baignade
 			if(isset($this->data['Autorisation']['autorisation_baignade'][0])){
 				$baignade = 1;
@@ -113,7 +106,7 @@ class InscriptionAutorisationController extends AppController {
 												))),
 											'adresse_id' => $this->Adresse->id,
 											'no_ass_maladie' => $this->Session->read('info_gen.InformationGenerale.assurance_maladie'),
-											'sexe' => $sexe,
+											'sexe' => $this->Session->read('info_gen.InformationGenerale.sexe'),
 											'particularite_jeunes' => $this->Session->read('info_gen.InformationGenerale.particularite')))) &&
 					($this->AdultesEnfant->save(array('adulte_id' =>  $adulte['Adulte']['id'],
 											'enfant_id' => $this->Enfant->id))) &&		
@@ -135,7 +128,6 @@ class InscriptionAutorisationController extends AppController {
 
 							//Contact d'urgence si il existe, on doit mettre la variable session dans un tableau sinon on ne peut pas savoir s'il est vide
 						    $contactUrgence = (array)$this->Session->read('info_gen.InformationGenerale.lien_jeune_urgence');
-							
 							if (!empty($contactUrgence)){
 
 								//Cherche l'adulte pour le contact d'urgence
@@ -146,7 +138,6 @@ class InscriptionAutorisationController extends AppController {
 							}
 	
 							// Pour vérifier le read, on doit le mettre dans une variable avant
-							$prescription = array();
 							$prescription = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.prescription'));
 							if (!empty($prescription)){
 								$this->Prescription->create();
@@ -155,20 +146,16 @@ class InscriptionAutorisationController extends AppController {
 							}				
 
 							//combine les tableaux d'antécédant
-							$antecedant = array();
 							$antecedant = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent1'),(array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent2'),(array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent3'));
-		 
 							//Si le tableau combiné n'est pas vide, créer les instances de FicheMedicalMalady nécessaire
 							if(!empty($antecedant)){
 								foreach($antecedant as $valeur){
 									$this->FicheMedicalesMalady->create();
-									$this->FicheMedicalesMalady->save(array('maladie_id' => $valeur, 'fiche_medicale_id' => $this->FicheMedicale->id));
+									$this->FicheMedicalesMalady->saveAll(array('maladie_id' => $valeur, 'fiche_medicale_id' => $this->FicheMedicale->id));
 								}
 							}									
 							
-							$medicament = array();
 							$medicament = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.medicamentautoriseLab'));
-							
 							//Si le tableau combiné n'est pas vide, créer les instances de FicheMedicalMedicament nécessaire
 							if(!empty($medicament)){
 								foreach($medicament as $valeur){
