@@ -74,20 +74,12 @@ class InscriptionAutorisationController extends AppController {
 			$this->FicheMedicale->create();
 			$this->InformationScolaire->create();
 
-
 			//convertie le sexe en integer,  puisque la session le garde en string et que la bd est integer
 			if( $this->Session->read('info_gen.InformationGenerale.sexe') == 'M'){
 				$sexe = 1;
 			} else{
 				$sexe = 2;
 			}
-
-
-			echo date('Y-m-d', (strtotime($this->Session->read('info_gen.InformationGenerale.date_de_naissance.year').
-											 $this->Session->read('info_gen.InformationGenerale.date_de_naissance.month').
-														 $this->Session->read('info_gen.InformationGenerale.date_de_naissance.day')
-															)));
-
 
 			//Pour les autorisations de photo et de baignade
 			if(isset($this->data['Autorisation']['autorisation_baignade'][0])){
@@ -102,10 +94,8 @@ class InscriptionAutorisationController extends AppController {
 				$photo = 0;
 			}
 
-
 			//Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
 			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
-		
 
 			//Adulte, mmetre l'id dans la session ???????
 			$adulte = $this->Adulte->find('first', array('conditions' => array('Adulte.compte_id' =>$this->Session->read('authentification.id_compte'))));
@@ -120,7 +110,7 @@ class InscriptionAutorisationController extends AppController {
 											 	$this->Session->read('info_gen.InformationGenerale.date_de_naissance.year').
 											 	$this->Session->read('info_gen.InformationGenerale.date_de_naissance.month').
 												$this->Session->read('info_gen.InformationGenerale.date_de_naissance.day')
-															))),
+												))),
 											'adresse_id' => $this->Adresse->id,
 											'no_ass_maladie' => $this->Session->read('info_gen.InformationGenerale.assurance_maladie'),
 											'sexe' => $sexe,
@@ -165,21 +155,17 @@ class InscriptionAutorisationController extends AppController {
 							}				
 
 							//combine les tableaux d'antécédant
-							$antecedent = array();
-							
-							$buffer = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent1'),(array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent2'),(array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent3'));
+							$antecedant = array();
+							$antecedant = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent1'),(array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent2'),(array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent3'));
 		 
 							//Si le tableau combiné n'est pas vide, créer les instances de FicheMedicalMalady nécessaire
-							if(!empty($buffer)){
-								foreach($buffer as $valeur){
-
-									pr($valeur);
+							if(!empty($antecedant)){
+								foreach($antecedant as $valeur){
 									$this->FicheMedicalesMalady->create();
 									$this->FicheMedicalesMalady->save(array('maladie_id' => $valeur, 'fiche_medicale_id' => $this->FicheMedicale->id));
 								}
 							}									
 							
-							echo 'medicament';
 							$medicament = array();
 							$medicament = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.medicamentautoriseLab'));
 							
@@ -191,14 +177,14 @@ class InscriptionAutorisationController extends AppController {
 								}
 							}		
 
-				//Si l'enregistrement a bien été fait, affiche le bon messasge
-				//	$this->Session->setFlash(__('Inscription terminée', true));
-				echo 'work';
-				//	$this->redirect(array('action'=>'view'));
+					//Si l'enregistrement a bien été fait, affiche le bon messasge
+					$this->Session->setFlash(__('Inscription terminée', true));
+					echo 'work';
+					//	$this->redirect(array('action'=>'view'));
 
 
 				} else {
-					//$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
+					$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
 					echo  'jambon' ;
 				}
 			} 

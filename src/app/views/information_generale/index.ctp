@@ -23,7 +23,7 @@
 			echo $form->input('sexe', array(
 				'before' => $form->label('sexe', __('Sexe', true) . ' <span class="star">*</span>', array('class' => 'element')),
 				'separator' => ' ',
-				'options' => array('M' => __('Masculin', true), 'F' => __('Féminin', true)),
+				'options' => array('1' => __('Masculin', true), '2' => __('Féminin', true)),
 				'type' => 'radio',
 				'default' => $session['sexe'],
 				'legend' => false
@@ -95,7 +95,7 @@
 			//ne se garde pas
 			$liste = array();
 			foreach ($groupe_age as $groupe) {
-				$liste[$groupe['GroupeAge']['id']] = $groupe['GroupeAge']['nom'] . "(" . $groupe['GroupeAge']['age_min'] . "-" . $groupe['GroupeAge']['age_max'] . " ans - " . ($groupe['GroupeAge']['sexe'] == 'M' ? __("Masculin", true) : __("Féminin", true)) . ")";
+				$liste[$groupe['GroupeAge']['id']] = $groupe['GroupeAge']['nom'] . "(" . $groupe['GroupeAge']['age_min'] . "-" . $groupe['GroupeAge']['age_max'] . " ans - " . ($groupe['GroupeAge']['sexe'] == '1' ? __("Masculin", true) : __("Féminin", true)) . ")";
 			}
 			echo $form->select('groupe_age', $liste, null, array('value' => $session['groupe_age']));
 			?>
@@ -113,7 +113,7 @@
 
 			<?php
 			echo $form->label('sexe_tuteur', __('Sexe', true), array('class' => 'element'));
-			echo $form->radio('sexe_tuteur', array('M' => __('Masculin', true), 'F' => __('Féminin', true)), array('label' => false, 'legend' => false, 'default' => $session['sexe_tuteur'],));
+			echo $form->radio('sexe_tuteur', array('1' => __('Masculin', true), '2' => __('Féminin', true)), array('label' => false, 'legend' => false, 'default' => $session['sexe_tuteur'],));
 			?>
 
 			<?php

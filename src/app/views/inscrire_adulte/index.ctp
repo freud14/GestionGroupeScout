@@ -31,7 +31,7 @@
 			echo $form->input('sexe', array(
 				'before' => $form->label('sexe', __('Sexe', true).' <span class="star">*</span>', array('class' => 'element')),
 				'separator' => ' ',
-				'options' => array('M' => __('Masculin', true),'F' => __('Féminin', true)),
+				'options' => array('1' => __('Masculin', true),'2' => __('Féminin', true)),
 				'type' => 'radio',
 				'legend' => false
 				)
