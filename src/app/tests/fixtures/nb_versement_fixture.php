@@ -1,5 +1,5 @@
 <?php
-/* NbVersement Fixture generated on: 2011-11-08 18:38:26 : 1320795506 */
+/* NbVersement Fixture generated on: 2011-11-21 11:36:31 : 1321893391 */
 class NbVersementFixture extends CakeTestFixture {
 	var $name = 'NbVersement';
 

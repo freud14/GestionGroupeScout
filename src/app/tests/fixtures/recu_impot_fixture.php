@@ -1,5 +1,5 @@
 <?php
-/* RecuImpot Fixture generated on: 2011-11-08 18:38:29 : 1320795509 */
+/* RecuImpot Fixture generated on: 2011-11-21 11:36:34 : 1321893394 */
 class RecuImpotFixture extends CakeTestFixture {
 	var $name = 'RecuImpot';
 
@@ -15,7 +15,7 @@ class RecuImpotFixture extends CakeTestFixture {
 	var $records = array(
 		array(
 			'id' => 1,
-			'date_emission' => '2011-11-08 18:38:29',
+			'date_emission' => '2011-11-21 11:36:34',
 			'no_recu' => 'Lorem ipsum dolor sit amet',
 			'factures_id' => 1
 		),

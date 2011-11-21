@@ -1,5 +1,5 @@
 <?php
-/* RecuImpot Test cases generated on: 2011-11-08 18:38:29 : 1320795509*/
+/* RecuImpot Test cases generated on: 2011-11-21 11:36:34 : 1321893394*/
 App::import('Model', 'RecuImpot');
 
 class RecuImpotTestCase extends CakeTestCase {

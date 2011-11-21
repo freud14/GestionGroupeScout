@@ -10,7 +10,7 @@ class Versement extends AppModel {
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			)
+			),
 		),
 		'montant' => array(
 			'numeric' => array(
@@ -20,7 +20,7 @@ class Versement extends AppModel {
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			)
+			),
 		),
 		'position' => array(
 			'numeric' => array(
@@ -30,7 +30,7 @@ class Versement extends AppModel {
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			)
+			),
 		),
 		'nb_versement_id' => array(
 			'numeric' => array(
@@ -40,8 +40,8 @@ class Versement extends AppModel {
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			)
-		)
+			),
+		),
 	);
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 

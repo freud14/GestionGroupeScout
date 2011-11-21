@@ -1,9 +1,9 @@
 <?php
-/* Facture Test cases generated on: 2011-11-08 18:38:18 : 1320795498*/
+/* Facture Test cases generated on: 2011-11-21 11:36:25 : 1321893385*/
 App::import('Model', 'Facture');
 
 class FactureTestCase extends CakeTestCase {
-	var $fixtures = array('app.facture', 'app.inscription', 'app.nb_versement', 'app.fraterie', 'app.paiement');
+	var $fixtures = array('app.facture', 'app.inscription', 'app.enfant', 'app.adresse', 'app.contact_urgence', 'app.adulte', 'app.compte', 'app.autorisation', 'app.autorisations_compte', 'app.notification', 'app.type_sujet', 'app.comptes_notification', 'app.adultes_enfant', 'app.implication', 'app.adultes_implication', 'app.unite', 'app.groupe_age', 'app.adultes_unite', 'app.fiche_medicale', 'app.prescription', 'app.maladie', 'app.fiche_medicales_malady', 'app.medicament', 'app.fiche_medicales_medicament', 'app.question_generale', 'app.fiche_medicales_question_generale', 'app.information_scolaire', 'app.annee', 'app.nb_versement', 'app.versement', 'app.fraterie', 'app.paiement_type', 'app.paiement');
 
 	function startTest() {
 		$this->Facture =& ClassRegistry::init('Facture');

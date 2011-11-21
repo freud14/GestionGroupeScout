@@ -1,5 +1,5 @@
 <?php
-/* InformationScolaire Fixture generated on: 2011-11-08 18:38:23 : 1320795503 */
+/* InformationScolaire Fixture generated on: 2011-11-21 11:36:28 : 1321893388 */
 class InformationScolaireFixture extends CakeTestFixture {
 	var $name = 'InformationScolaire';
 

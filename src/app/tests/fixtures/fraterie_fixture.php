@@ -1,5 +1,5 @@
 <?php
-/* Fraterie Fixture generated on: 2011-11-08 18:38:21 : 1320795501 */
+/* Fraterie Fixture generated on: 2011-11-21 11:36:27 : 1321893387 */
 class FraterieFixture extends CakeTestFixture {
 	var $name = 'Fraterie';
 

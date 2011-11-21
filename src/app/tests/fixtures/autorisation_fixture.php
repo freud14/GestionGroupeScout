@@ -1,5 +1,5 @@
 <?php
-/* Autorisation Fixture generated on: 2011-11-08 18:38:15 : 1320795495 */
+/* Autorisation Fixture generated on: 2011-11-21 11:36:22 : 1321893382 */
 class AutorisationFixture extends CakeTestFixture {
 	var $name = 'Autorisation';
 

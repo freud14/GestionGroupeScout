@@ -1,5 +1,5 @@
 <?php
-/* TypeSujet Fixture generated on: 2011-11-08 18:38:30 : 1320795510 */
+/* TypeSujet Fixture generated on: 2011-11-21 11:36:34 : 1321893394 */
 class TypeSujetFixture extends CakeTestFixture {
 	var $name = 'TypeSujet';
 
