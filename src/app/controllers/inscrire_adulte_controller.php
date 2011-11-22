@@ -8,13 +8,12 @@ class InscrireAdulteController extends AppController {
 
 		 var $helpers = array('Html', 'Javascript', 'Form');  
 		 var $name = 'InscrireAdulte';
-<<<<<<< HEAD
+
 		  var $components = array('validerInformation');
 		// var $components = array(array('Recaptcha.Captcha' => array(
           //      'private_key' => '6Ldq4MkSAAAAACIFrlwaf209zjAOhktImcx_FjlS', 
             //    'public_key' => '6Ldq4MkSAAAAABiDfADZgxzR3Nn_wB4qppT9QBKy'))); 
-=======
->>>>>>> 079fd68982e161c16905962b555428f4be298e8e
+
 
 		/**
 		* Charge les modèles utiles au controlleur 
