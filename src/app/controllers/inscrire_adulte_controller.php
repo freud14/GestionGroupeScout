@@ -9,6 +9,7 @@ class InscrireAdulteController extends AppController {
 
 		 var $helpers = array('Html', 'Javascript', 'Form');  
 		 var $name = 'InscrireAdulte';
+		  var $components = array('validerInformation');
 		// var $components = array(array('Recaptcha.Captcha' => array(
           //      'private_key' => '6Ldq4MkSAAAAACIFrlwaf209zjAOhktImcx_FjlS', 
             //    'public_key' => '6Ldq4MkSAAAAABiDfADZgxzR3Nn_wB4qppT9QBKy'))); 
@@ -73,11 +74,14 @@ class InscrireAdulteController extends AppController {
 			$this->set('ariane', __('<span style="color: green;">Inscription d\'un membre < Inscription réussite', true));
 
 				if ( array_key_exists ('inscrire',$this->params['form'])){
-
-					 $this->redirect(array('controller' => 'InformationGenerale', 'action' => 'index'));
+					//$this -> Session -> write("authentification",
+					//			$this->validerInformation->validerInformation(	
+							//$this->data['InscrireAdulte']['nom_utilisateur'],$this->data['InscrireAdulte']['mot_de_passe']);
+					$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
+					
 
  				}elseif( array_key_exists ('accueil',$this->params['form'])){
-					$this->redirect(array('controller' => 'Connexion', 'action' => 'index'));
+					$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
 				}
  	
 		}
@@ -152,6 +156,12 @@ class InscrireAdulteController extends AppController {
 						}
 							//Si l'enregistrement a bien été fait, affiche le bon messasge
 							$this->Session->setFlash(__('Inscription terminée', true));
+							$this -> Session -> write("authentification",
+										$this->validerInformation->validerInformation(
+										$this->data['InscrireAdulte']['nom_utilisateur'],
+										$this->data['InscrireAdulte']['mot_de_passe']
+											)
+										);
 							 $this->redirect(array('action' => 'view'));
 						} else {
 						$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
