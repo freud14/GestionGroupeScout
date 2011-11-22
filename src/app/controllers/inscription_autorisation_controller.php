@@ -20,6 +20,8 @@ class InscriptionAutorisationController extends AppController {
 		$this->loadModel('FicheMedicalesMalady');
 		$this->loadModel('FicheMedicalesMedicament');
 		$this->loadModel('InformationScolaire');
+		$this->loadModel('QuestionGenerale');
+		$this->loadModel('FicheMedicalesQuestionGenerale');
 	}
 
 	function navigation() {
@@ -36,15 +38,13 @@ class InscriptionAutorisationController extends AppController {
 	}
 
 	function index() {
-		pr($this->Session->read('fiche_med'));
+		//pr($this->Session->read('fiche_med'));
 
 		$this->navigation();
 
 		$this->set('title_for_layout', __('Autorisations', true));
 		$this->set('titre', __('Autorisations', true));
 		$this->set('ariane', __('Informations générales > Fiches médicales > <span style="color: green;">Autorisations</span>', true));
-
-		pr($this->Session->read());
 
 		$this->_ajoutEnfant();
 	}
@@ -66,6 +66,7 @@ class InscriptionAutorisationController extends AppController {
 			$this->ContactUrgence->create();
 			$this->FicheMedicale->create();
 			$this->InformationScolaire->create();
+			$this->Adulte->create(); //Pour le contact d'urgence obligatoire
 
 			//Pour les autorisations de photo et de baignade
 			if (isset($this->data['Autorisation']['autorisation_baignade'][0])) {
@@ -83,14 +84,11 @@ class InscriptionAutorisationController extends AppController {
 			//Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
 			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
 
-			//Adulte, mmetre l'id dans la session ???????
-			$adulte = $this->Adulte->find('first', array('conditions' => array('Adulte.compte_id' => $this->Session->read('authentification.id_compte'))));
-
 			//Enregistrement des données dans la base de données
 			if (($this->Adresse->save(array('adresses' => $this->Session->read('info_gen.InformationGenerale.adresse'),
 						'ville' => $this->Session->read('info_gen.InformationGenerale.ville'),
 						'code_postal' => $this->Session->read('info_gen.InformationGenerale.code_postal')))) &&
-					($this->Enfant->save(array('nom' => $this->Session->read('info_gen.InformationGenerale.nom'),
+				($this->Enfant->save(array('nom' => $this->Session->read('info_gen.InformationGenerale.nom'),
 						'prenom' => $this->Session->read('info_gen.InformationGenerale.prenom'),
 						'date_naissance' => date('Y-m-d', (strtotime(
 										$this->Session->read('info_gen.InformationGenerale.date_de_naissance.year') .
@@ -101,68 +99,108 @@ class InscriptionAutorisationController extends AppController {
 						'no_ass_maladie' => $this->Session->read('info_gen.InformationGenerale.assurance_maladie'),
 						'sexe' => $this->Session->read('info_gen.InformationGenerale.sexe'),
 						'particularite_jeunes' => $this->Session->read('info_gen.InformationGenerale.particularite')))) &&
-					($this->AdultesEnfant->save(array('adulte_id' => $adulte['Adulte']['id'],
+				($this->AdultesEnfant->save(array('adulte_id' => $this->Session->read('authentification.id_adulte'),
 						'enfant_id' => $this->Enfant->id))) &&
-					($this->Inscription->save(array('enfant_id' => $this->Enfant->id,
+				($this->Inscription->save(array('enfant_id' => $this->Enfant->id,
 						'groupe_age_id' => $this->Session->read('info_gen.InformationGenerale.groupe_age'),
 						'date_inscription' => DboSource::expression('NOW()'),
 						'annee_id' => $annee['Annee']['id'],
 						'autorisation_photo' => $photo,
 						'autorisation_baignade' => $baignade))) &&
-					($this->FicheMedicale->save(array('enfant_id' => $this->Enfant->id,
+				($this->FicheMedicale->save(array('enfant_id' => $this->Enfant->id,
 						'allergie' => $this->Session->read('fiche_med.InscriptionFicheMed.allergie'),
 						'phobie' => $this->Session->read('fiche_med.InscriptionFicheMed.peur')))) &&
-					($this->InformationScolaire->save(array('enfant_id' => $this->Enfant->id,
+				($this->InformationScolaire->save(array('enfant_id' => $this->Enfant->id,
 						'nom_ecole' => $this->Session->read('info_gen.InformationGenerale.etab_scolaire'),
 						'niveau_scolaire' => $this->Session->read('info_gen.InformationGenerale.niveau_scolaire'),
-						'nom_enseignant' => $this->Session->read('info_gen.InformationGenerale.enseignant'))))) {
-
-
-
-				//Contact d'urgence si il existe, on doit mettre la variable session dans un tableau sinon on ne peut pas savoir s'il est vide
-				$contactUrgence = (array) $this->Session->read('info_gen.InformationGenerale.lien_jeune_urgence');
-				if (!empty($contactUrgence)) {
-
-					//Cherche l'adulte pour le contact d'urgence
-					$urgence = $this->Adulte->find('first', array('conditions' => array('Adulte.courriel' => $this->Session->read('info_gen.InformationGenerale.lien_jeune_urgence'))));
-					$this->ContactUrgence->save(array('adulte_id' => $urgence['Adulte']['id'],
+						'nom_enseignant' => $this->Session->read('info_gen.InformationGenerale.enseignant')))) &&
+				($this->Adulte->save(array('nom' => $this->Session->read('info_gen.InformationGenerale.nom_urgence'),
+						'prenom' => $this->Session->read('info_gen.InformationGenerale.prenom_urgence'),
+						'tel_maison' =>  $this->Session->read('info_gen.InformationGenerale.telephone_principal_urgence')))) &&
+				($this->ContactUrgence->save(array('adulte_id' => $this->Adulte->id,
 						'enfant_id' => $this->Enfant->id,
-						'lien' => $this->Session->read('info_gen.InformationGenerale.lien_jeune_urgence')));
-				}
+						'lien' => $this->Session->read('info_gen.InformationGenerale.lien_jeune_urgence'))))) {
+
 
 				// Pour vérifier le read, on doit le mettre dans une variable avant
-				$prescription = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.prescription'));
+				//Autre parent ou tuteur(pas obligatoire), lien avec enfant, création instance adulte
+				$tuteur = $this->Session->read('info_gen.InformationGenerale.nom_tuteur');
+			
+				if(!empty($tuteur)){
+					$this->Adulte->create();
+					
+					$this->Adulte->save(array('nom' => $this->Session->read('info_gen.InformationGenerale.nom_tuteur'),
+						'prenom' => $this->Session->read('info_gen.InformationGenerale.prenom_tuteur'),
+						'sexe' => $this->Session->read('info_gen.InformationGenerale.sexe_tuteur'),
+						'tel_maison' => $this->Session->read('info_gen.InformationGenerale.telephone_maison_tuteur'),
+						'tel_bureau' => $this->Session->read('info_gen.InformationGenerale.telephone_bureau_tuteur'),
+						'tel_bureau_poste' => $this->Session->read('info_gen.InformationGenerale.telephone_bureau_poste_tuteur'),
+						'tel_autre' => $this->Session->read('info_gen.InformationGenerale.cellulaire_tuteur'),
+						'sexe' => $this->Session->read('info_gen.InformationGenerale.sexe_tuteur'),
+						'profession' => $this->Session->read('info_gen.InformationGenerale.profession')));
+				}
+
+
+
+
+				$prescription = $this->Session->read('fiche_med.InscriptionFicheMed.prescription');
 				if (!empty($prescription)) {
 					$this->Prescription->create();
 					$this->Prescription->save(array('posologie' => $this->Session->read('fiche_med.InscriptionFicheMed.prescription'),
 						'fiche_medicale_id' => $this->FicheMedicale->id));
 				}
 				
+
+
+
 				//combine les tableaux d'antécédant
-				$antecedant = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent1'), (array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent2'), (array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent3'));
+				$antecedant = array_merge((array)$this->Session->read('fiche_med.InscriptionFicheMed.antecedent1'), (array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent2'),(array) $this->Session->read('fiche_med.InscriptionFicheMed.antecedent3'));
+			
 				for($i = 0; $i < count($antecedant); ++$i) {
 					if($antecedant[$i] != '') {
 						$this->FicheMedicalesMalady->create();
 						$this->FicheMedicalesMalady->save(array('fiche_medicale_id' => $this->FicheMedicale->id, 'maladie_id' => $antecedant[$i]));
 					}
 				}
+				
 
-				$medicament = array_merge((array) $this->Session->read('fiche_med.InscriptionFicheMed.medicamentautoriseLab'));
+
+
+				$medicament = $this->Session->read('fiche_med.InscriptionFicheMed.medicamentautoriseLab');
 				//Si le tableau combiné n'est pas vide, créer les instances de FicheMedicalMedicament nécessaire
-				if (!empty($medicament)) {
-					foreach ($medicament as $valeur) {
+				
+				for($i = 0; $i < count($medicament); ++$i) {
+					if($medicament[$i] != '') {
 						$this->FicheMedicalesMedicament->create();
-						$this->FicheMedicalesMedicament->save(array('medicament_id' => $valeur, 'fiche_medicale_id' => $this->FicheMedicale->id));
+						$this->FicheMedicalesMedicament->save(array('medicament_id' => $medicament[$i], 'fiche_medicale_id' => $this->FicheMedicale->id));
 					}
 				}
+				
+
+
+				//Cherche le total des questions
+				$question = $this->QuestionGenerale->find('all');
+				//Pour chercher dans la session avec l'index
+				$question_array = $this->Session->read('fiche_med.InscriptionFicheMed');
+
+				foreach($question as $value){
+					//Si le question est vrai
+					if ($question_array['q'.$value['QuestionGenerale']['id']] == 'O'){
+						$this->FicheMedicalesQuestionGenerale->create();
+						$this->FicheMedicalesQuestionGenerale->save(array('question_generale_id' =>$value['QuestionGenerale']['id'],
+																'fiche_medicale_id' => $this->FicheMedicale->id));
+					}
+					
+				}
+
+
 
 				//Si l'enregistrement a bien été fait, affiche le bon messasge
 				$this->Session->setFlash(__('Inscription terminée', true));
-				echo 'work';
-				//	$this->redirect(array('action'=>'view'));
+			//	$this->redirect(array('action'=>'view'));
 			} else {
+
 				$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
-				echo 'jambon';
 			}
 		}
 	}

@@ -1,19 +1,24 @@
 <?php
-//App::uses('AppController', 'Controller');
+
 /**
- * Posts Controller
- *
- * @property Post $Post
- */
+* Controlleur qui gère ce qui est relié à la création de compte membre et à sa modification
+* L'index (création de compte membre) peut être accéder sans qu'on soit connecter (sans session)
+*/
 class InscrireAdulteController extends AppController {
 
 		 var $helpers = array('Html', 'Javascript', 'Form');  
 		 var $name = 'InscrireAdulte';
+<<<<<<< HEAD
 		  var $components = array('validerInformation');
 		// var $components = array(array('Recaptcha.Captcha' => array(
           //      'private_key' => '6Ldq4MkSAAAAACIFrlwaf209zjAOhktImcx_FjlS', 
             //    'public_key' => '6Ldq4MkSAAAAABiDfADZgxzR3Nn_wB4qppT9QBKy'))); 
+=======
+>>>>>>> 079fd68982e161c16905962b555428f4be298e8e
 
+		/**
+		* Charge les modèles utiles au controlleur 
+		*/
 		function beforeFilter(){
 			parent::beforeFilter();
 			$this->layout = 'non_connecte';
@@ -25,8 +30,8 @@ class InscrireAdulteController extends AppController {
 
 
 		/**
-		 * Initialise les noms de la view inscription
-		 * Appelle la fonction d'enregistrement de membre
+		 * Permet à un parent de s'inscrire 
+		 * @Author Luc-Frédéric Langis
 		 * @return void
 		 */
 		public function index() {
@@ -45,6 +50,13 @@ class InscrireAdulteController extends AppController {
 			
 		}
 
+
+		/**
+		 * Permet à un membre de modifier ses informations personnelles 
+		 * @Author Luc-Frédéric Langis
+		 * @return void
+		 */
+
 		public function profil(){
 			$this->set('titre','Mon profil');
 			$this->set('ariane', __('<span style="color: green;"> Mon profil', true));
@@ -58,21 +70,21 @@ class InscrireAdulteController extends AppController {
 			//Initialise le profil
 			$this->set('profil', $profil);
 
-			$this->_ajoutMembre();
+			$this->_majMembre();
 			
 		}	
 
 
 		/**
-		 * view method
-		 *
-		 * @param string $id
+		 * Vue simple qui permet de se rediriger vers la page d'accueil ou inscrire un enfant après l'inscription d'un membre 
+		 * @Author Luc-Frédéric Langis
 		 * @return void
 		 */
 		 public function view() {
 			$this->set('titre','Inscription réussite avec succès');
 			$this->set('ariane', __('<span style="color: green;">Inscription d\'un membre < Inscription réussite', true));
-
+				
+				//Action spécifique selon le bouton
 				if ( array_key_exists ('inscrire',$this->params['form'])){
 					//$this -> Session -> write("authentification",
 					//			$this->validerInformation->validerInformation(	
@@ -90,8 +102,9 @@ class InscrireAdulteController extends AppController {
 
 	
 		/**
-		 *Enregistrement de membre
+		 * Initilise la liste des implications par rapport à celle dans la base de données
 		 * @return void
+		 * @author Luc-Frédéric Langis
 		 */
 		private function _initImplication(){
 			
@@ -106,6 +119,13 @@ class InscrireAdulteController extends AppController {
 		}
 
 
+
+		/**
+		 * Créer une session
+		 * @return void
+		 * @author Michel Biron
+		 */
+
 		private function _creerSession(){
 		
 		$resultat = $this->Compte->find('first', array('conditions' => $conditions,'fields' => 'Compte.id'));
@@ -118,41 +138,50 @@ class InscrireAdulteController extends AppController {
 		}
 
 
-			/**
+		/**
 		 *Enregistrement de membre
 		 * @return void
+		 * @author Luc-Frédéric Langis
 		 */
 		private function _ajoutMembre(){
 
 			if (!empty($this->data)) {
 
-				//Créer les intances de la bd nécessaire
-				$this->Compte->create();
-				$this->Compte->create();
-				$this->Adulte->create();
-				$this->InscrireAdulte->set($this->data);
-				if($this->InscrireAdulte->validates()) {
+						//Créer les intances de la bd nécessaire
+						$this->Compte->create();
+						$this->Adulte->create();
+					
+					
+					$this->InscrireAdulte->set($this->data);
+						if($this->InscrireAdulte->validates()) {
 							//Enregistrement des données dans la base de données
-					if ($this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 
-									'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe'])) && 
-								($this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 
-											   'nom' => $this->data['InscrireAdulte']['nom'], 
-											   'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 
-											   'sexe' => $this->data['InscrireAdulte']['sexe'], 
-											   'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 
-											   'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 
-											   'profession' => $this->data['InscrireAdulte']['profession'], 
-											   'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 
-											   'compte_id' => $this->Compte->id, 
-											   'tel_autre' => $this->data['InscrireAdulte']['tel_autre'])))){
-						
-							//Si une implication est existante	
-						if ((isset($this->data['InscrireAdulte']['Implication'])) && (!empty($this->data['InscrireAdulte']['Implication']))){
-							
-							foreach($this->data['InscrireAdulte']['Implication'] as $impl) {
-								$this->AdultesImplication->create();
-								$this->AdultesImplication->save(array('implication_id' => $impl, 'adulte_id' => $this->Adulte->id));
+							if ($this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 
+														'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe'])) && 
+										($this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'], 
+													   'nom' => $this->data['InscrireAdulte']['nom'], 
+													   'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 
+													   'sexe' => $this->data['InscrireAdulte']['sexe'], 
+													   'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 
+													   'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 
+													   'profession' => $this->data['InscrireAdulte']['profession'], 
+													   'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 
+													   'compte_id' => $this->Compte->id, 
+													   'tel_autre' => $this->data['InscrireAdulte']['tel_autre'])))){
+								
+									//Si une implication est existante	
+								if ((isset($this->data['InscrireAdulte']['Implication'])) && (!empty($this->data['InscrireAdulte']['Implication']))){
+									
+									foreach($this->data['InscrireAdulte']['Implication'] as $impl) {
+										$this->AdultesImplication->create();
+										$this->AdultesImplication->save(array('implication_id' => $impl, 'adulte_id' => $this->Adulte->id));
+									}
+								}
+									//Si l'enregistrement a bien été fait, affiche le bon messasge
+									$this->Session->setFlash(__('Inscription terminée', true));
+								} else {
+								$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
 							}
+<<<<<<< HEAD
 						}
 							//Si l'enregistrement a bien été fait, affiche le bon messasge
 							$this->Session->setFlash(__('Inscription terminée', true));
@@ -168,6 +197,61 @@ class InscrireAdulteController extends AppController {
 					}
 				} 
 		}	
+=======
+						} 
+				}	
+	}
+
+
+
+	/**
+		 *Met à jour le profil de membre
+		 * @author Luc-Frédéric Langis
+		 * @see J'ai du faire deux fonctions pour la mise à jour et l'inscription, sinon cela occassionnais des conflits d'id et d'unicité
+		 * @return void
+		 */
+
+	private function _majMembre(){
+
+			if (!empty($this->data)) {
+
+					$this->InscrireAdulte->set($this->data);
+						if($this->InscrireAdulte->validates()) {
+							//Enregistrement des données dans la base de données
+							if ($this->Compte->save(array('id' => $this->Session->read('authentification.id_compte'),
+														'nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'], 
+														'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe'])) && 
+										($this->Adulte->save(array('id'=>$this->Session->read('authentification.id_adulte'),
+													   'prenom' => $this->data['InscrireAdulte']['prenom'], 
+													   'nom' => $this->data['InscrireAdulte']['nom'], 
+													   'tel_maison' => $this->data['InscrireAdulte']['tel_maison'], 
+													   'sexe' => $this->data['InscrireAdulte']['sexe'], 
+													   'tel_bureau' => $this->data['InscrireAdulte']['tel_bureau'], 
+													   'poste_bureau' => $this->data['InscrireAdulte']['poste_bureau'], 
+													   'profession' => $this->data['InscrireAdulte']['profession'], 
+													   'courriel'=> $this->data['InscrireAdulte']['nom_utilisateur'], 
+													   'compte_id' => $this->Session->read('authentification.id_compte'),
+													   'tel_autre' => $this->data['InscrireAdulte']['tel_autre'])))){
+								
+									//Si une implication est existante	
+								if ((isset($this->data['InscrireAdulte']['Implication'])) && (!empty($this->data['InscrireAdulte']['Implication']))){
+									
+									//Supprimer les implications avant pour éviter conflit
+									$this->AdultesImplication->deleteAll(array('adulte_id' => $this->Session->read('authentification.id_adulte')));
+									
+									foreach($this->data['InscrireAdulte']['Implication'] as $impl) {
+										$this->AdultesImplication->create();
+										$this->AdultesImplication->save(array('implication_id' => $impl, 'adulte_id' => $this->Session->read('authentification.id_adulte')));
+									}
+								}
+									//Si l'enregistrement a bien été fait, affiche le bon messasge
+									$this->Session->setFlash(__('Inscription terminée', true));
+								} else {
+								$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
+							}
+						} 
+				}	
+>>>>>>> 079fd68982e161c16905962b555428f4be298e8e
 	}
 
 }
