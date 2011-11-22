@@ -173,6 +173,4 @@ class ListeUniteController extends AppController {
 		
 }
 
-
-
 ?>
