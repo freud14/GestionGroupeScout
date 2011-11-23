@@ -17,6 +17,7 @@ class AssignerDroitController extends AppController {
 			parent::beforeFilter();
 			$this->layout = 'parent';
 			$this->loadModel("Compte");
+			$this->loadModel('AutorisationsCompte');
 
 		}
 
@@ -27,29 +28,25 @@ class AssignerDroitController extends AppController {
 		 * @param string $id
 		 * @return void
 		 */
-		 public function navigation() {
-		
+		 private function _navigation() {
 			
- 			
-			// $urlProvenance = $this -> Session -> read('url');
-			// $this -> Session -> write("url", $this->params['url']);
-			 
-			if ( array_key_exists ('precedent',$this->params['form']))
+			//si le bouton enregister est cliqué
+			if ( array_key_exists ('enregistrer',$this->params['form']))
  			{
- 			//si le bouton précédent est cliqué
+ 				$this->_updateDroit();
  				
- 				$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
- 			//pr($this->params['form']); 
- 			}elseif( array_key_exists ('suivant',$this->params['form']))
+ 				//$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
+ 			
+ 			}elseif( array_key_exists ('annuler',$this->params['form']))
  			{
  			//si le bouton suivant est cliqué	
- 				$this->redirect(array('controller'=>'inscription_autorisation', 'action'=>'index'));
+ 				$this->redirect(array('controller'=>'accueil', 'action'=>'index'));
  			
  			}
  	
 		}
 		
-		public function index() {
+	public function index() {
 			
  		
  		
@@ -57,7 +54,9 @@ class AssignerDroitController extends AppController {
 		$this->set('title_for_layout', __('Gestionnaire des droits', true));
 		$this->set('titre',__('Gestionnaire des droits',true));
 		
-		
+		if(!empty($this->data)){
+			$this->_navigation();
+		}
 		$resultats = $this->Compte ->find('all');
 		
 		$nonMembres = array();
@@ -77,25 +76,64 @@ class AssignerDroitController extends AppController {
 				
 				foreach($valeur['Autorisation'] as $droit)
 				{
-					pr($valeur['Compte']['id']);
-					pr($droit['id']);
+					
 					$membres[$valeur['Compte']['id']][] = $droit['id'];
 				}
 			}
 			
 		}
-		//pr($tabDroits);
-		//pr($nonMembres);
-		//pr($membres);
+	
 		$this->set('nonMembre',$nonMembres);
 		$this->set('membre',$membres);
 		//$this->set('droit',$tabDroits);
+			//$this->_updateDroit();	
 		
 		
+	}
+	private function _updateDroit(){
+		$tabVieuDroit = array();
+		$resultats = $this->Compte ->find('all');
+		//pr($resultats);
+		//on sort les droits de la bd
+		foreach($resultats as $membre)
+		{
+			$tabVieuDroit[$membre['Compte']['id']] = null;
+			foreach($membre['Autorisation'] as $autorisation)
+			{
+				
+				$tabVieuDroit[$membre['Compte']['id']][] = $autorisation['id'];
+			}
+		}
 		
-		
-		
-		
+		$tabNouveauDroit = (array)$this->data['AssignerDroit'];
+				
+		foreach($tabNouveauDroit as $idMembre => $nouveauDroit)
+		{
+			//si les droits on changé
+			if($nouveauDroit != $tabVieuDroit[$idMembre])
+			{
+				pr("sa a changer");
+				//on enleve les anciens droits pour ne pas faire de conflit
+				$this->AutorisationsCompte->deleteAll(array('compte_id' => $idMembre));
+				//si le membre a de nouveau droit on les ajoutes
+				if(!empty($nouveauDroit))
+				{	
+				// On cree les nouveaux droits du membre
+					foreach($nouveauDroit as $idDroit)
+					{
+						$this->AutorisationsCompte->create();
+						$this->AutorisationsCompte->save(array('autorisation_id' => $idDroit, 'compte_id' => $idMembre));
+					}
+				}
+			}
+		}
+		/*$this->AdultesImplication->deleteAll(array('adulte_id' => $this->Session->read('authentification.id_adulte')));
+									
+					foreach($this->data['InscrireAdulte']['Implication'] as $impl) {
+					
+									}*/
+									
+									
 	}
 }
 ?>
