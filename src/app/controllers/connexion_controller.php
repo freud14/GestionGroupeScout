@@ -12,7 +12,10 @@ class ConnexionController extends AppController {
 			$this->layout = 'non_connecte';
 			$this->loadModel('Compte'); 
 		}
-		 public function navigation() {
+		/*
+		*La fonction _navigation vérifie quel bouton a été cliqué et execute la bonne action
+		*/
+		 private function _navigation() {
 		
 			//si le bouton connexion est cliqué
 			if ( array_key_exists ('connexion',$this->params['form']))
@@ -24,27 +27,16 @@ class ConnexionController extends AppController {
 				{
 					$this -> Session -> write("authentification", $resultat);
 					$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
-					
+				//si le mot de passe n'est pas valide	
 				}else{
 					$this -> Session -> write("authentification", null);
 					pr("looser");
 				}
- 			//$this->redirect(array('controller'=>'information_generale', 'action'=>'index'));
- 			//
- 			/*}elseif( array_key_exists ('suivant',$this->params['form']))
- 			{
- 			//si le bouton suivant est cliqué	
- 				$this->redirect(array('controller'=>'inscription_autorisation', 'action'=>'index'));
- 			
- 			*/
- 	
-			}
+ 			}
 		}
 
 		/**
-		 * Écran de connexion
-		 * @todo Erreur si mot de passe vide, changer mot de passe
-		 * @bug Password ne se fait pas valider par le model ???
+		 *
 		 */
 		 public function index() {
 			$this->set('titre',__('Connexion',true));
@@ -59,7 +51,7 @@ class ConnexionController extends AppController {
 			if (!empty($this->data))
 			{
 				
-				$this -> navigation();
+				$this -> _navigation();
 				
 							
 			}
