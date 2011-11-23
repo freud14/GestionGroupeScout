@@ -31,7 +31,7 @@ class ListeUniteController extends AppController {
 			$this->set('titre','Liste des unités');
 			$this->set('ariane', __('<span style="color: green;">Liste </span> > Liste des unités', true));
 			$this->set('title_for_layout', __('Liste des unités', true));
-			$nomUnite = $this->_listeOption('Tous');
+			$nomUnite = $this->_listeOption();
 			//Si une valeure autre que tous a été choisie
 		 	if ((!empty($this->data['ListeUnite']))&&($this->data['ListeUnite']['Afficher'] != "0")){
 				
@@ -46,10 +46,9 @@ class ListeUniteController extends AppController {
 			$this->set('unite', $unite);
 		}
 		/**
-		*Retourne l'autorisation la plus haute du compte
-		*
+		*Retourne l'id de l'autorisation la importante du compte pilote>administrateur>consultation>animateur
 		*/
-		function _getAutorisation()
+		private function _getAutorisation()
 		{
 			$accesNum = null;
 			$autorisation = $this-> Session -> read('authentification.autorisation');
@@ -66,16 +65,15 @@ class ListeUniteController extends AppController {
 			return $accesNum;
 		}
 		/**
-		 * Définit les options pour les droplists
-		 * Donne un nom au premier élément et met le nom
-		 * des unités par la suite
+		 * Donne la liste des noms que le membre peut voir
+		 *@return la liste des noms des unités que le membre peut voir selon ses droits d'accès
 		 */
-		private function _listeOption($option1){
-			 $autorisation = $this->_getAutorisation();
-			//Permet d'afficher les éléments de la droplist
+		private function _listeOption(){
+		
+			$autorisation = $this->_getAutorisation();
 			$droplist = array();
 			$option = array();
-			$option[] = $option1;
+			$option[] = 'Tous';
 			
 			//s'il n'a pas d'autorisation (un parent) on le renvoit a laccueil
 			if (empty($autorisation))
@@ -95,6 +93,7 @@ class ListeUniteController extends AppController {
 					$option[$valeur['id']] = $valeur['nom'];
 				}
 			}
+			//s'il a les droits de consultations(ou plus) on affiche toutes les unités
 			else{
 				$unite = $this->Unite->find('all');
 				foreach($unite as $valeur){

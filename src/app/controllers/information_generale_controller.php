@@ -25,13 +25,13 @@ class InformationGeneraleController extends AppController {
 		parent::beforeFilter();
 		$this->layout = 'parent';
 		setlocale(LC_ALL, 'fr_CA.utf8');
+		$this->loadModel('GroupeAge');
 	}
 
-	/**
-	 * Cette méthode gère la navigation de la page vers
-	 * les étapes suivantes de l'inscription.
-	 */
-	function navigation() {
+	/*
+	*La fonction _navigation vérifie quel bouton a été cliqué et execute la bonne action
+	*/
+	private function _navigation() {
 
 		if (array_key_exists('suivant', $this->params['form'])) {
 			//Si le bouton suivant est cliquer				
@@ -55,9 +55,11 @@ class InformationGeneraleController extends AppController {
 	 */
 	function index() {
 		$this->Session->write("url", $this->params['url']);
+		//si la page ne c'est pas rapeler elle même
 		if (empty($this->data)) {
 			//Si ce n'est pas la page qui renvoit vers elle même
 			$informationGenerale = $this->Session->read('info_gen.InformationGenerale');
+			//Si la variable session est vide
 			if (empty($informationGenerale)) {
 				//s'il n'y a pas de données sauvegargées
 				$informationGenerale = array(
@@ -71,11 +73,11 @@ class InformationGeneraleController extends AppController {
 					'lien_jeune_urgence' => "", 'particularite' => ""
 				);
 			}
+			//Si c'est la page qui renvoit vers elle même on enregistre les informations et on appelle _navigation
 		} else {
-			//Si c'est la page qui renvoit vers elle même on enregistre les informations et on vérifie 
-			//l'action qui a été effectuée
+			
 			$this->Session->write('info_gen', $this->params['data']);
-			$this->navigation();
+			$this->_navigation();
 			$informationGenerale = $this->Session->read('info_gen.InformationGenerale');
 		}
 
@@ -84,7 +86,7 @@ class InformationGeneraleController extends AppController {
 		$this->set('titre', __('Informations générales', true));
 		$this->set('ariane', __('<span style="color: green;">Informations générales</span> > Fiches médicales > Autorisations', true));
 
-		$this->loadModel('GroupeAge');
+		
 		$this->set('groupe_age', $this->GroupeAge->find('all'));
 		//pr($informationGenerale);
 		//pr($informationGenerale);
