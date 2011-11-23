@@ -124,11 +124,8 @@ class ListeUniteController extends AppController {
 			//Option pour la droplist
 			$nomUnite =	$this->_listeOption('Jeunes non assignés');
 				
-			if (!empty($this->data)){
-
-
 			//Si une valeure autre que tous a été choisie, cherche les enfants si ils sont dans une unité ou non par rappport à l'inscription
-		 	if ((!empty($this->data['ListeUnite']))&&($this->data['ListeUnite']['Afficher'] != "0")){
+			if ((!empty($this->data['ListeUnite']))&&($this->data['ListeUnite']['Afficher'] != "0")){
 				
 					$unite = $this->Inscription->find('all', array('recursive' => 2,
 					'conditions' => array('Inscription.unite_id' => $this->data['ListeUnite']['Afficher'], 'Unite.Nom ' => $nomUnite)));
@@ -143,7 +140,6 @@ class ListeUniteController extends AppController {
 			pr($unite);
 	
 			$this->set('unite', $unite);
-		 	}
 		 
 		 } 
 
