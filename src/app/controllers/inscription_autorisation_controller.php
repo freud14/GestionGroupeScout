@@ -2,6 +2,7 @@
 
 class InscriptionAutorisationController extends AppController {
 
+
 	var $name = 'InscriptionAutorisation';
 	var $helpers = array("Html", 'Form');
 
@@ -204,6 +205,7 @@ class InscriptionAutorisationController extends AppController {
 			}
 		}
 	}
+
 
 }
 
