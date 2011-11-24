@@ -8,7 +8,7 @@ class AppController extends Controller {
 		parent::beforeFilter();
 		$this -> Session -> write("url", $this->params['url']);
 		$resultat = $this->Session -> read('authentification.id_compte');
-		pr($this->params['url']); 
+		//pr($this->params['url']); 
 		if(empty($resultat)&&($this-> params['url']['url'] != 'connexion')&&($this -> params['url']['url'] != 'inscrire_adulte'))
 		{
 			
