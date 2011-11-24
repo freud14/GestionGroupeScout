@@ -3,7 +3,7 @@ class InscriptionConfirmationController extends AppController {
       
 	var $name = 'InscriptionConfirmation';
 	var $helpers = array("Html",'Form');
-	
+	var $components = array('supprimer');
 	function beforeFilter() {
 		parent::beforeFilter();
 		$this->layout = 'parent';
@@ -27,6 +27,7 @@ class InscriptionConfirmationController extends AppController {
 	}
 	function index()
 	{
+                $this->supprimer-> supprimerInscription();
 		$this->_navigation();
 		$this->set('title_for_layout', __('Inscription d\'un enfant réussie', true));
 		$this->set('titre',__('Fin de l\'inscrtiption',true));
