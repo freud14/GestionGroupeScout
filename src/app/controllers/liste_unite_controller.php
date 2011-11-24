@@ -17,6 +17,8 @@ class ListeUniteController extends AppController {
 			$this->loadModel('Inscription');
 			$this->loadModel('Adulte');
 			$this->loadModel('Compte');
+			$this->loadModel('Annee');
+
 		}
 
 
@@ -134,9 +136,9 @@ class ListeUniteController extends AppController {
 					$this->_retirerEnfant();
  				}elseif( array_key_exists ('voir',$this->params['form'])){
 					$this->_voirAssigner();
-				}	
+				}else{	
 					$this->_voirAssigner();
-				
+				}
 		 } 
 
 
@@ -145,19 +147,24 @@ class ListeUniteController extends AppController {
 			//Option pour la liste déroulante 
 			$nomUnite =	$this->_listeOption('Jeunes non assignés', 'option');
 			$this->_listeOption(null, 'optionAssignation');
-			//Si les jeunes non assignés ne sont pas sélectionner affiche les bons enfants dans les bonnes unités
+		
+			//Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
+			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
+			pr($annee);
+
+		//Si les jeunes non assignés ne sont pas sélectionner affiche les bons enfants dans les bonnes unités
 			if ((!empty($this->data['Assigner']))&&($this->data['Assigner']['Afficher'] != "0")){
 				
 					$unite = $this->Inscription->find('all', array('recursive' => 2,
 					'conditions' => array('Inscription.unite_id' => $this->data['Assigner']['Afficher'], 
-											'Unite.Nom ' => $nomUnite, 'Inscription.date_fin' => date(null)), 
-											,'order' => 'Enfant.nom DESC'));
+											'Unite.Nom ' => $nomUnite, 'Inscription.date_fin' => null)));
+					pr($unite);
 					$titreUnite = $nomUnite[$this->data['Assigner']['Afficher']];
 	
 			} else {
 
 					$unite = $this->Inscription->find('all', array('conditions'=> array('Inscription.unite_id' => null, 
-														'Inscription.date_fin' => date(null)), 'order' => 'Enfant.nom DESC'));	
+														'Inscription.date_fin' => null)));	
 					$titreUnite = 'Jeune non assignés';
 			}
 	
@@ -171,7 +178,7 @@ class ListeUniteController extends AppController {
 		 * @return void
 		 */
 		private function _initEnfant($requete){
-		
+
 			$enfant = array();
 			foreach($requete as $value){
 				$enfant[$value['Enfant']['id']] = array('nom' => $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom'], 
