@@ -16,6 +16,8 @@ class ListeUniteController extends AppController {
 			$this->loadModel('Unite');
 			$this->loadModel('Inscription');
 			$this->loadModel('Adulte');
+			$this->loadModel('AdultesUnite');
+			$this->loadModel('AutorisationsCompte');
 			$this->loadModel('Compte');
 			$this->loadModel('Annee');
 
@@ -38,7 +40,7 @@ class ListeUniteController extends AppController {
 		 	if ((!empty($this->data['ListeUnite']))&&($this->data['ListeUnite']['Afficher'] != "0")){
 				
 					$unite = $this->Unite->find('all', array('recursive' => 2, 
-					'conditions' => array('Unite.Id' => $this->data['ListeUnite']['Afficher'],'Unite.Nom ' => $nomUnite)));
+					'conditions' => array('Unite.Id' => $this->data['ListeUnite']['Afficher'],'Unite.nom' => $nomUnite)));
 			} else {
 
 					$unite = $this->Unite->find('all', array('recursive' => 2,'conditions' => array('Unite.Nom ' => $nomUnite)));
@@ -48,11 +50,163 @@ class ListeUniteController extends AppController {
 			$this->set('unite', $unite);
 		}
 		/**
+		 * Permet d'assigner les jeunes à leur unité 
+		 * @todo  faire l'exportation excel
+		 */
+		 public function assigner() {
+		     if ($this->_getAutorisation() <= 2){
+					$this->redirect(array('controller'=>'accueil', 'action'=>'index'));
+			}
+			$this->set('titre','Assigner des jeunes dans une unité');
+			$this->set('ariane', __('<span style="color: green;">Gestion des unités </span> > Assigner un jeune', true));
+			$this->set('title_for_layout', __('Assigner un jeune', true));
+
+
+			
+			//Action spécifique selon le bouton
+				if ( array_key_exists ('assigner',$this->params['form'])){
+				
+					$this->_assignerEnfant();
+					
+					
+ 				}elseif( array_key_exists ('retirer',$this->params['form'])){
+					$this->_retirerEnfant();
+ 				}elseif( array_key_exists ('voir',$this->params['form'])){
+					$this->_voirAssigner();
+				}	
+					$this->_voirAssigner();
+				
+		 } 
+
+		
+		public function assigner_animateur(){
+			 if ($this->_getAutorisation() <= 2){
+					$this->redirect(array('controller'=>'accueil', 'action'=>'index'));
+			}
+			$this->set('titre','Assigner des animateurs dans une unité');
+			$this->set('ariane', __('<span style="color: green;">Gestion des unités </span> > Assigner un jeune', true));
+			$this->set('title_for_layout', __('Assigner un animateur', true));
+
+			//Option pour la liste déroulante 
+			$nomUnite =	$this->_listeOption('Animateurs non assignés', 'option');
+			$this->_listeOption(null, 'optionAssignation');
+
+
+
+			$autorisation = $this->AutorisationsCompte->find('all', array('recursive' => 2, 'conditions' => array('autorisation_id' => 1)));
+			$adulte_unite = $this->AdultesUnite->find('all', array('recursive' =>2));
+
+			
+
+
+			$compte = array();
+			$adulte = array();
+			$animateurAss = array();
+			$animateurNonAss = array();
+			pr($autorisation);
+			foreach($autorisation as $value){
+				$compte[] = $this->Compte->find('all', array('recursive' => 2, 'conditions' => array('id' => $value['AutorisationsCompte']['compte_id'])));
+
+			}
+			$mesAdultes = array();
+			//pr($compte);
+			foreach($compte as $value){
+				$mesAdultes[$value[0]['Adulte'][0]['id']] = $value[0]['Adulte'][0]['prenom']." ".$value[0]['Adulte'][0]['nom'];
+						$adulte = $value;
+					
+			}	
+
+			pr($mesAdultes);
+	
+		foreach($adulte_unite as $uni){
+					foreach($adulte['Adulte'] as $adl){
+					pr($adl);
+							if ($uni['AdultesUnite']['adulte_id'] == $adl['id']){
+								$animateurAss[$adl['id' ]] = array('nom' => $adl['prenom'] . ' ' . $adl['nom'],
+																'unite_id' => $uni['AdultesUnite']['unite_id']);
+							}else{
+								$animateurNonAss[$adl['id']] = array('nom' => $adl['prenom'] . ' ' . $adl['nom'],
+																	'unite_id' => null);
+							}		
+
+				}
+		}
+
+		pr($animateurNonAss);
+
+			if ((!empty($this->data['Animateur']))&&($this->data['Animateur']['Afficher'] != "0")){
+				
+					
+	
+			} else {
+
+			}
+
+			
+			
+			$this->set('titreUnite', $titreUnite);
+			$this->_initEnfant($unite);
+
+
+		}
+
+		private function _voirAssigner(){
+
+			//Option pour la liste déroulante 
+			$nomUnite =	$this->_listeOption('Jeunes non assignés', 'option');
+			$this->_listeOption(null, 'optionAssignation');
+		
+			//Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
+			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
+			//Si les jeunes non assignés ne sont pas sélectionner affiche les bons enfants dans les bonnes unités
+			if ((!empty($this->data['Assigner']))&&($this->data['Assigner']['Afficher'] != "0")){
+				
+					$unite = $this->Inscription->find('all', array('recursive' => 2,
+					'conditions' => array('Inscription.unite_id' => $this->data['Assigner']['Afficher'], 
+										 'Inscription.annee_id' => $annee['Annee']['id'])));
+					$titreUnite = $nomUnite[$this->data['Assigner']['Afficher']];
+	
+			} else {
+
+					$unite = $this->Inscription->find('all', array('conditions'=> array('Inscription.unite_id' => null, 
+														'Inscription.annee_id' => $annee['Annee']['id'])));	
+
+					$titreUnite = 'Jeune non assignés';
+			}
+	
+			$this->set('titreUnite', $titreUnite);
+			$this->_initEnfant($unite);
+
+		}
+
+
+
+		 /**
+		 *Enregistrement de membre
+		 * @return void
+		 */
+		private function _initEnfant($requete){
+			$enfant = array();
+			foreach($requete as $value){
+				$enfant[$value['Enfant']['id']] = array('nom' => $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom'], 
+														'sexe' => $value['Enfant']['sexe'], 
+														'naissance' => $value['Enfant']['date_naissance'],
+														'groupe' =>$value['GroupeAge']['nom'] . "( " . 
+																	$value['GroupeAge']['age_min'] . " - " 
+																	. $value['GroupeAge']['age_max']. ")"
+														);
+	
+			}
+
+			$this->set('enfant', $enfant);
+		} 
+
+		/**
 		*Retourne l'id de l'autorisation la importante du compte pilote>administrateur>consultation>animateur
 		*/
 		private function _getAutorisation()
 		{
-			$accesNum = null;
+			$accesNum = 0;
 			$autorisation = $this-> Session -> read('authentification.autorisation');
 			if(!empty($autorisation))
 			{
@@ -113,86 +267,6 @@ class ListeUniteController extends AppController {
 			return $option;
 
 		}
-
-		/**
-		 * Permet d'assigner les jeunes à leur unité 
-		 * @todo  faire l'exportation excel
-		 */
-		 public function assigner() {
-		 	
-			$this->set('titre','Assigner des jeunes dans une unité');
-			$this->set('ariane', __('<span style="color: green;">Gestion des unités </span> > Assigner un jeune', true));
-			$this->set('title_for_layout', __('Assigner un jeune', true));
-
-
-			
-			//Action spécifique selon le bouton
-				if ( array_key_exists ('assigner',$this->params['form'])){
-				
-					$this->_assignerEnfant();
-					
-					
- 				}elseif( array_key_exists ('retirer',$this->params['form'])){
-					$this->_retirerEnfant();
- 				}elseif( array_key_exists ('voir',$this->params['form'])){
-					$this->_voirAssigner();
-				}else{	
-					$this->_voirAssigner();
-				}
-		 } 
-
-
-		private function _voirAssigner(){
-
-			//Option pour la liste déroulante 
-			$nomUnite =	$this->_listeOption('Jeunes non assignés', 'option');
-			$this->_listeOption(null, 'optionAssignation');
-		
-			//Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
-			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
-			pr($annee);
-
-		//Si les jeunes non assignés ne sont pas sélectionner affiche les bons enfants dans les bonnes unités
-			if ((!empty($this->data['Assigner']))&&($this->data['Assigner']['Afficher'] != "0")){
-				
-					$unite = $this->Inscription->find('all', array('recursive' => 2,
-					'conditions' => array('Inscription.unite_id' => $this->data['Assigner']['Afficher'], 
-											'Unite.Nom ' => $nomUnite, 'Inscription.date_fin' => null)));
-					pr($unite);
-					$titreUnite = $nomUnite[$this->data['Assigner']['Afficher']];
-	
-			} else {
-
-					$unite = $this->Inscription->find('all', array('conditions'=> array('Inscription.unite_id' => null, 
-														'Inscription.date_fin' => null)));	
-					$titreUnite = 'Jeune non assignés';
-			}
-	
-			$this->set('titreUnite', $titreUnite);
-			$this->_initEnfant($unite);
-
-
-		}
-		 /**
-		 *Enregistrement de membre
-		 * @return void
-		 */
-		private function _initEnfant($requete){
-
-			$enfant = array();
-			foreach($requete as $value){
-				$enfant[$value['Enfant']['id']] = array('nom' => $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom'], 
-														'sexe' => $value['Enfant']['sexe'], 
-														'naissance' => $value['Enfant']['date_naissance'],
-														'groupe' =>$value['GroupeAge']['nom'] . "( " . 
-																	$value['GroupeAge']['age_min'] . " - " 
-																	. $value['GroupeAge']['age_max']. ")"
-														);
-	
-			}
-
-			$this->set('enfant', $enfant);
-		} 
 
 
 		 /**
