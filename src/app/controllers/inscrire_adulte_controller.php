@@ -180,7 +180,6 @@ class InscrireAdulteController extends AppController {
 								} else {
 								$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
 							}
-<<<<<<< HEAD
 						}
 							//Si l'enregistrement a bien été fait, affiche le bon messasge
 							$this->Session->setFlash(__('Inscription terminée', true));
@@ -193,12 +192,9 @@ class InscrireAdulteController extends AppController {
 							 $this->redirect(array('action' => 'view'));
 						} else {
 						$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
-					}
+						}
 				} 
 		}	
-=======
-						} 
-				}	
 	}
 
 

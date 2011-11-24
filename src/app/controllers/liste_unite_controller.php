@@ -17,6 +17,8 @@ class ListeUniteController extends AppController {
 			$this->loadModel('Inscription');
 			$this->loadModel('Adulte');
 			$this->loadModel('Compte');
+			$this->loadModel('Annee');
+
 		}
 
 
@@ -31,7 +33,7 @@ class ListeUniteController extends AppController {
 			$this->set('titre','Liste des unités');
 			$this->set('ariane', __('<span style="color: green;">Liste </span> > Liste des unités', true));
 			$this->set('title_for_layout', __('Liste des unités', true));
-			$nomUnite = $this->_listeOption();
+			$nomUnite = $this->_listeOption('Tous', 'option');
 			//Si une valeure autre que tous a été choisie
 		 	if ((!empty($this->data['ListeUnite']))&&($this->data['ListeUnite']['Afficher'] != "0")){
 				
@@ -66,15 +68,18 @@ class ListeUniteController extends AppController {
 		}
 		/**
 		 * Donne la liste des noms que le membre peut voir
+		 * @param $option1  le nom du premier champ de la liste déroulante
 		 *@return la liste des noms des unités que le membre peut voir selon ses droits d'accès
+		 * @author Michel Biron et Luc-Frédéric Langis
 		 */
-		private function _listeOption(){
+		private function _listeOption($option1, $nomVar){
 		
 			$autorisation = $this->_getAutorisation();
 			$droplist = array();
 			$option = array();
-			$option[] = 'Tous';
-			
+			if(isset($option1)){
+				$option[] = $option1;
+			}
 			//s'il n'a pas d'autorisation (un parent) on le renvoit a laccueil
 			if (empty($autorisation))
 			{
@@ -104,7 +109,7 @@ class ListeUniteController extends AppController {
 			}
 			
 			
-			$this->set('option', $option);
+			$this->set($nomVar, $option);
 			return $option;
 
 		}
@@ -120,56 +125,144 @@ class ListeUniteController extends AppController {
 			$this->set('title_for_layout', __('Assigner un jeune', true));
 
 
-			//Option pour la droplist
-			$nomUnite =	$this->_listeOption('Jeunes non assignés');
+			
+			//Action spécifique selon le bouton
+				if ( array_key_exists ('assigner',$this->params['form'])){
 				
-			if (!empty($this->data)){
+					$this->_assignerEnfant();
+					
+					
+ 				}elseif( array_key_exists ('retirer',$this->params['form'])){
+					$this->_retirerEnfant();
+ 				}elseif( array_key_exists ('voir',$this->params['form'])){
+					$this->_voirAssigner();
+				}else{	
+					$this->_voirAssigner();
+				}
+		 } 
 
 
-			//Si une valeure autre que tous a été choisie, cherche les enfants si ils sont dans une unité ou non par rappport à l'inscription
-		 	if ((!empty($this->data['ListeUnite']))&&($this->data['ListeUnite']['Afficher'] != "0")){
+		private function _voirAssigner(){
+
+			//Option pour la liste déroulante 
+			$nomUnite =	$this->_listeOption('Jeunes non assignés', 'option');
+			$this->_listeOption(null, 'optionAssignation');
+		
+			//Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
+			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
+			pr($annee);
+
+		//Si les jeunes non assignés ne sont pas sélectionner affiche les bons enfants dans les bonnes unités
+			if ((!empty($this->data['Assigner']))&&($this->data['Assigner']['Afficher'] != "0")){
 				
 					$unite = $this->Inscription->find('all', array('recursive' => 2,
-					'conditions' => array('Inscription.unite_id' => $this->data['ListeUnite']['Afficher'], 'Unite.Nom ' => $nomUnite)));
+					'conditions' => array('Inscription.unite_id' => $this->data['Assigner']['Afficher'], 
+											'Unite.Nom ' => $nomUnite, 'Inscription.date_fin' => null)));
+					pr($unite);
+					$titreUnite = $nomUnite[$this->data['Assigner']['Afficher']];
 	
 			} else {
 
-					$unite = $this->Inscription->find('all', array('conditions'=> array('Inscription.unite_id' => null, 'Inscription.date_fin' => null)));	
+					$unite = $this->Inscription->find('all', array('conditions'=> array('Inscription.unite_id' => null, 
+														'Inscription.date_fin' => null)));	
+					$titreUnite = 'Jeune non assignés';
 			}
-
+	
+			$this->set('titreUnite', $titreUnite);
 			$this->_initEnfant($unite);
 
-			pr($unite);
-	
-			$this->set('unite', $unite);
-		 	}
-		 
-		 } 
 
+		}
 		 /**
 		 *Enregistrement de membre
 		 * @return void
 		 */
 		private function _initEnfant($requete){
-			
-	
-			$optionF = array();
-			$optionM = array();
 
-
+			$enfant = array();
 			foreach($requete as $value){
-				if($value['Enfant']['sexe'] == 1){
-					$optionM[$value['Enfant']['id']] = $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom']. ' -- Age ' . $value['Enfant']['date_naissance'] ;
-				} else {
-					$optionF[$value['Enfant']['id']] = $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom']. ' -- Age ' . $value['Enfant']['date_naissance'] ;
-
-				}
+				$enfant[$value['Enfant']['id']] = array('nom' => $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom'], 
+														'sexe' => $value['Enfant']['sexe'], 
+														'naissance' => $value['Enfant']['date_naissance'],
+														'groupe' =>$value['GroupeAge']['nom'] . "( " . 
+																	$value['GroupeAge']['age_min'] . " - " 
+																	. $value['GroupeAge']['age_max']. ")"
+														);
+	
 			}
 
-			$this->set('optionF', $optionF);
-			$this->set('optionM', $optionM);
+			$this->set('enfant', $enfant);
 		} 
+
+
+		 /**
+		 *Assigne un jeune à une nouvelle unité
+		 * @return void
+		 */
+		private function _assignerEnfant(){
 		
+
+				$uniteAssigner = array();
+				$enfantId = array();
+
+				//Divise le $this->data puisque l'assignation ne peut être changer au niveau de l'index, on doit les séparer
+				foreach($this->data['Assigner'] as $cle => $inscription ){
+						if ($cle != 'assignation' && $cle != 'Afficher'){
+							$enfantId[$cle] = $inscription; 
+						} else{
+							$uniteAssigner[$cle] = $inscription;
+						}
+
+				}
+
+				//Parcours le tableau diviser pour chacun des enfants
+				foreach($enfantId as $cle => $inscription ){
+					if(!empty($inscription)){
+						$enfant = array();
+
+						//On recherche l'id de l'inscription relié à l'enfant
+						$enfant = $this->Inscription->find('first', array('conditions' => array('Inscription.enfant_id' => $cle)));
+
+						//Enregistrement de l'inscription à la nouvelle unité
+						$this->Inscription->save(array('id' => $enfant['Inscription']['id'],
+													'unite_id' => $uniteAssigner['assignation']));
+					}
+
+				}	
+		}
+		
+		/**
+		 *Assigne un jeune à une nouvelle unité
+		 * @return void
+		 */
+		private function _retirerEnfant(){
+				$enfantId = array();
+
+				//Divise le $this->data puisque l'assignation ne peut être changer au niveau de l'index, on doit les séparer
+				// Puisque les enfants sont retirer, on ne prend pas l'unité sélectionner par défaut dans le $this->data
+				foreach($this->data['Assigner'] as $cle => $inscription ){
+						if ($cle != 'assignation' && $cle != 'Afficher'){
+							$enfantId[$cle] = $inscription; 
+						} 
+
+				}
+
+				//Parcours le tableau diviser pour chacun des enfants
+				foreach($enfantId as $cle => $inscription ){
+					if(!empty($inscription)){
+						$enfant = array();
+
+						//On recherche l'id de l'inscription relié à l'enfant
+						$enfant = $this->Inscription->find('first', array('conditions' => array('Inscription.enfant_id' => $cle)));
+
+						//Enregistrement de l'inscription à la nouvelle unité
+						$this->Inscription->save(array('id' => $enfant['Inscription']['id'],
+													'unite_id' => null));
+					}
+
+				}	
+
+		}
 }
 
 ?>
