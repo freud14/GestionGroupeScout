@@ -2,30 +2,30 @@
 	echo '<table>'.
 		'<tr>'.
 		'<td >';
-		 echo $form->create('ListeUnite', array('url' => array('controller' => 'ListeUnite', 'action' => 'assigner')));
-		 echo $this->Form->input(__('Afficher',true), array('type' => 'select', 'options' => $option));
+		 echo $form->create('Assigner', array('url' => array('controller' => 'ListeUnite', 'action' => 'assigner')));
+		 echo $this->Form->select('Afficher', $option, null, array('empty' => false));
 
 	echo '</td>'.
 		'<td >';
-			echo $this->Form->button(__('Voir', true), array('type'=>'summit')); 
-			echo $form->end();
+			echo $this->Form->button(__('Voir', true), array('type'=>'summit', 'name' => 'voir')); 
 	echo'</td>'.
 		'</tr>'.
 		'</table>';
 ?> 
 
 
-	<h3><?php echo __('Liste des filles',true); ?></h3>
-	<table border=1><tr><th style ="width:200px"><?php echo __('Nom',true); ?></th>
+	<table border=1><tr><th style ="width:200px"><?php echo __('Prenom / Nom',true); ?></th>
 	<th style ="width:120px"><?php echo __('Sexe',true); ?></th>
 	<th style ="width:120px"><?php echo __('Âge',true); ?></th>
 	<th style ="width:150px"><?php echo __('Groupe âge',true); ?></th>
 	<th style ="width:120px"> <?php echo __('Sélectionner',true); ?></th>
 	</tr>
 
+<h3> <?php echo $titreUnite ?> </h3>
+
+
 <?php 
 
-	echo $form->create('Assigner', array('url' => array('controller' => 'ListeUnite', 'action' => 'assigner')));
 	$options = array('1' => '');
 	
 	foreach($enfant as $id => $tab)	{
@@ -47,11 +47,9 @@
 		<?php echo $this->Form->input($id, array('type'=>'select', 
 							 'multiple'=>'checkbox', 
 							 'options' => $options, 
-							 'selected' => $tab, 
-							 'label' =>' '	
-							)
+							 'label' =>' ')
 				    	     );
-		?> </tr></td><?php
+		echo'</tr></td>';
 	} ?>
 	
 	</table>
@@ -74,8 +72,8 @@
 	
 	echo '</td>'.
 		'<td >';
-	
-	echo $this->Form->input(__('',true), array('type' => 'select', 'options' => $option));
+	//Select au lieu d'un input pour avoir un index dans le $this->data
+	echo $this->Form->select('assignation', $optionAssignation, null, array('empty' => false));
 
 	echo '</td>'.
 		'<td >';
@@ -93,7 +91,6 @@
 
 <style type="text/css">
     .checkbox{
-    display:inline;
     padding-left:50px;
     }
   </style>

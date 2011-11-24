@@ -82,7 +82,7 @@ class InscriptionAutorisationController extends AppController {
 			}
 
 			//Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
-			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
+			$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => date(null))));
 
 			//Enregistrement des données dans la base de données
 			if (($this->Adresse->save(array('adresses' => $this->Session->read('info_gen.InformationGenerale.adresse'),
