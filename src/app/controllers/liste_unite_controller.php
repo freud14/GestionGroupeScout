@@ -135,11 +135,18 @@ class ListeUniteController extends AppController {
 			}
 
 			$this->_initEnfant($unite);
-
-			pr($unite);
 	
 			$this->set('unite', $unite);
-		 
+
+			//Action spécifique selon le bouton
+				if ( array_key_exists ('assigner',$this->params['form'])){
+				
+					$this->_assignerEnfant();
+
+ 				}elseif( array_key_exists ('retirer',$this->params['form'])){
+					$this->retirerEnfant();
+				}
+
 		 } 
 
 		 /**
@@ -148,23 +155,34 @@ class ListeUniteController extends AppController {
 		 */
 		private function _initEnfant($requete){
 			
-	
-			$optionF = array();
-			$optionM = array();
-
+			$enfant = array();
 
 			foreach($requete as $value){
-				if($value['Enfant']['sexe'] == 1){
-					$optionM[$value['Enfant']['id']] = $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom']. ' -- Age ' . $value['Enfant']['date_naissance'] ;
-				} else {
-					$optionF[$value['Enfant']['id']] = $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom']. ' -- Age ' . $value['Enfant']['date_naissance'] ;
-
-				}
+				$enfant[$value['Enfant']['id']] = array('nom' => $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom'], 
+														'sexe' => $value['Enfant']['sexe'], 
+														'naissance' => $value['Enfant']['date_naissance'],
+														'groupe' =>$value['GroupeAge']['nom'] . "( " . 
+																	$value['GroupeAge']['age_min'] . " - " 
+																	. $value['GroupeAge']['age_max']. ")");
 			}
 
-			$this->set('optionF', $optionF);
-			$this->set('optionM', $optionM);
+			$this->set('enfant', $enfant);
 		} 
+
+
+
+		private function _assignerEnfant(){
+			
+				pr($this->data);
+				$resultats = $this->Inscription->find('all');
+				
+				//on sort les droits de la bd
+				foreach($resultats as $inscription)
+				{
+					
+				}
+
+		}
 		
 }
 
