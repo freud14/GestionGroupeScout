@@ -201,22 +201,6 @@ class ListeUniteController extends AppController {
         }
 
         /**
-         * Retourne l'id de l'autorisation la importante du compte pilote>administrateur>consultation>animateur
-         */
-        private function _getAutorisation() {
-                $accesNum = 0;
-                $autorisation = $this->Session->read('authentification.autorisation');
-                if (!empty($autorisation)) {
-                        foreach ($autorisation as $valeur) {
-                                if ($valeur['id'] > $accesNum) {
-                                        $accesNum = $valeur['id'];
-                                }
-                        }
-                }
-                return $accesNum;
-        }
-
-        /**
          * Donne la liste des noms que le membre peut voir
          * @param $option1  le nom du premier champ de la liste déroulante
          * @return la liste des noms des unités que le membre peut voir selon ses droits d'accès

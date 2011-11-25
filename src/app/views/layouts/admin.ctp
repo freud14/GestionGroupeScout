@@ -23,84 +23,40 @@
 		<div id="header">
 			<div class="menu">
 				<ul>
-					<li class="link"><a href="<?php echo $this->webroot; ?>">Retour au coté « parent »</a></li>
+					<li><?php echo $this->Html->link(__('Retour au coté « parent »', true) ,array("controller" => "accueil", "action" => "index"));?></li>
+					
+					<li><?php echo $this->Html->link(__('Administration', true) ,array("controller" => "admin", "action" => "index"));?></li>
 
-					<li class="link"><a href="<?php echo $this->webroot; ?>admin">Administration</a></li>
-
-					<li>
-						<a href="<?php echo $this->webroot; ?>liste">Liste</a> 
-
-						<ul>
-							<li><a href="<?php echo $this->webroot; ?>liste_enfants">Liste des enfants</a></li>
-
-							<li><a href="<?php echo $this->webroot; ?>liste_membres">Liste des membres</a></li>
-
-							<li><a href="<?php echo $this->webroot; ?>liste_inscriptions">Liste des inscriptions</a></li>
-
-							<li><a href="<?php echo $this->webroot; ?>liste_unites">Liste des unités</a></li>
-						</ul>
-					</li>
+					<li><?php echo $this->Html->link(__('Liste des unités', true) ,array("controller" => "liste_unite", "action" => "index"));?></li>
 
 					<li>
-						<a href="<?php echo $this->webroot; ?>gestion_scouts">Gestion des scouts</a> 
+						<a>Gestion administrative</a> 
 
 						<ul>
-							<li><a href="<?php echo $this->webroot; ?>profil_jeunes">Profil des jeunes</a></li>
-
+							<li><?php echo $this->Html->link(__('Paiements', true) ,array("controller" => "paiement_membre", "action" => "index"));?></li>
+							
 							<li>
-								<a href="<?php echo $this->webroot; ?>gestion_unites">Gestion des unités</a> 
+								<a>Assigner</a> 
 
 								<ul>
-									<li><a href="<?php echo $this->webroot; ?>assigner_jeune">Assigner un jeune</a></li>
-
-									<li><a href="<?php echo $this->webroot; ?>desinscrire_jeune">Désinscrire un jeune</a></li>
-
-									<li><a href="<?php echo $this->webroot; ?>creation_unite">Création des unités</a></li>
+									<li><?php echo $this->Html->link(__('Jeune', true) ,array("controller" => "liste_unite", "action" => "assigner"));?></li>
+									
+									<li><?php echo $this->Html->link(__('Animateur', true) ,array("controller" => "liste_unite", "action" => "assigner"));?></li>
 								</ul>
 							</li>
-
-							<li><a href="<?php echo $this->webroot; ?>lier_compte">Lier des comptes</a></li>
-
-							<li><a href="<?php echo $this->webroot; ?>inscriptions_sans_compte">Inscription sans compte</a></li>
 						</ul>
 					</li>
 
 					<li>
-						<a href="<?php echo $this->webroot; ?>gestion_admin">Gestion administrative</a> 
+						<a>Gestion du système</a> 
 
 						<ul>
-							<li><a href="<?php echo $this->webroot; ?>tarifs">Tarifs</a></li>
-
-							<li><a href="<?php echo $this->webroot; ?>paiements">Paiements</a></li>
-
-							<li>
-								<a href="<?php echo $this->webroot; ?>assigner">Assigner</a> 
-
-								<ul>
-									<li><a href="<?php echo $this->webroot; ?>assigner_jeune">Jeune</a></li>
-
-									<li><a href="<?php echo $this->webroot; ?>assigner_animateur">Animateur</a></li>
-								</ul>
-							</li>
-
-							<li><a href="<?php echo $this->webroot; ?>desinscription">Désinscription d'un jeune</a></li>
-						</ul>
-					</li>
-
-					<li>
-						<a href="<?php echo $this->webroot; ?>gestion_sys">Gestion du système</a> 
-
-						<ul>
-							<li><a href="<?php echo $this->webroot; ?>droits">Gestion des droits</a></li>
-
-							<li><a href="<?php echo $this->webroot; ?>droits">Gestion des années</a></li>
-
-							<li><a href="<?php echo $this->webroot; ?>droits">Gestion des fiches médicales</a></li>
+							<li><?php echo $this->Html->link(__('Gestion des droits', true) ,array("controller" => "assigner_droit", "action" => "index"));?></li>
 						</ul>
 					</li>
 				</ul>
 			</div>
-			<a href="<?php echo $this->webroot; ?>"><img src="<?php echo $this->webroot; ?>img/logo102.png" alt="jet 30" width="214" height="125" border="0" class="logo" /></a>
+			<?php echo $html->image('logo102.png', array('alt' => __('Accueil du site', true), 'style' => 'width:214px; height:125px; border:0px', 'class' => 'logo', 'url' => array("controller" => "accueil", "action" => "index")));?>
 		</div>
 
 		<div id="body">

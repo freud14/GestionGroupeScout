@@ -23,14 +23,12 @@
 		<div id="header">
 			<div class="menu">
 				<ul>
-					<li class="link"><a href="<?php echo $this->webroot; ?>">Accueil</a></li>
-
-					<li><a href="<?php echo $this->webroot; ?>inscription_adulte">Inscription</a></li>
-
-					<li><a href="<?php echo $this->webroot; ?>connexion">Connexion</a></li>
+					<li><?php echo $this->Html->link(__('Inscription', true),array("controller" => "inscrire_adulte", "action" => "index"));?></li>
+					
+					<li><?php echo $this->Html->link(__('Connexion', true),array("controller" => "connexion", "action" => "index"));?></li>
 				</ul>
 			</div>
-			<a href="<?php echo $this->webroot; ?>"><img src="<?php echo $this->webroot; ?>img/logo102.png" alt="jet 30" width="214" height="125" border="0" class="logo" /></a>
+			<?php echo $html->image('logo102.png', array('alt' => __('Accueil du site', true), 'style' => 'width:214px; height:125px; border:0px', 'class' => 'logo', 'url' => array("controller" => "connexion", "action" => "index")));?>
 		</div>
 
 		<div id="body">

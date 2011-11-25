@@ -57,6 +57,7 @@ class InscrireAdulteController extends AppController {
 		 */
 
 		public function profil(){
+			$this->layout = 'parent';
 			$this->set('titre','Mon profil');
 			$this->set('ariane', __('<span style="color: green;"> Mon profil', true));
 
