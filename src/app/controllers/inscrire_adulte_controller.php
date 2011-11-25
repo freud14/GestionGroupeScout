@@ -150,7 +150,6 @@ class InscrireAdulteController extends AppController {
 						$this->Compte->create();
 						$this->Adulte->create();
 					
-					
 					$this->InscrireAdulte->set($this->data);
 						if($this->InscrireAdulte->validates()) {
 							//Enregistrement des données dans la base de données
@@ -180,7 +179,6 @@ class InscrireAdulteController extends AppController {
 								} else {
 								$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
 							}
-						}
 							//Si l'enregistrement a bien été fait, affiche le bon messasge
 							$this->Session->setFlash(__('Inscription terminée', true));
 							$this -> Session -> write("authentification",
@@ -194,10 +192,7 @@ class InscrireAdulteController extends AppController {
 						$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
 						}
 				} 
-		}	
-	}
-
-
+}
 
 	/**
 		 *Met à jour le profil de membre
@@ -246,7 +241,6 @@ class InscrireAdulteController extends AppController {
 							}
 						} 
 				}	
->>>>>>> 079fd68982e161c16905962b555428f4be298e8e
 	}
 
 }

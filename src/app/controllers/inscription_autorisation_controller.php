@@ -23,6 +23,8 @@ class InscriptionAutorisationController extends AppController {
 		$this->loadModel('InformationScolaire');
 		$this->loadModel('QuestionGenerale');
 		$this->loadModel('FicheMedicalesQuestionGenerale');
+		//Pour les erreurs mot de passe
+		$this->loadModel('Compte');
 	}
 
 	function navigation() {
@@ -35,7 +37,11 @@ class InscriptionAutorisationController extends AppController {
 			//pr($this->params['data']);
 			$this->Session->write("session", $this->params['data']);
 			//$this->redirect(array('controller'=>'inscription_confirmation', 'action'=>'index'));
-		}
+		} elseif (array_key_exists('annuler', $this->params['form'])) {
+            $this->supprimer->supprimerInscription($this);
+            $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
+                        //DEVRAIT REDIRIGER VERS L'ACCUEIL
+        }
 	}
 
 	function index() {
@@ -47,7 +53,19 @@ class InscriptionAutorisationController extends AppController {
 		$this->set('titre', __('Autorisations', true));
 		$this->set('ariane', __('Informations générales > Fiches médicales > <span style="color: green;">Autorisations</span>', true));
 
-		$this->_ajoutEnfant();
+		$validationMDP = $this->Compte->find('first', array('conditions' => array('mot_de_passe' => $this->Session->read('authentification.id_compte'))));
+
+		$erreurMDP = null;
+		pr($validationMDP);
+		pr($this->data);
+		if($validationMDP['Compte']['mot_de_passe'] == $this->data['Autorisation']['motdepassestr']){
+
+			$this->_ajoutEnfant();
+		} else {
+			$erreurMDP = '<p style="color:red" ">*Le mot de passe est invalide</p>'; 
+		}
+
+		$this->set('erreurMDP', $erreurMDP);
 	}
 
 	/**
@@ -198,7 +216,7 @@ class InscriptionAutorisationController extends AppController {
 
 				//Si l'enregistrement a bien été fait, affiche le bon messasge
 				$this->Session->setFlash(__('Inscription terminée', true));
-			//	$this->redirect(array('action'=>'view'));
+				$this->redirect(array('action'=>'view'));
 			} else {
 
 				$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));

@@ -111,7 +111,7 @@ class ListeUniteController extends AppController {
 			$mesAdultes = array();
 			//pr($compte);
 			foreach($compte as $value){
-				$mesAdultes[$value[0]['Adulte'][0]['id']] = $value[0]['Adulte'][0]['prenom']." ".$value[0]['Adulte'][0]['nom'];
+				$mesAdultes[$value[0]['Adulte'][0]['id']] = array('nom' => $value[0]['Adulte'][0]['prenom']." ".$value[0]['Adulte'][0]['nom']);
 						$adulte = $value;
 					
 			}	
