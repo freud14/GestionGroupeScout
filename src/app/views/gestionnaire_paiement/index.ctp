@@ -70,7 +70,7 @@ $locale = localeconv();
 				<td><?php echo $inscription[0]['dernier_paiement']; ?></td>
 				<td><?php echo $inscription[0]['prochain_paiement']; ?></td>
 				<?php if (isset($admin)) { ?>
-					<td><?php echo $this->Html->link('Modifier', array('controller' => 'paiement_membre', 'action' => 'payer', $inscription['inscriptions']['id'])); ?></td>
+					<td><?php echo $this->Html->link('Modifier', array('controller' => 'paiement_membre', 'action' => 'payer', $inscription['inscriptions']['id'], $id_adulte)); ?></td>
 				<?php } ?>
 			</tr>
 		<?php } ?>

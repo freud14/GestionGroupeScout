@@ -18,6 +18,8 @@ $frateries = $tmp['frateries'];
 	</thead>
 	<tbody>
 		<?php
+		setlocale(LC_NUMERIC, 'C');
+		$nf = new NumberFormatter('fr_CA', NumberFormatter::ORDINAL);
 		$anciennePosition = 0;
 		//On affiche chacun des positions suivit du montant total 
 		// et du montant de chacun des versements pour chacun des dates.
@@ -26,7 +28,7 @@ $frateries = $tmp['frateries'];
 			echo '<tr>';
 			while ($anciennePosition == $fraterie['Fraterie']['position'] && $i < count($frateries)) {
 				if ($fraterie['Versement']['position'] == 0) {
-					echo '<td>' . $fraterie['Fraterie']['position'] . ' ' . __('enfant', true) . ' (' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . ')</td>';
+					echo '<td>' . $nf->format($fraterie['Fraterie']['position'], NumberFormatter::TYPE_INT32) . ' ' . __('enfant', true) . ' (' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . ')</td>';
 				} else {
 					echo '<td>' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . '</td>';
 				}

@@ -13,7 +13,7 @@ class PaiementMembre extends AppModel {
 	 * @var string 
 	 */
 	var $name = 'PaiementMembre';
-	
+
 	/**
 	 * @var bool
 	 */
@@ -37,7 +37,6 @@ class PaiementMembre extends AppModel {
 						CONCAT(Adulte.prenom, ' ', Adulte.nom) LIKE '%$recherche%' OR 
 						CONCAT(Adulte.nom, ' ', Adulte.prenom) LIKE '%$recherche%'";
 		}
-
 
 		return $this->query("	SELECT
 						Adulte.id,
@@ -96,27 +95,98 @@ class PaiementMembre extends AppModel {
 						Adulte.nom,
 						Adulte.prenom,
 						Adulte.courriel,
-						Adulte.tel_maison;");
+						Adulte.tel_maison;", false);
+	}
+	
+	function getPaiementsPourInscription($inscription_id, $adulte_id) {
+		return $this->query('SELECT
+								Enfant.prenom,
+								Enfant.nom,
+								Facture.id,
+								Facture.fraterie_id,
+								Inscription.id,
+								Paiement.id,
+								Paiement.montant,
+								Paiement.paiement_type_id,
+								Paiement.date_reception,
+								Paiement.date_paiements,
+								Fraterie.position
+							FROM
+								inscriptions Inscription
+									JOIN enfants Enfant
+										ON	Inscription.enfant_id = Enfant.id
+										LEFT JOIN adultes_enfants
+											ON adultes_enfants.enfant_id = Enfant.id
+											JOIN adultes
+												ON 	adultes_enfants.adulte_id = adultes.id AND
+													adultes.id = '.intval($adulte_id).'
+									LEFT JOIN factures Facture
+										ON Inscription.id = Facture.inscription_id
+										LEFT JOIN frateries Fraterie
+											ON Facture.fraterie_id = Fraterie.id
+										LEFT JOIN paiements Paiement
+											ON Facture.id = Paiement.facture_id
+							WHERE
+								Inscription.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) AND
+								Inscription.id = '.intval($inscription_id).'
+							ORDER BY
+								Paiement.ordre_paiement;', false);
+	}
 
-		/* $retour = array();
-		  for($i = 0; $i < count($status); ++$i) {
-		  $retour[] = array();
-		  $retourActuel = &$retour[count($retour) - 1];
-		  $retourActuel['id'] = $status[$i]['Adulte']['id'];
-		  $retourActuel['nom'] = $status[$i]['Adulte']['nom'];
-		  $retourActuel['prenom'] = $status[$i]['Adulte']['prenom'];
-		  $retourActuel['courriel'] = $status[$i]['Adulte']['courriel'];
-		  $retourActuel['tel_maison'] = $status[$i]['Adulte']['tel_maison'];
-		  $retourActuel['montant_total'] = 0;
-		  $retourActuel['montant_paye'] = 0;
-		  while($indexActuel == $status[$i]['Adulte']['id'] && $i < count($status)) {
-		  $retourActuel['montant_total'] += $status[$i][0]['montant_total'];
-		  $retourActuel['montant_paye'] += $status[$i][0]['montant_paye'];
-		  ++$i;
-		  }
-		  }
+	/**
+	 * Cette méthode sert à savoir un prix possible de l'inscription 
+	 * selon la fraterie des inscriptions. 
+	 * @param array|int $inscriptions_id Un tableau ou un entier correspondant
+	 * à un ID d'inscription dans la BD.
+	 * @param int $adulte_id L'ID de l'adulte
+	 * @return array|int Retourne un tableau ou un entier correspondant
+	 * au prix possible de l'inscription selon la fraterie des inscriptions.
+	 */
+	function getTarifsPossibles($inscriptions_id, $adulte_id) {
+		$versements = ClassRegistry::init('PaiementInscription')->getTarifs();
+		$nb_inscription_paye = ClassRegistry::init('PaiementInscription')->getNbInscriptionPayé($adulte_id);
+		$inscriptions = ClassRegistry::init('PaiementInscription')->getInscriptionNonPayé($adulte_id);
 
-		  return $retour; */
+		$inscriptions_id = (array)$inscriptions_id;
+		
+		//On trouve la fraterie de la première nouvelle inscription
+		$indexProchainVersement = 0;
+		for ($i = 0; $i < count($versements); ++$i) {
+			$indexProchainVersement = $i;
+
+			//Si la position de la fraterie actuel correspond au nombre d'inscription actuel + 1.
+			if ($versements[$i]['Fraterie']['position'] == $nb_inscription_paye + 1) {
+				break;
+			}
+			// S'il manque une position dans la fraterie, on prend la précédente
+			else if ($versements[$i]['Fraterie']['position'] > $nb_inscription_paye + 1) {
+				--$indexProchainVersement;
+				break;
+			}
+		}
+
+
+		//On trouve les versements de chacune des inscriptions
+		$position = $nb_inscription_paye + 1;
+		$inscriptionAPayer = array();
+		foreach ($inscriptions as $inscription) {
+			//On regarde si on veut payer pour l'inscription.
+			if (in_array($inscription['Inscription']['id'], $inscriptions_id)) {
+				//Les modes de paiement à un versement ont un id entre 1 et 3.
+				$inscriptionAPayer[] = $versements[$indexProchainVersement]['Versement']['montant'];
+
+				//On augmente la position dans la famille
+				++$position;
+
+				//On regarde si on passe à la prochaine fraterie
+				if ($position > $versements[$indexProchainVersement]['Fraterie']['position'] &&
+						$indexProchainVersement < count($versements) - 1) {
+					++$indexProchainVersement;
+				}
+			}
+		}
+
+		return count($inscriptionAPayer) == 1 ? $inscriptionAPayer[0] : $inscriptionAPayer;
 	}
 
 }
