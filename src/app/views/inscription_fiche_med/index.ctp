@@ -21,10 +21,10 @@ foreach ($maladies as $valeur) {
 ?>
 <table>
         <tr><td>
-<?php
+                        <?php
 //echo $form->input('Model.name', array('multiple' => 'checkbox', 'options' => $options, 'selected' => $selected));
-echo $this->Form->input('antecedent1', array('type' => 'select', 'multiple' => 'checkbox', 'options' => $tab[0], 'label' => false, 'selected' => $antecedents));
-?>
+                        echo $this->Form->input('antecedent1', array('type' => 'select', 'multiple' => 'checkbox', 'options' => $tab[0], 'label' => false, 'selected' => $antecedents));
+                        ?>
                 </td><td>
                         <?php echo $this->Form->input('antecedent2', array('type' => 'select', 'multiple' => 'checkbox', 'options' => $tab[1], 'label' => false, 'selected' => $antecedents)); ?>
                 </td><td>
@@ -35,49 +35,47 @@ echo $this->Form->input('antecedent1', array('type' => 'select', 'multiple' => '
                 </td></tr></table></br> 
 
 <h3>
-<?php echo __('Questions générales sur votre jeune', true); ?></h3>
+        <?php echo __('Questions générales sur votre jeune', true); ?></h3>
 
 <table><tr><th></th><th>
-<?php
-//$question = array();
-echo $form->label('oui', __('Oui', true)) . $form->label('non', __('Non', true));
-?>
-                </th></tr>
                         <?php
-                        //test
-                        /* echo $form->input('describeJob', array('label' => false,'div' => false,'type' => 'select','multiple'=>'checkbox','legend' => 'false','options' =>
-                          array('Physical' => 'Physical','Mental' => 'Mental', 'Stressful' => 'Stressful',  'Easy-going' => 'Easy-going',
-                          'Secure' => 'Secure', 'Non-secure' => 'Non-secure', 'Exhausting' => 'Exhausting', 'Relaxing' => 'Relaxing' ),
-                          )); */
-                        $tab = array();
-                        foreach ($questions as $value) {
-                                $tab[] = $value['QuestionGenerale']['texte'];
-                                ?>
+//$question = array();
+                        echo $form->label('oui', __('Oui', true)) . $form->label('non', __('Non', true));
+                        ?>
+                </th></tr>
+        <?php
+        //test
+        /* echo $form->input('describeJob', array('label' => false,'div' => false,'type' => 'select','multiple'=>'checkbox','legend' => 'false','options' =>
+          array('Physical' => 'Physical','Mental' => 'Mental', 'Stressful' => 'Stressful',  'Easy-going' => 'Easy-going',
+          'Secure' => 'Secure', 'Non-secure' => 'Non-secure', 'Exhausting' => 'Exhausting', 'Relaxing' => 'Relaxing' ),
+          )); */
+        $tab = array();
+        foreach ($questions as $value) {
+                $tab[] = $value['QuestionGenerale']['texte'];
+                ?>
                 <tr>
                         <td>   
-                <?php echo $value['QuestionGenerale']['texte'] ?>
+                                <?php echo $value['QuestionGenerale']['texte'] ?>
                         </td>
                         <td> 
                                 <?php
-                                echo $form->radio('q' . $value['QuestionGenerale']['id'], 
-                                                  array('O' => '', 'N' => ''), 
-                                                  array('label' => false,
-                                                        'legend' => false,
-                                                        'default' => $reponseQuestion[$value['QuestionGenerale']['id']]
-                                            )
-                                        );
+                                echo $form->radio('q' . $value['QuestionGenerale']['id'], array('O' => '', 'N' => ''), array('label' => false,
+                                    'legend' => false,
+                                    'default' => $reponseQuestion[$value['QuestionGenerale']['id']]
+                                        )
+                                );
                                 ?>
                         </td>
                 </tr>
-                                <?php
-                        }
+                <?php
+        }
 
-                        /* RADIO BUTON
-                          echo $form -> radio('questions',array('label' => false, 'legend' => false));
-                          echo $this->Form->radio('antecedent23',
-                          $tab,
-                          array( 'legend' => false,'label' => false)); */
-                        ?>
+        /* RADIO BUTON
+          echo $form -> radio('questions',array('label' => false, 'legend' => false));
+          echo $this->Form->radio('antecedent23',
+          $tab,
+          array( 'legend' => false,'label' => false)); */
+        ?>
 
 
 
@@ -95,18 +93,18 @@ echo $form->label('oui', __('Oui', true)) . $form->label('non', __('Non', true))
                         <h3><?php echo __('Médicament(s) sous prescription avec posologie ', true); ?></h3>
                 </td>
         </tr>
-<?php
-$tab = array();
+        <?php
+        $tab = array();
 
-foreach ($medicaments as $valeur) {
-        $tab[$valeur['Medicament']['id']] = $valeur['Medicament']['nom'];
-}
-?>	
+        foreach ($medicaments as $valeur) {
+                $tab[$valeur['Medicament']['id']] = $valeur['Medicament']['nom'];
+        }
+        ?>	
         <tr>
                 <td>
 
-        <?php echo $this->Form->input('medicamentautoriseLab', array('type' => 'select',
-            'multiple' => 'checkbox', 'options' => $tab, 'label' => ' ', 'selected' => $resultmedicaments)); ?>
+                        <?php echo $this->Form->input('medicamentautoriseLab', array('type' => 'select',
+                            'multiple' => 'checkbox', 'options' => $tab, 'label' => ' ', 'selected' => $resultmedicaments)); ?>
 
                 </td>
                 <td>
@@ -116,19 +114,28 @@ foreach ($medicaments as $valeur) {
         <tr>
                 <td>
                         <h3><?php echo __('Allergie(s)', true); ?></h3> 
-<?php echo $form->input('allergie', array('type' => 'textarea', true, 'label' => false, 'value' => $allergies)); ?> 
+                        <?php echo $form->input('allergie', array('type' => 'textarea', true, 'label' => false, 'value' => $allergies)); ?> 
                 </td>
         </tr>
         <tr>
                 <td>
                         <h3><?php echo __('Peur(s) et phobie(s)', true); ?> </h3>
-<?php echo $form->input('peur', array('type' => 'textarea', true, 'label' => false, 'value' => $peurs)); ?>
+                        <?php echo $form->input('peur', array('type' => 'textarea', true, 'label' => false, 'value' => $peurs)); ?>
                 </td>
         </tr>
-</table>
-                        <?php
-                        echo $form->button('Étape précédente', array('type' => 'submit', 'name' => 'precedent'));
-                        echo $form->button('Étape suivante', array('type' => 'submit', 'name' => 'suivant'));
+        <tr>
+                <td colspan="2">
+                        <div style="text-align:right;padding-top:20px"> 
 
-                        echo $form->end();
-                        ?>
+                             <?php
+                              echo $form->button(__('Annuler', true), array('type' => 'submit', 'name' => 'annuler'));
+                              echo "&nbsp;&nbsp;&nbsp;";
+                             echo $form->button(__('Étape précédente',true), array('type' => 'submit', 'name' => 'precedent'));
+                             echo $form->button(__('Étape suivante',true), array('type' => 'submit', 'name' => 'suivant'));
+
+                             echo $form->end();
+                             ?>
+                </div>
+        </td>
+</tr>
+</table>

@@ -172,8 +172,8 @@
                         <div style="text-align:right;padding-top: 20px ">
 
                                 <?php
-                                echo $form->button(__('Annuler', true), array('type' => 'submit', 'name' => 'annuler'));
-
+                                echo $form->button(__('Annuler l\'inscription', true), array('type' => 'submit', 'name' => 'annuler'));
+                                echo "&nbsp;&nbsp;&nbsp;";
                                 echo $form->button(__('Étape suivante', true), array('type' => 'submit', 'name' => 'suivant'));
                                 echo $form->end();
                                 ?>

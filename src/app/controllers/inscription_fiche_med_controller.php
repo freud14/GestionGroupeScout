@@ -4,6 +4,7 @@ class InscriptionFicheMedController extends AppController {
 
         var $helpers = array('Html', 'Javascript', 'Form');
         var $name = 'InscriptionFicheMed';
+        var $components = array('supprimer');
 
         function beforeFilter() {
                 parent::beforeFilter();
@@ -40,6 +41,9 @@ class InscriptionFicheMedController extends AppController {
                 } elseif (array_key_exists('suivant', $this->params['form'])) {
 
                         $this->redirect(array('controller' => 'inscription_autorisation', 'action' => 'index'));
+                } elseif (array_key_exists('annuler', $this->params['form'])) {
+                        $this->supprimer->supprimerInscription($this);
+                        $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
                 }
         }
 
@@ -72,7 +76,7 @@ class InscriptionFicheMedController extends AppController {
                                     'prescription' => "",
                                     'allergie' => "",
                                     'peur' => ""
-                                        );
+                                );
                         }
                         //c'est la page elle même qui s'apelle
                 } else {
@@ -100,7 +104,7 @@ class InscriptionFicheMedController extends AppController {
                 foreach ($session as $cle => $valeur) {
 
                         if ($cle[0] == 'q') {
-                            
+
                                 $reponseQuestion[substr($cle, 1)] = $valeur;
                         }
                 }
