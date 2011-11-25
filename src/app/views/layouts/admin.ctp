@@ -1,3 +1,14 @@
+<?php
+$accesNum = 0;
+$autorisation = $this->Session->read('authentification.autorisation');
+if (!empty($autorisation)) {
+	foreach ($autorisation as $valeur) {
+		if ($valeur['id'] > $accesNum) {
+			$accesNum = $valeur['id'];
+		}
+	}
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
 	<head>
@@ -23,54 +34,60 @@
 		<div id="header">
 			<div class="menu">
 				<ul>
-					<li><?php echo $this->Html->link(__('Retour au coté « parent »', true) ,array("controller" => "accueil", "action" => "index"));?></li>
-					
-					<li><?php echo $this->Html->link(__('Administration', true) ,array("controller" => "admin", "action" => "index"));?></li>
+					<li><?php echo $this->Html->link(__('Retour au coté « parent »', true), array("controller" => "accueil", "action" => "index")); ?></li>
 
-					<li><?php echo $this->Html->link(__('Liste des unités', true) ,array("controller" => "liste_unite", "action" => "index"));?></li>
+					<li><?php echo $this->Html->link(__('Administration', true), array("controller" => "admin", "action" => "index")); ?></li>
 
-					<li>
-						<a>Gestion administrative</a> 
+					<li><?php echo $this->Html->link(__('Liste des unités', true), array("controller" => "liste_unite", "action" => "index")); ?></li>
 
-						<ul>
-							<li><?php echo $this->Html->link(__('Paiements', true) ,array("controller" => "paiement_membre", "action" => "index"));?></li>
-							
-							<li>
-								<a>Assigner</a> 
+					<?php if ($accesNum >= 3) { ?>
+						<li>
+							<a>Gestion administrative</a> 
 
-								<ul>
-									<li><?php echo $this->Html->link(__('Jeune', true) ,array("controller" => "liste_unite", "action" => "assigner"));?></li>
-									
-									<li><?php echo $this->Html->link(__('Animateur', true) ,array("controller" => "liste_unite", "action" => "assigner"));?></li>
-								</ul>
-							</li>
-						</ul>
-					</li>
+							<ul>
+								<li><?php echo $this->Html->link(__('Paiements', true), array("controller" => "paiement_membre", "action" => "index")); ?></li>
 
-					<li>
-						<a>Gestion du système</a> 
+								<li>
+									<a>Assigner</a> 
 
-						<ul>
-							<li><?php echo $this->Html->link(__('Gestion des droits', true) ,array("controller" => "assigner_droit", "action" => "index"));?></li>
-						</ul>
-					</li>
+									<ul>
+										<li><?php echo $this->Html->link(__('Jeune', true), array("controller" => "liste_unite", "action" => "assigner")); ?></li>
+
+										<li><?php echo $this->Html->link(__('Animateur', true), array("controller" => "liste_unite", "action" => "assigner")); ?></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					<?php } ?>
+
+					<?php if ($accesNum >= 3) { ?>
+						<li>
+							<a>Gestion du système</a> 
+
+							<ul>
+								<li><?php echo $this->Html->link(__('Gestion des droits', true), array("controller" => "assigner_droit", "action" => "index")); ?></li>
+							</ul>
+						</li>
+					<?php } ?>
 				</ul>
 			</div>
-			<?php echo $html->image('logo102.png', array('alt' => __('Accueil du site', true), 'style' => 'width:214px; height:125px; border:0px', 'class' => 'logo', 'url' => array("controller" => "accueil", "action" => "index")));?>
+			<?php echo $html->image('logo102.png', array('alt' => __('Accueil du site', true), 'style' => 'width:214px; height:125px; border:0px', 'class' => 'logo', 'url' => array("controller" => "accueil", "action" => "index"))); ?>
 		</div>
 
 		<div id="body">
 			<div id="right">
 				<div id="ariane">
-					<?php if (isset($ariane)) echo $ariane; ?>
+					<?php if (isset($ariane))
+						echo $ariane; ?>
 				</div>
 
 				<div id="menu2">
 				</div>
 
 				<div id="rightMiddle">
-					<p class="h2"><?php if (isset($titre)) echo $titre; ?></p>
-						<?php echo $content_for_layout ?>
+					<p class="h2"><?php if (isset($titre))
+						echo $titre; ?></p>
+					<?php echo $content_for_layout ?>
 					<p class="bodytext">&nbsp;</p>
 				</div>
 				<br class="spacer" />
