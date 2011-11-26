@@ -102,7 +102,8 @@ class GestionnairePaiementController extends AppController {
 		}
 	}
 
-	/* Cette fonction permet d'envoyer des recus d'impôt
+	/* Cette fonctionde générer les reçcus d'impôt dans la view
+	 * @param $id_compte le compte concerner pour les recus
 	 */
 
 	public function courriel($id_compte) {
@@ -122,6 +123,10 @@ class GestionnairePaiementController extends AppController {
 		}
 	}
 
+
+	/* Cette fonction permet d'envoyer des recus d'impôt par email
+	 * @param $id_compte le compte concerner pour les recus
+	 */
 	private function _envoyerCourriel($id_compte) {
 
 		/* On prépare les option SMTP pour le courriel à partir d'une adresse gmail */
@@ -132,11 +137,17 @@ class GestionnairePaiementController extends AppController {
 		    'username' => '102e.groupe@gmail.com',
 		    'password' => 'groupePS102',
 		);
-	
+
+		//Recherche des informations du recu d'impot
 		$rapport = $this->GestionnairePaiement->getRapportImpot($id_compte);
+		
+		//Type de livraison
 		$this->Email->delivery = 'smtp';
-		//On met les informations que contiendra le email
+
+		//On met le email a vide 
 		$this->Email->reset();
+
+		//On met les informations nécessaires pour le emails
 		$this->Email->from = '102e groupe des Laurentides ';
 		// $this->Email->to = $rapport[0]['comptes']['nom_utilisateur'];
 		$this->Email->to = 'fredy_14@live.fr';
@@ -147,18 +158,18 @@ class GestionnairePaiementController extends AppController {
 		$this->Email->template = "recu_impot";
 		$this->Email->sendAs = 'html';
 
+		$this->Email->send();
 
-		$this->Email->delivery = 'smtp';
+
+
+		/* permet d'afficher les erreurs dans le emails si le template ne marche pas
 		if ($this->Email->send()) {
 			return true;
 		} else {
 			echo $this->Email->smtpError;
-		}
-	
-	
-
+		}*/
 			
-		//$this->redirect(array('controller' => 'gestionnaire_paiement', 'action' => 'index'));
+		$this->redirect(array('controller' => 'gestionnaire_paiement', 'action' => 'index'));
 	}
 
 }
