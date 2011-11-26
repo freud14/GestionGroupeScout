@@ -31,7 +31,7 @@
 						<ul>
 							<li><?php echo $this->Html->link(__('Inscription des enfants', true) ,array("controller" => "information_generale", "action" => "index"));?></li>
 
-							<li><?php echo $this->Html->link(__('Profil des enfants', true) ,array("controller" => "profils_enfant", "action" => "index"));?></li>
+							<li><?php echo $this->Html->link(__('Profil des enfants', true) ,array("controller" => "liste_profil_enfant", "action" => "index"));?></li>
 						</ul>
 					</li>
 					
