@@ -107,18 +107,29 @@ class GestionnairePaiementController extends AppController {
 
     public function courriel($id_compte, $imprimer) {
 
-        $parent = $this->Compte->find('all', array('recursive' => 2, 'conditions' => array('Compte.id' => 1)));
+        $parent = $this->Compte->find('all', array('recursive' => 4, 'conditions' => array('Compte.id' => 1)));
 
+	
         //Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
         $annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
+
+
 
         //On va chercher les paiements, les informations des enfants, de l'adulte, l'unité dans des requetes et etc.
         $inscription = array();
         foreach ($parent[0]['Adulte'][0]['Enfant'] as $value) {
-            $inscription[$value['id']] = $this->Inscription->find('all', array('recursive' => 4, 'conditions' => array('enfant_id' => $value['id'], 'Inscription.annee_id' => $annee['Annee']['id'])));
+
+		foreach($value['Inscription'] as $value2){
+
+			 $facturation[$value2['id']] = $this->Facture->find('all', array('recursive' => 2, 'conditions' => array('Facture.inscription_id' => $value2['id'])));
+			// $inscription[$value['id']] = $this->Inscription->find('all', array('recursive' => 2, 'conditions' => array('enfant_id' => $value['id'],
+			//																				'Inscription.annee_id' => $annee['Annee']['id'])));
+		      
+		}
         }
 
 
+	pr($facturation);
 	//Facture et unité
         $facture = array();
 	$unite = array();
@@ -126,7 +137,6 @@ class GestionnairePaiementController extends AppController {
             $facture[$cle] = $this->Facture->find('all', array( 'conditions' => array('inscription_id' => $value[0]['Inscription'])));
 	    $unite[$cle] = $this->Unite->find('all', array('conditions' => array('Unite.id' => $value[0]['Inscription']['unite_id'])));
         }
-
 
 
 
