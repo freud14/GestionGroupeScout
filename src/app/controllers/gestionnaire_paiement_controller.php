@@ -106,6 +106,12 @@ class GestionnairePaiementController extends AppController {
 	 */
 
 	public function courriel($id_compte) {
+	
+			$this->layout = 'admin';
+			$this->set('title_for_layout', __('Reçu d\'impôt', true));
+			$this->set('titre', __('Reçu d\'impôt', true));
+			$this->set('ariane', __('Gestion des paiements > Reçu d\'impôt', true));
+
 
 		$this->set('rapport', $this->GestionnairePaiement->getRapportImpot(1));
 
@@ -126,24 +132,32 @@ class GestionnairePaiementController extends AppController {
 		    'username' => '102e.groupe@gmail.com',
 		    'password' => 'groupePS102',
 		);
+	
 		$rapport = $this->GestionnairePaiement->getRapportImpot($id_compte);
-
+		$this->Email->delivery = 'smtp';
 		//On met les informations que contiendra le email
+		$this->Email->reset();
 		$this->Email->from = '102e groupe des Laurentides ';
 		// $this->Email->to = $rapport[0]['comptes']['nom_utilisateur'];
 		$this->Email->to = 'lucf.langis@gmail.com';
 		$this->Email->bcc = array('102e.groupe@gmail.com');
-		$this->Email->subject = __('Reçut d\'impôt pour', true) . $rapport[0][0]['adulte_nom'];
+		$this->Email->subject = __('Reçut d\'impôt pour ', true) . $rapport[0][0]['adulte_nom'];
 		$this->set('rapport', $rapport);
 		//Le template du email
-		$this->Email->template = 'recu_impot';
+		$this->Email->template = "recu_impot";
 		$this->Email->sendAs = 'html';
 
-		$this->Email->send();
+
+		$this->Email->delivery = 'smtp';
+		if ($this->Email->send()) {
+			return true;
+		} else {
+			echo $this->Email->smtpError;
+		}
+	
 	
 
-		pr($this->Email);
-			$this->Email->reset();
+			
 		//$this->redirect(array('controller' => 'gestionnaire_paiement', 'action' => 'index'));
 	}
 

@@ -1,6 +1,6 @@
 
 <?php
-pr($rapport);
+
 	echo '<h3>' . __('Reçu aux fins d\'impôt de ', true) . $rapport[0][0]['adulte_nom'] . '</h3>';
 ?>
 
