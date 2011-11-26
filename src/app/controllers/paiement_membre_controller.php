@@ -75,7 +75,6 @@ class PaiementMembreController extends AppController {
 		$this->loadModel('Facture');
 		
 		$paiements = $this->PaiementMembre->getPaiementsPourInscription($inscription_id, $adulte_id);
-		pr($paiements);
 
 		if (isset($this->data) && !empty($this->data)) {			
 			$nouveauModePaiement = $this->data['PaiementMembre']['mode'];

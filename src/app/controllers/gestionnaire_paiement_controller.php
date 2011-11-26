@@ -139,7 +139,7 @@ class GestionnairePaiementController extends AppController {
 		$this->Email->reset();
 		$this->Email->from = '102e groupe des Laurentides ';
 		// $this->Email->to = $rapport[0]['comptes']['nom_utilisateur'];
-		$this->Email->to = 'lucf.langis@gmail.com';
+		$this->Email->to = 'fredy_14@live.fr';
 		$this->Email->bcc = array('102e.groupe@gmail.com');
 		$this->Email->subject = __('Reçut d\'impôt pour ', true) . $rapport[0][0]['adulte_nom'];
 		$this->set('rapport', $rapport);
