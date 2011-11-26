@@ -53,13 +53,13 @@ class InscriptionAutorisationController extends AppController {
 		$this->set('titre', __('Autorisations', true));
 		$this->set('ariane', __('Informations générales > Fiches médicales > <span style="color: green;">Autorisations</span>', true));
 
-		$validationMDP = $this->Compte->find('first', array('conditions' => array('mot_de_passe' => $this->Session->read('authentification.id_compte'))));
+		$validationMDP = $this->Compte->find('first', array('conditions' => array('id' => $this->Session->read('authentification.id_compte'))));
 
 		$erreurMDP = null;
 		pr($validationMDP);
 		pr($this->data);
 		if($validationMDP['Compte']['mot_de_passe'] == $this->data['Autorisation']['motdepassestr']){
-
+			$erreurMDP = null;
 			$this->_ajoutEnfant();
 		} else {
 			$erreurMDP = '<p style="color:red" ">*Le mot de passe est invalide</p>'; 
@@ -216,7 +216,7 @@ class InscriptionAutorisationController extends AppController {
 
 				//Si l'enregistrement a bien été fait, affiche le bon messasge
 				$this->Session->setFlash(__('Inscription terminée', true));
-				$this->redirect(array('action'=>'view'));
+				$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
 			} else {
 
 				$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
