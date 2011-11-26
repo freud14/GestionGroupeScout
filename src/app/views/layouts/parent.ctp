@@ -23,24 +23,24 @@
 		<div id="header">
 			<div class="menu">
 				<ul>
-					<li class="link"><a href="<?php echo $this->webroot; ?>">Accueil</a></li>
-
+					<li><?php echo $this->Html->link(__('Accueil', true), array("controller" => "accueil", "action" => "index")); ?></li>
+					
 					<li>
-						<a href="<?php echo $this->webroot; ?>enfant">Enfant</a> 
+						<a>Enfant</a>							
 
 						<ul>
-							<li><a href="<?php echo $this->webroot; ?>information_generale">Inscription des enfants</a></li>
+							<li><?php echo $this->Html->link(__('Inscription des enfants', true) ,array("controller" => "information_generale", "action" => "index"));?></li>
 
-							<li><a href="<?php echo $this->webroot; ?>profil_enfant">Profil des enfants</a></li>
+							<li><?php echo $this->Html->link(__('Profil des enfants', true) ,array("controller" => "profils_enfant", "action" => "index"));?></li>
 						</ul>
 					</li>
+					
+					<li><?php echo $this->Html->link(__('Gestionnaire des paiements', true) ,array("controller" => "gestionnaire_paiement", "action" => "index"));?></li>
 
-					<li><a href="<?php echo $this->webroot; ?>gestionnaire_paiement">Gestionnaire des paiements</a></li>
-
-					<li><a href="<?php echo $this->webroot; ?>profil">Mon profil</a></li>
+					<li><?php echo $this->Html->link(__('Mon profil', true) ,array("controller" => "inscrire_adulte", "action" => "profil"));?></li>
 				</ul>
 			</div>
-			<a href="<?php echo $this->webroot; ?>"><img src="<?php echo $this->webroot; ?>img/logo102.png" alt="jet 30" width="214" height="125" border="0" class="logo" /></a>
+			<?php echo $html->image('logo102.png', array('alt' => __('Accueil du site', true), 'style' => 'width:214px; height:125px; border:0px', 'class' => 'logo', 'url' => array("controller" => "accueil", "action" => "index")));?>
 		</div>
 
 		<div id="body">
