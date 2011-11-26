@@ -1,3 +1,14 @@
+<?php
+$accesNum = 0;
+$autorisation = $this->Session->read('authentification.autorisation');
+if (!empty($autorisation)) {
+	foreach ($autorisation as $valeur) {
+		if ($valeur['id'] > $accesNum) {
+			$accesNum = $valeur['id'];
+		}
+	}
+}
+?>
 <div>
 	<h3><?php echo $form->label(__('Liste des unités', true)); ?> </h3>
 
@@ -20,7 +31,11 @@
 	echo $form->end();
 	echo '</td>' .
 	'<td >';
-	echo $this->Form->button(__('Exporter sur excel...', true), array('type' => 'summit'));
+	if($accesNum >= 4) {
+		echo $form->create('', array('url' => array('controller' => 'rapport_jeune', 'action' => 'liste.csv')));
+		echo $this->Form->button(__('Exporter sur excel...', true), array('type' => 'summit'));
+		echo $form->end();
+	}
 	echo'</td>' .
 	'</tr>' .
 	'</table>';
