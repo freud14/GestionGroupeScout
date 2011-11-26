@@ -6,7 +6,7 @@ echo $form->create('Assigner Animateur', array('url' => array('controller' => 'L
         foreach ($listeUnite as $id_unite => $valeur) {
         ?>
         <tr> 
-                <th> 
+                <th style="text-align: left;padding-left: 50px"> 
         <h3>
                 <?php echo $valeur['nom']; ?>
         </h3>
@@ -20,18 +20,23 @@ echo $form->create('Assigner Animateur', array('url' => array('controller' => 'L
                 'options' => $listeAnimateur,
                 'label' => false,
                 'selected' => $valeur['adulte']));
-                pr($listeAnimateur);
-                pr($valeur['adulte']);
+               
                 ?>
 
         </td>
 </tr>
 <?php
 }
-
-
+?>
+<tr> 
+        <td style="text-align: right">
+                <?php
+echo $form->button(__('Assigner',true), array('type'=>'submit','name' => 'assigner'));
 echo $form->end();
-
+?>
+        </td>
+</tr>
+<?php
 /*
   echo '<table>'.
   '<tr>'.
@@ -124,6 +129,6 @@ echo $form->end();
 <style type="text/css">
 
 .checkbox{
-padding-left:50px;
+padding-left:100px;
 }
 

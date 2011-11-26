@@ -84,8 +84,7 @@ class ListeUniteController extends AppController {
                 $this->set('title_for_layout', __('Assigner un animateur', true));
 
                 //Option pour la liste déroulante 
-                $nomUnite = $this->_listeOption('Animateurs non assignés', 'option');
-                $this->_listeOption(null, 'optionAssignation');
+                
 
 
 
@@ -94,8 +93,8 @@ class ListeUniteController extends AppController {
 
 
 
-                $tabUnite = $this->Unite->find('all', array('recursive' => 2));
-                // pr($tabUnite);
+                $tabUnite = $this->Unite->find('all', array('recursive' => 2,'order' => array('GroupeAge.age_min ASC')));
+               
                 $listeUnite = array();
                 //Donne la liste de toutes les unitées ainsi que leurs animateur
                 foreach ($tabUnite as $value) {
@@ -106,19 +105,18 @@ class ListeUniteController extends AppController {
                         }
                         $listeUnite[$value['Unite']['id']] = array('nom' => $value['Unite']['nom'],'adulte' => $animateur);
                 }
-                pr($listeUnite);
-                //pr($listeUnite);
+              
                 $listeAnimateur = array();
                 $tabAnimateur = $this->Autorisation->find('all',array('recursive' => 2, 'conditions' => array('Autorisation.id' => 1)));
-               // pr($tabAnimateur[0]['Compte']);
+                
+               
                 //Donne la liste de tout les comptes avec des droits d'animateur
                 foreach($tabAnimateur[0]['Compte'] as $valeur)
                 {
-                   //     pr($valeur['Adulte'][0]['nom']]);
+                  
                         $listeAnimateur[$valeur['Adulte'][0]['id']] = $valeur['Adulte'][0]['prenom'].' '.$valeur['Adulte'][0]['nom'];
                 }
-                pr($listeAnimateur);
-                pr($listeUnite);
+               
 
              
 
@@ -149,7 +147,7 @@ class ListeUniteController extends AppController {
                         $unite = $this->Inscription->find('all', array('conditions' => array('Inscription.unite_id' => null,
                                 'Inscription.annee_id' => $annee['Annee']['id'])));
 
-						pr($unite);
+						
                         $titreUnite = 'Jeune non assignés';
                 }
 
