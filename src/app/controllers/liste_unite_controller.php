@@ -97,61 +97,36 @@ class ListeUniteController extends AppController {
                 $tabUnite = $this->Unite->find('all', array('recursive' => 2));
                 // pr($tabUnite);
                 $listeUnite = array();
-
+                //Donne la liste de toutes les unitées ainsi que leurs animateur
                 foreach ($tabUnite as $value) {
                        
                         $animateur = array();
                         foreach ($value['Adulte'] as $adulteValeur) {
-                                $animateur[$adulteValeur['id']] = $adulteValeur['prenom'] . " " . $adulteValeur['nom'];
+                                $animateur[] = $adulteValeur['id'];
                         }
                         $listeUnite[$value['Unite']['id']] = array('nom' => $value['Unite']['nom'],'adulte' => $animateur);
                 }
                 pr($listeUnite);
-                $tabAnimateur = $this->Autorisation->find('all',array('recursive' => 2));
-                pr($tabAnimateur);
-                $compte = array();
-                $adulte = array();
-                $animateurAss = array();
-                $animateurNonAss = array();
-                //pr($autorisation);
-                foreach ($autorisation as $value) {
-                        $compte[] = $this->Compte->find('all', array('recursive' => 2, 'conditions' => array('id' => $value['AutorisationsCompte']['compte_id'])));
+                //pr($listeUnite);
+                $listeAnimateur = array();
+                $tabAnimateur = $this->Autorisation->find('all',array('recursive' => 2, 'conditions' => array('Autorisation.id' => 1)));
+               // pr($tabAnimateur[0]['Compte']);
+                //Donne la liste de tout les comptes avec des droits d'animateur
+                foreach($tabAnimateur[0]['Compte'] as $valeur)
+                {
+                   //     pr($valeur['Adulte'][0]['nom']]);
+                        $listeAnimateur[$valeur['Adulte'][0]['id']] = $valeur['Adulte'][0]['prenom'].' '.$valeur['Adulte'][0]['nom'];
                 }
-                $mesAdultes = array();
-                //pr($compte);
-                foreach ($compte as $value) {
-                        $mesAdultes[$value[0]['Adulte'][0]['id']] = array('nom' => $value[0]['Adulte'][0]['prenom'] . " " . $value[0]['Adulte'][0]['nom']);
-                        $adulte = $value;
-                }
+                pr($listeAnimateur);
+                pr($listeUnite);
 
-                //pr($mesAdultes);
-
-                foreach ($adulte_unite as $uni) {
-                        foreach ($adulte['Adulte'] as $adl) {
-                                //
-                                //  pr($adl);
-                                if ($uni['AdultesUnite']['adulte_id'] == $adl['id']) {
-                                        $animateurAss[$adl['id']] = array('nom' => $adl['prenom'] . ' ' . $adl['nom'],
-                                            'unite_id' => $uni['AdultesUnite']['unite_id']);
-                                } else {
-                                        $animateurNonAss[$adl['id']] = array('nom' => $adl['prenom'] . ' ' . $adl['nom'],
-                                            'unite_id' => null);
-                                }
-                        }
-                }
-
-                //pr($animateurNonAss);
-
-                if ((!empty($this->data['Animateur'])) && ($this->data['Animateur']['Afficher'] != "0")) {
-                        
-                } else {
-                        
-                }
+             
 
 
 
-                $this->set('titreUnite', $titreUnite);
-                $this->_initEnfant($unite);
+                $this->set('listeAnimateur', $listeAnimateur);
+                $this->set('listeUnite',$listeUnite);
+                //$this->_initEnfant($unite);
         }
 
         private function _voirAssigner() {

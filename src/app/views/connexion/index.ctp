@@ -16,8 +16,10 @@
 		echo $erreur;
 	}
 
-    //	echo $form->button('Annuler', array('type'=>'submit','name' => 'annuler'));
+    	
 	echo $form->button('Connexion', array('type'=>'submit','name' => 'connexion'));
+        echo "<br><br>";
+        echo $form->button('Nouvelle inscription', array('type'=>'submit','name' => 'inscrire'));
 	echo $form->end();
 ?>
 </fieldset>
