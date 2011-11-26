@@ -95,7 +95,8 @@ class GestionnairePaiement extends AppModel {
 						FROM
 							comptes
 								JOIN adultes
-									ON ' . $compte_id . ' = adultes.compte_id
+									ON comptes.id = adultes.compte_id
+										AND comptes.id = ' . intval($compte_id). '
 								JOIN adultes_enfants
 									ON adultes_enfants.adulte_id = adultes.id
 								JOIN enfants
