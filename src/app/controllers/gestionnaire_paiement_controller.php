@@ -112,52 +112,62 @@ class GestionnairePaiementController extends AppController {
         //Cherche l'année actuelle soit qui n'est pas finit donc pas de date de fin
         $annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
 
-        //On va chercher les paiements, les informations des enfants, de l'adulte et etc.
+        //On va chercher les paiements, les informations des enfants, de l'adulte, l'unité dans des requetes et etc.
         $inscription = array();
         foreach ($parent[0]['Adulte'][0]['Enfant'] as $value) {
             $inscription[$value['id']] = $this->Inscription->find('all', array('recursive' => 4, 'conditions' => array('enfant_id' => $value['id'], 'Inscription.annee_id' => $annee['Annee']['id'])));
         }
 
 
+	//Facture et unité
         $facture = array();
 	$unite = array();
         foreach ($inscription as $cle=> $value) {
-            $facture[$cle] = $this->Facture->find('all', array('recursive' => 2, 'conditions' => array('inscription_id' => $value[0]['Inscription'])));
+            $facture[$cle] = $this->Facture->find('all', array( 'conditions' => array('inscription_id' => $value[0]['Inscription'])));
 	    $unite[$cle] = $this->Unite->find('all', array('conditions' => array('Unite.id' => $value[0]['Inscription']['unite_id'])));
         }
 
 
 
+
+
+	//calcul des paiements pour le total du montaant selon le nombre de paiement
         $paiement = array();
         foreach ($facture as $value) {
             foreach ($value as $value2) {
                 $paiement[] = 0;
+
                 $len = count($paiement) - 1;
                 foreach ($value2['Paiement'] as $value3) {
                     $paiement[$len] +=$value3['montant'];
+		    pr($paiement);
                 }
             }
         }
 
-	pr($paiement);
 
 
-            /* SMTP option */
-    $this->Email->smtpOptions = array(
-                'port'=>'465',
-                'timeout'=>'30',
-                'host' => 'ssl://smtp.gmail.com',
-                'username'=>'102e.groupe@gmail.com',
-                'password'=>'groupePS102',
+
+
+
+            /* On prépare les option SMTP pour le courriel à partir d'une adresse gmail */
+		  $this->Email->smtpOptions = array(
+			'port'=>'465',
+			'timeout'=>'30',
+			'host' => 'ssl://smtp.gmail.com',
+			'username'=>'102e.groupe@gmail.com',
+			'password'=>'groupePS102',
                 );
 
 
-      
+	    //On met les informations que contiendra le email
             $this->Email->from = '102e groupe des Laurentides ';
            // $this->Email->to = $parent[0]['Compte']['nom_utilisateur'];
             $this->Email->to = 'lucf.langis@gmail.com';
             $this->Email->bcc = array('lol.ca');
             $this->Email->subject = __('Reçut d\'impôt pour', true);
+
+	    //Le template du email
             $this->Email->template = 'recu_impot';
             $this->Email->sendAs = 'html';
             $this->set('parent', $parent);
