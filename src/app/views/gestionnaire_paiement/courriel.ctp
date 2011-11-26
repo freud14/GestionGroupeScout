@@ -2,10 +2,10 @@
 <?php
 
 	echo '<h3>' . __('Reçu aux fins d\'impôt de ', true) . $rapport[0][0]['adulte_nom'] . '</h3>';
-	pr($rapport);
+
 ?>
 
-<?php foreach($rapport as $cle => $value) { ?>
+<?php foreach($rapport as $value) { ?>
 
 <table cellspacing="0" cellpadding="5" width="760" border="0">
 	<tr>

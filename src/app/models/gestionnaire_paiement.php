@@ -20,8 +20,7 @@ class GestionnairePaiement extends AppModel {
 	var $useTable = false;
 
 	/**
-	 * Cette méthode retourne le statut de paiement pour
-	 * un membre.
+	 * Cette méthode retourne les informations nécessaire pour le reçu d'impot
 	 * @param int $adulte_id L'id de l'adulte du membre.
 	 * @return array Retourne les données sous forme de tableau.
 	 */
