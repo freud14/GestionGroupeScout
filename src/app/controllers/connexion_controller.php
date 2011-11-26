@@ -32,7 +32,11 @@ class ConnexionController extends AppController {
 					$this -> Session -> write("authentification", null);
 					pr("looser");
 				}
- 			}
+ 			}elseif ( array_key_exists ('inscrire',$this->params['form']))
+ 			{
+                                $this->redirect(array('controller'=>'inscrire_adulte', 'action'=>'index'));
+                                
+                        }
 		}
 
 		/**

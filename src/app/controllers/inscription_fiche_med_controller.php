@@ -114,7 +114,7 @@ class InscriptionFicheMedController extends AppController {
                                 $medicaments[] = $valeur;
                         }
                 }
-                pr($reponseQuestion);
+                //pr($reponseQuestion);
 
                 $this->set('title_for_layout', __('Inscription d\'un enfant', true));
                 $this->set('titre', __('Fiche médicale', true));
@@ -130,6 +130,7 @@ class InscriptionFicheMedController extends AppController {
                 $this->set('maladies', $this->getMaladieListe());
                 $this->set('questions', $this->getQuestionListe());
                 $this->set('medicaments', $this->getMedicamentListe());
+                pr($antecedent);
         }
 
 }
