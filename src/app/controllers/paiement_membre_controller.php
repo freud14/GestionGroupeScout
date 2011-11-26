@@ -77,34 +77,7 @@ class PaiementMembreController extends AppController {
 		$paiements = $this->PaiementMembre->getPaiementsPourInscription($inscription_id, $adulte_id);
 		pr($paiements);
 
-		if (isset($this->data) && !empty($this->data)) {
-			pr($this->data);
-			
-			/*$nouveauModePaiement = $this->data['PaiementMembre']['mode'];
-			//Si le mode de paiement reste le même, on a qu'à modifier les paiements actuels
-			if ($nouveauModePaiement == $paiements[0]['Paiement']['paiement_type_id']) {
-				if ($nouveauModePaiement == ARGENT || $nouveauModePaiement == CHEQUE) {
-					if ($nouveauModePaiement == ARGENT) {
-						$etat = $this->data['PaiementMembre']['argent'];
-					} else {
-						$etat = $this->data['PaiementMembre']['cheque'];
-					}
-					
-					$this->_modifierPaiement($paiements, $etat);
-				} else if ($nouveauModePaiement == CHEQUES_POSTDATES) {
-					$cles = preg_grep('/^cheque([0-9]+)$/', array_keys($this->data['PaiementMembre']));
-					$etats = array();
-					foreach($cles as $cle) {
-						$etats[] = $this->data['PaiementMembre'][$cle];
-					}
-					$this->_modifierPaiement($paiements, $etats);
-				}
-			}
-			//Sinon, il faut supprimer les paiements actuels s'ils existent et en créer de nouveau.
-			else {
-				
-			}*/
-			
+		if (isset($this->data) && !empty($this->data)) {			
 			$nouveauModePaiement = $this->data['PaiementMembre']['mode'];
 			if ($nouveauModePaiement != $paiements[0]['Paiement']['paiement_type_id']) {
 				//Suppression
@@ -119,7 +92,6 @@ class PaiementMembreController extends AppController {
 				
 				//Chargement des nouveaux paiements en mémoire
 				$paiements = $this->PaiementMembre->getPaiementsPourInscription($inscription_id, $adulte_id);
-				pr($paiements);
 			}
 
 			//On modifie les informations de paiements
@@ -139,7 +111,9 @@ class PaiementMembreController extends AppController {
 				}
 				$this->_modifierPaiement($paiements, $etats);
 			}
-		} //else {
+			
+			$this->redirect(array('controller' => 'gestionnaire_paiement', 'action' => 'index', $adulte_id));
+		} else {
 			$montant = 0;
 			if (!empty($paiements[0]['Paiement']['id'])) {
 				foreach ($paiements as $paiement) {
@@ -163,7 +137,7 @@ class PaiementMembreController extends AppController {
 
 			$this->set('inscription_id', $inscription_id);
 			$this->set('adulte_id', $adulte_id);
-		//}
+		}
 	}
 
 	function _modifierPaiement(&$paiements, $etats) {
