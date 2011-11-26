@@ -5,7 +5,7 @@ class RapportJeuneController extends AppController {
 	var $name = 'RapportJeune';
 	var $components = array('RequestHandler');
 
-	function index() {
+	function liste() {
 		Configure::write('debug', 0);
 		$this->RequestHandler->respondAs('text/csv');
 		$this->RequestHandler->setContent('csv', 'text/csv');
