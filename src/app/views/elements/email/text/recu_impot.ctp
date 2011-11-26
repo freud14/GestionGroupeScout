@@ -1,11 +1,5 @@
 
-<?php
-
-	echo '<h3>' . __('Reçu aux fins d\'impôt de ', true) . $rapport[0][0]['adulte_nom'] . '</h3>';
-
-?>
-
-<?php foreach($rapport as $value) { ?>
+<?php foreach($rapport as $cle => $value) { ?>
 
 <table cellspacing="0" cellpadding="5" width="760" border="0">
 	<tr>
@@ -30,7 +24,7 @@
 				</tr>
 				<tr style="background-color:#eeeeee">
 					<th align="left" valign="top"><font size="3" color="#000000" face="Trebuchet MS"><?php __('Payeur'); ?></font></th>
-					<td><font size="3" color="#000000" face="Trebuchet MS"><?php echo $value[0]['adulte_nom'] ;?></font></td>
+					<td><font><?php echo $value[0]['adulte_nom'] ;?></font></td>
 				</tr>
 				<tr>
 					<th align="left" valign="top"><font size="3" color="#000000" face="Trebuchet MS"><?php __('Adresse'); ?></font></th>
@@ -58,19 +52,10 @@
 				</tr>
 				<tr>
 					<th align="left" valign="top"><font size="3" color="#000000" face="Trebuchet MS"><?php __('Numéro de reçu'); ?></font></th>
-					<td><font size="3" color="#000000" face="Trebuchet MS"><?php echo __('RI-') . date('Y') . "-" . str_pad($value['factures']['id'], 4,"0", STR_PAD_LEFT) ; ?></font></td>
+					<td><font size="3" color="#000000" face="Trebuchet MS"><?php  ?></font></td>
 				</tr>
 			</table>
 		</td>
 	</tr>
 </table>
 <?php } ?>
-
-<?php
-	echo $form->create('courriel', array('url' => array('controller' => 'gestionnaire_paiement', 'action' => 'courriel')));
-
-	echo '<p align ="right">';
-	echo $this->Form->button(__('envoyer courriel', true), array('type' => 'summit', 'name' => 'courriel'));
-	echo '</p>';
-	echo $form->end();
-?>

@@ -147,7 +147,7 @@ class ListeUniteController extends AppController {
                         $unite = $this->Inscription->find('all', array('conditions' => array('Inscription.unite_id' => null,
                                 'Inscription.annee_id' => $annee['Annee']['id'])));
 
-						
+
                         $titreUnite = 'Jeune non assignés';
                 }
 

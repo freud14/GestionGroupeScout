@@ -24,8 +24,10 @@
 
 	echo '<h3>' .__('Entrez votre mot de passe', true) . '</h3>';
 	echo $form->password('motdepassestr');
-	echo $erreurMDP;
-	?>
+	if(isset($erreurMDP)){
+		echo $erreurMDP;
+	}
+	 ?>
 
 	<br><br>
 	 
@@ -34,6 +36,5 @@
 	echo $form->button('Étape précédente', array('type'=>'submit','name' => 'precedent'));
 	echo $form->button('Accepter et valider l\'inscription', array('type'=>'submit','name' => 'accepter'));
 	
-	echo $form->end();
-	?>
+	echo $form->end();?>
 

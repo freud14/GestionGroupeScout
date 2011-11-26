@@ -20,8 +20,7 @@ class GestionnairePaiement extends AppModel {
 	var $useTable = false;
 
 	/**
-	 * Cette méthode retourne le statut de paiement pour
-	 * un membre.
+	 * Cette méthode retourne les informations nécessaire pour le reçu d'impot
 	 * @param int $adulte_id L'id de l'adulte du membre.
 	 * @return array Retourne les données sous forme de tableau.
 	 */
@@ -73,6 +72,59 @@ class GestionnairePaiement extends AppModel {
 						inscriptions.annee_id
 					ORDER BY
 						frateries.position;', false);
+	}
+
+
+	/**
+	 * Cette méthode retourne le recu d'impot d'un membre
+	 * @param int $compte_id l'id du compte
+	 * @return array Retourne les données sous forme de tableau.
+	 */
+	function getRapportImpot($compte_id) {
+		return $this->query('	SELECT
+						comptes.nom_utilisateur,
+						inscriptions.id,
+						factures.id,
+						enfants.date_naissance,
+						CONCAT(enfants.prenom, " ", enfants.nom) AS enfant_nom,
+						CONCAT(adultes.prenom," ", adultes.nom) AS adulte_nom,
+						CONCAT(adresses.adresses,", ", adresses.ville, "(Québec), ", adresses.code_postal) as adresse,
+						SUM(paiements.montant) AS montant_total,
+						unites.nom,
+						CURDATE() AS date
+						FROM
+							comptes
+								JOIN adultes
+									ON comptes.id = adultes.compte_id
+										AND comptes.id = ' . intval($compte_id). '
+								JOIN adultes_enfants
+									ON adultes_enfants.adulte_id = adultes.id
+								JOIN enfants
+									ON adultes_enfants.enfant_id = enfants.id
+								LEFT JOIN adresses
+									ON enfants.adresse_id = adresses.id
+								LEFT JOIN inscriptions
+									ON enfants.id = inscriptions.enfant_id
+								LEFT JOIN unites
+									ON inscriptions.unite_id = unites.id
+								JOIN factures
+									ON inscriptions.id = factures.inscription_id
+								LEFT JOIN paiements
+									ON factures.id = paiements.facture_id
+						WHERE
+							inscriptions.date_fin IS NULL AND
+							inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1)
+						GROUP BY
+							enfants.prenom,
+							enfants.nom,
+							adultes.nom,
+							inscriptions.date_fin,
+							inscriptions.annee_id
+						ORDER BY
+							inscriptions.id');
+
+
+
 	}
 
 }

@@ -1,18 +1,12 @@
-
-<?php
-
-	echo '<h3>' . __('Reçu aux fins d\'impôt de ', true) . $rapport[0][0]['adulte_nom'] . '</h3>';
-
-?>
-
-<?php foreach($rapport as $value) { ?>
+<?php foreach($rapport as $cle => $value) { ?>
 
 <table cellspacing="0" cellpadding="5" width="760" border="0">
 	<tr>
 		<td bgcolor="#ffffff"><br /><br /></td>
 	</tr>
 	<tr>
-            <td bgcolor="#00B0D8"><font size="4" color="#ffffff" face="Trebuchet MS"><strong>Reçu aux fins d'impôt sur le revenu
+		<td bgcolor="#00B0D8"><img alt=""  src="<?php echo $html->url('/img/logo102.png', true); ?>"><font size="4" color="#ffffff" face="Trebuchet MS">
+				<strong><br>Reçu aux fins d'impôt sur le revenu
                         <br> Crédit pour la condition physique des enfants</strong>
 
                     </font></td>
@@ -65,12 +59,3 @@
 	</tr>
 </table>
 <?php } ?>
-
-<?php
-	echo $form->create('courriel', array('url' => array('controller' => 'gestionnaire_paiement', 'action' => 'courriel')));
-
-	echo '<p align ="right">';
-	echo $this->Form->button(__('envoyer courriel', true), array('type' => 'summit', 'name' => 'courriel'));
-	echo '</p>';
-	echo $form->end();
-?>
