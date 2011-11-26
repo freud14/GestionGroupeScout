@@ -85,6 +85,7 @@ class GestionnairePaiement extends AppModel {
 		return $this->query('	SELECT
 						comptes.nom_utilisateur,
 						inscriptions.id,
+						factures.id,
 						enfants.date_naissance,
 						CONCAT(enfants.prenom, " ", enfants.nom) AS enfant_nom,
 						CONCAT(adultes.prenom," ", adultes.nom) AS adulte_nom,

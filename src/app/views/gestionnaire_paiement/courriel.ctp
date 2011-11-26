@@ -2,6 +2,7 @@
 <?php
 
 	echo '<h3>' . __('Reçu aux fins d\'impôt de ', true) . $rapport[0][0]['adulte_nom'] . '</h3>';
+	pr($rapport);
 ?>
 
 <?php foreach($rapport as $cle => $value) { ?>
@@ -29,7 +30,7 @@
 				</tr>
 				<tr style="background-color:#eeeeee">
 					<th align="left" valign="top"><font size="3" color="#000000" face="Trebuchet MS"><?php __('Payeur'); ?></font></th>
-					<td><font><?php echo $value[0]['adulte_nom'] ;?></font></td>
+					<td><font size="3" color="#000000" face="Trebuchet MS"><?php echo $value[0]['adulte_nom'] ;?></font></td>
 				</tr>
 				<tr>
 					<th align="left" valign="top"><font size="3" color="#000000" face="Trebuchet MS"><?php __('Adresse'); ?></font></th>
@@ -57,7 +58,7 @@
 				</tr>
 				<tr>
 					<th align="left" valign="top"><font size="3" color="#000000" face="Trebuchet MS"><?php __('Numéro de reçu'); ?></font></th>
-					<td><font size="3" color="#000000" face="Trebuchet MS"><?php  ?></font></td>
+					<td><font size="3" color="#000000" face="Trebuchet MS"><?php echo __('RI-') . date('Y') . "-" . str_pad($value['factures']['id'], 4,"0", STR_PAD_LEFT) ; ?></font></td>
 				</tr>
 			</table>
 		</td>
