@@ -174,6 +174,7 @@ class ListeUniteController extends AppController {
                         $unite = $this->Inscription->find('all', array('conditions' => array('Inscription.unite_id' => null,
                                 'Inscription.annee_id' => $annee['Annee']['id'])));
 
+						pr($unite);
                         $titreUnite = 'Jeune non assignés';
                 }
 
@@ -266,8 +267,10 @@ class ListeUniteController extends AppController {
                         if (!empty($inscription)) {
                                 $enfant = array();
 
+								$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
+								
                                 //On recherche l'id de l'inscription relié à l'enfant
-                                $enfant = $this->Inscription->find('first', array('conditions' => array('Inscription.enfant_id' => $cle)));
+                                $enfant = $this->Inscription->find('first', array('conditions' => array('Inscription.enfant_id' => $cle, 'Inscription.annee_id' => $annee['Annee']['id'])));
 
                                 //Enregistrement de l'inscription à la nouvelle unité
                                 $this->Inscription->save(array('id' => $enfant['Inscription']['id'],
@@ -295,9 +298,11 @@ class ListeUniteController extends AppController {
                 foreach ($enfantId as $cle => $inscription) {
                         if (!empty($inscription)) {
                                 $enfant = array();
+								
+								$annee = $this->Annee->find('first', array('conditions' => array('Annee.date_fin' => null)));
 
                                 //On recherche l'id de l'inscription relié à l'enfant
-                                $enfant = $this->Inscription->find('first', array('conditions' => array('Inscription.enfant_id' => $cle)));
+                                $enfant = $this->Inscription->find('first', array('conditions' => array('Inscription.enfant_id' => $cle, 'Inscription.annee_id' => $annee['Annee']['id'])));
 
                                 //Enregistrement de l'inscription à la nouvelle unité
                                 $this->Inscription->save(array('id' => $enfant['Inscription']['id'],
