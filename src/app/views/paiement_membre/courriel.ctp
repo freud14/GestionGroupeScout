@@ -72,7 +72,7 @@ if ($rapport[0]['inscriptions']['id'] == '') {
 	<?php
 	echo '<div align ="right">';
 	echo '<button onclick="document.forms[0].style.display=\'none\'; this.style.display=\'none\'; window.print();this.style.display=\'block\'; document.forms[0].style.display=\'block\';">Imprimer</button>';
-	echo $form->create('courriel', array('url' => array('controller' => 'paiement_membre', 'action' => 'courriel')));
+	echo $form->create('courriel', array('url' => array('controller' => 'paiement_membre', 'action' => 'courriel', $adulte_id)));
 	echo $this->Form->button(__('Envoyer par courriel', true), array('type' => 'summit', 'name' => 'courriel'));
 	echo $form->end();
 	echo '</div>';

@@ -22,6 +22,7 @@
 		$this->loadModel('FicheMedicalesQuestionGenerale');
 		//Pour les erreurs mot de passe
 		$this->loadModel('Compte');
+
 	}
 
 	function navigation() {

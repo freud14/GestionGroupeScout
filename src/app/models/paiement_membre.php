@@ -168,6 +168,8 @@ class PaiementMembre extends AppModel {
 	 * Cette méthode retourne le recu d'impot d'un membre
 	 * @param int $compte_id l'id du compte
 	 * @return array Retourne les données sous forme de tableau.
+	 * @author Luc-Frédéric Langis
+	 * @author Frédérik Paradis
 	 */
 	function getRapportImpot($adulte_id) {
 		return $this->query('	SELECT
@@ -201,7 +203,8 @@ class PaiementMembre extends AppModel {
 									((inscriptions.date_fin IS NULL AND
 									inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1)) OR
 									inscriptions.id IS NULL) AND
-									adultes.id = ' . intval($adulte_id) . '
+									adultes.id = ' . intval($adulte_id) . ' AND
+									factures.id IS NOT NULL
 								GROUP BY
 									adultes.id,
 									enfants.id,

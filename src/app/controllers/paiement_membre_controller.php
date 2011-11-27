@@ -185,7 +185,7 @@ class PaiementMembreController extends AppController {
 
 		//Action spécifique selon le bouton
 		if (array_key_exists('courriel', $this->params['form'])) {
-			$this->_envoyerCourriel(1);
+			$this->_envoyerCourriel($adulte_id);
 		}
 	}
 
@@ -204,19 +204,22 @@ class PaiementMembreController extends AppController {
 			'password' => 'groupePS102',
 		);
 
+
 		//Recherche des informations du recu d'impot
 		$rapport = $this->PaiementMembre->getRapportImpot($adulte_id);
 
+		pr($rapport);
 		//Type de livraison
 		$this->Email->delivery = 'smtp';
 
 		//On met le email a vide 
 		$this->Email->reset();
 
+
 		//On met les informations nécessaires pour le emails
 		$this->Email->from = '102e groupe des Laurentides ';
-		// $this->Email->to = $rapport[0]['comptes']['nom_utilisateur'];
-		$this->Email->to = 'fredy_14@live.fr';
+		$this->Email->to = $rapport[0]['comptes']['nom_utilisateur'];
+		//$this->Email->to = 'fredy_14@live.fr';
 		$this->Email->bcc = array('102e.groupe@gmail.com');
 		$this->Email->subject = __('Reçut d\'impôt pour ', true) . $rapport[0][0]['adulte_nom'];
 		$this->set('rapport', $rapport);
