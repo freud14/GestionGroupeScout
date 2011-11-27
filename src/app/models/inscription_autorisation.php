@@ -1,7 +1,4 @@
-<?php
-class InscriptionAutorisation extends AppModel {
+<?php class InscriptionAutorisation extends AppModel {
 	var $name = 'InscriptionAutorisation';
 	var $useTable = false;
 }
-
-?>

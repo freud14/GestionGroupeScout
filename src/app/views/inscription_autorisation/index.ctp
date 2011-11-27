@@ -1,5 +1,4 @@
 <?php 
-
 	echo $form->create('Autorisation', array('url' => array('controller' => 'inscription_autorisation', 'action' => 'index')));
 	
 	echo $form->label('champsobligatoires',__('Les champs suivis d\'une étoile (*) sont obligatoires',true));
@@ -37,4 +36,3 @@
 	echo $form->button('Accepter et valider l\'inscription', array('type'=>'submit','name' => 'accepter'));
 	
 	echo $form->end();?>
-

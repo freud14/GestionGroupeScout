@@ -48,9 +48,9 @@ class ConnexionController extends AppController {
 		if (!empty($this->data)) {
 			$validationMDP = $this->Compte->find('first', array('conditions' => array('nom_utilisateur' => $this->data['Connexion']['nom_utilisateur'])));
 
-			pr($validationMDP);
+			//Chercher les informations du compte
 			$erreurMDP = null;
-			
+			//Insère le code html pour l'erreur puisque les $this->password ne sont pas géré par les validations de modèles à cause des requêtes
 			if ($validationMDP['Compte']['mot_de_passe'] == $this->data['Connexion']['mot_de_passe']) {
 				$erreurMDP = null;
 				$this->_navigation();
