@@ -72,7 +72,7 @@ class PaiementMembre extends AppModel {
 								Adulte.courriel,
 								Adulte.tel_maison;", false);
 	}
-	
+
 	function getPaiementsPourInscription($inscription_id, $adulte_id) {
 		return $this->query('SELECT
 								Enfant.prenom,
@@ -94,7 +94,7 @@ class PaiementMembre extends AppModel {
 											ON adultes_enfants.enfant_id = Enfant.id
 											JOIN adultes
 												ON 	adultes_enfants.adulte_id = adultes.id AND
-													adultes.id = '.intval($adulte_id).'
+													adultes.id = ' . intval($adulte_id) . '
 									LEFT JOIN factures Facture
 										ON Inscription.id = Facture.inscription_id
 										LEFT JOIN frateries Fraterie
@@ -103,7 +103,7 @@ class PaiementMembre extends AppModel {
 											ON Facture.id = Paiement.facture_id
 							WHERE
 								Inscription.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) AND
-								Inscription.id = '.intval($inscription_id).'
+								Inscription.id = ' . intval($inscription_id) . '
 							ORDER BY
 								Paiement.ordre_paiement;', false);
 	}
@@ -122,8 +122,8 @@ class PaiementMembre extends AppModel {
 		$nb_inscription_paye = ClassRegistry::init('PaiementInscription')->getNbInscriptionPayé($adulte_id);
 		$inscriptions = ClassRegistry::init('PaiementInscription')->getInscriptionNonPayé($adulte_id);
 
-		$inscriptions_id = (array)$inscriptions_id;
-		
+		$inscriptions_id = (array) $inscriptions_id;
+
 		//On trouve la fraterie de la première nouvelle inscription
 		$indexProchainVersement = 0;
 		for ($i = 0; $i < count($versements); ++$i) {
@@ -162,6 +162,52 @@ class PaiementMembre extends AppModel {
 		}
 
 		return count($inscriptionAPayer) == 1 ? $inscriptionAPayer[0] : $inscriptionAPayer;
+	}
+
+	/**
+	 * Cette méthode retourne le recu d'impot d'un membre
+	 * @param int $compte_id l'id du compte
+	 * @return array Retourne les données sous forme de tableau.
+	 */
+	function getRapportImpot($adulte_id) {
+		return $this->query('	SELECT
+									adultes.courriel,
+									inscriptions.id,
+									factures.id,
+									enfants.date_naissance,
+									CONCAT(enfants.prenom, " ", enfants.nom) AS enfant_nom,
+									CONCAT(adultes.prenom," ", adultes.nom) AS adulte_nom,
+									CONCAT(adresses.adresses,", ", adresses.ville, "(Québec), ", adresses.code_postal) as adresse,
+									SUM(paiements.montant) AS montant_total,
+									unites.nom,
+									CURDATE() AS date
+								FROM
+									adultes
+										LEFT JOIN adultes_enfants
+											ON adultes.id = adultes_enfants.adulte_id
+											LEFT JOIN enfants
+												ON adultes_enfants.enfant_id = enfants.id
+												LEFT JOIN adresses
+													ON enfants.adresse_id = adresses.id
+											LEFT JOIN inscriptions
+												ON enfants.id = inscriptions.enfant_id
+												LEFT JOIN unites
+													ON inscriptions.unite_id = unites.id
+												LEFT JOIN factures
+													ON inscriptions.id = factures.inscription_id
+													LEFT JOIN paiements
+														ON factures.id = paiements.facture_id
+								WHERE
+									((inscriptions.date_fin IS NULL AND
+									inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1)) OR
+									inscriptions.id IS NULL) AND
+									adultes.id = ' . intval($adulte_id) . '
+								GROUP BY
+									adultes.id,
+									enfants.id,
+									inscriptions.id
+								ORDER BY
+									inscriptions.id;');
 	}
 
 }

@@ -29,7 +29,7 @@ class PaiementMembreController extends AppController {
 	 * Les composants utilisés par le contrôleur.
 	 * @var array 
 	 */
-	var $components = array('InformationPaiement');
+	var $components = array('InformationPaiement', 'Email');
 
 	/**
 	 * Cette méthode initialise le contrôleur.
@@ -73,10 +73,10 @@ class PaiementMembreController extends AppController {
 		$this->set('ariane', __('Gestion des paiements > Mise à jour du statut d\'un paiement', true));
 		$this->loadModel('Paiement');
 		$this->loadModel('Facture');
-		
+
 		$paiements = $this->PaiementMembre->getPaiementsPourInscription($inscription_id, $adulte_id);
 
-		if (isset($this->data) && !empty($this->data)) {			
+		if (isset($this->data) && !empty($this->data)) {
 			$nouveauModePaiement = $this->data['PaiementMembre']['mode'];
 			if ($nouveauModePaiement != $paiements[0]['Paiement']['paiement_type_id']) {
 				//Suppression
@@ -84,11 +84,11 @@ class PaiementMembreController extends AppController {
 					$this->Paiement->delete($paiement['Paiement']['id']);
 				}
 				$this->Facture->delete($paiements[0]['Facture']['id']);
-				
+
 				//Création des nouveaux paiements
 				$fraterie = $paiements[0]['Fraterie']['position'];
 				$this->InformationPaiement->créerPaiements($adulte_id, $inscription_id, $nouveauModePaiement, $fraterie);
-				
+
 				//Chargement des nouveaux paiements en mémoire
 				$paiements = $this->PaiementMembre->getPaiementsPourInscription($inscription_id, $adulte_id);
 			}
@@ -110,7 +110,7 @@ class PaiementMembreController extends AppController {
 				}
 				$this->_modifierPaiement($paiements, $etats);
 			}
-			
+
 			$this->redirect(array('controller' => 'gestionnaire_paiement', 'action' => 'index', $adulte_id));
 		} else {
 			$montant = 0;
@@ -168,6 +168,72 @@ class PaiementMembreController extends AppController {
 
 			++$i;
 		}
+	}
+
+	/**
+	 * Cette fonctionde générer les reçcus d'impôt dans la view
+	 * @param $id_compte le compte concerner pour les recus
+	 */
+	public function courriel($adulte_id) {
+
+		$this->layout = 'blank';
+		$this->set('title_for_layout', __('Reçu d\'impôt', true));
+		$this->set('titre', __('Reçu d\'impôt', true));
+		$this->set('ariane', __('Gestion des paiements > Reçu d\'impôt', true));
+
+		$this->set('rapport', $this->PaiementMembre->getRapportImpot($adulte_id));
+
+		//Action spécifique selon le bouton
+		if (array_key_exists('courriel', $this->params['form'])) {
+			$this->_envoyerCourriel(1);
+		}
+	}
+
+	/**
+	 * Cette fonction permet d'envoyer des recus d'impôt par email
+	 * @param $id_compte le compte concerner pour les recus
+	 */
+	private function _envoyerCourriel($adulte_id) {
+
+		/* On prépare les option SMTP pour le courriel à partir d'une adresse gmail */
+		$this->Email->smtpOptions = array(
+			'port' => '465',
+			'timeout' => '30',
+			'host' => 'ssl://smtp.gmail.com',
+			'username' => '102e.groupe@gmail.com',
+			'password' => 'groupePS102',
+		);
+
+		//Recherche des informations du recu d'impot
+		$rapport = $this->PaiementMembre->getRapportImpot($adulte_id);
+
+		//Type de livraison
+		$this->Email->delivery = 'smtp';
+
+		//On met le email a vide 
+		$this->Email->reset();
+
+		//On met les informations nécessaires pour le emails
+		$this->Email->from = '102e groupe des Laurentides ';
+		// $this->Email->to = $rapport[0]['comptes']['nom_utilisateur'];
+		$this->Email->to = 'fredy_14@live.fr';
+		$this->Email->bcc = array('102e.groupe@gmail.com');
+		$this->Email->subject = __('Reçut d\'impôt pour ', true) . $rapport[0][0]['adulte_nom'];
+		$this->set('rapport', $rapport);
+		//Le template du email
+		$this->Email->template = "recu_impot";
+		$this->Email->sendAs = 'html';
+
+		$this->Email->send();
+
+		/* permet d'afficher les erreurs dans le emails si le template ne marche pas
+		  if ($this->Email->send()) {
+		  return true;
+		  } else {
+		  echo $this->Email->smtpError;
+		  } */
+
+		$this->redirect(array('controller' => 'paiement_membre', 'action' => 'index'));
 	}
 
 }

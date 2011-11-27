@@ -36,6 +36,7 @@ if (isset($recherche)) {
 			<th><?php __('Téléphone'); ?></th>
 			<th><?php __('Statut du paiement'); ?></th>
 			<th><?php __('Modifier'); ?></th>
+			<th><?php __('Reçu d\'impôts'); ?></th>
 		<tr>
 			<?php foreach ($statuts as $statut) { ?>
 			<tr>
@@ -62,7 +63,8 @@ if (isset($recherche)) {
 
 				?>
 				<td><?php echo $stat; ?></td>
-				<td><?php echo $this->Html->link('Modifier', array('controller' => 'gestionnaire_paiement', 'action' => 'index', $statut['Adulte']['id'])); ?></td>
+				<td><?php echo $this->Html->link(__('Modifier', true), array('controller' => 'gestionnaire_paiement', 'action' => 'index', $statut['Adulte']['id'])); ?></td>
+				<td><?php echo $this->Html->link(__('Imprimer ou envoyer par courriel', true), array('controller' => 'paiement_membre', 'action' => 'courriel', $statut['Adulte']['id'])); ?></td>
 			</tr>
 		<?php } ?>
 
