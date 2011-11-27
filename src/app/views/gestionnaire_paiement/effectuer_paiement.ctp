@@ -40,32 +40,45 @@ $locale = localeconv();
 		}
 		?>];
 
-					var nbEnfant = <?php echo $nb_inscription_paye; //On assigne la variable JS au nombre d'inscription déjà payé. ?>;
+				var nbEnfant = <?php echo $nb_inscription_paye; //On assigne la variable JS au nombre d'inscription déjà payé.  ?>;
 
-					$(document).ready(function() {
-						$(".inscription").click(function() {
-							if($(this).is(':checked')) {
-								if(nbEnfant < versements.length) {
-									$("#total").text(parseInt($("#total").text()) + versements[nbEnfant]);
-								}
-								else {
-									$("#total").text(parseInt($("#total").text()) + versements[versements.length  - 1]);
-								}
-								++nbEnfant;
+				$(document).ready(function() {
+					var inscriptions = $(".inscription");
+					for(var i = 0; i < inscriptions.length; ++i) {
+						if($(inscriptions[i]).is(':checked')) {
+							if(nbEnfant < versements.length) {
+								$("#total").text(parseInt($("#total").text()) + versements[nbEnfant]);
 							}
 							else {
-								--nbEnfant;
-								if(nbEnfant < versements.length) {
-									$("#total").text(parseInt($("#total").text()) - versements[nbEnfant]);
-								}
-								else {
-									$("#total").text(parseInt($("#total").text()) - versements[versements.length - 1]);
-								}
-			
+								$("#total").text(parseInt($("#total").text()) + versements[versements.length  - 1]);
 							}
+							++nbEnfant;
+						}
+					}
+						
+					$(".inscription").click(function() {
+						if($(this).is(':checked')) {
+							if(nbEnfant < versements.length) {
+								$("#total").text(parseInt($("#total").text()) + versements[nbEnfant]);
+							}
+							else {
+								$("#total").text(parseInt($("#total").text()) + versements[versements.length  - 1]);
+							}
+							++nbEnfant;
+						}
+						else {
+							--nbEnfant;
+							if(nbEnfant < versements.length) {
+								$("#total").text(parseInt($("#total").text()) - versements[nbEnfant]);
+							}
+							else {
+								$("#total").text(parseInt($("#total").text()) - versements[versements.length - 1]);
+							}
+			
+						}
 		
-						});
 					});
+				});
 </script>
 <table class="tableau_generique">
 	<tr>
@@ -85,8 +98,15 @@ $locale = localeconv();
 <p>
 	<?php __('Montant total:'); ?> <span id="total">0</span> <?php echo $locale['currency_symbol']; ?>
 </p>
+<p style="color: red;">
+<?php
+if (isset($aucun_mode_choisi)) {
+	__('Vous n\'avez chosi aucun mode de paiement. Veuillez choisir un mode de paiement.');
+}
+?>
+</p>
 <div style="float:left;">
-	<?php 
+	<?php
 	/*
 	 * Les IDs des différents types de paiement sont relatifs 
 	 * à la base de données. Ils sont donc statiques dans la 
@@ -98,7 +118,7 @@ $locale = localeconv();
 	?>
 	<br />
 	<?php
-	echo $form->radio('mode', array(5 => __('Je vais payer l\'inscription par paiements différés en ligne avec Paypal (Non disponible)', true)), array('legend' => false, 'value' => false, 'disabled' => 'disabled'));
+	echo nl2br($form->radio('mode', array(5 => wordwrap(__('Je vais payer l\'inscription par paiements différés en ligne avec Paypal (Non disponible pour l\'instant)', true), 75)), array('legend' => false, 'value' => false, 'disabled' => 'disabled')));
 	?>
 	<br />
 	<?php
@@ -114,9 +134,11 @@ $locale = localeconv();
 	echo $form->radio('mode', array(3 => __('Je vais payer l\'inscription via chèque', true)), array('legend' => false, 'value' => false));
 	?>
 </div>
-<div style="clear:both;">
+<div style="clear:both; text-align: right">
 	<br />
 	<?php
-	echo $this->Form->end(__('Effectuer le paiement', true));
+	echo $form->button(__('Retourner au gestionnaire des paiements', true), array('type' => 'submit', 'name' => 'annuler'));
+	echo $form->button(__('Effectuer le paiement', true), array('type' => 'submit', 'name' => 'payer'));
+	echo $this->Form->end(null);
 	?>
 </div>
