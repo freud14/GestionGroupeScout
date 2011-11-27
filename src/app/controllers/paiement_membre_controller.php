@@ -187,6 +187,7 @@ class PaiementMembreController extends AppController {
 		$this->set('titre', __('Reçu d\'impôt', true));
 		$this->set('ariane', __('Gestion des paiements > Reçu d\'impôt', true));
 
+		$this->set('adulte_id', $adulte_id);
 		$this->set('rapport', $this->PaiementMembre->getRapportImpot($adulte_id));
 
 		//Action spécifique selon le bouton

@@ -4,7 +4,7 @@ echo '<h3>' . __('Reçu aux fins d\'impôt de ', true) . $rapport[0][0]['adulte_
 ?>
 
 <?php
-if ($rapport[0]['inscriptions']['id'] == '') {
+if (empty($rapport) || $rapport[0]['inscriptions']['id'] == '') {
 	__('Il n\' a aucun reçu d\'impôt pour ce parent.');
 } else {
 	?>
