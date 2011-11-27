@@ -8,8 +8,8 @@
 		<td class="liste" >
 		<?php
 			echo $form->input('nom_utilisateur', array('label' => array('class' => 'element', 'text' => __('Courriel', true) . ' <span class="star">*</span>')));
-			echo $form->input('mot_de_passe', array('label' => array('class' => 'element', 'text' =>__('Mot de passe', true) . ' <span class="star">*</span>')));
-			echo $form->input('mot_de_passe_confirmation', array('label' => array('class' => 'element', 'text' =>__('Confirmer mot de passe', true) . ' <span class="star">*</span>')));
+			echo $form->input('mot_de_passe',array('type'=>'password', 'label' => array('class' => 'element', 'text' => __('Mot de passe', true) . ' <span class="star">*</span>')));
+			echo $form->input('mot_de_passe_confirmation', array('type'=>'password','label' => array('class' => 'element', 'text' =>__('Confirmer mot de passe', true) . ' <span class="star">*</span>')));
 		?>
 		</td>
 		<td class="liste">
