@@ -25,6 +25,7 @@ class InformationPaiementComponent extends Object {
 	 * @param int $adulte_id L'adulte dont on veut modifier les inscriptions
 	 * @param array|int $inscriptions_id Les IDs d'inscriptions
 	 * @param int $mode_paiement Le mode de paiement des inscriptions
+	 * @return Retourne le montant total qui est facturé.
 	 */
 	function créerPaiements($adulte_id, $inscriptions_id, $mode_paiement, $fraterie = null) {
 		$versements = $this->PaiementInscription->getTarifs();
@@ -77,6 +78,7 @@ class InformationPaiementComponent extends Object {
 			}
 		}
 
+		$montant_total = 0;
 		//On crée nos factures
 		foreach ($inscriptionAPayer as $idInscription => $versement) {
 			$this->Facture->create();
@@ -93,9 +95,12 @@ class InformationPaiementComponent extends Object {
 				$this->Paiement->create();
 				$insert = array('montant' => $paiement['montant'], 'facture_id' => $idFacture, 'paiement_type_id' => $mode_paiement, 'ordre_paiement' => $i);
 				$this->Paiement->save($insert);
+				$montant_total += $paiement['montant'];
 				++$i;
 			}
 		}
+		
+		return $montant_total;
 	}
 
 }

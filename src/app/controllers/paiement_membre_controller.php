@@ -94,11 +94,13 @@ class PaiementMembreController extends AppController {
 			}
 
 			//On modifie les informations de paiements
-			if ($nouveauModePaiement == ARGENT || $nouveauModePaiement == CHEQUE) {
+			if ($nouveauModePaiement == ARGENT || $nouveauModePaiement == CHEQUE || $nouveauModePaiement == PAYPAL) {
 				if ($nouveauModePaiement == ARGENT) {
 					$etat = $this->data['PaiementMembre']['argent'];
-				} else {
+				} else if ($nouveauModePaiement == CHEQUE) {
 					$etat = $this->data['PaiementMembre']['cheque'];
+				} else if ($nouveauModePaiement == PAYPAL) {
+					$etat = $this->data['PaiementMembre']['paypal'];
 				}
 
 				$this->_modifierPaiement($paiements, $etat);
@@ -152,6 +154,10 @@ class PaiementMembreController extends AppController {
 			} else if ($etat == 'recu') {
 				if ($paiements[$i]['Paiement']['date_reception'] == '') {
 					$date_reception = DboSource::expression('NOW()');
+					$date_paiements = null;
+				}
+				else if ($paiements[$i]['Paiement']['date_paiements'] != '') {
+					$date_reception = $paiements[$i]['Paiement']['date_reception'];
 					$date_paiements = null;
 				}
 			} else if ($etat == 'paye') {
