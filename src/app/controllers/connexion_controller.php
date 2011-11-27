@@ -30,6 +30,8 @@ class ConnexionController extends AppController {
 				//si le mot de passe n'est pas valide	
 			} else {
 				$this->Session->write("authentification", null);
+				$erreurMDP = '<div  style="background: red">*Le mot de passe est invalide</div>';
+				$this->set('erreurMDP', $erreurMDP);
 				pr("looser");
 			}
 		} elseif (array_key_exists('inscrire', $this->params['form'])) {
@@ -44,22 +46,7 @@ class ConnexionController extends AppController {
 		$this->set('titre', __('Connexion', true));
 		$this->set('title_for_layout', __('Connexion', true));
 		//$this -> Session -> write("url", $this->params['url']);
-		pr($this -> data);
-		if (!empty($this->data)) {
-			$validationMDP = $this->Compte->find('first', array('conditions' => array('nom_utilisateur' => $this->data['Connexion']['nom_utilisateur'])));
-
-			//Chercher les informations du compte
-			$erreurMDP = null;
-			//Insère le code html pour l'erreur puisque les $this->password ne sont pas géré par les validations de modèles à cause des requêtes
-			if ($validationMDP['Compte']['mot_de_passe'] == $this->data['Connexion']['mot_de_passe']) {
-				$erreurMDP = null;
-				$this->_navigation();
-			} else {
-				$erreurMDP = '<div  style="background: red">*Le mot de passe est invalide</div>';
-			}
-
-			$this->set('erreurMDP', $erreurMDP);
-		}
+		$this->_navigation();
 	}
 
 }
