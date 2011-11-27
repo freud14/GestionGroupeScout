@@ -1,6 +1,7 @@
 <?php
 
 define('PAYPAL', 2);
+
 /**
  * Cette classe gère la gestion des paiements pour
  * les parents.
@@ -81,7 +82,12 @@ class GestionnairePaiementController extends AppController {
 
 		$adulte_id = $this->Session->read('authentification.id_adulte');
 
-		if (!empty($this->data)) {
+		if (array_key_exists('annuler', $this->params['form'])) {
+			$this->redirect(array('controller' => 'gestionnaire_paiement', 'action' => 'index'));	
+		}
+		
+		
+		if (!empty($this->data) && isset($this->data['GestionnairePaiement']['mode'])) {
 			$inscriptions = array();
 			$keys = preg_grep("/^inscription([0-9]+)$/", array_keys($this->data['GestionnairePaiement']));
 			foreach ($keys as $key) {
@@ -89,34 +95,37 @@ class GestionnairePaiementController extends AppController {
 					$inscriptions[] = $this->data['GestionnairePaiement'][$key];
 				}
 			}
-			
+
 			$montant_total = $this->InformationPaiement->créerPaiements($adulte_id, $inscriptions, $this->data['GestionnairePaiement']['mode']);
 
-			if($this->data['GestionnairePaiement']['mode'] != PAYPAL) {
+			if ($this->data['GestionnairePaiement']['mode'] != PAYPAL) {
 				//On redirige l'utilisateur vers le gestionnaire des paiements
 				$this->redirect(array('controller' => 'gestionnaire_paiement', 'action' => 'index'));
-			}
-			else {
+			} else {
 				$parametre_url = implode($inscriptions, '/');
 				$return_url = Router::url(array("controller" => "gestionnaire_paiement", "action" => "fin_paypal", $parametre_url), true);
 				$cancel_url = Router::url(array("controller" => "gestionnaire_paiement", "action" => "annuler_paypal", $parametre_url), true);
-				
+
 				$item_name = __('Paiement pour ', true);
-				
+
 				$enfants = $this->Inscription->find('all', array('conditions' => array('Inscription.id' => $inscriptions)));
-				foreach($enfants as $enfant) {
-					$item_name .= $enfant['Enfant']['prenom'].' '.$enfant['Enfant']['nom'].', ';
+				foreach ($enfants as $enfant) {
+					$item_name .= $enfant['Enfant']['prenom'] . ' ' . $enfant['Enfant']['nom'] . ', ';
 				}
 				$item_name = trim($item_name, ', ');
-				
+
 				$this->Adulte->id = $adulte_id;
 				$adulte = $this->Adulte->read();
-				$item_name .= __(' de ', true). $adulte['Adulte']['prenom']. ' '. $adulte['Adulte']['nom'];
-				
-				$paypal = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=828EWBBBAPU7W&amount=$montant_total&return=$return_url&rm=1&cancel_return=$cancel_url&item_name=".  urlencode($item_name);
+				$item_name .= __(' de ', true) . $adulte['Adulte']['prenom'] . ' ' . $adulte['Adulte']['nom'];
+
+				$paypal = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=828EWBBBAPU7W&amount=$montant_total&return=$return_url&rm=1&cancel_return=$cancel_url&item_name=" . urlencode($item_name);
 				$this->redirect($paypal);
 			}
 		} else {
+			if (!empty($this->data) && !isset($this->data['GestionnairePaiement']['mode'])) {
+				$this->set('aucun_mode_choisi', true);
+			}
+
 			$this->loadModel('PaiementInscription');
 			$versements = $this->PaiementInscription->getTarifs();
 
@@ -129,37 +138,37 @@ class GestionnairePaiementController extends AppController {
 			$this->set('inscriptions', $inscriptions);
 		}
 	}
-	
+
 	function fin_paypal() {
 		$this->set('titre', __('Fin du paiement Paypal', true));
 		$this->set('ariane', __('Gestionaire de paiements > Effectuer un paiement > Fin du paiement Paypal', true));
-		
+
 		$inscriptions_id = func_get_args();
 		$inscriptions = $this->Inscription->find('all', array('recursive' => 2, 'conditions' => array('Inscription.id' => $inscriptions_id)));
-		
-		foreach($inscriptions as $inscription) {
+
+		foreach ($inscriptions as $inscription) {
 			$paiements = $inscription['Facture'][0]['Paiement'];
-			foreach($paiements as $paiement) {
+			foreach ($paiements as $paiement) {
 				$this->Paiement->id = $paiement['id'];
 				$this->Paiement->save(array('date_paiements' => null, 'date_reception' => DboSource::expression('NOW()')));
 			}
 		}
 	}
-	
+
 	function annuler_paypal() {
 		$this->set('titre', __('Annulation du paiement Paypal', true));
 		$this->set('ariane', __('Gestionaire de paiements > Effectuer un paiement > Annulation du paiement Paypal', true));
-		
+
 		$inscriptions_id = func_get_args();
 		$inscriptions = $this->Inscription->find('all', array('recursive' => 2, 'conditions' => array('Inscription.id' => $inscriptions_id)));
-		
-		foreach($inscriptions as $inscription) {
+
+		foreach ($inscriptions as $inscription) {
 			$paiements = $inscription['Facture'][0]['Paiement'];
 			foreach ($paiements as $paiement) {
-					$this->Paiement->delete($paiement['id']);
+				$this->Paiement->delete($paiement['id']);
 			}
 			$this->Facture->delete($inscription['Facture'][0]['id']);
 		}
 	}
-	
+
 }
