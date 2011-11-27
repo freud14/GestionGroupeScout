@@ -198,7 +198,7 @@
 				}
 
 				//Si l'enregistrement a bien été fait, affiche le bon messasge
-				$this->Session->setFlash(__('Inscription terminée', true));
+			//	$this->Session->setFlash(__('Inscription terminée', true));
 				$this->redirect(array('controller' => 'inscription_confirmation', 'action' => 'index'));
 			} else {
 

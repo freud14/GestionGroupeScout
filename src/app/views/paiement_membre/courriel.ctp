@@ -1,14 +1,16 @@
-
 <?php
-echo '<h3>' . __('Reçu aux fins d\'impôt de ', true) . $rapport[0][0]['adulte_nom'] . '</h3>';
-?>
-
-<?php
-if (empty($rapport) || $rapport[0]['inscriptions']['id'] == '') {
+if ( isset($rapport['Adulte']['prenom'] )) {
+	echo '<h3>' . __('Reçu aux fins d\'impôt de ', true) . $rapport['Adulte']['prenom']. " " . $rapport['Adulte']['nom'] .  '</h3>';
 	__('Il n\' a aucun reçu d\'impôt pour ce parent.');
+	echo $form->create('courriel', array('url' => array('controller' => 'paiement_membre', 'action' => 'courriel', $adulte_id)));
+	echo $this->Form->button(__('Revenir à la page précédente', true), array('type' => 'summit', 'name' => 'annuler'));
+	echo $form->end();
+
 } else {
 	?>
-	<?php foreach ($rapport as $value) { ?>
+	<?php
+	echo '<h3>' . __('Reçu aux fins d\'impôt de ', true) . $rapport[0][0]['adulte_nom'] . '</h3>';
+	foreach ($rapport as $value) { ?>
 		<table cellspacing="0" cellpadding="5" width="760" border="0">
 			<tr>
 				<td bgcolor="#ffffff"><br /><br /></td>
@@ -73,7 +75,9 @@ if (empty($rapport) || $rapport[0]['inscriptions']['id'] == '') {
 	echo '<div align ="right">';
 	echo '<button onclick="document.forms[0].style.display=\'none\'; this.style.display=\'none\'; window.print();this.style.display=\'block\'; document.forms[0].style.display=\'block\';">Imprimer</button>';
 	echo $form->create('courriel', array('url' => array('controller' => 'paiement_membre', 'action' => 'courriel', $adulte_id)));
+	echo $this->Form->button(__('Revenir à la page précédente', true), array('type' => 'summit', 'name' => 'annuler'));
 	echo $this->Form->button(__('Envoyer par courriel', true), array('type' => 'summit', 'name' => 'courriel'));
+	
 	echo $form->end();
 	echo '</div>';
 	?>

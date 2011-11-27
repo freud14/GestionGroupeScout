@@ -36,6 +36,7 @@ class PaiementMembreController extends AppController {
 	 */
 	function beforeFilter() {
 		parent::beforeFilter();
+		$this->loadModel('Adulte');
 		$this->layout = 'admin';
 		setlocale(LC_ALL, 'fr_CA.utf8');
 		$this->set('title_for_layout', __('Gestion des paiements', true));
@@ -183,16 +184,21 @@ class PaiementMembreController extends AppController {
 	public function courriel($adulte_id) {
 
 		$this->layout = 'blank';
-		$this->set('title_for_layout', __('Reçu d\'impôt', true));
-		$this->set('titre', __('Reçu d\'impôt', true));
-		$this->set('ariane', __('Gestion des paiements > Reçu d\'impôt', true));
 
 		$this->set('adulte_id', $adulte_id);
-		$this->set('rapport', $this->PaiementMembre->getRapportImpot($adulte_id));
+		$rapport = $this->PaiementMembre->getRapportImpot($adulte_id);
+		if((!isset($rapport)) || (empty($rapport))){
+			$rapport = array();
+			$rapport = $this->Adulte->find('first', array('conditions' => array('Adulte.id' => $adulte_id)));
+
+		}
+		$this->set('rapport', $rapport);
 
 		//Action spécifique selon le bouton
 		if (array_key_exists('courriel', $this->params['form'])) {
 			$this->_envoyerCourriel($adulte_id);
+		}else if (array_key_exists('annuler', $this->params['form'])){
+			$this->redirect(array('controller' => 'paiement_membre', 'action' => 'index'));
 		}
 	}
 
@@ -215,7 +221,6 @@ class PaiementMembreController extends AppController {
 		//Recherche des informations du recu d'impot
 		$rapport = $this->PaiementMembre->getRapportImpot($adulte_id);
 
-		pr($rapport);
 		//Type de livraison
 		$this->Email->delivery = 'smtp';
 
@@ -225,7 +230,7 @@ class PaiementMembreController extends AppController {
 
 		//On met les informations nécessaires pour le emails
 		$this->Email->from = '102e groupe des Laurentides ';
-		$this->Email->to = $rapport[0]['comptes']['nom_utilisateur'];
+		$this->Email->to = $rapport[0]['adultes']['courriel'];
 		//$this->Email->to = 'fredy_14@live.fr';
 		$this->Email->bcc = array('102e.groupe@gmail.com');
 		$this->Email->subject = __('Reçut d\'impôt pour ', true) . $rapport[0][0]['adulte_nom'];
