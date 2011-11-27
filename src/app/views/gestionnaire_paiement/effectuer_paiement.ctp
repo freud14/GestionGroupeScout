@@ -94,11 +94,11 @@ $locale = localeconv();
 	 */
 	?>
 	<?php
-	echo $form->radio('mode', array(2 => __('Je vais payer l\'inscription complète en ligne', true)), array('legend' => false, 'value' => false));
+	echo $form->radio('mode', array(2 => __('Je vais payer l\'inscription complète en ligne avec Paypal', true)), array('legend' => false, 'value' => false));
 	?>
 	<br />
 	<?php
-	echo $form->radio('mode', array(5 => __('Je vais payer l\'inscription par paiements différés en ligne', true)), array('legend' => false, 'value' => false));
+	echo $form->radio('mode', array(5 => __('Je vais payer l\'inscription par paiements différés en ligne avec Paypal (Non disponible)', true)), array('legend' => false, 'value' => false, 'disabled' => 'disabled'));
 	?>
 	<br />
 	<?php

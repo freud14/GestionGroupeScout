@@ -138,12 +138,17 @@ echo $this->Form->create(null, array('url' => array('controller' => 'paiement_me
 </div>
 <div class="mode_paiement">
 	<?php
-	echo $form->radio('mode', array(PAYPAL => __('Inscription complète en ligne (Non disponible pour l\'instant)', true)), array('legend' => false, 'value' => false, 'checked' => cochéOuPasCoché($type_paiement, PAYPAL), 'disabled' => 'disabled'));
+	echo $form->radio('mode', array(PAYPAL => __('Paiement complet en ligne avec Paypal', true)), array('legend' => false, 'value' => false, 'checked' => cochéOuPasCoché($type_paiement, PAYPAL)));
+	?>
+</div>
+<div class="etat">
+	<?php
+	echo $form->select('paypal', $etat, getSélectionParDéfaut($type_paiement, PAYPAL, $paiements[0]['Paiement']), array('empty' => false));
 	?>
 </div>
 <div class="mode_paiement">
 	<?php
-	echo $form->radio('mode', array(PAYPAL_DIFFERE => __('Paiements différés en ligne (Non disponible pour l\'instant)', true)), array('legend' => false, 'value' => false, 'checked' => cochéOuPasCoché($type_paiement, PAYPAL_DIFFERE), 'disabled' => 'disabled'));
+	echo $form->radio('mode', array(PAYPAL_DIFFERE => __('Paiements différés en ligne avec Paypal (Non disponible pour l\'instant)', true)), array('legend' => false, 'value' => false, 'checked' => cochéOuPasCoché($type_paiement, PAYPAL_DIFFERE), 'disabled' => 'disabled'));
 	?>
 </div>
 <?php
