@@ -23,7 +23,7 @@ class InscriptionConfirmationController extends AppController {
 	 * La fonction _navigation vérifie quel bouton a été cliqué et execute la bonne action
 	 */
 
-	function private _navigation() {
+	private function _navigation() {
 		//si le bouton accepter est cliqué
 		if (array_key_exists('paiement', $this->params['form'])) {
 			$this->Session->write("session", $this->params['data']);

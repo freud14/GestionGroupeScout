@@ -64,6 +64,7 @@ class GestionnairePaiement extends AppModel {
 						inscriptions.date_fin IS NULL AND
 						inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1)
 					GROUP BY
+						enfants.id,
 						enfants.prenom,
 						enfants.nom,
 						paiement_types.nom,
