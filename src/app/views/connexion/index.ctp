@@ -8,23 +8,10 @@
 	echo $form->create(null);
 	echo $form->input('nom_utilisateur', array('label' => array('class' => 'element', 'text' => __('Courriel', true) . ' <span class="star">*</span>')));
 
-
-	echo '<table>'.
-		'<tr>'.
-		'<td>';
-		echo __('Mot de passe', true);
-	echo '</td>'.
-		'<td>';
-	echo $form->password('mot_de_passe');
+	echo $form->input('password',array('label' => array('class' => 'element', 'text' => __('Mot de passe', true) . ' <span class="star">*</span>')));
 	if(isset($erreurMDP)){
 		echo $erreurMDP;
 	}
-	echo '</td>'.
-		'</tr>'.
-		'<table>';
-
-
-	//echo $form->input('mot_de_passe',array('label' => array('class' => 'element', 'text' => __('Mot de passe', true) . ' <span class="star">*</span>')));
 	echo '<br>';
 
     	
