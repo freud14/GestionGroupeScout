@@ -221,11 +221,11 @@ class PaiementMembreController extends AppController {
 
 
 		//On met les informations nécessaires pour le emails
-		$this->Email->from = '102e groupe des Laurentides ';
+		$this->Email->from = '102e Groupe scout des Laurentides ';
 		$this->Email->to = $rapport[0]['adultes']['courriel'];
 		//$this->Email->to = 'fredy_14@live.fr';
 		$this->Email->bcc = array('102e.groupe@gmail.com');
-		$this->Email->subject = __('Reçut d\'impôt pour ', true) . $rapport[0][0]['adulte_nom'];
+		$this->Email->subject = __('Reçu(s) d\'impôt(s) pour ', true) . $rapport[0][0]['adulte_nom'];
 		$this->set('rapport', $rapport);
 		//Le template du email
 		$this->Email->template = "recu_impot";
