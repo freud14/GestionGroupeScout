@@ -46,7 +46,7 @@ class InformationGeneraleController extends AppController {
 		} elseif (array_key_exists('annuler', $this->params['form'])) {
 			$this->supprimer->supprimerInscription($this);
 			$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
-			//DEVRAIT REDIRIGER VERS L'ACCUEIL
+			
 		}
 	}
 

@@ -1,4 +1,5 @@
-<?php echo $form->create(array('controller' => 'modification', 'action' => 'informationGenerale', $id_enfant)); ?>
+<?php echo $form->create(null, array('url' => array('controller' => 'modification', 'action' => 'informationGenerale', $id_enfant)));
+?> 
 <table>
         <tr>
                 <td>
@@ -152,9 +153,14 @@
                         <div style="text-align:right;padding-top: 20px ">
 
                                 <?php
-                                echo $form->button(__('Annuler l\'inscription', true), array('type' => 'submit', 'name' => 'annuler'));
+                                echo $form->button(__('Annuler', true), array('type' => 'submit', 'name' => 'annuler'));
                                 echo "&nbsp;&nbsp;&nbsp;";
-                                echo $form->button(__('Étape suivante', true), array('type' => 'submit', 'name' => 'suivant',));
+                                if($modification){
+                                echo $form->button(__('Modifier', true), array('type' => 'submit', 'name' => 'modifier'));
+                                }else
+                                {
+                                        echo $form->button(__('Enregistrer', true), array('type' => 'submit', 'name' => 'enregistrer'));
+                                }
                                 echo $form->end();
                                 ?>
                         </div>
