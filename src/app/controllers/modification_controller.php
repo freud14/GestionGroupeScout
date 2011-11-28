@@ -106,48 +106,30 @@ class ModificationController extends AppController {
         }
 
         public function ficheMedicale($id_enfant) {
-                $modification = $this->data;
-                $modification = $modification['Modification'];
-                pr($modification);
-                $antecedant = array_merge((array) $modification['antecedent1'], (array) $modification['antecedent2'], (array) $modification['antecedent3']);
-                pr($antecedant);
+
+                pr($this->data);
                 $id_adulte = $this->Session->read('authentification.id_compte');
                 $id_fiche_medicale = $this->Enfant->find('first', array('conditions' => array('Enfant.id' => $id_enfant)));
                 $id_fiche_medicale = $id_fiche_medicale['FicheMedicale'][0]['id'];
-                //$this->_updateFicheMed($id_fiche_medicale);
+
                 $monAutorisaion = $this->_getAutorisation();
                 $modification = true;
-                if (array_key_exists('modifier', $this->params['form'])) {
 
-                        if (($monAutorisaion > 2) || ($this->_verifireEnfant($id_enfant, $id_adulte))) {
 
+                if ($this->_verifireEnfant($id_enfant, $id_adulte)) {
+
+                        if (array_key_exists('modifier', $this->params['form'])) {
                                 $modification = false;
+                        } elseif (array_key_exists('enregistrer', $this->params['form'])) {
+                                //TODO Mettre les validations
+                                $this->_updateFicheMed($id_enfant);
+                        } elseif (array_key_exists('annuler', $this->params['form'])) {
+                                $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
                         }
-                } elseif (array_key_exists('enregistrer', $this->params['form'])) {
-                        //TODO Mettre les validations
-                        $this->_updateFicheMed($id_enfant);
+                } else {
+                        $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
                 }
-                /*
 
-
-
-
-                  }
-
-                  //Cherche le total des questions
-                  $question = $this->QuestionGenerale->find('all');
-                  //Pour chercher dans la session avec l'index
-                  $question_array = $this->Session->read('fiche_med.InscriptionFicheMed');
-
-                  foreach ($question as $value) {
-                  //Si le question est vrai
-                  if ($question_array['q' . $value['QuestionGenerale']['id']] == 'O') {
-                  $this->FicheMedicalesQuestionGenerale->create();
-                  $this->FicheMedicalesQuestionGenerale->save(array('question_generale_id' => $value['QuestionGenerale']['id'],
-                  'fiche_medicale_id' => $this->FicheMedicale->id));
-                  }
-                  }
-                 */
                 $this->set('title_for_layout', __('Fiche médicale', true));
                 $this->set('titre', __('Fiche médicale', true));
 
@@ -175,7 +157,7 @@ class ModificationController extends AppController {
                 }
 
                 foreach ($ficheMed['QuestionGenerale'] as $question) {
-                        $reponseQuetruestion[$question['id']] = 'O';
+                        $reponseQuestion[$question['id']] = 'O';
                 }
                 $this->set('id_enfant', $id_enfant);
                 $this->set('modification', $modification);
@@ -195,7 +177,7 @@ class ModificationController extends AppController {
 
                 $modification = $this->data;
                 $modification = $modification['Modification'];
-                pr($modification);
+
 
                 //met la fiche medicale a jour
                 $this->FicheMedicale->save(array('id' => $id_fiche_medicale,
@@ -204,9 +186,11 @@ class ModificationController extends AppController {
 
                 //met la table prescription a jour
                 $this->Prescription->deleteAll(array('fiche_medicale_id' => $id_fiche_medicale));
-                if (!empty($prescription)) {
+                if (!empty($modification['prescription'])) {
+                        pr($modification['prescription']);
+                        pr('chaussure');
                         $this->Prescription->create();
-                        $this->Prescription->save(array('posologie' => $modification['prescription']));
+                        $this->Prescription->save(array('fiche_medicale_id' => $id_fiche_medicale, 'posologie' => $modification['prescription']));
                 }
 
                 //met a jour les occurence de fiche_medicale_maladie
@@ -233,12 +217,12 @@ class ModificationController extends AppController {
                                 $this->FicheMedicalesMedicament->save(array('medicament_id' => $medicament, 'fiche_medicale_id' => $id_fiche_medicale));
                         }
                 }
-                
+
                 //met a jour les questions dans l'index
                 $this->FicheMedicalesQuestionGenerale->deleteAll(array('fiche_medicale_id' => $id_fiche_medicale));
-                
+
                 $question = $this->QuestionGenerale->find('all');
-                
+
                 $question_array = $modification;
 
                 foreach ($question as $value) {
