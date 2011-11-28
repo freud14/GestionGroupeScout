@@ -53,6 +53,13 @@ foreach ($maladies as $valeur) {
 
 <h3><?php echo __('Questions générales sur votre jeune', true); ?></h3>
 
+<div style="color:red;">
+	<?php
+	if (isset($erreur_questions_repondues)) {
+		__('Vous n\'avez pas répondu à toutes les questions.');
+	}
+	?>
+</div>
 <table class="cellule"><tr><th></th><th class="no_cellule">
 			<span style="display:inline-block; width: 50px;"><?php __('Oui'); ?></span>
 			<span style="display:inline-block; width: 50px;"><?php __('Non'); ?></span>

@@ -49,7 +49,8 @@ class InscriptionFicheMedController extends AppController {
 	}
 
 	public function index() {
-		// pr($this->data);
+		$questions = $this->QuestionGenerale->find('all');
+		
 		//Si ce n'est pas la page qui renvoit vers elle même
 		if (empty($this->data)) {/*
 		  $question = $this->QuestionGenerale->find('all');
@@ -69,23 +70,40 @@ class InscriptionFicheMedController extends AppController {
 			if (empty($session)) {
 
 				$session = array('antecedent1' => array(),
-				    'antecedent2' => array(),
-				    'antecedent3' => array(),
-				    'q1' => "",
-				    'q2' => "",
-				    'medicamentautoriseLab' => array(),
-				    'prescription' => "",
-				    'allergie' => "",
-				    'peur' => ""
+					'antecedent2' => array(),
+					'antecedent3' => array(),
+					'medicamentautoriseLab' => array(),
+					'prescription' => "",
+					'allergie' => "",
+					'peur' => ""
 				);
+				
+				foreach ($questions as $value) {
+					$session['q' . $value['QuestionGenerale']['id']] = '';
+				}
 			}
 			//c'est la page elle même qui s'apelle
 		} else {
-
-			$this->Session->write("fiche_med", $this->params['data']);
-			//$this -> Session -> write("url", $this->params['url']);
-			$this->_navigation();
+			$this->Session->write("fiche_med", $this->data);
+			//$this->Session->write("fiche_med", $this->params['data']);
 			$session = $this->Session->read('fiche_med.InscriptionFicheMed');
+
+			$question_array = $this->data['InscriptionFicheMed'];
+			$questionsRepondues = true;
+			foreach ($questions as $value) {
+				if (!isset($question_array['q' . $value['QuestionGenerale']['id']]) || 
+						$question_array['q' . $value['QuestionGenerale']['id']] == '') {
+					$questionsRepondues = false;
+					break;
+				}
+			}
+
+			if ($questionsRepondues) {
+				//$this -> Session -> write("url", $this->params['url']);
+				$this->_navigation();
+			} else {
+				$this->set('erreur_questions_repondues', true);
+			}
 		}
 
 
@@ -131,8 +149,8 @@ class InscriptionFicheMedController extends AppController {
 		$this->set('maladies', $this->getMaladieListe());
 		$this->set('questions', $this->getQuestionListe());
 		$this->set('medicaments', $this->getMedicamentListe());
-		pr($antecedent);
 	}
 
 }
+
 ?>
