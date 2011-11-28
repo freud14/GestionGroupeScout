@@ -73,12 +73,12 @@ if ( isset($rapport['Adulte']['prenom'] )) {
 
 	<?php
 	echo '<div align ="right">';
-	echo '<button onclick="document.forms[0].style.display=\'none\'; this.style.display=\'none\'; window.print();this.style.display=\'block\'; document.forms[0].style.display=\'block\';">Imprimer</button>';
-	echo $form->create('courriel', array('url' => array('controller' => 'paiement_membre', 'action' => 'courriel', $adulte_id)));
+	echo $form->create(null,  array('style'=> 'display:inline', 'url' => array('controller' => 'paiement_membre', 'action' => 'courriel', $adulte_id)));
 	echo $this->Form->button(__('Revenir à la page précédente', true), array('type' => 'summit', 'name' => 'annuler'));
 	echo $this->Form->button(__('Envoyer par courriel', true), array('type' => 'summit', 'name' => 'courriel'));
 	
 	echo $form->end();
+	echo '<button  type="summit" onclick="document.forms[0].style.display=\'none\'; this.style.display=\'none\'; window.print();this.style.display=\'block\'; document.forms[0].style.display=\'block\';">Imprimer</button>';
 	echo '</div>';
 	?>
 <?php } ?>
