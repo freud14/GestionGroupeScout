@@ -39,7 +39,6 @@ class GestionnairePaiementController extends AppController {
 		$this->loadModel('Facture');
 		$this->loadModel('Paiement');
 		$this->loadModel('Unite');
-		setlocale(LC_ALL, 'fr_CA.utf8');
 		$this->set('title_for_layout', __('Gestionaire de paiements', true));
 	}
 

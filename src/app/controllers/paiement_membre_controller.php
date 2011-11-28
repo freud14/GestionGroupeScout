@@ -38,7 +38,6 @@ class PaiementMembreController extends AppController {
 		parent::beforeFilter();
 		$this->loadModel('Adulte');
 		$this->layout = 'admin';
-		setlocale(LC_ALL, 'fr_CA.utf8');
 		$this->set('title_for_layout', __('Gestion des paiements', true));
 	}
 

@@ -1,7 +1,7 @@
 label.element
 {
-	/*width: 250px;*/
-	width: 150px;
+	width: 210px;
+	/*width: 150px;*/
 	display:inline-block;
 	float:left;
 	vertical-align:top;
@@ -13,10 +13,17 @@ label.element
 	clear: both;
 }
 
+.error-message
+{
+	margin-left: 15px;
+	color: white;
+}
 
 div.error
 {
 	background:red;
+	border-radius: 5px;
+	margin: 2px;
 }
 
 table tr td
