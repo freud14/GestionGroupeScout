@@ -15,7 +15,7 @@ class AssignerDroitController extends AppController {
 
 		function beforeFilter(){
 			parent::beforeFilter();
-			$this->layout = 'parent';
+			$this->layout = 'admin';
 			$this->loadModel("Compte");
 			$this->loadModel('AutorisationsCompte');
 
