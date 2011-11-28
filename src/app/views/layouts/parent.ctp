@@ -54,7 +54,7 @@ if (!empty($autorisation)) {
 						<li><?php echo $this->Html->link(__('Section d\'administration', true), array("controller" => "accueil", "action" => "admin")); ?></li>
 					<?php } ?>
 
-					<li style="float:right;"><?php echo $this->Html->link(__('Déconnexion', true), array("controller" => "deconnexion", "action" => "index")); ?></li>
+					<li style="float:right;"><?php echo $this->Html->link(__('Déconnexion', true), array("controller" => "connexion", "action" => "detruire")); ?></li>
 				</ul>
 			</div>
 			<?php echo $html->image('logo102.png', array('alt' => __('Accueil du site', true), 'style' => 'width:214px; height:125px; border:0px', 'class' => 'logo', 'url' => array("controller" => "accueil", "action" => "index"))); ?>
