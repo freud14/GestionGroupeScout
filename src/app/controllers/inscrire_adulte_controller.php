@@ -9,9 +9,6 @@ class InscrireAdulteController extends AppController {
 	var $helpers = array('Html', 'Javascript', 'Form');
 	var $name = 'InscrireAdulte';
 	var $components = array('validerInformation');
-	// var $components = array(array('Recaptcha.Captcha' => array(
-	//      'private_key' => '6Ldq4MkSAAAAACIFrlwaf209zjAOhktImcx_FjlS',
-	//    'public_key' => '6Ldq4MkSAAAAABiDfADZgxzR3Nn_wB4qppT9QBKy')));
 
 	/**
 	 * Charge les modèles utiles au controlleur
@@ -72,6 +69,7 @@ class InscrireAdulteController extends AppController {
 	 * @return void
 	 */
 	public function view() {
+		$this->layout = 'parent';
 		$this->set('titre', 'Inscription réussite avec succès');
 		$this->set('ariane', __('<span style="color: green;">Inscription d\'un membre < Inscription réussite', true));
 

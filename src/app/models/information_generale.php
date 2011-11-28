@@ -184,6 +184,33 @@ class InformationGenerale extends AppModel {
 				'message' => 'Vous devez spécifier le sexe du tuteur si vous spécifiez un autre parent ou tuteur.'
 			)
 		),
+		'telephone_maison_tuteur' => array(
+			'regle1' => array(
+				'rule' => array('phone', null, 'us'),
+				'required' => false,
+				'allowEmpty' => true,
+				'on' => 'create',
+				'message' => 'Rentrer un numéro de téléphone valide ex. 555-555-5555'
+			)
+		),
+		'telephone_bureau_tuteur' => array(
+			'regle1' => array(
+				'rule' => array('phone', null, 'us'),
+				'required' => false,
+				'allowEmpty' => true,
+				'on' => 'create',
+				'message' => 'Rentrer un numéro de téléphone valide ex. 555-555-5555'
+			)
+		),
+		'cellulaire_tuteur' => array(
+			'regle1' => array(
+				'rule' => array('phone', null, 'us'),
+				'required' => false,
+				'allowEmpty' => true,
+				'on' => 'create',
+				'message' => 'Rentrer un numéro de téléphone valide ex. 555-555-5555'
+			)
+		),
 		'prenom_urgence' => array(
 			//Vérifie que le champ prenom_urgence n'est pas vide.
 			'regle1' => array(
@@ -199,14 +226,13 @@ class InformationGenerale extends AppModel {
 				'message' => 'Le champ doit contenir moins de 45 caractères.'
 			)
 		),
-		//Vérifie que le champ telephone_principal_urgence n'est pas vide.
 		'telephone_principal_urgence' => array(
 			'regle1' => array(
-				'rule' => '/.*/',
+				'rule' => array('phone', null, 'us'),
 				'required' => true,
 				'allowEmpty' => false,
 				'on' => 'create',
-				'message' => 'Le champ ne peut être vide.'
+				'message' => 'Rentrer un numéro de téléphone valide ex. 555-555-5555'
 			)
 		),
 		//Vérifie que le champ lien_jeune_urgence n'est pas vide.

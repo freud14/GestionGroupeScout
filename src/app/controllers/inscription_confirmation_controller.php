@@ -16,7 +16,6 @@ class InscriptionConfirmationController extends AppController {
 		$this->Session->write('info_gen', null);
 		$this->Session->write('fiche_med', null);
 		$this->Session->write('InscriptionAutorisation', null);
-		pr($this->Session->read());
 		$this->_navigation();
 		$this->set('title_for_layout', __('Inscription d\'un enfant réussie', true));
 		$this->set('titre', __('Fin de l\'inscrtiption', true));
@@ -36,7 +35,8 @@ class InscriptionConfirmationController extends AppController {
 			//si le bouton précédent est cliqué
 		} elseif (array_key_exists('inscription', $this->params['form'])) {
 			$this->redirect(array('controller' => 'information_generale', 'action' => 'index'));
-			//$this->redirect('../information_generale');
+		} elseif (array_key_exists('accueil', $this->params['form'])) {
+			$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
 		}
 	}
 
