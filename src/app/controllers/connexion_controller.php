@@ -35,7 +35,7 @@ class ConnexionController extends AppController {
 			//si le mot de passe est valide
 			if (!empty($resultat)) {
 				$this->Session->write("authentification", $resultat);
-				$this->redirect(array('controller' => 'information_generale', 'action' => 'index'));
+				$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
 				//si le mot de passe n'est pas valide	
 			} else {
 				$this->Session->write("authentification", null);
