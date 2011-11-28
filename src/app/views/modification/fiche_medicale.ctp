@@ -3,7 +3,7 @@
 
   } */
 
-echo $form->create(null, array('url' => array('controller' => 'information', 'action' => 'ficheMedicale', $id_enfant)));
+echo $form->create(null, array('url' => array('controller' => 'modification', 'action' => 'ficheMedicale', $id_enfant)));
 ?>
 
 <h3><?php echo __('Antécédents médicaux', true); ?></h3>
@@ -157,11 +157,15 @@ echo $form->create(null, array('url' => array('controller' => 'information', 'ac
                                 <?php
                                 echo $form->button(__('Annuler', true), array('type' => 'submit', 'name' => 'annuler'));
                                 echo "&nbsp;&nbsp;&nbsp;";
-                                echo $form->button(__('Modifier', true), array('type' => 'submit', 'name' => 'modifier','value' => $no_fiche_medicale));
+                                if($modification){
+                                echo $form->button(__('Modifier', true), array('type' => 'submit', 'name' => 'modifier'));
+                                }else
+                                {
+                                        echo $form->button(__('Enregistrer', true), array('type' => 'submit', 'name' => 'enregistrer'));
+                                }
                                 echo $form->end();
                                 ?>
                         </div>
                 </td>
         </tr>
 </table>
-$

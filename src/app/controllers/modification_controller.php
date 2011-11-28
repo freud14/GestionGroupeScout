@@ -11,11 +11,22 @@ class ModificationController extends AppController {
                 parent::beforeFilter();
                 $this->layout = 'parent';
                 $this->loadModel("Maladie");
-                $this->loadModel('QuestionGenerale');
                 $this->loadModel('Medicament');
-                $this->loadModel('FicheMedicale');
-                $this->loadModel('Adulte');
+
+
                 $this->loadModel('Enfant');
+                $this->loadModel('Adulte');
+                $this->loadModel('Adresse');
+                $this->loadModel('AdultesEnfant');
+                $this->loadModel('Inscription');
+                $this->loadModel('Prescription');
+                $this->loadModel('ContactUrgence');
+                $this->loadModel('FicheMedicale');
+                $this->loadModel('FicheMedicalesMalady');
+                $this->loadModel('FicheMedicalesMedicament');
+                $this->loadModel('InformationScolaire');
+                $this->loadModel('QuestionGenerale');
+                $this->loadModel('FicheMedicalesQuestionGenerale');
         }
 
         private function _verifireEnfant($id_enfant, $id_parent) {
@@ -40,9 +51,7 @@ class ModificationController extends AppController {
                         }
                 }
                 $enfant = $this->Enfant->find('first', array('conditions' => array('Enfant.id' => $id_enfant)));
-                // pr($enfant);
-                //   $this->_navigation();
-                pr($enfant);
+
                 $informationGenerale = array('nom' => $enfant['Enfant']['nom'],
                     'prenom' => $enfant['Enfant']['prenom'],
                     'sexe' => $enfant['Enfant']['sexe'],
@@ -72,7 +81,7 @@ class ModificationController extends AppController {
                 if (empty($enfant)) {
                         
                 }
-                pr($informationGenerale);
+
 
                 /*
                  *  Les champs du tuteur qu'il faut assigner
@@ -90,21 +99,22 @@ class ModificationController extends AppController {
                 $this->set('titre', __('Informations générales', true));
 
 
-                $informationGenerale = array();
-                // $this->set('groupe_age', $this->GroupeAge->find('all'));
-                //pr($informationGenerale);
-                //pr($informationGenerale);
+
                 $this->set('id_enfant', $id_enfant);
                 $this->set('session', $informationGenerale);
-                $this->set('modification', false);
+                $this->set('modification', true);
         }
 
         public function ficheMedicale($id_enfant) {
-                pr($this->params);
+                $modification = $this->data;
+                $modification = $modification['Modification'];
+                pr($modification);
+                $antecedant = array_merge((array) $modification['antecedent1'], (array) $modification['antecedent2'], (array) $modification['antecedent3']);
+                pr($antecedant);
                 $id_adulte = $this->Session->read('authentification.id_compte');
                 $id_fiche_medicale = $this->Enfant->find('first', array('conditions' => array('Enfant.id' => $id_enfant)));
                 $id_fiche_medicale = $id_fiche_medicale['FicheMedicale'][0]['id'];
-
+                //$this->_updateFicheMed($id_fiche_medicale);
                 $monAutorisaion = $this->_getAutorisation();
                 $modification = true;
                 if (array_key_exists('modifier', $this->params['form'])) {
@@ -113,14 +123,35 @@ class ModificationController extends AppController {
 
                                 $modification = false;
                         }
+                } elseif (array_key_exists('enregistrer', $this->params['form'])) {
+                        //TODO Mettre les validations
+                        $this->_updateFicheMed($id_enfant);
                 }
+                /*
 
+
+
+
+                  }
+
+                  //Cherche le total des questions
+                  $question = $this->QuestionGenerale->find('all');
+                  //Pour chercher dans la session avec l'index
+                  $question_array = $this->Session->read('fiche_med.InscriptionFicheMed');
+
+                  foreach ($question as $value) {
+                  //Si le question est vrai
+                  if ($question_array['q' . $value['QuestionGenerale']['id']] == 'O') {
+                  $this->FicheMedicalesQuestionGenerale->create();
+                  $this->FicheMedicalesQuestionGenerale->save(array('question_generale_id' => $value['QuestionGenerale']['id'],
+                  'fiche_medicale_id' => $this->FicheMedicale->id));
+                  }
+                  }
+                 */
                 $this->set('title_for_layout', __('Fiche médicale', true));
                 $this->set('titre', __('Fiche médicale', true));
 
 
-                // pr($session);
-                //pr($this->getMaladieListe());
                 $ficheMed = $this->FicheMedicale->find('first', array('conditions' => array('FicheMedicale.id' => $id_fiche_medicale)));
                 $antecedent = array();
                 //  pr($ficheMed);
@@ -135,7 +166,7 @@ class ModificationController extends AppController {
                 if (!empty($ficheMed['Prescription'])) {
                         $prescriptions = $ficheMed['Prescription'][0]['posologie'];
                 }
-                //pr($antecedent);
+
                 $listeQuestion = $this->getQuestionListe();
                 $reponseQuestion = array();
 
@@ -146,7 +177,7 @@ class ModificationController extends AppController {
                 foreach ($ficheMed['QuestionGenerale'] as $question) {
                         $reponseQuetruestion[$question['id']] = 'O';
                 }
-
+                $this->set('id_enfant', $id_enfant);
                 $this->set('modification', $modification);
                 $this->set('reponseQuestion', $reponseQuestion);
                 $this->set('antecedents', $antecedent);
@@ -158,6 +189,66 @@ class ModificationController extends AppController {
                 $this->set('maladies', $this->getMaladieListe());
                 $this->set('questions', $listeQuestion);
                 $this->set('medicaments', $this->getMedicamentListe());
+        }
+
+        private function _updateFicheMed($id_fiche_medicale) {
+
+                $modification = $this->data;
+                $modification = $modification['Modification'];
+                pr($modification);
+
+                //met la fiche medicale a jour
+                $this->FicheMedicale->save(array('id' => $id_fiche_medicale,
+                    'allergie' => $modification['allergie'],
+                    'phobie' => $modification['peur']));
+
+                //met la table prescription a jour
+                $this->Prescription->deleteAll(array('fiche_medicale_id' => $id_fiche_medicale));
+                if (!empty($prescription)) {
+                        $this->Prescription->create();
+                        $this->Prescription->save(array('posologie' => $modification['prescription']));
+                }
+
+                //met a jour les occurence de fiche_medicale_maladie
+                //combine les tableaux d'antécédant
+
+                $antecedant = array_merge((array) $modification['antecedent1'], (array) $modification['antecedent2'], (array) $modification['antecedent3']);
+
+                $this->FicheMedicalesMalady->deleteAll(array('fiche_medicale_id' => $id_fiche_medicale));
+
+                foreach ($antecedant as $occurence) {
+                        if (!empty($occurence)) {
+                                $this->FicheMedicalesMalady->create();
+                                $this->FicheMedicalesMalady->save(array('fiche_medicale_id' => $this->FicheMedicale->id,
+                                    'maladie_id' => $occurence));
+                        }
+                }
+
+                //met a jour les medicaments autorisés
+                $this->FicheMedicalesMedicament->deleteAll(array('fiche_medicale_id' => $id_fiche_medicale));
+
+                foreach ($modification['medicamentautoriseLab'] as $medicament) {
+                        if ($medicament != '') {
+                                $this->FicheMedicalesMedicament->create();
+                                $this->FicheMedicalesMedicament->save(array('medicament_id' => $medicament, 'fiche_medicale_id' => $id_fiche_medicale));
+                        }
+                }
+                
+                //met a jour les questions dans l'index
+                $this->FicheMedicalesQuestionGenerale->deleteAll(array('fiche_medicale_id' => $id_fiche_medicale));
+                
+                $question = $this->QuestionGenerale->find('all');
+                
+                $question_array = $modification;
+
+                foreach ($question as $value) {
+                        //Si le question est vrai
+                        if ($question_array['q' . $value['QuestionGenerale']['id']] == 'O') {
+                                $this->FicheMedicalesQuestionGenerale->create();
+                                $this->FicheMedicalesQuestionGenerale->save(array('question_generale_id' => $value['QuestionGenerale']['id'],
+                                    'fiche_medicale_id' => $this->FicheMedicale->id));
+                        }
+                }
         }
 
         public function getMaladieListe() {
@@ -173,4 +264,5 @@ class ModificationController extends AppController {
         }
 
 }
+
 ?>
