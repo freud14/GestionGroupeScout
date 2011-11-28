@@ -4,7 +4,6 @@ class InscriptionConfirmationController extends AppController {
 
 	var $name = 'InscriptionConfirmation';
 	var $helpers = array("Html", 'Form');
-	var $components = array('supprimer');
 
 	function beforeFilter() {
 		parent::beforeFilter();
@@ -14,7 +13,10 @@ class InscriptionConfirmationController extends AppController {
 
 	function index() {
 		$nom = $this->Session->read('info_gen.InformationGenerale.prenom');
-		$this->supprimer->supprimerInscription();
+		$this->Session->write('info_gen', null);
+		$this->Session->write('fiche_med', null);
+		$this->Session->write('InscriptionAutorisation', null);
+		pr($this->Session->read());
 		$this->_navigation();
 		$this->set('title_for_layout', __('Inscription d\'un enfant réussie', true));
 		$this->set('titre', __('Fin de l\'inscrtiption', true));
@@ -37,6 +39,6 @@ class InscriptionConfirmationController extends AppController {
 			//$this->redirect('../information_generale');
 		}
 	}
-	
+
 }
 ?>
