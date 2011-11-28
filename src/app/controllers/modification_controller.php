@@ -5,7 +5,6 @@ class ModificationController extends AppController {
 
         var $helpers = array('Html', 'Javascript', 'Form');
         var $name = 'Modification';
-        var $components = array('supprimer');
 
         function beforeFilter() {
                 parent::beforeFilter();
@@ -40,6 +39,99 @@ class ModificationController extends AppController {
                 return $valeur;
         }
 
+        private function _updateInfoGen($id_enfant) {
+                $modification = $this->data;
+                $modification = $modification['Modification'];
+                // $this->Adresse->deleteAll(array('Enfant.id_enfant' => $id_enfant));
+                $enfant = $this->Enfant->find('first', array('conditions' => array('Enfant.id' => $id_enfant)));
+                pr($enfant);
+                $this->Adresse->save(array('id' => $enfant['Enfant']['id'],
+                    'adresses' => $modification['adresse'],
+                    'ville' => $modification['ville'],
+                    'code_postal' => $modification['code_postal']));
+                if (!empty($enfant['Adulte'][1]['id'])) {
+                        if (empty($modification['nom_tuteur'])) {
+ //$this->AdultesEnfant->deleteAll(array('adulte_id' => $enfant['Adulte'][1]['id'], 'enfant_id' => $id_enfant));
+ /* $this->Adulte->save(array('id' => $enfant['Adulte'][1]['id'],'nom' => $modification['nom_tuteur'],
+ 'prenom' => $modification['prenom_tuteur'], 'tel_maison' => $modification['telephone_maison_tuteur'],
+'tel_bureau' => $modification['telephone_bureau_tuteur'],'poste_bureau' =>$modification['telephone_bureau_tuteur'],
+                                 */ $this->Adulte->save(array('adulte_id' => $enfant['Adulte'][1]['id'],
+                                'nom' => $modification['nom_tuteur'],
+                                'prenom' => $modification['prenom_tuteur'],
+                                'sexe' => $this->Session->read('info_gen.InformationGenerale.sexe_tuteur'),
+                               'tel_maison' => $modification['telephone_maison_tuteur'],
+                                'tel_bureau' => $modification['telephone_bureau_tuteur'],
+                                'poste_bureau' =>$modification['telephone_bureau_tuteur'],
+                                'tel_autre' => $modification['cellulaire_tuteur'],
+                                'sexe' => $modification['sexe_tuteur'],
+                                'profession' => $modification['emploi_tuteur']));
+                                
+                        }
+                }
+
+
+                /* $this->AdultesEnfant->save(array('adulte_id' => $this->Session->read('authentification.id_adulte'),
+                  'enfant_id' => $this->Enfant->id));
+                  )/* &&
+                  ($this->Inscription->save(array('enfant_id' => $this->Enfant->id,
+                  'groupe_age_id' => $this->Session->read('info_gen.InformationGenerale.groupe_age'),
+                  'date_inscription' => DboSource::expression('NOW()'),
+                  'annee_id' => $annee['Annee']['id'],
+                  'autorisation_photo' => $photo,
+                  'autorisation_baignade' => $baignade)))
+                 * ========================================================
+                 * if (($this->Adresse->save(array('adresses' => $this->Session->read('info_gen.InformationGenerale.adresse'),
+                  'ville' => $this->Session->read('info_gen.InformationGenerale.ville'),
+                  'code_postal' => $this->Session->read('info_gen.InformationGenerale.code_postal')))) &&
+                  ($this->Enfant->save(array('nom' => $this->Session->read('info_gen.InformationGenerale.nom'),
+                  'prenom' => $this->Session->read('info_gen.InformationGenerale.prenom'),
+                  'date_naissance' => date('Y-m-d', (strtotime(
+                  $this->Session->read('info_gen.InformationGenerale.date_de_naissance.year') .
+                  $this->Session->read('info_gen.InformationGenerale.date_de_naissance.month') .
+                  $this->Session->read('info_gen.InformationGenerale.date_de_naissance.day')
+                  ))),
+                  'adresse_id' => $this->Adresse->id,
+                  'no_ass_maladie' => $this->Session->read('info_gen.InformationGenerale.assurance_maladie'),
+                  'sexe' => $this->Session->read('info_gen.InformationGenerale.sexe'),
+                  'particularite_jeunes' => $this->Session->read('info_gen.InformationGenerale.particularite')))) &&
+                  ($this->AdultesEnfant->save(array('adulte_id' => $this->Session->read('authentification.id_adulte'),
+                  'enfant_id' => $this->Enfant->id))) &&
+                  ($this->Inscription->save(array('enfant_id' => $this->Enfant->id,
+                  'groupe_age_id' => $this->Session->read('info_gen.InformationGenerale.groupe_age'),
+                  'date_inscription' => DboSource::expression('NOW()'),
+                  'annee_id' => $annee['Annee']['id'],
+                  'autorisation_photo' => $photo,
+                  'autorisation_baignade' => $baignade))) &&
+                 * ==========================================================
+                 * if (!empty($tuteur)) {
+                  $this->Adulte->create();
+                  $this->AdultesEnfant->create();
+
+                  $this->Adulte->save(array('nom' => $this->Session->read('info_gen.InformationGenerale.nom_tuteur'),
+                  'prenom' => $this->Session->read('info_gen.InformationGenerale.prenom_tuteur'),
+                  'sexe' => $this->Session->read('info_gen.InformationGenerale.sexe_tuteur'),
+                  'tel_maison' => $this->Session->read('info_gen.InformationGenerale.telephone_maison_tuteur'),
+                  'tel_bureau' => $this->Session->read('info_gen.InformationGenerale.telephone_bureau_tuteur'),
+                  'tel_bureau_poste' => $this->Session->read('info_gen.InformationGenerale.telephone_bureau_poste_tuteur'),
+                  'tel_autre' => $this->Session->read('info_gen.InformationGenerale.cellulaire_tuteur'),
+                  'sexe' => $this->Session->read('info_gen.InformationGenerale.sexe_tuteur'),
+                  'profession' => $this->Session->read('info_gen.InformationGenerale.profession')));
+
+                  $this->AdultesEnfant->save(array('adulte_id' => $this->Adulte->id,
+                  'enfant_id' => $this->Enfant->id));
+                  }
+                  =======================================================================
+                 * 
+                 */
+                $this->Enfant->save(array('id' => $id_enfant,
+                    'nom' => $modification['nom'],
+                    'prenom' => $modification['prenom'],
+                    'date_naissance' => date('Y-m-d', (strtotime($modification['date_de_naissance']['year'] . $modification['date_de_naissance']['month'] . $modification['date_de_naissance']['day']
+                            ))), 'no_ass_maladie' => $modification['assurance_maladie'],
+                    'sexe' => $modification['sexe'],
+                    'particularite_jeunes' => $modification['particularite']));
+        }
+
         public function informationGenerale($id_enfant) {
                 //si la page ne c'est pas rapeler elle même
                 $modification = true;
@@ -52,14 +144,15 @@ class ModificationController extends AppController {
                                 //TODO Mettre les validations
                                 $this->_updateInfoGen($id_enfant);
                         } elseif (array_key_exists('annuler', $this->params['form'])) {
-                               // $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
+                                // $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
                         }
                 } else {
-                      //  $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
+                        //  $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
                 }
-                
+
                 $enfant = $this->Enfant->find('first', array('conditions' => array('Enfant.id' => $id_enfant)));
-                pr($enfant);
+                pr($this->data);
+
                 $informationGenerale = array('nom' => $enfant['Enfant']['nom'],
                     'prenom' => $enfant['Enfant']['prenom'],
                     'sexe' => $enfant['Enfant']['sexe'],
@@ -81,13 +174,11 @@ class ModificationController extends AppController {
                         $informationGenerale['telephone_principal_urgence'] = "";
                 } else {
                         $contact = $this->Adulte->find('first', array('recursive' => -1, 'conditions' => array('Adulte.id' => $enfant['ContactUrgence'][0]['adulte_id'])));
-                        //   pr($contact);
                         $informationGenerale['nom_urgence'] = $contact['Adulte']['nom'];
                         $informationGenerale['prenom_urgence'] = $contact['Adulte']['prenom'];
                         $informationGenerale['telephone_principal_urgence'] = $contact['Adulte']['tel_maison'];
                 }
                 //s'il y a un deuxieme parent
-                pr($enfant['Adulte'][1]);
                 if (empty($enfant['Adulte'][1])) {
 
                         $informationGenerale['nom_tuteur'] = '';
@@ -101,7 +192,7 @@ class ModificationController extends AppController {
                         $informationGenerale['emploi_tuteur'] = '';
                 } else {
                         $tuteur = $enfant['Adulte'][1];
-                        $informationGenerale['nom_tuteur'] = $tuteur['nom']; 
+                        $informationGenerale['nom_tuteur'] = $tuteur['nom'];
                         $informationGenerale['prenom_tuteur'] = $tuteur['prenom'];
                         $informationGenerale['sexe_tuteur'] = $tuteur['sexe'];
                         $informationGenerale['courriel_tuteur'] = $tuteur['courriel'];
@@ -111,7 +202,7 @@ class ModificationController extends AppController {
                         $informationGenerale['cellulaire_tuteur'] = $tuteur['tel_autre'];
                         $informationGenerale['emploi_tuteur'] = $tuteur['profession'];
                 }
-                
+
 
                 $this->set('title_for_layout', __('Informations générales', true));
                 $this->set('titre', __('Informations générales', true));
