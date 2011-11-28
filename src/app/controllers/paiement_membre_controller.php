@@ -1,12 +1,5 @@
 <?php
 
-define('AUCUN_MODE', 0);
-define('ARGENT', 1);
-define('PAYPAL', 2);
-define('CHEQUE', 3);
-define('CHEQUES_POSTDATES', 4);
-define('PAYPAL_DIFFERE', 5);
-
 /**
  * Cette classe sert à gérer les paiements par les administrateur
  * du système.
