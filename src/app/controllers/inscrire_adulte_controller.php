@@ -50,6 +50,7 @@ class InscrireAdulteController extends AppController {
 		$this->layout = 'parent';
 		$this->set('titre', 'Mon profil');
 		$this->set('ariane', __('<span style="color: green;"> Mon profil', true));
+		$this->set('title_for_layout', __('Mon profil', true));
 
 		//Initialise les checkboxs d'implications
 		$this->set('option', $this->_initImplication());
