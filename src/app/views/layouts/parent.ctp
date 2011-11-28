@@ -48,12 +48,13 @@ if (!empty($autorisation)) {
 
 					<li><?php echo $this->Html->link(__('Gestionnaire des paiements', true), array("controller" => "gestionnaire_paiement", "action" => "index")); ?></li>
 
-					<li><?php echo $this->Html->link(__('Mon profil', true), array("controller" => "inscrire_adulte", "action" => "profil")); ?></li>
+					<li><?php echo $this->Html->link(__('Mon profil', true) . " " . $this->Session->read('authentification.nom_adulte'), array("controller" => "inscrire_adulte", "action" => "profil")); ?></li>
+
 
 					<?php if ($accesNum > 1) { ?>
 						<li><?php echo $this->Html->link(__('Section d\'administration', true), array("controller" => "accueil", "action" => "admin")); ?></li>
 					<?php } ?>
-
+					
 					<li style="float:right;"><?php echo $this->Html->link(__('Déconnexion', true), array("controller" => "connexion", "action" => "detruire")); ?></li>
 				</ul>
 			</div>

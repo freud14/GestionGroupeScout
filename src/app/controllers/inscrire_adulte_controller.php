@@ -23,6 +23,7 @@ class InscrireAdulteController extends AppController {
 		$this->loadModel('Adulte');
 		$this->loadModel('AdultesImplication');
 		$this->loadModel('Implication');
+		$this->loadModel('AutorisationsCompte');
 	}
 
 	/**
@@ -186,9 +187,13 @@ class InscrireAdulteController extends AppController {
 
 			$this->InscrireAdulte->set($this->data);
 			if ($this->InscrireAdulte->validates()) {
+				//mémorise ses autorisations
+				$autorisation = $this->AutorisationsCompte->find('first',
+						array('conditions' => array('AutorisationsCompte.compte_id' => $this->Session->read('authentification.id_compte'))));
+
 				$this->Compte->deleteAll(array('Compte.id' => $this->Session->read('authentification.id_compte')));
 				$this->Adulte->deleteAll(array('Adulte.id' => $this->Session->read('authentification.id_adulte')));
-				
+
 				//Enregistrement des données dans la base de données
 				if ($this->Compte->save(array('id' => $this->Session->read('authentification.id_compte'),
 					    'nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'],
@@ -206,6 +211,12 @@ class InscrireAdulteController extends AppController {
 					    'tel_autre' => $this->data['InscrireAdulte']['tel_autre'])))) {
 
 
+					if (isset($autorisation)) {
+						$this->AutorisationsCompte->create();
+						$this->AutorisationsCompte->save(array('id' => $autorisation['AutorisationsCompte']['id'],
+						    'autorisation_id' => $autorisation['AutorisationsCompte']['autorisation_id'],
+						    'compte_id' => $autorisation['AutorisationsCompte']['compte_id']));
+					}
 
 					//Supprimer les implications avant pour éviter conflit
 					$this->AdultesImplication->deleteAll(array('adulte_id' => $this->Session->read('authentification.id_adulte')));
