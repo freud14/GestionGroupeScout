@@ -3,7 +3,7 @@
 
   } */
 
-echo $form->create(null);
+echo $form->create(null, array('url' => array('controller' => 'information', 'action' => 'ficheMedicale', $id_enfant)));
 ?>
 
 <h3><?php echo __('Antécédents médicaux', true); ?></h3>
