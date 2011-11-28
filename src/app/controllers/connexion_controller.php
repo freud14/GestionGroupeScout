@@ -59,5 +59,10 @@ class ConnexionController extends AppController {
 		$this->_navigation();
 	}
 
+	public function destruire(){
+			$this->Cookie->delete();
+			$this->redirect(array( 'action' => 'index'));
+	}
+
 }
 ?>
