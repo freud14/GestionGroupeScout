@@ -1,4 +1,6 @@
-<?php class InscriptionAutorisationController extends AppController {
+<?php
+
+class InscriptionAutorisationController extends AppController {
 
 	var $name = 'InscriptionAutorisation';
 	var $helpers = array("Html", 'Form');
@@ -22,7 +24,6 @@
 		$this->loadModel('FicheMedicalesQuestionGenerale');
 		//Pour les erreurs mot de passe
 		$this->loadModel('Compte');
-
 	}
 
 	function navigation() {
@@ -54,17 +55,21 @@
 		//Chercher les informations du compte
 		$validationMDP = $this->Compte->find('first', array('conditions' => array('id' => $this->Session->read('authentification.id_compte'))));
 
+		$information = array();
+		$information = $validationMDP['Adulte'][0]['prenom'] . " " . $validationMDP['Adulte'][0]['nom'];
+
 		//Insère le code html pour l'erreur puisque les $this->password ne sont pas géré par les validations de modèles à cause des requêtes
 		$erreurMDP = null;
-		
-		if ($validationMDP['Compte']['mot_de_passe'] == $this->data['Autorisation']['motdepassestr']) {
-			$erreurMDP = null;
-			$this->_ajoutEnfant();
-		} else {
-			$erreurMDP = '<div  style="background: red">*Le mot de passe est invalide</div>';
+		if (!empty($this->data)) {
+			if ($validationMDP['Compte']['mot_de_passe'] == $this->data['Autorisation']['motdepassestr']) {
+				$erreurMDP = null;
+				$this->_ajoutEnfant();
+			} else {
+				$erreurMDP = '<div  style="background: red">*Le mot de passe est invalide</div>';
+			}
 		}
-
 		$this->set('erreurMDP', $erreurMDP);
+		$this->set('parent', $information);
 	}
 
 	/**
@@ -144,6 +149,7 @@
 
 				if (!empty($tuteur)) {
 					$this->Adulte->create();
+					$this->AdultesEnfant->create();
 
 					$this->Adulte->save(array('nom' => $this->Session->read('info_gen.InformationGenerale.nom_tuteur'),
 					    'prenom' => $this->Session->read('info_gen.InformationGenerale.prenom_tuteur'),
@@ -154,6 +160,9 @@
 					    'tel_autre' => $this->Session->read('info_gen.InformationGenerale.cellulaire_tuteur'),
 					    'sexe' => $this->Session->read('info_gen.InformationGenerale.sexe_tuteur'),
 					    'profession' => $this->Session->read('info_gen.InformationGenerale.profession')));
+
+					$this->AdultesEnfant->save(array('adulte_id' => $this->Adulte->id,
+					    'enfant_id' => $this->Enfant->id));
 				}
 
 				$prescription = $this->Session->read('fiche_med.InscriptionFicheMed.prescription');
@@ -198,7 +207,7 @@
 				}
 
 				//Si l'enregistrement a bien été fait, affiche le bon messasge
-			//	$this->Session->setFlash(__('Inscription terminée', true));
+				//	$this->Session->setFlash(__('Inscription terminée', true));
 				$this->redirect(array('controller' => 'inscription_confirmation', 'action' => 'index'));
 			} else {
 
@@ -206,4 +215,6 @@
 			}
 		}
 	}
-}?>
+
+}
+?>
