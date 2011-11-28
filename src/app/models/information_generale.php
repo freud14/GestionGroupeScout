@@ -249,9 +249,9 @@ class InformationGenerale extends AppModel {
 				$jour = $naissance['date_de_naissance']['day'];
 				$mois = $naissance['date_de_naissance']['month'];
 				$annee = substr($naissance['date_de_naissance']['year'], 2, 2);
-				if (intval(substr($no_assurance, 4, 2)) == intval($jour) &&
+				if (intval(substr($no_assurance, 8, 2)) == intval($jour) &&
 						intval(substr($no_assurance, 6, 2)) == intval($mois) &&
-						intval(substr($no_assurance, 8, 2)) == intval($annee)) {
+						intval(substr($no_assurance, 4, 2)) == intval($annee)) {
 					return true;
 				}
 			}
