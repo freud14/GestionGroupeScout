@@ -77,7 +77,7 @@ class InformationGenerale extends AppModel {
 		'assurance_maladie' => array(
 			//Vérifie le format du numéro d'assurance maladie.
 			'regle1' => array(
-				'rule' => '/[A-Za-z]{4}[0-9]{8}/',
+				'rule' => '/[A-Z]{4}[0-9]{8}/',
 				'required' => true,
 				'allowEmpty' => false,
 				'message' => 'Le numéro d\'assurance maladie n\'est pas valide.'

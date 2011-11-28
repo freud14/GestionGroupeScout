@@ -91,12 +91,13 @@
 
 			<?php
 			echo $form->input('niveau_scolaire', array(
-				'options' => array('' => '', '
-					pre' => __('Préscolaire', true),
+				'options' => array('' => '',
+				        'pre' => __('Préscolaire', true),
 					'pri' => __('Primaire', true),
 					'sec' => __('Secondaire', true)),
 				'value' => $session['niveau_scolaire'],
 				'label' => array('text' => __('Niveau scolaire', true) . ' <span class="star">*</span>', ' class' => 'element')));
+			
 			?>
 
 			<?php
