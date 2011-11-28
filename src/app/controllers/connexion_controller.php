@@ -60,8 +60,8 @@ class ConnexionController extends AppController {
 	}
 
 	public function detruire(){
-			$this->Cookie->delete();
-			$this->redirect(array( 'action' => 'index'));
+			$this->Session->destroy();
+			$this->redirect(array('controller' => 'connexion', 'action' => 'index'));
 	}
 
 }
