@@ -191,9 +191,6 @@ class InscrireAdulteController extends AppController {
 				$autorisation = $this->AutorisationsCompte->find('first',
 						array('conditions' => array('AutorisationsCompte.compte_id' => $this->Session->read('authentification.id_compte'))));
 
-				$this->Compte->deleteAll(array('Compte.id' => $this->Session->read('authentification.id_compte')));
-				$this->Adulte->deleteAll(array('Adulte.id' => $this->Session->read('authentification.id_adulte')));
-
 				//Enregistrement des données dans la base de données
 				if ($this->Compte->save(array('id' => $this->Session->read('authentification.id_compte'),
 					    'nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'],
