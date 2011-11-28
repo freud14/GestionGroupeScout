@@ -1,7 +1,5 @@
 <?php
 
-define('PAYPAL', 2);
-
 /**
  * Cette classe gère la gestion des paiements pour
  * les parents.
@@ -39,7 +37,6 @@ class GestionnairePaiementController extends AppController {
 		$this->loadModel('Facture');
 		$this->loadModel('Paiement');
 		$this->loadModel('Unite');
-		setlocale(LC_ALL, 'fr_CA.utf8');
 		$this->set('title_for_layout', __('Gestionaire de paiements', true));
 	}
 
@@ -118,8 +115,8 @@ class GestionnairePaiementController extends AppController {
 				$adulte = $this->Adulte->read();
 				$item_name .= __(' de ', true) . $adulte['Adulte']['prenom'] . ' ' . $adulte['Adulte']['nom'];
 
-				$paypal = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=828EWBBBAPU7W&amount=$montant_total&return=$return_url&rm=1&cancel_return=$cancel_url&item_name=" . urlencode($item_name);
-				$this->redirect($paypal);
+				$paypal = sprintf("&amount=%d&return=%s&rm=1&cancel_return=%s&item_name=%s", $montant_total, $return_url, $cancel_url, urlencode($item_name));
+				$this->redirect(PAYPAL_URL.$paypal);
 			}
 		} else {
 			if (!empty($this->data) && !isset($this->data['GestionnairePaiement']['mode'])) {

@@ -48,7 +48,9 @@ class AssignerDroitController extends AppController {
 		
 	public function index() {
 			
- 		
+ 		if ($this->_getAutorisation() < 4) {
+			$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
+		}
  		
  		
 		$this->set('title_for_layout', __('Gestionnaire des droits', true));

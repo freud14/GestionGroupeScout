@@ -19,7 +19,7 @@ $frateries = $tmp['frateries'];
 	<tbody>
 		<?php
 		setlocale(LC_NUMERIC, 'C');
-		$nf = new NumberFormatter('fr_CA', NumberFormatter::ORDINAL);
+		$nf = new NumberFormatter(SET_LOCALE_ACTUEL, NumberFormatter::ORDINAL);
 		$anciennePosition = 0;
 		//On affiche chacun des positions suivit du montant total 
 		// et du montant de chacun des versements pour chacun des dates.
@@ -41,6 +41,7 @@ $frateries = $tmp['frateries'];
 			$anciennePosition = $fraterie['Fraterie']['position'];
 			echo '</tr>';
 		}
+		setlocale(LC_ALL, SET_LOCALE_ACTUEL);
 		?>
 	</tbody>
 </table>

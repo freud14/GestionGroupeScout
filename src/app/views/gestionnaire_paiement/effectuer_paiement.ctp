@@ -107,31 +107,24 @@ if (isset($aucun_mode_choisi)) {
 </p>
 <div style="float:left;">
 	<?php
-	/*
-	 * Les IDs des différents types de paiement sont relatifs 
-	 * à la base de données. Ils sont donc statiques dans la 
-	 * base de données et ne doivent pas être changés.
-	 */
-	?>
-	<?php
-	echo $form->radio('mode', array(2 => __('Je vais payer l\'inscription complète en ligne avec Paypal', true)), array('legend' => false, 'value' => false));
+	echo $form->radio('mode', array(PAYPAL => __('Je vais payer l\'inscription complète en ligne avec Paypal', true)), array('legend' => false, 'value' => false));
 	?>
 	<br />
 	<?php
-	echo nl2br($form->radio('mode', array(5 => wordwrap(__('Je vais payer l\'inscription par paiements différés en ligne avec Paypal (Non disponible pour l\'instant)', true), 75)), array('legend' => false, 'value' => false, 'disabled' => 'disabled')));
+	echo nl2br($form->radio('mode', array(PAYPAL_DIFFERE => wordwrap(__('Je vais payer l\'inscription par paiements différés en ligne avec Paypal (Non disponible pour l\'instant)', true), 75)), array('legend' => false, 'value' => false, 'disabled' => 'disabled')));
 	?>
 	<br />
 	<?php
-	echo $form->radio('mode', array(1 => __('Je vais payer l\'inscription complète en argent comptant et en main propre', true)), array('legend' => false, 'value' => false));
+	echo $form->radio('mode', array(ARGENT => __('Je vais payer l\'inscription complète en argent comptant et en main propre', true)), array('legend' => false, 'value' => false));
 	?>
 </div>
 <div style="float:right;">
 	<?php
-	echo $form->radio('mode', array(4 => __('Je vais payer l\'inscription via chèques postdatés', true)), array('legend' => false, 'value' => false));
+	echo $form->radio('mode', array(CHEQUES_POSTDATES => __('Je vais payer l\'inscription via chèques postdatés', true)), array('legend' => false, 'value' => false));
 	?>
 	<br />
 	<?php
-	echo $form->radio('mode', array(3 => __('Je vais payer l\'inscription via chèque', true)), array('legend' => false, 'value' => false));
+	echo $form->radio('mode', array(CHEQUE => __('Je vais payer l\'inscription via chèque', true)), array('legend' => false, 'value' => false));
 	?>
 </div>
 <div style="clear:both; text-align: right">

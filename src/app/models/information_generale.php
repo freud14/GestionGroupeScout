@@ -77,7 +77,7 @@ class InformationGenerale extends AppModel {
 		'assurance_maladie' => array(
 			//Vérifie le format du numéro d'assurance maladie.
 			'regle1' => array(
-				'rule' => '/[A-Z]{4}[0-9]{8}/',
+				'rule' => '/[A-Za-z]{4}[0-9]{8}/',
 				'required' => true,
 				'allowEmpty' => false,
 				'message' => 'Le numéro d\'assurance maladie n\'est pas valide.'
@@ -148,7 +148,6 @@ class InformationGenerale extends AppModel {
 				'message' => 'Un enseignant responsable doit être spécifié.'
 			)
 		),
-		
 		'nom_urgence' => array(
 			//Vérifie que le champ nom_urgence n'est pas vide.
 			'regle1' => array(
@@ -276,7 +275,6 @@ class InformationGenerale extends AppModel {
 	function verifierTuteur($field) {
 		$listeChamp = array('nom_tuteur',
 			'prenom_tuteur',
-			'sexe_tuteur',
 			'courriel_tuteur',
 			'telephone_maison_tuteur',
 			'telephone_bureau_tuteur',
@@ -289,13 +287,17 @@ class InformationGenerale extends AppModel {
 		if (!empty($field[$s])) {
 			return true;
 		} else {
-			//pr($this->data);
 			foreach ($listeChamp as $champ) {
 				if (!empty($this->data['InformationGenerale'][$champ])) {
 					return false;
 				}
 			}
 		}
+
+		if ($s == 'sexe_tuteur' && !empty($this->data['InformationGenerale']['sexe_tuteur'])) {
+			return false;
+		}
+
 
 		return true;
 	}

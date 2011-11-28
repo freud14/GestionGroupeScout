@@ -24,7 +24,6 @@ class ListeProfilEnfantController extends AppController {
 	function beforeFilter() {
 		parent::beforeFilter();
 		$this->layout = 'parent';
-		setlocale(LC_ALL, 'fr_CA.utf8');
 		$this->set('title_for_layout', __('Profil des enfants', true));
 	}
 
