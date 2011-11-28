@@ -7,7 +7,8 @@ echo $form->create(null);
 ?>
 
 <h3><?php echo __('Antécédents médicaux', true); ?></h3>
-<?php
+
+<?php $form->input( 'Model.name', array( 'value' => 'whatever'  , 'type' => 'hidden') ); 
 ?>
 <table>
         <tr><td>
@@ -163,4 +164,4 @@ echo $form->create(null);
                 </td>
         </tr>
 </table>
-$this->redirect(array('controller' => 'gestionnaire_paiement', 'action' => 'index', $parametre));
+$
