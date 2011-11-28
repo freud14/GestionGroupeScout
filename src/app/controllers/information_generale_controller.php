@@ -46,7 +46,7 @@ class InformationGeneraleController extends AppController {
 			$this->Session->write('fiche_med', null);
 			$this->Session->write('InscriptionAutorisation', null);
 			$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
-			//DEVRAIT REDIRIGER VERS L'ACCUEIL
+			
 		}
 	}
 

@@ -43,15 +43,23 @@ class ModificationController extends AppController {
         public function informationGenerale($id_enfant) {
                 //si la page ne c'est pas rapeler elle même
                 $modification = true;
-                if (array_key_exists('modifier', $this->params['form'])) {
+                $id_adulte = $this->Session->read('authentification.id_compte');
+                if ($this->_verifireEnfant($id_enfant, $id_adulte)) {
 
-                        if (($monAutorisaion > 2) || ($this->_verifireEnfant($id_enfant, $id_adulte))) {
-
+                        if (array_key_exists('modifier', $this->params['form'])) {
                                 $modification = false;
+                        } elseif (array_key_exists('enregistrer', $this->params['form'])) {
+                                //TODO Mettre les validations
+                                $this->_updateInfoGen($id_enfant);
+                        } elseif (array_key_exists('annuler', $this->params['form'])) {
+                               // $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
                         }
+                } else {
+                      //  $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
                 }
+                
                 $enfant = $this->Enfant->find('first', array('conditions' => array('Enfant.id' => $id_enfant)));
-
+                pr($enfant);
                 $informationGenerale = array('nom' => $enfant['Enfant']['nom'],
                     'prenom' => $enfant['Enfant']['prenom'],
                     'sexe' => $enfant['Enfant']['sexe'],
@@ -78,22 +86,32 @@ class ModificationController extends AppController {
                         $informationGenerale['prenom_urgence'] = $contact['Adulte']['prenom'];
                         $informationGenerale['telephone_principal_urgence'] = $contact['Adulte']['tel_maison'];
                 }
-                if (empty($enfant)) {
-                        
+                //s'il y a un deuxieme parent
+                pr($enfant['Adulte'][1]);
+                if (empty($enfant['Adulte'][1])) {
+
+                        $informationGenerale['nom_tuteur'] = '';
+                        $informationGenerale['prenom_tuteur'] = '';
+                        $informationGenerale['sexe_tuteur'] = '';
+                        $informationGenerale['courriel_tuteur'] = '';
+                        $informationGenerale['telephone_maison_tuteur'] = '';
+                        $informationGenerale['telephone_bureau_tuteur'] = '';
+                        $informationGenerale['telephone_bureau_poste_tuteur'] = '';
+                        $informationGenerale['cellulaire_tuteur'] = '';
+                        $informationGenerale['emploi_tuteur'] = '';
+                } else {
+                        $tuteur = $enfant['Adulte'][1];
+                        $informationGenerale['nom_tuteur'] = $tuteur['nom']; 
+                        $informationGenerale['prenom_tuteur'] = $tuteur['prenom'];
+                        $informationGenerale['sexe_tuteur'] = $tuteur['sexe'];
+                        $informationGenerale['courriel_tuteur'] = $tuteur['courriel'];
+                        $informationGenerale['telephone_maison_tuteur'] = $tuteur['tel_maison'];
+                        $informationGenerale['telephone_bureau_tuteur'] = $tuteur['tel_bureau'];
+                        $informationGenerale['telephone_bureau_poste_tuteur'] = $tuteur['poste_bureau'];
+                        $informationGenerale['cellulaire_tuteur'] = $tuteur['tel_autre'];
+                        $informationGenerale['emploi_tuteur'] = $tuteur['profession'];
                 }
-
-
-                /*
-                 *  Les champs du tuteur qu'il faut assigner
-                  'nom_tuteur' => "",
-                  'prenom_tuteur' => "",
-                  'sexe_tuteur' => "",
-                  'courriel_tuteur' => "",
-                  'telephone_maison_tuteur' => "",
-                  'telephone_bureau_tuteur' => "",
-                  'telephone_bureau_poste_tuteur' => "",
-                  'cellulaire_tuteur' => "",
-                  'emploi_tuteur' => "", */
+                
 
                 $this->set('title_for_layout', __('Informations générales', true));
                 $this->set('titre', __('Informations générales', true));
@@ -102,7 +120,7 @@ class ModificationController extends AppController {
 
                 $this->set('id_enfant', $id_enfant);
                 $this->set('session', $informationGenerale);
-                $this->set('modification', true);
+                $this->set('modification', $modification);
         }
 
         public function ficheMedicale($id_enfant) {
