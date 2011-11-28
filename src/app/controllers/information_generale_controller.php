@@ -11,13 +11,11 @@ class InformationGeneraleController extends AppController {
 	 * @var type string
 	 */
 	var $name = 'InformationGenerale';
-
 	/**
 	 * Les différents Helpers utilisés par le contrôleur et la vue.
 	 * @var type array
 	 */
 	var $helpers = array("Html", 'Form');
-	var $components = array('supprimer');
 
 	/**
 	 * Cette méthode initialise le contrôleur.
@@ -44,7 +42,9 @@ class InformationGeneraleController extends AppController {
 				$this->redirect(array('controller' => 'inscription_fiche_med', 'action' => 'index'));
 			}
 		} elseif (array_key_exists('annuler', $this->params['form'])) {
-			$this->supprimer->supprimerInscription($this);
+			$this->Session->write('info_gen', null);
+			$this->Session->write('fiche_med', null);
+			$this->Session->write('InscriptionAutorisation', null);
 			$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
 			//DEVRAIT REDIRIGER VERS L'ACCUEIL
 		}
@@ -63,14 +63,14 @@ class InformationGeneraleController extends AppController {
 			if (empty($informationGenerale)) {
 				//s'il n'y a pas de données sauvegargées
 				$informationGenerale = array(
-					'nom' => "", 'prenom' => "", 'sexe' => "",
-					'date_de_naissance' => array('day' => "", 'month' => "", 'year' => ""),
-					'assurance_maladie' => "", 'adresse' => "", 'ville' => "", 'code_postal' => "", 'etab_scolaire' => "",
-					'niveau_scolaire' => "", 'enseignant' => "", 'groupe_age' => "", 'nom_tuteur' => "",
-					'prenom_tuteur' => "", 'sexe_tuteur' => "", 'courriel_tuteur' => "", 'telephone_maison_tuteur' => "",
-					'telephone_bureau_tuteur' => "", 'telephone_bureau_poste_tuteur' => "", 'cellulaire_tuteur' => "",
-					'emploi_tuteur' => "", 'nom_urgence' => "", 'prenom_urgence' => "", 'telephone_principal_urgence' => "",
-					'lien_jeune_urgence' => "", 'particularite' => ""
+				    'nom' => "", 'prenom' => "", 'sexe' => "",
+				    'date_de_naissance' => array('day' => "", 'month' => "", 'year' => ""),
+				    'assurance_maladie' => "", 'adresse' => "", 'ville' => "", 'code_postal' => "", 'etab_scolaire' => "",
+				    'niveau_scolaire' => "", 'enseignant' => "", 'groupe_age' => "", 'nom_tuteur' => "",
+				    'prenom_tuteur' => "", 'sexe_tuteur' => "", 'courriel_tuteur' => "", 'telephone_maison_tuteur' => "",
+				    'telephone_bureau_tuteur' => "", 'telephone_bureau_poste_tuteur' => "", 'cellulaire_tuteur' => "",
+				    'emploi_tuteur' => "", 'nom_urgence' => "", 'prenom_urgence' => "", 'telephone_principal_urgence' => "",
+				    'lien_jeune_urgence' => "", 'particularite' => ""
 				);
 			}
 			//Si c'est la page qui renvoit vers elle même on enregistre les informations et on appelle _navigation
@@ -87,6 +87,7 @@ class InformationGeneraleController extends AppController {
 		$this->set('groupe_age', $this->GroupeAge->find('all'));
 		$this->set('session', $informationGenerale);
 	}
+
 }
 ?>
 

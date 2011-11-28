@@ -37,14 +37,16 @@ class InscriptionAutorisationController extends AppController {
 			$this->Session->write("session", $this->params['data']);
 			//$this->redirect(array('controller'=>'inscription_confirmation', 'action'=>'index'));
 		} elseif (array_key_exists('annuler', $this->params['form'])) {
-			$this->supprimer->supprimerInscription($this);
+			$this->Session->write('info_gen', null);
+			$this->Session->write('fiche_med', null);
+			$this->Session->write('InscriptionAutorisation', null);
 			$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
 			//DEVRAIT REDIRIGER VERS L'ACCUEIL
 		}
 	}
 
 	function index() {
-		//pr($this->Session->read('fiche_med'));
+
 
 		$this->navigation();
 
@@ -61,7 +63,7 @@ class InscriptionAutorisationController extends AppController {
 		//Insère le code html pour l'erreur puisque les $this->password ne sont pas géré par les validations de modèles à cause des requêtes
 		$erreurMDP = null;
 		if (!empty($this->data)) {
-			if ($validationMDP['Compte']['mot_de_passe'] == $this->data['Autorisation']['motdepassestr']) {
+			if ($validationMDP['Compte']['mot_de_passe'] == $this->data['InscriptionAutorisation']['motdepassestr']) {
 				$erreurMDP = null;
 				$this->_ajoutEnfant();
 			} else {
@@ -91,13 +93,13 @@ class InscriptionAutorisationController extends AppController {
 			$this->InformationScolaire->create();
 			$this->Adulte->create(); //Pour le contact d'urgence obligatoire
 			//Pour les autorisations de photo et de baignade
-			if (isset($this->data['Autorisation']['autorisation_baignade'][0])) {
+			if (isset($this->data['InscriptionAutorisation']['autorisation_baignade'][0])) {
 				$baignade = 1;
 			} else {
 				$baignade = 0;
 			}
 
-			if (isset($this->data['Autorisation']['autorisation_photo'][0])) {
+			if (isset($this->data['InscriptionAutorisation']['autorisation_photo'][0])) {
 				$photo = 1;
 			} else {
 				$photo = 0;
