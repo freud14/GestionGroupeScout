@@ -37,7 +37,7 @@ class InscriptionAutorisationController extends AppController {
 			$this->Session->write("session", $this->params['data']);
 			//$this->redirect(array('controller'=>'inscription_confirmation', 'action'=>'index'));
 		} elseif (array_key_exists('annuler', $this->params['form'])) {
-			$this->supprimer->supprimerInscription($this);
+			$this->supprimer->supprimerInscription($this->Session->read());
 			$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
 			//DEVRAIT REDIRIGER VERS L'ACCUEIL
 		}

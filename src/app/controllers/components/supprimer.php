@@ -7,9 +7,9 @@ class SupprimerComponent extends Object {
          * @param type Le formulaire qui l'appel 
          */
         function supprimerInscription($formulaire) {
-
-                $formulaire->Session->write('info_gen', null);
-                $formulaire->Session->write('fiche_med', null);
+		pr($formulaire);
+		//  $formulaire->Session->delete('info_gen');
+               // $formulaire->Session->delete('fiche_med');
         }
 
 }
