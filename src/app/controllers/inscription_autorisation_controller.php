@@ -63,7 +63,7 @@ class InscriptionAutorisationController extends AppController {
 		//Insère le code html pour l'erreur puisque les $this->password ne sont pas géré par les validations de modèles à cause des requêtes
 		$erreurMDP = null;
 		if (!empty($this->data)) {
-			if ($validationMDP['Compte']['mot_de_passe'] == $this->data['InscriptionAutorisation']['motdepassestr']) {
+			if ($validationMDP['Compte']['mot_de_passe'] == hash('sha256', $this->data['InscriptionAutorisation']['motdepassestr'])) {
 				$erreurMDP = null;
 				$this->_ajoutEnfant();
 			} else {

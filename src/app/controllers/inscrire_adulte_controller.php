@@ -134,7 +134,7 @@ class InscrireAdulteController extends AppController {
 			if ($this->InscrireAdulte->validates()) {
 				//Enregistrement des données dans la base de données
 				if ($this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'],
-					    'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe'])) &&
+					    'mot_de_passe' => hash('sha256', $this->data['InscrireAdulte']['mot_de_passe']))) &&
 					($this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'],
 					    'nom' => $this->data['InscrireAdulte']['nom'],
 					    'tel_maison' => $this->data['InscrireAdulte']['tel_maison'],
