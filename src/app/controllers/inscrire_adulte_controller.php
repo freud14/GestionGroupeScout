@@ -125,17 +125,15 @@ class InscrireAdulteController extends AppController {
 	 */
 	private function _ajoutMembre() {
 
-
+		//Si le compte existe déjà
+		$compteExistant = $this->Compte->find('first', array('conditions' => array('Compte.nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'])));
 
 		if (!empty($this->data)) {
-
-			$compteExistant = $this->Compte->find('first', array('conditions' =>array('Compte.nom_utilisateur' =>  $this->data['InscrireAdulte']['nom_utilisateur']));
-			//Créer les intances de la bd nécessaire
-			$this->Compte->create();
-			$this->Adulte->create();
-
 			$this->InscrireAdulte->set($this->data);
-			if ($this->InscrireAdulte->validates()) {
+			if ($this->InscrireAdulte->validates() && (empty($compteExistant))) {
+				//Créer les intances de la bd nécessaire
+				$this->Compte->create();
+				$this->Adulte->create();
 				//Enregistrement des données dans la base de données
 				if ($this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'],
 					    'mot_de_passe' => hash('sha256', $this->data['InscrireAdulte']['mot_de_passe']))) &&
@@ -174,6 +172,9 @@ class InscrireAdulteController extends AppController {
 				$this->redirect(array('action' => 'view'));
 			} else {
 				$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
+				//L'erreur ne peut être géré par le modèle, donc elle est faite manuellement
+				$erreur = '<div  style="background: red"> <font color="white"> &nbsp; L\'adresse courriel est déjà utilisée</font></div>';
+				$this->set('erreurCompte', $erreur);
 			}
 		}
 	}

@@ -12,8 +12,7 @@ class InscrireAdulte extends AppModel {
 				'rule' => 'email',
 				'required' => true,
 				'allowEmpty' => false,
-				'message' => 'Une adresse courriel valide sera nécessaire pour vous connecter à votre compte'
-			)
+				'message' => 'Une adresse courriel valide sera nécessaire pour vous connecter à votre compte')
 		),
 		'mot_de_passe' => array(
 			'regle1' => array(
@@ -107,7 +106,7 @@ class InscrireAdulte extends AppModel {
 				'required' => true,
 				'allowEmpty' => false,
 				'on' => 'create',
-				'message' => 'Le sexe de l\'enfant doit être spécifié.'
+				'message' => 'Le sexe de l\'adulte doit être spécifié.'
 			)
 		),
 	);
