@@ -50,7 +50,7 @@ class InscriptionFicheMedController extends AppController {
 
 	public function index() {
 		$questions = $this->QuestionGenerale->find('all');
-		
+
 		//Si ce n'est pas la page qui renvoit vers elle même
 		if (empty($this->data)) {/*
 		  $question = $this->QuestionGenerale->find('all');
@@ -77,7 +77,7 @@ class InscriptionFicheMedController extends AppController {
 					'allergie' => "",
 					'peur' => ""
 				);
-				
+
 				foreach ($questions as $value) {
 					$session['q' . $value['QuestionGenerale']['id']] = '';
 				}
@@ -88,15 +88,18 @@ class InscriptionFicheMedController extends AppController {
 			//$this->Session->write("fiche_med", $this->params['data']);
 			$session = $this->Session->read('fiche_med.InscriptionFicheMed');
 
-			$question_array = $this->data['InscriptionFicheMed'];
 			$questionsRepondues = true;
-			foreach ($questions as $value) {
-				if (!isset($question_array['q' . $value['QuestionGenerale']['id']]) || 
-						$question_array['q' . $value['QuestionGenerale']['id']] == '') {
-					$questionsRepondues = false;
-					break;
+			if (array_key_exists('suivant', $this->params['form'])) {
+				$question_array = $this->data['InscriptionFicheMed'];
+				foreach ($questions as $value) {
+					if (!isset($question_array['q' . $value['QuestionGenerale']['id']]) ||
+							$question_array['q' . $value['QuestionGenerale']['id']] == '') {
+						$questionsRepondues = false;
+						break;
+					}
 				}
 			}
+
 
 			if ($questionsRepondues) {
 				//$this -> Session -> write("url", $this->params['url']);

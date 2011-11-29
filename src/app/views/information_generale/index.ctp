@@ -30,26 +30,8 @@
 					)
 			);
 			?>
-
-
-			<?php
-			/* $elements = array();
-			  for($i = date('Y') - 70; $i = date('Y') - 5; ++$i) {
-			  $elements[] = $i;
-			  } */
-			/*$listeMois = array();
-			for ($mois = 1; $mois <= 12; ++$mois) {
-				$listeMois[$mois] = ucfirst(strftime('%B', mktime(0, 0, 0, $mois)));
-				;
-			}*/
-			?>
-
-			<?php
-			//echo $form->label('date_de_naissance', __('Date de naissance', true) . ' <span class="star">*</span>', array('class' => 'element'));
-			//echo $form->day('date_de_naissance', $session['date_de_naissance']['day']);
-			//echo $form->month('date_de_naissance', $session['date_de_naissance']['month']);
-			//echo $form->year('date_de_naissance', date('Y') - 70, date('Y') - 5, $session['date_de_naissance']['year']);
 			
+			<?php	
 			echo $form->input('date_de_naissance', 
 					array('empty' => true, 
 						'selected' => array('day' => $session['date_de_naissance']['day'], 
@@ -69,9 +51,6 @@
 			?>
 
 			<?php
-			//echo $form->label('adresse', __('Adresse', true) . ' <span class="star">*</span>', array('class' => 'element'));
-			//echo $form->textarea('adresse', array('value' => $session['adresse'], 'rows' => 3, 'cols' => 25));
-
 			echo $form->input('adresse', array('value' => $session['adresse'], 'label' => array('text' => __('Adresse', true) . ' <span class="star">*</span>', 'class' => 'element'), 'rows' => '3', 'cols' => '25'));
 			?>
 
@@ -101,7 +80,7 @@
 			?>
 
 			<?php
-			echo $form->input('enseignant', array('value' => $session['enseignant'], 'label' => array('class' => 'element', 'text' => __('Enseignement responsable', true) . ' <span class="star">*</span>')));
+			echo $form->input('enseignant', array('value' => $session['enseignant'], 'label' => array('class' => 'element', 'text' => __('Enseignant responsable', true) . ' <span class="star">*</span>')));
 			?>
 
 			<br><h3><?php echo __('Groupe d\'âge') ?> </h3>
@@ -110,7 +89,13 @@
 			$liste = array();
 			$liste[''] = '';
 			foreach ($groupe_age as $groupe) {
-				$liste[$groupe['GroupeAge']['id']] = $groupe['GroupeAge']['nom'] . " (" . $groupe['GroupeAge']['age_min'] . "-" . $groupe['GroupeAge']['age_max'] . " ans - " . ($groupe['GroupeAge']['sexe'] == '1' ? __("Masculin", true) : __("Féminin", true)) . ")";
+				$strGroupe = __('Mixte', true);
+				if($groupe['GroupeAge']['sexe'] == '1') {
+					$strGroupe = __('Masculin', true);
+				} else if($groupe['GroupeAge']['sexe'] == '2') {
+					$strGroupe = __('Féminin', true);
+				}
+				$liste[$groupe['GroupeAge']['id']] = $groupe['GroupeAge']['nom'] . " (" . $groupe['GroupeAge']['age_min'] . "-" . $groupe['GroupeAge']['age_max'] . " ans - " . $strGroupe . ")";
 			}
 			echo $form->input('groupe_age', array(
 				'options' => $liste,
@@ -128,11 +113,7 @@
 			<?php
 			echo $form->input('prenom_tuteur', array('value' => $session['prenom_tuteur'], 'label' => array('class' => 'element', 'text' => __('Prénom', true))));
 			?>
-
-			<?php
-			//echo $form->label('sexe_tuteur', __('Sexe', true), array('class' => 'element'));
-			//echo $form->radio('sexe_tuteur', array('1' => __('Masculin', true), '2' => __('Féminin', true)), array('label' => false, 'legend' => false, 'default' => $session['sexe_tuteur'],));
-			?>
+			
 			<?php
 			echo $form->input('sexe_tuteur', array(
 				'before' => $form->label('sexe_tuteur', __('Sexe', true), array('class' => 'element')),
