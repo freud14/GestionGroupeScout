@@ -93,8 +93,10 @@ class InscrireAdulteController extends AppController {
 	 */
 	private function _initImplication() {
 
+		//Cherche les implications dans la base de données
 		$implication = $this->Implication->find('all');
 
+		//Initialisation
 		$option = array();
 		foreach ($implication as $value) {
 			$option[$value['Implication']['id']] = $value['Implication']['nom'];
@@ -161,7 +163,7 @@ class InscrireAdulteController extends AppController {
 				} else {
 					$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
 				}
-				//Si l'enregistrement a bien été fait, affiche le bon messasge
+				//Si l'enregistrement a bien été fait, affiche le bon message
 				$this->Session->setFlash(__('Inscription terminée', true));
 				$this->Session->write("authentification",
 					$this->validerInformation->validerInformation(
@@ -180,22 +182,24 @@ class InscrireAdulteController extends AppController {
 	}
 
 	/**
-	 * Met à jour le profil de membre
+	 * Met à jour le profil de membre dans la base de données
 	 * @author Luc-Frédéric Langis
 	 * @see J'ai du faire deux fonctions pour la mise à jour et l'inscription, sinon cela occassionnais des conflits d'id et d'unicité
 	 * @return void
 	 */
 	private function _majMembre() {
 
+		//Si il change son adresse pour une existante
+		$compteExistant = $this->Compte->find('first', array('conditions' => array('Compte.nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'])));
 		if (!empty($this->data)) {
 
 			$this->InscrireAdulte->set($this->data);
-			if ($this->InscrireAdulte->validates()) {
+			if ($this->InscrireAdulte->validates() && (empty($compteExistant))) {
 				//mémorise ses autorisations
 				$autorisation = $this->AutorisationsCompte->find('first',
 						array('conditions' => array('AutorisationsCompte.compte_id' => $this->Session->read('authentification.id_compte'))));
 
-				//Enregistrement des données dans la base de données
+				//Enregistrement des données dans la base de données, met à jour grâce à l'id
 				if ($this->Compte->save(array('id' => $this->Session->read('authentification.id_compte'),
 					    'nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'],
 					    'mot_de_passe' => hash('sha256', $this->data['InscrireAdulte']['mot_de_passe']))) &&
@@ -233,6 +237,9 @@ class InscrireAdulteController extends AppController {
 					$this->redirect(array('controller' => 'inscrire_adulte', 'action' => 'profil'));
 				} else {
 					$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
+					//L'erreur ne peut être géré par le modèle, donc elle est faite manuellement
+					$erreur = '<div  style="background: red"> <font color="white"> &nbsp; L\'adresse courriel est déjà utilisée</font></div>';
+					$this->set('erreurCompte', $erreur);
 				}
 			}
 		}
