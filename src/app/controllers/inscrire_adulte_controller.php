@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Controlleur qui gère ce qui est relié à la création de compte membre et à sa modification
+ * Gère ce qui est relié à la création de compte membre et à sa modification(profil)
  * L'index (création de compte membre) peut être accéder sans qu'on soit connecter (sans session)
  */
 class InscrireAdulteController extends AppController {
@@ -24,7 +24,8 @@ class InscrireAdulteController extends AppController {
 	}
 
 	/**
-	 * Permet à un parent de s'inscrire 
+	 * Permet à un parent de s'inscrire via un formulaire
+	 * de création de compte
 	 * @Author Luc-Frédéric Langis
 	 * @return void
 	 */
@@ -43,6 +44,7 @@ class InscrireAdulteController extends AppController {
 
 	/**
 	 * Permet à un membre de modifier ses informations personnelles
+	 * à l'aide de formulaire de profil
 	 * @Author Luc-Frédéric Langis
 	 * @return void
 	 */
@@ -57,10 +59,9 @@ class InscrireAdulteController extends AppController {
 
 		//Initialise le profil
 		$profil = $this->Adulte->find('first', array('conditions' => array('Adulte.compte_id' => $this->Session->read('authentification.id_compte'))));
-
-		//Initialise le profil
 		$this->set('profil', $profil);
 
+		//Appel la mise à jour
 		$this->_majMembre();
 	}
 
@@ -118,14 +119,17 @@ class InscrireAdulteController extends AppController {
 	}
 
 	/**
-	 * Enregistrement de membre
+	 * Enregistrement de membre dans la base de données
 	 * @return void
 	 * @author Luc-Frédéric Langis
 	 */
 	private function _ajoutMembre() {
 
+
+
 		if (!empty($this->data)) {
 
+			$compteExistant = $this->Compte->find('first', array('conditions' =>array('Compte.nom_utilisateur' =>  $this->data['InscrireAdulte']['nom_utilisateur']));
 			//Créer les intances de la bd nécessaire
 			$this->Compte->create();
 			$this->Adulte->create();

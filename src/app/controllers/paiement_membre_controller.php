@@ -185,7 +185,6 @@ class PaiementMembreController extends AppController {
 
 		}
 		$this->set('rapport', $rapport);
-
 		//Action spécifique selon le bouton
 		if (array_key_exists('courriel', $this->params['form'])) {
 			$this->_envoyerCourriel($adulte_id);
@@ -213,6 +212,7 @@ class PaiementMembreController extends AppController {
 		//Recherche des informations du recu d'impot
 		$rapport = $this->PaiementMembre->getRapportImpot($adulte_id);
 
+		pr($rapport);
 		//Type de livraison
 		$this->Email->delivery = 'smtp';
 

@@ -12,7 +12,7 @@ class InscrireAdulte extends AppModel {
 				'rule' => 'email',
 				'required' => true,
 				'allowEmpty' => false,
-				'message' => 'Une adresse email valide sera nécessaire pour vous connecter à votre compte'
+				'message' => 'Une adresse courriel valide sera nécessaire pour vous connecter à votre compte'
 			)
 		),
 		'mot_de_passe' => array(
@@ -27,7 +27,10 @@ class InscrireAdulte extends AppModel {
 				'required' => true,
 				'allowEmpty' => false,
 				'on' => 'create',
-				'message' => 'Le champ ne peut être vide.'
+				'message' => 'Le champ ne peut être vide.'),
+		    'regle2' => array(
+				'rule' => array('minLength', 8),
+				'message' => 'Le mot de passe doit avoir 8 caractères.'
 			)
 		),
 		'mot_de_passe_confirmation' => array(
