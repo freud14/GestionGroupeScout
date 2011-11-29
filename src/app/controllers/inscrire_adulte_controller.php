@@ -193,7 +193,7 @@ class InscrireAdulteController extends AppController {
 				//Enregistrement des données dans la base de données
 				if ($this->Compte->save(array('id' => $this->Session->read('authentification.id_compte'),
 					    'nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'],
-					    'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe'])) &&
+					    'mot_de_passe' => hash('sha256', $this->data['InscrireAdulte']['mot_de_passe']))) &&
 					($this->Adulte->save(array('id' => $this->Session->read('authentification.id_adulte'),
 					    'prenom' => $this->data['InscrireAdulte']['prenom'],
 					    'nom' => $this->data['InscrireAdulte']['nom'],
