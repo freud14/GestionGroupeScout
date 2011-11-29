@@ -9,8 +9,12 @@ class AssignerDroitController extends AppController {
 
 		 var $helpers = array('Html', 'Javascript', 'Form');  
 		 var $name = 'AssignerDroit';
+<<<<<<< HEAD
 		
 
+=======
+		 
+>>>>>>> 8c20a3e9b66e8c46e57338e20739f047b103f46a
 		function beforeFilter(){
 			parent::beforeFilter();
 			$this->layout = 'admin';
@@ -112,7 +116,6 @@ class AssignerDroitController extends AppController {
 			//si les droits on changé
 			if($nouveauDroit != $tabVieuDroit[$idMembre])
 			{
-				pr("sa a changer");
 				//on enleve les anciens droits pour ne pas faire de conflit
 				$this->AutorisationsCompte->deleteAll(array('compte_id' => $idMembre));
 				//si le membre a de nouveau droit on les ajoutes

@@ -12,7 +12,8 @@ class ValiderInformationComponent extends Object {
 		
 		if(!empty($resultat))
 		{
-			$resultat = array('autorisation' => $resultat['Autorisation'],'id_compte' => $resultat['Compte']['id'],'id_adulte' => $resultat['Adulte']['0']['id']);	
+			$resultat = array('autorisation' => $resultat['Autorisation'],'id_compte' => $resultat['Compte']['id'],'id_adulte' => $resultat['Adulte']['0']['id'],
+			    'nom_adulte' =>$resultat['Adulte'][0]['prenom']. " ". $resultat['Adulte'][0]['nom']);
 		}
 			
 			

@@ -35,7 +35,7 @@ class ConnexionController extends AppController {
 			//si le mot de passe est valide
 			if (!empty($resultat)) {
 				$this->Session->write("authentification", $resultat);
-				$this->redirect(array('controller' => 'information_generale', 'action' => 'index'));
+				$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
 				//si le mot de passe n'est pas valide	
 			} else {
 				$this->Session->write("authentification", null);
@@ -57,6 +57,11 @@ class ConnexionController extends AppController {
 		$this->set('title_for_layout', __('Connexion', true));
 		//$this -> Session -> write("url", $this->params['url']);
 		$this->_navigation();
+	}
+
+	public function detruire(){
+			$this->Session->destroy();
+			$this->redirect(array('controller' => 'connexion', 'action' => 'index'));
 	}
 
 }
