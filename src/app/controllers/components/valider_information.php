@@ -6,7 +6,7 @@ class ValiderInformationComponent extends Object {
 	{
 		
 		$resultat = null;
-    		$conditions = array("Compte.nom_utilisateur" => $nom_utilisateur,'Compte.mot_de_passe' => $mot_de_passe);    			
+    		$conditions = array("Compte.nom_utilisateur" => $nom_utilisateur,'Compte.mot_de_passe' => hash('sha256', $mot_de_passe));    			
     		$resultat = ClassRegistry::init('Compte')->find('first', array('conditions' => $conditions,'fields' => 'Compte.id'));
     		
 		

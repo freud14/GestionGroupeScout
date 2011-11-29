@@ -52,6 +52,7 @@ class InscrireAdulteController extends AppController {
 		$this->layout = 'parent';
 		$this->set('titre', 'Mon profil');
 		$this->set('ariane', __('<span style="color: green;"> Mon profil', true));
+		$this->set('title_for_layout', __('Mon profil', true));
 
 		//Initialise les checkboxs d'implications
 		$this->set('option', $this->_initImplication());
@@ -137,7 +138,7 @@ class InscrireAdulteController extends AppController {
 			if ($this->InscrireAdulte->validates()) {
 				//Enregistrement des données dans la base de données
 				if ($this->Compte->save(array('nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'],
-					    'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe'])) &&
+					    'mot_de_passe' => hash('sha256', $this->data['InscrireAdulte']['mot_de_passe']))) &&
 					($this->Adulte->save(array('prenom' => $this->data['InscrireAdulte']['prenom'],
 					    'nom' => $this->data['InscrireAdulte']['nom'],
 					    'tel_maison' => $this->data['InscrireAdulte']['tel_maison'],
@@ -196,7 +197,7 @@ class InscrireAdulteController extends AppController {
 				//Enregistrement des données dans la base de données
 				if ($this->Compte->save(array('id' => $this->Session->read('authentification.id_compte'),
 					    'nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'],
-					    'mot_de_passe' => $this->data['InscrireAdulte']['mot_de_passe'])) &&
+					    'mot_de_passe' => hash('sha256', $this->data['InscrireAdulte']['mot_de_passe']))) &&
 					($this->Adulte->save(array('id' => $this->Session->read('authentification.id_adulte'),
 					    'prenom' => $this->data['InscrireAdulte']['prenom'],
 					    'nom' => $this->data['InscrireAdulte']['nom'],

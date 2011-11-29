@@ -9,9 +9,6 @@ class AssignerDroitController extends AppController {
 
 		 var $helpers = array('Html', 'Javascript', 'Form');  
 		 var $name = 'AssignerDroit';
-		// var $components = array(array('Recaptcha.Captcha' => array(
-          //      'private_key' => '6Ldq4MkSAAAAACIFrlwaf209zjAOhktImcx_FjlS', 
-            //    'public_key' => '6Ldq4MkSAAAAABiDfADZgxzR3Nn_wB4qppT9QBKy'))); 
 
 		function beforeFilter(){
 			parent::beforeFilter();
@@ -114,7 +111,6 @@ class AssignerDroitController extends AppController {
 			//si les droits on changé
 			if($nouveauDroit != $tabVieuDroit[$idMembre])
 			{
-				pr("sa a changer");
 				//on enleve les anciens droits pour ne pas faire de conflit
 				$this->AutorisationsCompte->deleteAll(array('compte_id' => $idMembre));
 				//si le membre a de nouveau droit on les ajoutes
