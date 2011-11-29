@@ -14,6 +14,10 @@ $locale = localeconv();
 	<br />Lac St-Charles, Québec
 	<br />G3G 1J9
 </quote>
+</p>
+<p><em>Important: 
+		<br /> - Indiquer le nom de l'enfant et son unité en bas à gauche</em>
+</p>
 <p>Soit:
 <ul>
 	<li>Un chèque couvrant la totalité du coût de l'inscription</li>
@@ -21,10 +25,6 @@ $locale = localeconv();
 		<?php echo $this->element('repartition'); ?>
 	</li>
 </ul>
-</p>
-<p><em>Important: 
-		<br /> - Indiquer le nom de l'enfant et son unité en bas à gauche</em>
-</p>
 <h3>Liste des enfants</h3>
 <script>
 	var versements = [<?php
@@ -111,9 +111,9 @@ if (isset($aucun_mode_choisi)) {
 	?>
 	<br />
 	<?php
-	echo nl2br($form->radio('mode', array(PAYPAL_DIFFERE => wordwrap(__('Je vais payer l\'inscription par paiements différés en ligne avec Paypal (Non disponible pour l\'instant)', true), 75)), array('legend' => false, 'value' => false, 'disabled' => 'disabled')));
+	//echo nl2br($form->radio('mode', array(PAYPAL_DIFFERE => wordwrap(__('Je vais payer l\'inscription par paiements différés en ligne avec Paypal (Non disponible pour l\'instant)', true), 75)), array('legend' => false, 'value' => false, 'disabled' => 'disabled')));
 	?>
-	<br />
+	<!--<br />-->
 	<?php
 	echo $form->radio('mode', array(ARGENT => __('Je vais payer l\'inscription complète en argent comptant et en main propre', true)), array('legend' => false, 'value' => false));
 	?>

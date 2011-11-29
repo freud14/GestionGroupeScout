@@ -146,11 +146,11 @@ echo $this->Form->create(null, array('url' => array('controller' => 'paiement_me
 	echo $form->select('paypal', $etat, getSélectionParDéfaut($type_paiement, PAYPAL, $paiements[0]['Paiement']), array('empty' => false));
 	?>
 </div>
-<div class="mode_paiement">
+<!--<div class="mode_paiement">
 	<?php
-	echo $form->radio('mode', array(PAYPAL_DIFFERE => __('Paiements différés en ligne avec Paypal (Non disponible pour l\'instant)', true)), array('legend' => false, 'value' => false, 'checked' => cochéOuPasCoché($type_paiement, PAYPAL_DIFFERE), 'disabled' => 'disabled'));
+	//echo $form->radio('mode', array(PAYPAL_DIFFERE => __('Paiements différés en ligne avec Paypal (Non disponible pour l\'instant)', true)), array('legend' => false, 'value' => false, 'checked' => cochéOuPasCoché($type_paiement, PAYPAL_DIFFERE), 'disabled' => 'disabled'));
 	?>
-</div>
+</div>-->
 <?php
 echo $this->Form->end(__('Effectuer le paiement', true));
 ?>
