@@ -9,12 +9,7 @@ class AssignerDroitController extends AppController {
 
 		 var $helpers = array('Html', 'Javascript', 'Form');  
 		 var $name = 'AssignerDroit';
-<<<<<<< HEAD
-		
 
-=======
-		 
->>>>>>> 8c20a3e9b66e8c46e57338e20739f047b103f46a
 		function beforeFilter(){
 			parent::beforeFilter();
 			$this->layout = 'admin';
