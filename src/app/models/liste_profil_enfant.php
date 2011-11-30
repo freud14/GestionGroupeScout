@@ -36,7 +36,7 @@ class ListeProfilEnfant extends AppModel {
 										ON Inscription.enfant_id = Enfant.id
 										JOIN adultes_enfants
 											ON 	adultes_enfants.enfant_id = Enfant.id AND
-												adultes_enfants.adulte_id = '.intval($adulte_id).'
+												adultes_enfants.adulte_id = '.intval($adulte_id).' #On trouve l\'adulte concerné.
 									JOIN annees
 										ON Inscription.annee_id = annees.id
 									LEFT JOIN unites
@@ -44,8 +44,8 @@ class ListeProfilEnfant extends AppModel {
 									JOIN groupe_ages
 										ON Inscription.groupe_age_id = groupe_ages.id
 							WHERE
-								annees.date_fin IS NULL AND
-								Inscription.date_fin IS NULL
+								annees.date_fin IS NULL AND #L\'année n\'est pas fini.
+								Inscription.date_fin IS NULL #Les inscriptions ne sont pas finis
 							ORDER BY
 								Enfant.nom,
 								Enfant.prenom;');
