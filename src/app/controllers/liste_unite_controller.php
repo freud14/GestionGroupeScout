@@ -1,11 +1,11 @@
 <?php
 
-//App::uses('AppController', 'Controller');
-
 /**
- * Posts Controller
+ * Permet de controller toutes les intéractions d'unités
+ * Par rapport aux listes des unités, aux assignations
+ * des enfants dans les unités et aux assignations des
+ * animateurs
  *
- * @property Post $Post
  */
 class ListeUniteController extends AppController {
 
