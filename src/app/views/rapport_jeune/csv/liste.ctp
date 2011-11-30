@@ -1,4 +1,8 @@
 <?php
+/**
+ * Cette vue génère le CSV à partir des informations que le
+ * contrôleur a donné.
+ */
 
 /**
  * Le séparateur de fichier
@@ -15,7 +19,6 @@ function formaterColonneCSV($colonne) {
 	return '"' . str_replace('"', '""', $colonne) . '"' . SEPARATEUR;
 }
 
-//pr($inscriptions);
 $affiche = "";
 
 //En-tête du CSV
@@ -100,5 +103,6 @@ foreach ($inscriptions as $inscription) {
 	$affiche .= "\r\n";
 }
 
+//On enlève le dernier retour de ligne et on affiche le contenu.
 echo trim($affiche);
 ?>

@@ -3,6 +3,8 @@
 /**
  * Cette classe gère la page des informations générales 
  * pour l'inscription.
+ * @author Frédérik Paradis
+ * @author Michel Biron
  */
 class InformationGeneraleController extends AppController {
 
@@ -11,6 +13,7 @@ class InformationGeneraleController extends AppController {
 	 * @var type string
 	 */
 	var $name = 'InformationGenerale';
+
 	/**
 	 * Les différents Helpers utilisés par le contrôleur et la vue.
 	 * @var type array
@@ -27,18 +30,17 @@ class InformationGeneraleController extends AppController {
 	}
 
 	/*
-	 * La fonction _navigation vérifie quel bouton a été cliqué et execute la bonne action
+	 * Cette méthode vérifie quel bouton a été cliqué et exécute la bonne action.
 	 */
-
 	private function _navigation() {
 
+		//Si le bouton suivant est cliqué
 		if (array_key_exists('suivant', $this->params['form'])) {
-			//Si le bouton suivant est cliquer				
-
 			$this->InformationGenerale->set($this->data);
 
+			//Si les champs sont bien remplis
 			if ($this->InformationGenerale->validates()) {
-				//si les champs sont bien remplits	
+				
 				$this->redirect(array('controller' => 'inscription_fiche_med', 'action' => 'index'));
 			}
 		} elseif (array_key_exists('annuler', $this->params['form'])) {
@@ -46,7 +48,6 @@ class InformationGeneraleController extends AppController {
 			$this->Session->write('fiche_med', null);
 			$this->Session->write('InscriptionAutorisation', null);
 			$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
-			
 		}
 	}
 
@@ -55,25 +56,25 @@ class InformationGeneraleController extends AppController {
 	 * informations générales.
 	 */
 	function index() {
-		//si la page ne c'est pas rapeler elle même
+		//Si la page ne s'est pas appelé elle-même
 		if (empty($this->data)) {
-			//Si ce n'est pas la page qui renvoit vers elle même
+			//Si ce n'est pas la page qui renvoit vers elle-même
 			$informationGenerale = $this->Session->read('info_gen.InformationGenerale');
 			//Si la variable session est vide
 			if (empty($informationGenerale)) {
 				//s'il n'y a pas de données sauvegargées
 				$informationGenerale = array(
-				    'nom' => "", 'prenom' => "", 'sexe' => "",
-				    'date_de_naissance' => array('day' => "", 'month' => "", 'year' => ""),
-				    'assurance_maladie' => "", 'adresse' => "", 'ville' => "", 'code_postal' => "", 'etab_scolaire' => "",
-				    'niveau_scolaire' => "", 'enseignant' => "", 'groupe_age' => "", 'nom_tuteur' => "",
-				    'prenom_tuteur' => "", 'sexe_tuteur' => "", 'courriel_tuteur' => "", 'telephone_maison_tuteur' => "",
-				    'telephone_bureau_tuteur' => "", 'telephone_bureau_poste_tuteur' => "", 'cellulaire_tuteur' => "",
-				    'emploi_tuteur' => "", 'nom_urgence' => "", 'prenom_urgence' => "", 'telephone_principal_urgence' => "",
-				    'lien_jeune_urgence' => "", 'particularite' => ""
+					'nom' => "", 'prenom' => "", 'sexe' => "",
+					'date_de_naissance' => array('day' => "", 'month' => "", 'year' => ""),
+					'assurance_maladie' => "", 'adresse' => "", 'ville' => "", 'code_postal' => "", 'etab_scolaire' => "",
+					'niveau_scolaire' => "", 'enseignant' => "", 'groupe_age' => "", 'nom_tuteur' => "",
+					'prenom_tuteur' => "", 'sexe_tuteur' => "", 'courriel_tuteur' => "", 'telephone_maison_tuteur' => "",
+					'telephone_bureau_tuteur' => "", 'telephone_bureau_poste_tuteur' => "", 'cellulaire_tuteur' => "",
+					'emploi_tuteur' => "", 'nom_urgence' => "", 'prenom_urgence' => "", 'telephone_principal_urgence' => "",
+					'lien_jeune_urgence' => "", 'particularite' => ""
 				);
 			}
-			//Si c'est la page qui renvoit vers elle même on enregistre les informations et on appelle _navigation
+			//Si c'est la page qui renvoit vers elle-même, on enregistre les informations et on appelle _navigation
 		} else {
 			$this->Session->write('info_gen', $this->params['data']);
 			$this->_navigation();

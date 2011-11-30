@@ -1,8 +1,16 @@
 <?php
+/**
+ * Cette vue affiche la répartition des paiements.
+ * @author Frédérik Paradis
+ */
+
+//On initialise une variable pour avoir les locales pour le signe de monnaie.
 $locale = localeconv();
-$tmp = $this->requestAction('repartition/index');
-$montants_versement = $tmp['montants_versement'];
-$frateries = $tmp['frateries'];
+
+//On va chercher les informations à partir du contrôleur.
+$repartition = $this->requestAction('repartition/index');
+$montants_versement = $repartition['montants_versement'];
+$frateries = $repartition['frateries'];
 ?>
 <table class="tableau_generique">
 	<thead>
@@ -18,6 +26,7 @@ $frateries = $tmp['frateries'];
 	</thead>
 	<tbody>
 		<?php
+		//On mets les locales numériques à 'C' à cause d'un bug entre setlocale et NumberFormatter
 		setlocale(LC_NUMERIC, 'C');
 		$nf = new NumberFormatter(SET_LOCALE_ACTUEL, NumberFormatter::ORDINAL);
 		$anciennePosition = 0;
@@ -28,6 +37,7 @@ $frateries = $tmp['frateries'];
 			echo '<tr>';
 			while ($anciennePosition == $fraterie['Fraterie']['position'] && $i < count($frateries)) {
 				if ($fraterie['Versement']['position'] == 0) {
+					//On formatte le nombre d'enfant selon l'ordre ordinal.
 					echo '<td>' . $nf->format($fraterie['Fraterie']['position'], NumberFormatter::TYPE_INT32) . ' ' . __('enfant', true) . ' (' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . ')</td>';
 				} else {
 					echo '<td>' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . '</td>';

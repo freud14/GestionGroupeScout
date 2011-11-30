@@ -1,5 +1,21 @@
 <?php
+/**
+ * Cette vue permet de modifier le statut du paiement d'une inscription.
+ * @author Frédérik Paradis
+ */
+//On initialise une variable pour avoir les locales pour le signe de monnaie.
 $locale = localeconv();
+
+/**
+ * Cette fonction renvoie 'checked' si les deux modes de 
+ * paiements passés paramètre sont égaux.
+ * @param int $type_paiement Le type de paiement déjà sélectionné 
+ * par l'utilisateur.
+ * @param int $mode_paiement_id Le mode de paiement à comparer
+ * @return string Renvoie 'checked' si les deux modes de 
+ * paiements passés paramètre sont égaux; sinon elle renvoie
+ * une chaine vide
+ */
 function cochéOuPasCoché($type_paiement, $mode_paiement_id) {
 	if ($type_paiement == $mode_paiement_id) {
 		return 'checked';
@@ -8,6 +24,16 @@ function cochéOuPasCoché($type_paiement, $mode_paiement_id) {
 	}
 }
 
+/**
+ * Cette fonction renvoie une chaine pour avoir la 
+ * valeur de sélection par défaut d'une liste de sélection
+ * du statut d'un paiement.
+ * @param int $type_paiement Le type de paiement déjà sélectionné 
+ * par l'utilisateur.
+ * @param int $mode_paiement_id Le mode de paiement à comparer
+ * @param array $versement Les informations de versement de l'utilisateur.
+ * @return string Peut renvoyer 'paye', 'recu' ou 'non_recu'.
+ */
 function getSélectionParDéfaut($type_paiement, $mode_paiement_id, $versement) {
 	if ($type_paiement == $mode_paiement_id) {
 		if ($versement['date_paiements'] != '') {
@@ -21,32 +47,6 @@ function getSélectionParDéfaut($type_paiement, $mode_paiement_id, $versement) 
 	return 'non_recu';
 }
 ?>
-<script>
-	/*function ex() {
-		var modes = $(".mode_paiement input");
-		for (var i = 0; i < modes.length; ++i) {
-			if($(modes[i]).is(':checked')) {
-				$(modes[i]).css('display', 'block');
-			}
-			else {
-				$(modes[i]).css('display', 'none');
-			}
-		}
-	}
-	$(".mode_paiement input").click(function() {
-		ex();
-	});
-	ex();*/
-	
-	/*$(document).ready(function(){ 
-		$(".mode_paiement input").change(function() {
-			var test = $(this).val();
-			$(".desc").hide();
-			$("#"+test).show();
-		}); 
-	});*/
-
-</script>
 <h3><?php __('Récapitulatif'); ?></h3>
 <div>
 	<?php
@@ -75,11 +75,6 @@ $etat = array('non_recu' => __('Non reçu', true),
 	'recu' => __('Reçu', true),
 	'paye' => __('Payé', true));
 
-/*
- * Les IDs des différents types de paiement sont relatifs 
- * à la base de données. Ils sont donc statiques dans la 
- * base de données et ne doivent pas être changés.
- */
 ?>
 <?php
 echo $this->Form->create(null, array('url' => array('controller' => 'paiement_membre', 'action' => 'payer', $inscription_id, $adulte_id)));

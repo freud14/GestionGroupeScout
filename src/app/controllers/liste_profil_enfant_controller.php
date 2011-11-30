@@ -27,11 +27,14 @@ class ListeProfilEnfantController extends AppController {
 		$this->set('title_for_layout', __('Profil des enfants', true));
 	}
 
+	/**
+	 * Cette méthode envoit les données à afficher à la vue.
+	 */
 	function index() {
 		$this->set('titre', __('Profil des enfants', true));
 		$this->set('ariane', __('Profil des enfants', true));
-		
-		$this->set('enfants', $this->ListeProfilEnfant->getListeEnfant($this->Session->read('authentification.id_adulte')));			
+
+		$this->set('enfants', $this->ListeProfilEnfant->getListeEnfant($this->Session->read('authentification.id_adulte')));
 	}
 
 }

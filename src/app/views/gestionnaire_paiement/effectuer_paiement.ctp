@@ -1,4 +1,10 @@
 <?php
+/**
+ * Cette vue sert à modifier le statut du paiement d'un membre.
+ * @author Frédérik Paradis
+ */
+
+//On initialise une variable pour avoir les locales pour le signe de monnaie.
 $locale = localeconv();
 ?>
 <p><em>Note: Sauf pour des raisons exceptionnelles, aucun remboursement des frais d'inscription ne sera effectué lorsqu'un jeune quitte en cours d'année.</em></p>
@@ -22,11 +28,15 @@ $locale = localeconv();
 <ul>
 	<li>Un chèque couvrant la totalité du coût de l'inscription</li>
 	<li>Plusieurs versements répartis de la façon suivante:
-		<?php echo $this->element('repartition'); ?>
+		<?php echo $this->element('repartition'); //On affiche la grille de tarifs à partir de l'élément « repartition ». ?>
 	</li>
 </ul>
 <h3>Liste des enfants</h3>
 <script>
+	/**
+	 * Augmente le montant du paiement dynamiquement.
+	 */
+	
 	var versements = [<?php
 		//On affiche chacun des versements dans le tableau javascript
 		$count = count($versements);
@@ -43,6 +53,7 @@ $locale = localeconv();
 				var nbEnfant = <?php echo $nb_inscription_paye; //On assigne la variable JS au nombre d'inscription déjà payé.  ?>;
 
 				$(document).ready(function() {
+					//On initialise le montant avec les cases déjà cochées.
 					var inscriptions = $(".inscription");
 					for(var i = 0; i < inscriptions.length; ++i) {
 						if($(inscriptions[i]).is(':checked')) {
@@ -56,6 +67,7 @@ $locale = localeconv();
 						}
 					}
 						
+					//Si la personne coche ou décoche des montants, on baisse ou on augmente le prix.
 					$(".inscription").click(function() {
 						if($(this).is(':checked')) {
 							if(nbEnfant < versements.length) {
@@ -86,6 +98,7 @@ $locale = localeconv();
 		<th><?php __('Je veux payer pour cet enfant'); ?></th>
 	</tr>
 	<?php
+	//On crée notre tableau des inscriptions dynamiquement.
 	echo $this->Form->create(null);
 	foreach ($inscriptions as $inscription) {
 		echo '<tr>';
@@ -100,6 +113,7 @@ $locale = localeconv();
 </p>
 <p style="color: red;">
 <?php
+//Si l'utilisateur a oublié de cocher un mode de paiement, on sort une erreur.
 if (isset($aucun_mode_choisi)) {
 	__('Vous n\'avez chosi aucun mode de paiement. Veuillez choisir un mode de paiement.');
 }

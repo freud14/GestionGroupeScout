@@ -3,6 +3,7 @@
 /**
  * Cette classe de contrôleur pour l'élément 
  * de la gestion des paiements.
+ * @author Frédérik Paradis
  */
 class RepartitionController extends AppController {
 
@@ -22,6 +23,8 @@ class RepartitionController extends AppController {
 		$this->loadModel("Versement");
 		$repartition['montants_versement'] = $this->Versement->find('all', array('conditions' => 'Versement.date IS NOT NULL', 'fields' => 'DISTINCT Versement.date', 'order' => 'Versement.date'));
 		$repartition['frateries'] = $this->Versement->find('all', array('order' => array('Fraterie.position', 'Versement.position')));
+		
+		//On retourne à l'élément les informations dont il a besoin.
 		return $repartition;
 	}
 

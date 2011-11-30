@@ -44,29 +44,23 @@ if (isset($recherche)) {
 				<td><?php echo empty($statut['Adulte']['courriel']) ? "Pas de courriel" : $statut['Adulte']['courriel']; ?></td>
 				<td><?php echo $statut['Adulte']['tel_maison']; ?></td>
 				<?php
+				//On trouve le statut du paiement selon les informations de la BD.
 				$stat = __('Impayé', true);
-				if($statut[0]['nb_inscriptions'] == $statut[0]['nb_paiement']) {
+				if ($statut[0]['nb_inscriptions'] == $statut[0]['nb_paiement']) {
 					$stat = __('Non reçu', true);
-					if($statut[0]['nb_paiement'] == $statut[0]['nb_paiement_recu']) {
-							$stat = __('Reçu', true);		
-							if($statut[0]['nb_paiement_recu'] == $statut[0]['nb_paiement_encaisse']) {
-								$stat = __('Payé', true);
-							}
+					if ($statut[0]['nb_paiement'] == $statut[0]['nb_paiement_recu']) {
+						$stat = __('Reçu', true);
+						if ($statut[0]['nb_paiement_recu'] == $statut[0]['nb_paiement_encaisse']) {
+							$stat = __('Payé', true);
+						}
 					}
 				}
-				/*$stat = __('Impayé', true);
-				if ($statut[0]['montant_total'] == $statut[0]['montant_paye'] &&
-						$statut[0]['nb_inscription'] == $statut[0]['nb_facture']) {
-					$stat = __('Payé', true);
-				}*/
-
-
 				?>
 				<td><?php echo $stat; ?></td>
 				<td><?php echo $this->Html->link(__('Modifier', true), array('controller' => 'gestionnaire_paiement', 'action' => 'index', $statut['Adulte']['id'])); ?></td>
 				<td><?php echo $this->Html->link(__('Imprimer ou envoyer par courriel', true), array('controller' => 'paiement_membre', 'action' => 'courriel', $statut['Adulte']['id'])); ?></td>
 			</tr>
-		<?php } ?>
+	<?php } ?>
 
 	</table></p>
 <?php } ?>

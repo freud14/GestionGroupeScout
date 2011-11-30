@@ -1,4 +1,9 @@
 <?php
+/**
+ * Cette vue affiche le statut du paiement des enfants d'un parent.
+ */
+
+//On initialise une variable pour avoir les locales pour le signe de monnaie.
 $locale = localeconv();
 ?>
 <h3><?php __("Liste des enfants"); ?></h3>
@@ -19,7 +24,7 @@ $locale = localeconv();
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ($inscriptions as $inscription) { ?>
+		<?php foreach ($inscriptions as $inscription) { //On parcours chacun des statuts. ?>
 			<tr>
 				<?php
 				//Si le type de paiement vaut NULL, on affiche « Non disponible »
@@ -27,6 +32,7 @@ $locale = localeconv();
 					$inscription['paiement_types']['type_paiement'] = __('Indéterminé', true);
 				}
 
+				//On ajoute le signe local de monnaie au montant
 				$inscription[0]['montant_paye'] .= ' ' . $locale['currency_symbol'];
 
 				//Si le montant total vaut NULL, on affiche « Non disponible »

@@ -137,6 +137,13 @@ class GestionnairePaiementController extends AppController {
 		}
 	}
 
+	/**
+	 * Cette méthode redirige l'utilisateur Paypal avec les
+	 * bons paramètres à Paypal.
+	 * @param array $inscriptions Les IDs d'inscription des jeunes
+	 * @param type $montant_total Le montant total à payer
+	 * @param type $adulte_id L'ID de l'adulte concerné.
+	 */
 	function _rediriger_paypal($inscriptions, $montant_total, $adulte_id) {
 		//On crée les URLS de retour et d'annulation de paiement Paypal
 		$parametre_url = implode($inscriptions, '/');
