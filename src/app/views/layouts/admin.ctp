@@ -1,4 +1,11 @@
 <?php
+/**
+ * Cette vue est le layout principale pour les utilisateurs non connectés avec le style du site.
+ * @author Frédérik Paradis
+ */
+
+
+//On va chercher la plus haute autorisation de l'utilisateur
 $accesNum = 0;
 $autorisation = $this->Session->read('authentification.autorisation');
 if (!empty($autorisation)) {
@@ -40,7 +47,7 @@ if (!empty($autorisation)) {
 
 					<li><?php echo $this->Html->link(__('Liste des unités', true), array("controller" => "liste_unite", "action" => "index")); ?></li>
 
-					<?php if ($accesNum >= 3) { ?>
+					<?php if ($accesNum >= 3) { //Si l'utilisateur est un administrateur ou un pilote'?>
 						<li>
 							<a>Gestion administrative</a> 
 
@@ -60,7 +67,7 @@ if (!empty($autorisation)) {
 						</li>
 					<?php } ?>
 
-					<?php if ($accesNum >= 3) { ?>
+					<?php if ($accesNum >= 3) { //Si l'utilisateur est un administrateur ou un pilote'?>
 						<li>
 							<a>Gestion du système</a> 
 

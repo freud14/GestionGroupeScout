@@ -1,4 +1,11 @@
-<?php echo $form->create(null); //, array('action' => 'fiche_medicale'));            ?>
+<?php
+/**
+ * Cette vue est la page pour la rentrée des informations générales de l'enfant.
+ * @author Frédérik Paradis
+ */
+?>
+
+<?php echo $form->create(null); ?>
 <table>
 	<tr>
 		<td>
@@ -13,12 +20,6 @@
 			echo $form->input('prenom', array('value' => $session['prenom'], 'label' => array('class' => 'element', 'text' => __('Prénom', true) . ' <span class="star">*</span>')));
 			?>
 
-			<?php
-			//echo $form->label('sexe', __('Sexe', true).' <span class="star">*</span>', array('class' => 'element'));
-			//echo $form->radio('sexe', 
-			//		array('M' => __('Masculin', true),'F' => __('Féminin', true)), 
-			//		array('label'=> 'Sexe', 'legend' => false));
-			?>	
 			<?php
 			echo $form->input('sexe', array(
 				'before' => $form->label('sexe', __('Sexe', true) . ' <span class="star">*</span>', array('class' => 'element')),
@@ -86,6 +87,7 @@
 			<br><h3><?php echo __('Groupe d\'âge') ?> </h3>
 
 			<?php
+			//On va chercher les différents groupes d'âge.
 			$liste = array();
 			$liste[''] = '';
 			foreach ($groupe_age as $groupe) {
