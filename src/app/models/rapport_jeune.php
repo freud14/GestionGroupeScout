@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Cette classe sert de modèle pour le 
+ * rapport CSV de la liste des jeunes.
+ * @author Frédérik Paradis
+ */
 class RapportJeune extends AppModel {
 
 	/**

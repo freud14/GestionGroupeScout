@@ -1,13 +1,9 @@
 <?php
 
-function p($champ) {
-	//var_dump($champ);
-	return $champ;
-}
-
 /**
  * Cette classe sert de modèle et valide les informations
  * générales lors de l'inscription.
+ * @author Frédérik Paradis
  */
 class InformationGenerale extends AppModel {
 

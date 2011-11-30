@@ -1,10 +1,28 @@
 <?php
 
+/**
+ * Cette classe sert de modèle pour la liste
+ * de profil des enfants.
+ * @author Frédérik Paradis
+ */
 class ListeProfilEnfant extends AppModel {
 
+	/**
+	 * Le nom du modèle
+	 * @var string 
+	 */
 	var $name = 'ListeProfilEnfant';
+	
+	/**
+	 * @var bool
+	 */
 	var $useTable = false;
 	
+	/**
+	 * Cette méthode retourne la liste des enfants pour un parent.
+	 * @param int $adulte_id L'ID du parent concerné
+	 * @return array La liste des enfants d'un parent
+	 */
 	function getListeEnfant($adulte_id) {
 		return $this->query('SELECT
 								Inscription.id,

@@ -5,6 +5,7 @@ App::import('Sanitize');
 /**
  * Cette classe sert de modèle pour la gestion des
  * paiements des membres par les administrateurs.
+ * @author
  */
 class PaiementMembre extends AppModel {
 
@@ -73,6 +74,14 @@ class PaiementMembre extends AppModel {
 								Adulte.tel_maison;", false);
 	}
 
+	/**
+	 * Cette méthode retourne les informations de paiement
+	 * pour une inscription selon un parent.
+	 * @param int $inscription_id L'ID de l'inscription concernée.
+	 * @param int $adulte_id L'ID de l'adulte concerné.
+	 * @return array Retourne les informations de paiement
+	 * pour une inscription selon un parent.
+	 */
 	function getPaiementsPourInscription($inscription_id, $adulte_id) {
 		return $this->query('SELECT
 								Enfant.prenom,

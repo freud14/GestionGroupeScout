@@ -3,6 +3,7 @@
 /**
  * Cette classe sert de modèle pour la
  * répartition des paiements.
+ * @author Frédérik Paradis
  */
 class Repartition extends AppModel {
 

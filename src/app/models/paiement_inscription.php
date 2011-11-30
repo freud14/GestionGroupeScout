@@ -1,8 +1,21 @@
 <?php
 
+/**
+ * Cette classe sert de modèle pour le 
+ * la gestion des paiements dans le système.
+ * @author Frédérik Paradis
+ */
 class PaiementInscription extends AppModel {
 
+	/**
+	 * Le nom du modèle
+	 * @var string 
+	 */
 	var $name = 'PaiementInscription';
+	
+	/**
+	 * @var bool
+	 */
 	var $useTable = false;
 
 	/**
@@ -106,11 +119,16 @@ class PaiementInscription extends AppModel {
 										versements.position,
 										tarifs.versement_position;");
 
+		//Pour chacun des versements retournés, on groupe
+		//les totaux avec leurs versements multiples.
 		$retour = array();
 		$fraterie_id_precedent = 0;
 		$indexActuel = -1;
 		foreach ($versements as $versement) {
+			
+			//On regarde si on est toujour dans la même fraterie.
 			if ($indexActuel == -1 || $fraterie_id_precedent != $versement['frateries']['fraterie_id']) {
+				//Si non, on agrandi notre tableau et on défini la structure de notre « sous-tableau »
 				$retour[] = array('Fraterie' => array('id' => $versement['frateries']['fraterie_id'], 'position' => $versement['frateries']['position']),
 					'Versement' => array('montant' => $versement['versements']['montant'], 'nb_versement_id' => $versement['nb_versements']['nb_versement_id'], 'fraterie_id' => $versement['frateries']['fraterie_id']),
 					'NbVersement' => array('id' => $versement['nb_versements']['nb_versement_id']),
@@ -118,11 +136,15 @@ class PaiementInscription extends AppModel {
 				$fraterie_id_precedent = $versement['frateries']['fraterie_id'];
 				$indexActuel = count($retour) - 1;
 			}
+			
+			//On place les différents versements dans l'index Tarifs de l'index
+			//actuel du tableau.
 			$retour[$indexActuel]['Tarifs'][] = array();
 			$indexTarif = count($retour[$indexActuel]['Tarifs']) - 1;
 			$retour[$indexActuel]['Tarifs'][$indexTarif]['montant'] = $versement['tarifs']['versement_montant'];
 			$retour[$indexActuel]['Tarifs'][$indexTarif]['nb_versement_id'] = $versement['tarifs']['versement_nb_versement_id'];
 			$retour[$indexActuel]['Tarifs'][$indexTarif]['fraterie_id'] = $versement['tarifs']['versement_fraterie_id'];
+			
 		}
 
 		return $retour;
