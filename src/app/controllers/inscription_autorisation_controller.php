@@ -1,4 +1,4 @@
-<?php
+xx<?php
 
 class InscriptionAutorisationController extends AppController {
 
