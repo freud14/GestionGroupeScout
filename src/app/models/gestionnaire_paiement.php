@@ -3,6 +3,8 @@
 /**
  * Cette classe permet de récupérer les données
  * de paiements des membres.
+ * @return Luc-Frédéric Langis
+ * @return Frédérik Paradis
  */
 class GestionnairePaiement extends AppModel {
 
@@ -29,12 +31,14 @@ class GestionnairePaiement extends AppModel {
 						inscriptions.id,
 						CONCAT(enfants.prenom, " ", enfants.nom) AS enfant_nom,
 						paiement_types.nom AS type_paiement,
-						SUM(IF(date_paiements IS NOT NULL, paiements.montant, 0)) AS montant_paye,
-						SUM(paiements.montant) AS montant_total,
-						COUNT(paiements.date_reception) AS nb_recu,
-						COUNT(paiements.date_paiements) AS nb_paiement,
-						COUNT(paiements.id) AS nb_total_paiement,
-						MAX(paiements.date_paiements) AS dernier_paiement,
+						SUM(IF(date_paiements IS NOT NULL, paiements.montant, 0)) AS montant_paye, #On trouve le montant total payé
+						SUM(paiements.montant) AS montant_total, #On trouve le total des paiements de l\'inscription
+						COUNT(paiements.date_reception) AS nb_recu, #On trouve le nombre de paiement reçu
+						COUNT(paiements.date_paiements) AS nb_paiement, #On trouve le nombre de paiement payé
+						COUNT(paiements.id) AS nb_total_paiement, #On compte le nombre total de paiement
+						MAX(paiements.date_paiements) AS dernier_paiement, #On trouve le dernier paiement payé
+						#Si la somme des montants des paiements n\'équivaut pas à la somme des montants payés,
+						#on trouve le prochain paiement.
 						IF(SUM(COALESCE(paiements.montant, 0)) != SUM(IF(date_paiements IS NOT NULL, paiements.montant, 0)),
 							(SELECT 
 								MIN(prochain_versement.date)
@@ -51,7 +55,7 @@ class GestionnairePaiement extends AppModel {
 									ON adultes_enfants.enfant_id = enfants.id
 									JOIN adultes
 										ON	adultes_enfants.adulte_id = adultes.id AND
-											adultes.id = ' . intval($adulte_id) . '
+											adultes.id = ' . intval($adulte_id) . ' #On sélectionne l\'adulte concerné.
 							LEFT JOIN factures
 								ON inscriptions.id = factures.inscription_id
 								LEFT JOIN frateries
@@ -61,8 +65,8 @@ class GestionnairePaiement extends AppModel {
 									LEFT JOIN paiement_types
 										ON paiements.paiement_type_id = paiement_types.id
 					WHERE 
-						inscriptions.date_fin IS NULL AND
-						inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1)
+						inscriptions.date_fin IS NULL AND #L\'année n\'est pas fini
+						inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) #On sélectionne l\'année actuelle.
 					GROUP BY
 						enfants.id,
 						enfants.prenom,

@@ -27,7 +27,7 @@ class PaiementInscription extends AppModel {
 	 */
 	function getNbInscriptionPayé($adulte_id) {
 		$retour = $this->query('SELECT
-						COUNT(inscriptions.id) as nb_inscription_paye
+						COUNT(inscriptions.id) as nb_inscription_paye #On compte le nombre d\'inscription.
 					FROM
 						inscriptions
 							JOIN enfants
@@ -37,11 +37,12 @@ class PaiementInscription extends AppModel {
 									JOIN adultes
 										ON	adultes_enfants.adulte_id = adultes.id AND
 											adultes.id = ' . intval($adulte_id) . '
-							JOIN factures
+							JOIN factures #Dont \'inscription a une facture
 								ON factures.inscription_id = inscriptions.id
 					WHERE 
-						inscriptions.date_fin IS NULL AND
-						inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1);', false);
+						inscriptions.date_fin IS NULL AND #Pour les inscriptions non finis.
+						inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) #Pour l\'année actuelle
+						;', false);
 		return $retour[0][0]['nb_inscription_paye'];
 	}
 
@@ -65,13 +66,14 @@ class PaiementInscription extends AppModel {
 									ON Enfant.id = adultes_enfants.enfant_id
 									JOIN adultes
 										ON	adultes_enfants.adulte_id = adultes.id AND
-											adultes.id = ' . intval($adulte_id) . '
+											adultes.id = ' . intval($adulte_id) . ' #Pour l\'adulte concerné
 							LEFT JOIN factures
 								ON factures.inscription_id = Inscription.id
 					WHERE 
-						Inscription.date_fin IS NULL AND
-						Inscription.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) AND
-						factures.id IS NULL;', false);
+						Inscription.date_fin IS NULL AND #Pour les inscriptions non terminées
+						Inscription.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) AND # Pour l\'année actuelle
+						factures.id IS NULL #Pour avoir les factures qui n\'ont pas été générées.
+						;', false);
 	}
 
 	/**
@@ -96,6 +98,7 @@ class PaiementInscription extends AppModel {
 												ON versements.fraterie_id = frateries.id
 											JOIN nb_versements
 												ON versements.nb_versement_id = nb_versements.id
+											#On sélectionne les sous-paiements pour chacun des paiements principals
 											JOIN 	(SELECT
 													frateries2.position 		AS fraterie_position,
 													versements2.date 		AS versement_date,
@@ -113,7 +116,7 @@ class PaiementInscription extends AppModel {
 													nb_versements2.nb_versements != 1) tarifs
 														ON tarifs.fraterie_position = frateries.position
 									WHERE
-										nb_versements.nb_versements = 1
+										nb_versements.nb_versements = 1 #On sélectionne seulement les paiements principals
 									ORDER BY
 										frateries.position,
 										versements.position,

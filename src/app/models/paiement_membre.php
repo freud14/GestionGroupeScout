@@ -28,9 +28,10 @@ class PaiementMembre extends AppModel {
 	 * les membres.
 	 */
 	function getStatutPaiementMembre($recherche = NULL) {
+		//On regarde si l'utilisateur a effectuée une recherche
 		$conditions = "";
 		if ($recherche != NULL) {
-			$recherche = Sanitize::escape($recherche);
+			$recherche = Sanitize::escape($recherche); //On protège des injections SQL.
 			$recherche = str_replace(array("%", "_"), array("\%", "\_"), $recherche);
 			$conditions = "AND 
 						Adulte.nom LIKE '%$recherche%' OR 
@@ -45,10 +46,10 @@ class PaiementMembre extends AppModel {
 								Adulte.prenom,
 								Adulte.courriel,
 								Adulte.tel_maison,
-								COUNT(inscriptions.id) AS nb_inscriptions,
-								COUNT(paiements.id) AS nb_paiement,
-								COUNT(paiements.date_reception) AS nb_paiement_recu,
-								COUNT(paiements.date_paiements) AS nb_paiement_encaisse
+								COUNT(inscriptions.id) AS nb_inscriptions, #On compte le nombre d'inscription
+								COUNT(paiements.id) AS nb_paiement, #On compte le nombre de paiement
+								COUNT(paiements.date_reception) AS nb_paiement_recu, #On compte le nombre de paiements reçus.
+								COUNT(paiements.date_paiements) AS nb_paiement_encaisse #On trouve le nombre de paiements payés
 							FROM
 								adultes Adulte
 									JOIN adultes_enfants
@@ -65,7 +66,8 @@ class PaiementMembre extends AppModel {
 														ON inscriptions.annee_id = annees.id
 							WHERE
 								inscriptions.date_fin IS NULL AND
-								annees.date_fin IS NULL $conditions
+								annees.date_fin IS NULL  #Pour l'année actuelle
+								$conditions
 							GROUP BY
 								Adulte.id,
 								Adulte.nom,
@@ -103,7 +105,7 @@ class PaiementMembre extends AppModel {
 											ON adultes_enfants.enfant_id = Enfant.id
 											JOIN adultes
 												ON 	adultes_enfants.adulte_id = adultes.id AND
-													adultes.id = ' . intval($adulte_id) . '
+													adultes.id = ' . intval($adulte_id) . ' #Pour l\'adulte concerné
 									LEFT JOIN factures Facture
 										ON Inscription.id = Facture.inscription_id
 										LEFT JOIN frateries Fraterie
@@ -111,10 +113,11 @@ class PaiementMembre extends AppModel {
 										LEFT JOIN paiements Paiement
 											ON Facture.id = Paiement.facture_id
 							WHERE
-								Inscription.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) AND
-								Inscription.id = ' . intval($inscription_id) . '
+								Inscription.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) AND #Pour l\'année actuelle
+								Inscription.id = ' . intval($inscription_id) . ' #Pour l\'inscription voulue
 							ORDER BY
-								Paiement.ordre_paiement;', false);
+								Paiement.ordre_paiement #On ordonne par l\'ordre de paiement 
+								;', false);
 	}
 
 	/**
@@ -189,9 +192,9 @@ class PaiementMembre extends AppModel {
 									CONCAT(enfants.prenom, " ", enfants.nom) AS enfant_nom,
 									CONCAT(adultes.prenom," ", adultes.nom) AS adulte_nom,
 									CONCAT(adresses.adresses,", ", adresses.ville, "(Québec), ", adresses.code_postal) as adresse,
-									SUM(paiements.montant) AS montant_total,
+									SUM(paiements.montant) AS montant_total, #On additionne les montants des paiements
 									unites.nom,
-									CURDATE() AS date
+									CURDATE() AS date 
 								FROM
 									adultes
 										LEFT JOIN adultes_enfants
@@ -209,11 +212,11 @@ class PaiementMembre extends AppModel {
 													LEFT JOIN paiements
 														ON factures.id = paiements.facture_id
 								WHERE
-									((inscriptions.date_fin IS NULL AND
-									inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1)) OR
-									inscriptions.id IS NULL) AND
+									((inscriptions.date_fin IS NULL AND #Pour les inscriptions actuelles
+									inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1)) OR #Pour l\'année actuel
+									inscriptions.id IS NULL) AND  
 									adultes.id = ' . intval($adulte_id) . ' AND
-									factures.id IS NOT NULL
+									factures.id IS NOT NULL #Pour les inscriptions dont les paiements sont générés.
 								GROUP BY
 									adultes.id,
 									enfants.id,
