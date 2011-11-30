@@ -1,7 +1,7 @@
 <?php 
  echo $form->create(null);
  
- echo __('L\'inscription de '. $nom .' est maintenant terminée. Vous pouvez dès maintenant payer en ligne ou ajouter un autre enfant.
+ echo __('L\'inscription de '. '<strong>' .  $nom . '</strong>'  .' est maintenant terminée. Vous pouvez dès maintenant payer en ligne ou ajouter un autre enfant.
 	Pour ce qui est du paiement, vous pouvez également aller payer en personne à nos locaux.');
 	?>
 	<br><br><br>
