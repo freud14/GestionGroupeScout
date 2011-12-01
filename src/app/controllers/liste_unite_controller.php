@@ -6,6 +6,8 @@
  * des enfants dans les unités et aux assignations des
  * animateurs
  *
+ * @author Luc-Frédéric Langis
+ * @author Michel Biron
  */
 class ListeUniteController extends AppController {
 
@@ -29,7 +31,8 @@ class ListeUniteController extends AppController {
 	/**
 	 * Affiche l'ensemble des enfants selon leur unité.
 	 * On peut changer l'affichage pour voir un tableau d'unité spécifique
-	 * @todo  faire l'exportation excel
+	 * @author Luc-Frédéric Langis
+	 * @author Michel Biron
 	 */
 	public function index() {
 
@@ -52,8 +55,9 @@ class ListeUniteController extends AppController {
 	}
 
 	/**
-	 * Permet d'assigner les jeunes à leur unité 
-	 * @todo  faire l'exportation excel
+	 * Permet de gérer l'asssignation des jeunes
+	 * à une unité spécifique et de les retirer
+	 * @author Luc-Frédéric Langis
 	 */
 	public function assigner() {
 		if ($this->_getAutorisation() <= 2) {
@@ -77,6 +81,12 @@ class ListeUniteController extends AppController {
 		$this->_voirAssigner();
 	}
 
+	/**
+	 * Permet de gérer l'asssignation des animateurs
+	 * à une unité spécifique et de les retirer
+	 * @author Luc-Frédéric Langis
+	 * @author Michel Biron
+	 */
 	public function assigner_animateur() {
 		if ($this->_getAutorisation() <= 2) {
 			$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
@@ -85,10 +95,7 @@ class ListeUniteController extends AppController {
 		$this->set('ariane', __('<span style="color: green;">Gestion des unités </span> > Assigner un jeune', true));
 		$this->set('title_for_layout', __('Assigner un animateur', true));
 
-
-		//$adulte_unite = $this->AdultesUnite->find('all', array('recursive' =>2));
-
-
+		//Recherche les untiés
 		$tabUnite = $this->Unite->find('all', array('recursive' => 2, 'order' => array('GroupeAge.age_min ASC')));
 
 		$listeUnite = array();
@@ -120,16 +127,14 @@ class ListeUniteController extends AppController {
 
 			$this->_enregistrerAnimateur();
 		}
-
-		//$this->_initEnfant($unite);
 	}
-
 
 	/*
 	 * Enregistre les animateurs assignés à une nouvelle unité
 	 * Et retirer ceux décochés de l'unité
 	 * @author Luc-Frédéric Langis
 	 */
+
 	private function _enregistrerAnimateur() {
 
 		pr($this->data);
@@ -189,12 +194,18 @@ class ListeUniteController extends AppController {
 				}
 			}
 		}
+	pr($vieuxAnimateur);
+		
 
-		pr($vieuxAnimateur);
 
-
-		$this->redirect(array('controller' => 'liste_unite', 'action' => 'assigner_animateur'));
+		//$this->redirect(array('controller' => 'liste_unite', 'action' => 'assigner_animateur'));
 	}
+
+	/*
+	 * Gère la gestion de l'affichage des enfants
+	 * par unité et le trie selon la sélection de l'unité
+	 * @author Luc-Frédéric Langis
+	 */
 
 	private function _voirAssigner() {
 
@@ -224,10 +235,13 @@ class ListeUniteController extends AppController {
 		$this->_initEnfant($unite);
 	}
 
-	/**
-	 * Enregistrement de membre
-	 * @return void
+	/*
+	 * Initialise la liste d'enfant lors des recherches
+	 * et des changements d'affichage
+	 * @author Luc-Frédéric Langis
+	 * @param $requete requete pour chercher les enfants selon l'unité
 	 */
+
 	private function _initEnfant($requete) {
 		$enfant = array();
 		foreach ($requete as $value) {
@@ -247,7 +261,8 @@ class ListeUniteController extends AppController {
 	 * Donne la liste des noms que le membre peut voir
 	 * @param $option1  le nom du premier champ de la liste déroulante
 	 * @return la liste des noms des unités que le membre peut voir selon ses droits d'accès
-	 * @author Michel Biron et Luc-Frédéric Langis
+	 * @author Michel Biron
+	 * @author Luc-Frédéric Langis
 	 */
 	private function _listeOption($option1, $nomVar) {
 
@@ -287,7 +302,7 @@ class ListeUniteController extends AppController {
 
 	/**
 	 * Assigne un jeune à une nouvelle unité
-	 * @return void
+	 * @author Luc-Frédéric Langis
 	 */
 	private function _assignerEnfant() {
 
@@ -322,8 +337,8 @@ class ListeUniteController extends AppController {
 	}
 
 	/**
-	 * Assigne un jeune à une nouvelle unité
-	 * @return void
+	 * Retire un jeune d'une unité
+	 * @author Luc-Frédéric Langis
 	 */
 	private function _retirerEnfant() {
 		$enfantId = array();

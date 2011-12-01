@@ -55,7 +55,7 @@ if (!empty($autorisation)) {
 		}
 		echo '<h3>' . $value['Unite']['nom'] . ' | ' . $value['GroupeAge']['age_min'] . '-' . $value['GroupeAge']['age_max'] . ' | Sexe : ' . $sexe . '</h3>';
 		echo '<table border="1">' .
-		'<th  style ="width:200 px" >' .
+		'<th  style ="width:200px" >' .
 		'Nom' .
 		'</th>' .
 		'<th  style ="width:120px">' .
