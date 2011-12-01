@@ -55,16 +55,15 @@ if (!empty($autorisation)) {
 		}
 		echo '<h3>' . $value['Unite']['nom'] . ' | ' . $value['GroupeAge']['age_min'] . '-' . $value['GroupeAge']['age_max'] . ' | Sexe : ' . $sexe . '</h3>';
 		echo '<table border="1">' .
-		'<tr>' .
-		'<td class="nom_enfant">' .
+		'<th  style ="width:200 px" >' .
 		'Nom' .
-		'</td>' .
-		'<td>' .
+		'</th>' .
+		'<th  style ="width:120px">' .
 		'Sexe' .
-		'</td>' .
-		'<td>' .
+		'</th>' .
+		'<th  style ="width:120px">' .
 		'Âge' .
-		'</td>' .
+		'</th>' .
 		'</tr>';
 
 		foreach ($value['Inscription'] as $inscription) {
