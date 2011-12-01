@@ -62,25 +62,26 @@
 
 	echo '<table>'.
 		'<tr>'.
-		'<td >';
+		'<th >';
 
 	
-	echo '</td>'.
-		'<td >';
+	echo '</th>'.
+		'<td style ="width:467px">';
 	
 	echo $this->Form->button(__('Retirer', true), array('type'=>'summit', 'name' => 'retirer')); 
 	
-	echo '</td>'.
-		'<td >';
+	echo '</th>'.
+		'<th >';
+
 	//Select au lieu d'un input pour avoir un index dans le $this->data
 	echo $this->Form->select('assignation', $optionAssignation, null, array('empty' => false));
 
-	echo '</td>'.
-		'<td >';
+	echo '</th>'.
+		'<th >';
 	
 	echo $this->Form->button(__('Assigner', true), array('type'=>'summit', 'name' => 'assigner')); 
 	
-	echo '</td>'.
+	echo '</th>'.
 		'</tr>'.
 		'</table>';
 	echo $form->end();

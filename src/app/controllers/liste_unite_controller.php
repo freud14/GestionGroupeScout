@@ -137,56 +137,38 @@ class ListeUniteController extends AppController {
 
 	private function _enregistrerAnimateur() {
 
-		pr($this->data);
+		
 		$adultesUnite = $this->AdultesUnite->find('all');
 		$unite = $this->Unite->find('all', array('recursive' => -1));
 
 		$vieuxAnimateur = array();
 		$nouveauAnimateur = (array) $this->data['AssignerAnimateur'];
 
-		//Si il y a des animateurs déja assignés
-		if (!empty($adultesUnite)) {
+		//On va chercher les anciens animateurs et leurs unités
+		//Dans le même format que le $this->data
+		foreach ($unite as $value) {
+			$lien = array();
+			foreach ($adultesUnite as $value2) {
+				if ($value['Unite']['id'] == $value2['AdultesUnite']['unite_id']) {
+					$lien[] = $value2['AdultesUnite']['adulte_id'];
 
-			//On va chercher les anciens animateurs et leurs unités
-			//Dans le même format que le $this->data
-			foreach ($unite as $value) {
-				$lien = array();
-				foreach ($adultesUnite as $value2) {
-					if ($value['Unite']['id'] == $value2['AdultesUnite']['unite_id']) {
-						$lien[] = $value2['AdultesUnite']['adulte_id'];
-
-						$vieuxAnimateur[$value['Unite']['id']] = $lien;
-					}
+					$vieuxAnimateur[$value['Unite']['id']] = $lien;
 				}
 			}
+		}
 
-			//On compare si les données ont changé
-			//SI on oui on supprime l'instance et on en créer une nouvelle
-			//Avec la bonne unité
-			foreach ($nouveauAnimateur as $cle => $animateur) {
-				if ($animateur != $vieuxAnimateur[$cle]) {
-
-					//on enleve les anciens droits pour ne pas faire de conflit
-					$this->AdultesUnite->deleteAll(array('unite_id' => $cle));
-					//si le membre a de nouveau droit on les ajoutes
-					if (!empty($animateur)) {
-						// On creer les nouveaux droits du membre
-						foreach ($animateur as $value2) {
-							$this->AdultesUnite->create();
-							$this->AdultesUnite->save(array('adulte_id' => $value2, 'unite_id' => $cle));
-						}
-					}
-				}
-			}
-		} else {
-			//Si  il n'y avait aucun animateur, on créer les nouvelles instances
-			foreach ($nouveauAnimateur as $cle => $animateur) {
+		pr($nouveauAnimateur);
+		//On compare si les données ont changé
+		//SI on oui on supprime l'instance et on en créer une nouvelle
+		//Avec la bonne unité
+		foreach ($nouveauAnimateur as $cle => $animateur) {
+			if ($animateur != $vieuxAnimateur[$cle]) {
 
 				//on enleve les anciens droits pour ne pas faire de conflit
 				$this->AdultesUnite->deleteAll(array('unite_id' => $cle));
 				//si le membre a de nouveau droit on les ajoutes
 				if (!empty($animateur)) {
-					// On cree les nouveaux droits du membre
+					// On creer les nouveaux droits du membre
 					foreach ($animateur as $value2) {
 						$this->AdultesUnite->create();
 						$this->AdultesUnite->save(array('adulte_id' => $value2, 'unite_id' => $cle));
@@ -194,8 +176,10 @@ class ListeUniteController extends AppController {
 				}
 			}
 		}
-	pr($vieuxAnimateur);
-		
+
+
+		pr($vieuxAnimateur);
+
 
 
 		//$this->redirect(array('controller' => 'liste_unite', 'action' => 'assigner_animateur'));

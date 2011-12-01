@@ -1,4 +1,8 @@
 <?php
+/*
+ *  Génère les listes d'animateur pour l'assignation
+ */
+
 echo $form->create('AssignerAnimateur', array('url' => array('controller' => 'ListeUnite', 'action' => 'assigner_animateur')));
 ?>
 <table>
