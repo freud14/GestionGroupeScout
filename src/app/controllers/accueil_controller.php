@@ -1,11 +1,10 @@
 <?php
 
-//App::uses('AppController', 'Controller');
-
 /**
- * Posts Controller
+ * Page d'accueil pour les administrateurs
+ * et parents
  *
- * @property Post $Post
+ * @author Luc-Frédéric Langis
  */
 class AccueilController extends AppController {
 
@@ -20,7 +19,7 @@ class AccueilController extends AppController {
 	/**
 	 * Page d'accueil du parent
 	 * Elle lui souhaite bienvenu et affiche son nom
-	 * @todo ajout des options de directions
+	 * @author Luc-Frédéric Langis
 	 */
 	public function index() {
 		$this->layout = 'parent';
@@ -28,11 +27,11 @@ class AccueilController extends AppController {
 		$this->set('title_for_layout', __('Accueil', true));
 		$this->_nom();
 	}
-	
+
 	/**
 	 * Page d'acceuil pour l'administrateur
 	 * Elle lui souhaite bienvenu et affiche son nom
-	 * @todo notification de l'administration
+	 * @author Luc-Frédéric Langis
 	 */
 	public function admin() {
 		$this->layout = 'admin';
@@ -42,12 +41,12 @@ class AccueilController extends AppController {
 		$this->_nom();
 	}
 
-
 	/**
 	 * Cherche le nom de la personne connectée
+	 * @author Luc-Frédéric Langis
 	 */
-	private function _nom(){
-		$nom = $this->Adulte->find('all', array('conditions' => array('Adulte.id'=>$this->Session->read('authentification.id_adulte'))));
+	private function _nom() {
+		$nom = $this->Adulte->find('all', array('conditions' => array('Adulte.id' => $this->Session->read('authentification.id_adulte'))));
 		$this->set('nom', $nom);
 	}
 

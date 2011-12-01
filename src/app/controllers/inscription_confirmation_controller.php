@@ -11,6 +11,13 @@ class InscriptionConfirmationController extends AppController {
 		setlocale(LC_ALL, 'fr_CA.utf8');
 	}
 
+	/**
+	 * Pagede confirmation
+	 * Affiche le nom de l'enfant inscrit
+	 * Permet la redirection vers l'accueil
+	 * Ou la nouvelle inscription d'un enfant
+	 * @author Luc-Frédéric Langis
+	 */
 	function index() {
 		$nom = $this->Session->read('info_gen.InformationGenerale.prenom');
 		$this->Session->write('info_gen', null);
@@ -25,6 +32,7 @@ class InscriptionConfirmationController extends AppController {
 
 	/*
 	 * La fonction _navigation vérifie quel bouton a été cliqué et execute la bonne action
+	 * @author Michel Biron
 	 */
 
 	private function _navigation() {
