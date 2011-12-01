@@ -23,6 +23,8 @@ class ConnexionController extends AppController {
 	 * Si le mot de passe n'est pas conforme à la personne dans la base de données, un message
 	 * d'erreur est afficher (cette validation ne pouvait pas se faire dans le model, l'input doit s'appeller "password" pour être
 	 * un champ mot de passe)
+	 * Le bouton connexion valide la connexion du compte et redirige à l'accueil
+	 *
 	 * @author Michel Biron
 	 * @author Luc-Frédéric Langis
 	 */
