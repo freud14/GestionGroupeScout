@@ -27,7 +27,6 @@ class InscrireAdulteController extends AppController {
 	 * Permet à un parent de s'inscrire via un formulaire
 	 * de création de compte
 	 * @Author Luc-Frédéric Langis
-	 * @return void
 	 */
 	public function index() {
 
@@ -46,7 +45,6 @@ class InscrireAdulteController extends AppController {
 	 * Permet à un membre de modifier ses informations personnelles
 	 * à l'aide de formulaire de profil
 	 * @Author Luc-Frédéric Langis
-	 * @return void
 	 */
 	public function profil() {
 		$this->layout = 'parent';
@@ -88,7 +86,6 @@ class InscrireAdulteController extends AppController {
 
 	/**
 	 * Initilise la liste des implications par rapport à celle dans la base de données
-	 * @return void
 	 * @author Luc-Frédéric Langis
 	 */
 	private function _initImplication() {
@@ -106,8 +103,7 @@ class InscrireAdulteController extends AppController {
 	}
 
 	/**
-	 * Créer une session
-	 * @return void
+	 * Créer une session après l'inscription
 	 * @author Michel Biron
 	 */
 	private function _creerSession() {
@@ -185,7 +181,6 @@ class InscrireAdulteController extends AppController {
 	 * Met à jour le profil de membre dans la base de données
 	 * @author Luc-Frédéric Langis
 	 * @see J'ai du faire deux fonctions pour la mise à jour et l'inscription, sinon cela occassionnais des conflits d'id et d'unicité
-	 * @return void
 	 */
 	private function _majMembre() {
 
