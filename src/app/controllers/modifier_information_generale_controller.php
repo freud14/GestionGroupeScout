@@ -120,14 +120,12 @@ class ModifierInformationGeneraleController extends AppController {
             if (array_key_exists('modifier', $this->params['form'])) {
                 $modification = false;
             } elseif (array_key_exists('enregistrer', $this->params['form'])) {
-                pr($this->data);
-                $this->ModifierInformationGenerale->set($this->data);
+                //$this->ModifierInformationGenerale->set($this->data);
                 
                 //Si les champs sont bien remplis
-                if ($this->ModifierInformationGenerale->validates()) {
+                //if ($this->ModifierInformationGenerale->validates()) {
                     $this->_updateInfoGen($id_enfant);
-                }
-                pr($this->data);
+                //}
             } elseif (array_key_exists('annuler', $this->params['form'])) {
                 $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
             }

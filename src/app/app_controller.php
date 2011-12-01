@@ -7,7 +7,7 @@ class AppController extends Controller {
 
         function beforeFilter() {
                 parent::beforeFilter();
-                setlocale(LC_ALL, SET_LOCALE_ACTUEL);
+                setlocale(LC_ALL, SET_LOCALE_ACTUEL, SET_LOCALE_ACTUEL_WINDOWS);
                 $this->Session->write("url", $this->params['url']);
                 $resultat = $this->Session->read('authentification.id_compte');
                 //pr($this->params['url']); 

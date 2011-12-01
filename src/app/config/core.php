@@ -59,6 +59,7 @@
  * Localisation actuel du site
  */
 	define('SET_LOCALE_ACTUEL', 'fr_CA.utf8');
+	define('SET_LOCALE_ACTUEL_WINDOWS', 'frc');
 	
 /*
  * Les IDs des différents types de paiement sont relatifs 
