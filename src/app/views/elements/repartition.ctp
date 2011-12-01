@@ -17,9 +17,16 @@ $frateries = $repartition['frateries'];
 		<tr>
 			<th><?php echo wordwrap(__('Position de l\'enfant dans la famille', true), 20, '<br />'); ?></th>
 			<?php
+			$format = "%e %B %Y";
+			// Vérifie sous Windows, pour trouver et remplacer le modificateur %e 
+			// correctement
+			if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+				$format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
+			}
+			
 			//On affiche les dates des versements
 			foreach ($montants_versement as $versement) {
-				echo "<th>" . strftime("%e %B %Y", strtotime($versement['Versement']['date'])) . "</th>";
+				echo "<th>" . utf8_encode(strftime($format, strtotime($versement['Versement']['date']))) . "</th>";
 			}
 			?>
 		</tr>
@@ -28,7 +35,7 @@ $frateries = $repartition['frateries'];
 		<?php
 		//On mets les locales numériques à 'C' à cause d'un bug entre setlocale et NumberFormatter
 		setlocale(LC_NUMERIC, 'C');
-		$nf = new NumberFormatter(SET_LOCALE_ACTUEL, NumberFormatter::ORDINAL);
+		//$nf = new NumberFormatter(SET_LOCALE_ACTUEL, NumberFormatter::ORDINAL);
 		$anciennePosition = 0;
 		//On affiche chacun des positions suivit du montant total 
 		// et du montant de chacun des versements pour chacun des dates.
@@ -38,7 +45,7 @@ $frateries = $repartition['frateries'];
 			while ($anciennePosition == $fraterie['Fraterie']['position'] && $i < count($frateries)) {
 				if ($fraterie['Versement']['position'] == 0) {
 					//On formatte le nombre d'enfant selon l'ordre ordinal.
-					echo '<td>' . $nf->format($fraterie['Fraterie']['position'], NumberFormatter::TYPE_INT32) . ' ' . __('enfant', true) . ' (' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . ')</td>';
+					echo '<td>' . /*$nf->format(*/$fraterie['Fraterie']['position']/*, NumberFormatter::TYPE_INT32) */. ' ' . __('enfant', true) . ' (' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . ')</td>';
 				} else {
 					echo '<td>' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . '</td>';
 				}
@@ -51,7 +58,7 @@ $frateries = $repartition['frateries'];
 			$anciennePosition = $fraterie['Fraterie']['position'];
 			echo '</tr>';
 		}
-		setlocale(LC_ALL, SET_LOCALE_ACTUEL);
+		setlocale(LC_ALL, SET_LOCALE_ACTUEL, SET_LOCALE_ACTUEL_WINDOWS);
 		?>
 	</tbody>
 </table>

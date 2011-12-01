@@ -53,18 +53,25 @@ $locale = localeconv();
 					$inscription[0]['statut'] = __('Reçu', true);
 				}
 
+				$format = "%e %B %Y";
+				// Vérifie sous Windows, pour trouver et remplacer le modificateur %e 
+				// correctement
+				if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+					$format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
+				}
+				
 				//Si la date du dernier paiement vaut NULL, on affiche « Non disponible »
 				if ($inscription[0]['dernier_paiement'] == '') {
 					$inscription[0]['dernier_paiement'] = __('Non disponible', true);
 				} else {
-					$inscription[0]['dernier_paiement'] = strftime("%e %B %Y", strtotime($inscription[0]['dernier_paiement']));
+					$inscription[0]['dernier_paiement'] = utf8_encode(strftime($format, strtotime($inscription[0]['dernier_paiement'])));
 				}
 
 				//Si la date du prochain paiement vaut NULL, on affiche « Non disponible »
 				if ($inscription[0]['prochain_paiement'] == '') {
 					$inscription[0]['prochain_paiement'] = __('Non disponible', true);
 				} else {
-					$inscription[0]['prochain_paiement'] = strftime("%e %B %Y", strtotime($inscription[0]['prochain_paiement']));
+					$inscription[0]['prochain_paiement'] = utf8_encode(strftime($format, strtotime($inscription[0]['prochain_paiement'])));
 				}
 				?>
 
