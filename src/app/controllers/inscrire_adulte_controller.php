@@ -95,8 +95,8 @@ class InscrireAdulteController extends AppController {
 
 		//Initialisation
 		$option = array();
-		foreach ($implication as $value) {
-			$option[$value['Implication']['id']] = $value['Implication']['nom'];
+		foreach ($implication as $valeur) {
+			$option[$valeur['Implication']['id']] = $valeur['Implication']['nom'];
 		}
 
 		return $option;
@@ -109,7 +109,6 @@ class InscrireAdulteController extends AppController {
 	private function _creerSession() {
 
 		$resultat = $this->Compte->find('first', array('conditions' => $conditions, 'fields' => 'Compte.id'));
-		pr($resultat);
 
 		if (!empty($resultat)) {
 			$resultat = array('autorisation' => $resultat['Autorisation'], 'id_compte' => $resultat['Compte']['id'], 'id_adulte' => $resultat['Adulte']['0']['id']);
@@ -125,7 +124,6 @@ class InscrireAdulteController extends AppController {
 
 		//Si le compte existe déjà
 		$compteExistant = $this->Compte->find('first', array('conditions' => array('Compte.nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'])));
-
 		if (!empty($this->data)) {
 			$this->InscrireAdulte->set($this->data);
 			if ($this->InscrireAdulte->validates() && (empty($compteExistant))) {
@@ -186,6 +184,13 @@ class InscrireAdulteController extends AppController {
 
 		//Si il change son adresse pour une existante
 		$compteExistant = $this->Compte->find('first', array('conditions' => array('Compte.nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'])));
+		$compteActuel = $this->Compte->find('first', array('conditions' => array('Compte.id' => $this->Session->read('authentification.id_compte'))));
+		
+		//Si le compte existe est celui actuel, on met le compteExistant à null
+		if($compteActuel['Compte']['nom_utilisateur'] == $compteExistant['Compte']['nom_utilisateur']){
+			$compteExistant = null;
+		}
+
 		if (!empty($this->data)) {
 
 			$this->InscrireAdulte->set($this->data);
@@ -231,11 +236,13 @@ class InscrireAdulteController extends AppController {
 					$this->Session->setFlash(__('Inscription terminée', true));
 					$this->redirect(array('controller' => 'inscrire_adulte', 'action' => 'profil'));
 				} else {
-					$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
-					//L'erreur ne peut être géré par le modèle, donc elle est faite manuellement
+					$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));	
+				}
+			}else{
+				//L'erreur ne peut être géré par le modèle, donc elle est faite manuellement
 					$erreur = '<div  style="background: red"> <font color="white"> &nbsp; L\'adresse courriel est déjà utilisée</font></div>';
 					$this->set('erreurCompte', $erreur);
-				}
+					$erreur = null;
 			}
 		}
 	}

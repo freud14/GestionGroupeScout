@@ -44,7 +44,6 @@ class InscriptionAutorisationController extends AppController {
 			$this->redirect(array('controller' => 'inscription_fiche_med', 'action' => 'index'));
 		} elseif (array_key_exists('accepter', $this->params['form'])) {
 			//si le bouton suivant est cliqué
-			//pr($this->params['data']);
 			$this->Session->write("session", $this->params['data']);
 			//$this->redirect(array('controller'=>'inscription_confirmation', 'action'=>'index'));
 		} elseif (array_key_exists('annuler', $this->params['form'])) {
@@ -216,11 +215,11 @@ class InscriptionAutorisationController extends AppController {
 				//Pour chercher dans la session avec l'index
 				$question_array = $this->Session->read('fiche_med.InscriptionFicheMed');
 
-				foreach ($question as $value) {
+				foreach ($question as $valeur) {
 					//Si le question est vrai
-					if ($question_array['q' . $value['QuestionGenerale']['id']] == 'O') {
+					if ($question_array['q' . $valeur['QuestionGenerale']['id']] == 'O') {
 						$this->FicheMedicalesQuestionGenerale->create();
-						$this->FicheMedicalesQuestionGenerale->save(array('question_generale_id' => $value['QuestionGenerale']['id'],
+						$this->FicheMedicalesQuestionGenerale->save(array('question_generale_id' => $valeur['QuestionGenerale']['id'],
 						    'fiche_medicale_id' => $this->FicheMedicale->id));
 					}
 				}

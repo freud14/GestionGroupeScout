@@ -100,13 +100,13 @@ class ListeUniteController extends AppController {
 
 		$listeUnite = array();
 		//Donne la liste de toutes les unitées ainsi que leurs animateur
-		foreach ($tabUnite as $value) {
+		foreach ($tabUnite as $valeur) {
 
 			$animateur = array();
-			foreach ($value['Adulte'] as $adulteValeur) {
+			foreach ($valeur['Adulte'] as $adulteValeur) {
 				$animateur[] = $adulteValeur['id'];
 			}
-			$listeUnite[$value['Unite']['id']] = array('nom' => $value['Unite']['nom'], 'adulte' => $animateur);
+			$listeUnite[$valeur['Unite']['id']] = array('nom' => $valeur['Unite']['nom'], 'adulte' => $animateur);
 		}
 
 		$listeAnimateur = array();
@@ -137,7 +137,7 @@ class ListeUniteController extends AppController {
 
 	private function _enregistrerAnimateur() {
 
-		
+
 		$adultesUnite = $this->AdultesUnite->find('all');
 		$unite = $this->Unite->find('all', array('recursive' => -1));
 
@@ -146,18 +146,15 @@ class ListeUniteController extends AppController {
 
 		//On va chercher les anciens animateurs et leurs unités
 		//Dans le même format que le $this->data
-		foreach ($unite as $value) {
-			$lien = array();
-			foreach ($adultesUnite as $value2) {
-				if ($value['Unite']['id'] == $value2['AdultesUnite']['unite_id']) {
-					$lien[] = $value2['AdultesUnite']['adulte_id'];
+		foreach ($unite as $valeur) {
 
-					$vieuxAnimateur[$value['Unite']['id']] = $lien;
-				}
+			$vieuxAnimateur[$valeur['Unite']['id']] = null;
+			foreach ($adultesUnite as $valeur2) {
+
+				$vieuxAnimateur[$valeur['Unite']['id']] = $valeur2['AdultesUnite']['adulte_id'];
 			}
 		}
 
-		pr($nouveauAnimateur);
 		//On compare si les données ont changé
 		//SI on oui on supprime l'instance et on en créer une nouvelle
 		//Avec la bonne unité
@@ -169,20 +166,15 @@ class ListeUniteController extends AppController {
 				//si le membre a de nouveau droit on les ajoutes
 				if (!empty($animateur)) {
 					// On creer les nouveaux droits du membre
-					foreach ($animateur as $value2) {
+					foreach ($animateur as $valeur2) {
 						$this->AdultesUnite->create();
-						$this->AdultesUnite->save(array('adulte_id' => $value2, 'unite_id' => $cle));
+						$this->AdultesUnite->save(array('adulte_id' => $valeur2, 'unite_id' => $cle));
 					}
 				}
 			}
 		}
 
-
-		pr($vieuxAnimateur);
-
-
-
-		//$this->redirect(array('controller' => 'liste_unite', 'action' => 'assigner_animateur'));
+		$this->redirect(array('controller' => 'liste_unite', 'action' => 'assigner_animateur'));
 	}
 
 	/*
@@ -228,13 +220,13 @@ class ListeUniteController extends AppController {
 
 	private function _initEnfant($requete) {
 		$enfant = array();
-		foreach ($requete as $value) {
-			$enfant[$value['Enfant']['id']] = array('nom' => $value['Enfant']['prenom'] . ' ' . $value['Enfant']['nom'],
-			    'sexe' => $value['Enfant']['sexe'],
-			    'naissance' => $value['Enfant']['date_naissance'],
-			    'groupe' => $value['GroupeAge']['nom'] . "( " .
-			    $value['GroupeAge']['age_min'] . " - "
-			    . $value['GroupeAge']['age_max'] . ")"
+		foreach ($requete as $valeur) {
+			$enfant[$valeur['Enfant']['id']] = array('nom' => $valeur['Enfant']['prenom'] . ' ' . $valeur['Enfant']['nom'],
+			    'sexe' => $valeur['Enfant']['sexe'],
+			    'naissance' => $valeur['Enfant']['date_naissance'],
+			    'groupe' => $valeur['GroupeAge']['nom'] . "( " .
+			    $valeur['GroupeAge']['age_min'] . " - "
+			    . $valeur['GroupeAge']['age_max'] . ")"
 			);
 		}
 

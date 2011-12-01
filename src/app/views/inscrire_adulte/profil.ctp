@@ -1,22 +1,24 @@
 <div>
 	<?php echo $form->create('InscrireAdulte', array('url' => array('controller' => 'Inscrire_adulte', 'action' => 'profil'))); ?>
 
-	<h3><?php echo $form->label(__('Informations du compte', true)); ?> </h3>
+	<h3><?php echo __('Informations du compte', true); ?> </h3>
 	<table border="0">
 		<tr>
 			<td class="liste" >
 				<?php
 				echo $form->input('nom_utilisateur', array('value' => $profil['Compte']['nom_utilisateur'], 'label' => array('class' => 'element', 'text' => __('Courriel', true) . ' <span class="star">*</span>')));
+				if (isset($erreurCompte)) {
+					echo $erreurCompte;
+				}
 				echo $form->input('mot_de_passe', array('type' => 'password', 'label' => array('class' => 'element', 'text' => __('Mot de passe', true) . ' <span class="star">*</span>')));
 				echo $form->input('mot_de_passe_confirmation', array('type' => 'password', 'label' => array('class' => 'element', 'text' => __('Confirmer mot de passe', true) . ' <span class="star">*</span>')));
 				?>
 			</td>
 			<td class="liste">
 				<?php
-
-				if(isset($profil['Implication'][0]['id'])){
+				if (isset($profil['Implication'][0]['id'])) {
 					echo $this->Form->input(__('Implication', true), array('type' => 'select', 'multiple' => 'checkbox', 'options' => $option, 'selected' => $profil['Implication'][0]['id'], 'label' => __('Souhaitez-vous vous impliquer ?', true)));
-				}else{
+				} else {
 					echo $this->Form->input(__('Implication', true), array('type' => 'select', 'multiple' => 'checkbox', 'options' => $option, 'label' => __('Souhaitez-vous vous impliquer ?', true)));
 				}
 				?>
@@ -25,7 +27,7 @@
 		<tr>
 			<td class="liste">
 
-				<h3><?php echo $form->label(__('Informations personnelles', true)); ?> </h3>
+				<h3><?php echo __('Informations personnelles', true); ?> </h3>
 
 <?php
 				echo __('<p style="font-size:x-small;">Téléphone ex. 555-555-5555</p>', true);
