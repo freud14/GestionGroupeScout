@@ -58,7 +58,10 @@ class ConnexionController extends AppController {
 		//$this -> Session -> write("url", $this->params['url']);
 		$this->_navigation();
 	}
-
+        /**
+         * Permet de détruire la session
+         * @author Michel Biron
+         */
 	public function detruire(){
 			$this->Session->destroy();
 			$this->redirect(array('controller' => 'connexion', 'action' => 'index'));

@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Confirme l'inscription de l'enfant et montre les options subsécantes à l'adulte
+ */
 class InscriptionConfirmationController extends AppController {
 
 	var $name = 'InscriptionConfirmation';

@@ -3,6 +3,7 @@
 /**
  * Gère ce qui est relié à la création de compte membre et à sa modification(profil)
  * L'index (création de compte membre) peut être accéder sans qu'on soit connecter (sans session)
+ * @Author Luc-Frédéric Langis
  */
 class InscrireAdulteController extends AppController {
 

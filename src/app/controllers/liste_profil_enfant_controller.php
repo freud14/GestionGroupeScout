@@ -3,6 +3,7 @@
 /**
  * Cette classe gère la gestion des paiements pour
  * les parents.
+ *  @author Frédérik Paradis
  */
 class ListeProfilEnfantController extends AppController {
 

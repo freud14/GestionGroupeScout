@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * Permet de rentrer les informations médicales d'un enfant
+ * @author Michel Biron
+ */
 class InscriptionFicheMedController extends AppController {
 
 	var $helpers = array('Html', 'Javascript', 'Form');
@@ -13,20 +16,34 @@ class InscriptionFicheMedController extends AppController {
 		$this->loadModel('Medicament');
 	}
 
-	public function getMaladieListe() {
-		return $this->Maladie->find('all');
-	}
-
-	public function getQuestionListe() {
-		return $this->QuestionGenerale->find('all');
-	}
-
-	public function getMedicamentListe() {
-		return $this->Medicament->find('all');
-	}
+	        /**
+         *retourne la liste des maladies
+         * @return array la liste des maladies
+         */
+        public function getMaladieListe() {
+                return $this->Maladie->find('all');
+        }
+        /**
+         *Retourne la liste des question
+         * @return array liste des question
+         */
+        public function getQuestionListe() {
+                return $this->QuestionGenerale->find('all');
+        }
+        /**
+         * retourne la liste des medicaments
+         * @return array la liste des medicaments
+         */
+        public function getMedicamentListe() {
+                return $this->Medicament->find('all');
+        }
 
 	/*
 	 * La fonction _navigation vérifie quel bouton a été cliqué et execute la bonne action
+         * Si le bouton suivant a été cliqué on renvoit vers la page des autorisations
+         * Si le bouton précédent a été cliqué on renvoit vers la page des informations générales
+         * Si le bouton annuler a été cliqué on renvoit vers la d'accueil et
+         *  supprime les informations dans la session
 	 */
 
 	private function _navigation() {
@@ -47,7 +64,9 @@ class InscriptionFicheMedController extends AppController {
 			$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
 		}
 	}
-
+        /**
+         * Permet d'entrer les informations de l'enfant
+         */
 	public function index() {
 		$questions = $this->QuestionGenerale->find('all');
 
@@ -85,9 +104,7 @@ class InscriptionFicheMedController extends AppController {
 			//c'est la page elle même qui s'apelle
 		} else {
 			$this->Session->write("fiche_med", $this->data);
-			//$this->Session->write("fiche_med", $this->params['data']);
-			$session = $this->Session->read('fiche_med.InscriptionFicheMed');
-
+					$session = $this->Session->read('fiche_med.InscriptionFicheMed');
 			$questionsRepondues = true;
 			if (array_key_exists('suivant', $this->params['form'])) {
 				$question_array = $this->data['InscriptionFicheMed'];
@@ -102,21 +119,15 @@ class InscriptionFicheMedController extends AppController {
 
 
 			if ($questionsRepondues) {
-				//$this -> Session -> write("url", $this->params['url']);
 				$this->_navigation();
 			} else {
 				$this->set('erreur_questions_repondues', true);
 			}
 		}
-
-
-
 		//on format les informations contenues dans la variable session
 		$antecedent = array();
 		$medicaments = array();
-
 		$buffer = array_merge((array) $session['antecedent1'], (array) $session['antecedent2'], (array) $session['antecedent3']);
-
 		if (!empty($buffer)) {
 			foreach ($buffer as $valeur) {
 				$antecedent[] = $valeur;
@@ -124,24 +135,18 @@ class InscriptionFicheMedController extends AppController {
 		}
 		$reponseQuestion = array();
 		foreach ($session as $cle => $valeur) {
-
 			if ($cle[0] == 'q') {
-
 				$reponseQuestion[substr($cle, 1)] = $valeur;
 			}
 		}
 		if (!empty($session['medicamentautoriseLab'])) {
 			foreach ($session['medicamentautoriseLab'] as $valeur) {
-
 				$medicaments[] = $valeur;
 			}
 		}
-		//pr($reponseQuestion);
-
 		$this->set('title_for_layout', __('Inscription d\'un enfant', true));
 		$this->set('titre', __('Fiche médicale', true));
 		$this->set('ariane', __('Informations générales > <span style="color: green;">Fiches médicales</span> > Autorisations', true));
-
 		//on rend les informations contenues dans la variablle session accessible dans la vue
 		$this->set('reponseQuestion', $reponseQuestion);
 		$this->set('antecedents', $antecedent);
@@ -153,7 +158,6 @@ class InscriptionFicheMedController extends AppController {
 		$this->set('questions', $this->getQuestionListe());
 		$this->set('medicaments', $this->getMedicamentListe());
 	}
-
 }
 
 ?>

@@ -134,7 +134,6 @@ class ListeUniteController extends AppController {
 	 * Et retirer ceux décochés de l'unité
 	 * @author Luc-Frédéric Langis
 	 */
-
 	private function _enregistrerAnimateur() {
 
 		
@@ -156,8 +155,6 @@ class ListeUniteController extends AppController {
 				}
 			}
 		}
-
-		pr($nouveauAnimateur);
 		//On compare si les données ont changé
 		//SI on oui on supprime l'instance et on en créer une nouvelle
 		//Avec la bonne unité
@@ -176,21 +173,13 @@ class ListeUniteController extends AppController {
 				}
 			}
 		}
-
-
-		pr($vieuxAnimateur);
-
-
-
-		//$this->redirect(array('controller' => 'liste_unite', 'action' => 'assigner_animateur'));
 	}
 
-	/*
+        /*
 	 * Gère la gestion de l'affichage des enfants
 	 * par unité et le trie selon la sélection de l'unité
 	 * @author Luc-Frédéric Langis
 	 */
-
 	private function _voirAssigner() {
 
 		//Option pour la liste déroulante
