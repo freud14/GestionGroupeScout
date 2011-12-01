@@ -18,8 +18,8 @@
 		<tr>
 			<td style="width:200px; vertical-align: middle;"><?php echo $enfant['Enfant']['prenom'] . ' ' . $enfant['Enfant']['nom']; ?></td>
 			<td style="width:150px; vertical-align: middle;"><?php echo $enfant[0]['unite']; ?></td>
-			<td style="text-align:center; vertical-align: middle;"><?php echo nl2br($this->Html->link(wordwrap(__('Renseignement généraux', true), 20), array('controller' => 'modification', 'action' => 'informationGenerale', $enfant['Enfant']['id']))); ?></td>
-			<td style="text-align:center; vertical-align: middle;"><?php echo nl2br($this->Html->link(wordwrap(__('Fiche médicale', true), 20), array('controller' => 'modification', 'action' => 'ficheMedicale', $enfant['Enfant']['id']))); ?></td>
+			<td style="text-align:center; vertical-align: middle;"><?php echo nl2br($this->Html->link(wordwrap(__('Renseignement généraux', true), 20), array('controller' => 'modifier_information_generale', 'action' => 'index', $enfant['Enfant']['id']))); ?></td>
+			<td style="text-align:center; vertical-align: middle;"><?php echo nl2br($this->Html->link(wordwrap(__('Fiche médicale', true), 20), array('controller' => 'modifier_fiche_med', 'action' => 'index', $enfant['Enfant']['id']))); ?></td>
 		</tr>
 	<?php } ?>
 </table>
