@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * Modèle pour inscrire adulte
+ * @author Luc-Frédéric Langis
+ */
 class InscrireAdulte extends AppModel {
 
 	var $name = 'InscrireAdulte';
