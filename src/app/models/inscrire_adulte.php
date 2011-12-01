@@ -32,7 +32,7 @@ class InscrireAdulte extends AppModel {
 				'message' => 'Le champ ne peut être vide.'),
 		    'regle2' => array(
 				'rule' => array('minLength', 8),
-				'message' => 'Le mot de passe doit avoir un minimun de 8 caractères.'
+				'message' => 'Le mot de passe doit avoir un minimum de 8 caractères.'
 			)
 		),
 		'mot_de_passe_confirmation' => array(
