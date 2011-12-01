@@ -1,4 +1,10 @@
-xx<?php
+<?php
+
+/*
+ * Page qui permet à un parent de confirmer les autorisations de
+ * photo pour ses enfants, c'est la dernière étape
+ * avant l'enregistrement de l'enfant
+ */
 
 class InscriptionAutorisationController extends AppController {
 
@@ -26,6 +32,11 @@ class InscriptionAutorisationController extends AppController {
 		$this->loadModel('Compte');
 	}
 
+	/*
+	 * La fonction _navigation vérifie quel bouton a été cliqué et execute la bonne action
+	 * @author Michel Biron
+	 */
+
 	function navigation() {
 
 		$this->Session->write("url", $this->params['url']);
@@ -44,6 +55,14 @@ class InscriptionAutorisationController extends AppController {
 			//DEVRAIT REDIRIGER VERS L'ACCUEIL
 		}
 	}
+
+	/*
+	 * Page qui permet à un parent de confirmer les autorisations de
+	 * photo pour ses enfants
+	 * Le mot de passe est demandé pour valider
+	 * @author Michel Biron
+	 * @author Luc-Frédéric Langis
+	 */
 
 	function index() {
 
@@ -75,10 +94,8 @@ class InscriptionAutorisationController extends AppController {
 	}
 
 	/**
-	 * Enregistrement d'un enfant
-	 * @todo Fait en conséquence qu'on n'a pas le temps de faire un compte sans enfant, cette fonction
-	 * N'est  pas gérée, l'enfant créer appartient automatiquement à la personne connecter qui l'inscrit (EnfantsAdulte)
-	 * @return void
+	 * Enregistrement complète d'un scout dans le système
+	 * @author Luc-Frédéric Langis
 	 */
 	private function _ajoutEnfant() {
 
