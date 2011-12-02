@@ -115,7 +115,7 @@ $locale = localeconv();
 <?php
 //Si l'utilisateur a oublié de cocher un mode de paiement, on sort une erreur.
 if (isset($aucun_mode_choisi)) {
-	__('Vous n\'avez chosi aucun mode de paiement. Veuillez choisir un mode de paiement.');
+	__('Vous n\'avez choisi aucun mode de paiement. Veuillez choisir un mode de paiement.');
 }
 ?>
 </p>
