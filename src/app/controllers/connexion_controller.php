@@ -42,7 +42,7 @@ class ConnexionController extends AppController {
 			} else {
 				$this->Session->write("authentification", null);
 				//initialise la balise d'erreur
-				$erreurMDP = '<div  style="background: red"> <font color="white">&nbsp; Le compte ou le mot de passe est incorrect</font></div>';
+				$erreurMDP = '<div  style="background: red"> <font color="white">&nbsp;   Le courriel ou le mot de passe est invalide.</font></div>';
 				$this->set('erreurMDP', $erreurMDP);
 			}
 		} elseif (array_key_exists('inscrire', $this->params['form'])) {

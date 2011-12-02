@@ -66,7 +66,7 @@
 
 	
 	echo '</th>'.
-		'<td style ="width:467px">';
+		'<td style ="width:504px">';
 	
 	echo $this->Form->button(__('Retirer', true), array('type'=>'summit', 'name' => 'retirer')); 
 	
