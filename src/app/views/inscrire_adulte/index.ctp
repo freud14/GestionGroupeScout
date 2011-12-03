@@ -7,6 +7,10 @@
 	<tr>
 		<td class="liste" >
 		<?php
+		
+			if(isset($erreurCompte)){
+				echo '<div  style="background: red">';
+			}
 			echo $form->input('nom_utilisateur', array('label' => array('class' => 'element', 'text' => __('Courriel', true) . ' <span class="star">*</span>')));
 			if(isset($erreurCompte)){
 				echo $erreurCompte;
