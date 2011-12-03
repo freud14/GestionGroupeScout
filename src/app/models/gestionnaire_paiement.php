@@ -27,7 +27,7 @@ class GestionnairePaiement extends AppModel {
 	 * @return array Retourne les données sous forme de tableau.
 	 */
 	function getInscriptions($adulte_id) {
-		return $this->query('	SELECT
+		return h($this->query('	SELECT
 						inscriptions.id,
 						CONCAT(enfants.prenom, " ", enfants.nom) AS enfant_nom,
 						paiement_types.nom AS type_paiement,
@@ -76,7 +76,7 @@ class GestionnairePaiement extends AppModel {
 						inscriptions.date_fin,
 						inscriptions.annee_id
 					ORDER BY
-						frateries.position;', false);
+						frateries.position;', false), ENT_NOQUOTES);
 	}
 }
 

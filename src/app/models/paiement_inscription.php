@@ -53,7 +53,7 @@ class PaiementInscription extends AppModel {
 	 * @return array Retourne les données sous forme de tableau.
 	 */
 	function getInscriptionNonPayé($adulte_id) {
-		return $this->query('	SELECT
+		return h($this->query('	SELECT
 						Enfant.id,
 						Enfant.nom,
 						Enfant.prenom,
@@ -73,7 +73,7 @@ class PaiementInscription extends AppModel {
 						Inscription.date_fin IS NULL AND #Pour les inscriptions non terminées
 						Inscription.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) AND # Pour l\'année actuelle
 						factures.id IS NULL #Pour avoir les factures qui n\'ont pas été générées.
-						;', false);
+						;', false), ENT_NOQUOTES);
 	}
 
 	/**
@@ -150,7 +150,7 @@ class PaiementInscription extends AppModel {
 			
 		}
 
-		return $retour;
+		return h($retour, ENT_NOQUOTES);
 	}
 
 }
