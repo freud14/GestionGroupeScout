@@ -40,7 +40,7 @@ class PaiementMembre extends AppModel {
 						CONCAT(Adulte.nom, ' ', Adulte.prenom) LIKE '%$recherche%'";
 		}
 
-		return $this->query("SELECT
+		return h($this->query("SELECT
 								Adulte.id,
 								Adulte.nom,
 								Adulte.prenom,
@@ -73,7 +73,7 @@ class PaiementMembre extends AppModel {
 								Adulte.nom,
 								Adulte.prenom,
 								Adulte.courriel,
-								Adulte.tel_maison;", false);
+								Adulte.tel_maison;", false), ENT_NOQUOTES);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class PaiementMembre extends AppModel {
 	 * pour une inscription selon un parent.
 	 */
 	function getPaiementsPourInscription($inscription_id, $adulte_id) {
-		return $this->query('SELECT
+		return h($this->query('SELECT
 								Enfant.prenom,
 								Enfant.nom,
 								Facture.id,
@@ -117,7 +117,7 @@ class PaiementMembre extends AppModel {
 								Inscription.id = ' . intval($inscription_id) . ' #Pour l\'inscription voulue
 							ORDER BY
 								Paiement.ordre_paiement #On ordonne par l\'ordre de paiement 
-								;', false);
+								;', false), ENT_NOQUOTES);
 	}
 
 	/**
@@ -184,7 +184,7 @@ class PaiementMembre extends AppModel {
 	 * @author Frédérik Paradis
 	 */
 	function getRapportImpot($adulte_id) {
-		return $this->query('	SELECT
+		return h($this->query('	SELECT
 									adultes.courriel,
 									inscriptions.id,
 									factures.id,
@@ -222,7 +222,7 @@ class PaiementMembre extends AppModel {
 									enfants.id,
 									inscriptions.id
 								ORDER BY
-									inscriptions.id;');
+									inscriptions.id;'), ENT_NOQUOTES);
 	}
 
 }

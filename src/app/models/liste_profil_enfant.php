@@ -24,7 +24,7 @@ class ListeProfilEnfant extends AppModel {
 	 * @return array La liste des enfants d'un parent
 	 */
 	function getListeEnfant($adulte_id) {
-		return $this->query('SELECT
+		return h($this->query('SELECT
 								Inscription.id,
 								Enfant.id,
 								Enfant.nom,
@@ -48,7 +48,7 @@ class ListeProfilEnfant extends AppModel {
 								Inscription.date_fin IS NULL #Les inscriptions ne sont pas finis
 							ORDER BY
 								Enfant.nom,
-								Enfant.prenom;');
+								Enfant.prenom;'), ENT_NOQUOTES);
 	}
 
 }

@@ -109,8 +109,15 @@ echo $this->Form->create(null, array('url' => array('controller' => 'paiement_me
 		<tr>
 			<th></th>
 			<?php
+            $format = "%e %B %Y";
+			// Vérifie sous Windows, pour trouver et remplacer le modificateur %e 
+			// correctement
+			if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+				$format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
+			}
+            
 			foreach ($versements as $versement) {
-				echo "<th>" . strftime("%e %B %Y", strtotime($versement['Versement']['date'])) . "</th>";
+				echo "<th>" . utf8_encode(strftime($format, strtotime($versement['Versement']['date']))) . "</th>";
 			}
 			?>
 		</tr>
