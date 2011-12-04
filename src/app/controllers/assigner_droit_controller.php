@@ -49,6 +49,7 @@ class AssignerDroitController extends AppController {
                         $this->_navigation();
                 }
                 $resultats = $this->Compte->find('all');
+                $membres = array();
                 $nonMembres = array();
                 foreach ($resultats as $valeur) {
                         if (empty($valeur['Autorisation'])) {
