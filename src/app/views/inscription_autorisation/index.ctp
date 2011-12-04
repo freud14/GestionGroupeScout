@@ -25,7 +25,7 @@ echo $form->password('motdepassestr');
 if (isset($erreurMDP)) {
 	echo $erreurMDP;
 }
-echo '<br/>' . '<div>';
+echo '<br><br>' . '<div>';
 echo $form->button('Annuler l\'inscription', array('type' => 'submit', 'name' => 'annuler'));
 echo $form->button('Étape précédente', array('type' => 'submit', 'name' => 'precedent'));
 echo $form->button('Accepter et valider l\'inscription', array('type' => 'submit', 'name' => 'accepter'));
