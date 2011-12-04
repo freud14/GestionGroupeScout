@@ -12,8 +12,12 @@ class AppController extends Controller {
                 $resultat = $this->Session->read('authentification.id_compte');
                 $pageNonConnecte = array('connexion', 'inscrire_adulte', 'installation');
                 if (empty($resultat) && !in_array($this->params['controller'], $pageNonConnecte)) {
-
                         $this->redirect(array('controller' => 'connexion', 'action' => 'index'));
+                }
+                
+                $pageInstallation = array('inscrire_adulte', 'installation');
+                if(!$this->_isInstallationEffecutee() && !in_array($this->params['controller'], $pageInstallation)) {
+                        $this->redirect(array('controller' => 'installation', 'action' => 'index'));
                 }
         }
 
@@ -31,6 +35,25 @@ class AppController extends Controller {
                         }
                 }
                 return $accesNum;
+        }
+        
+        /**
+         * Cette méthode retourne faux si le fichier de 
+         * configuration « installation_effectuee.txt »
+         * contient 0; sinon vrai.
+         * @return boolean Retourne faux si le fichier de 
+         * configuration « installation_effectuee.txt »
+         * contient 0; sinon vrai.
+         * @author Frédérik Paradis
+         */
+        protected function _isInstallationEffecutee() {
+                $retour = true;
+                $nom_fichier = 'installation_effectuee.txt';
+                $fichier = @file_get_contents($nom_fichier, FILE_USE_INCLUDE_PATH);
+                if($fichier !== false && $fichier == '0') {
+                        $retour = false;
+                }
+                return $retour;
         }
 
     

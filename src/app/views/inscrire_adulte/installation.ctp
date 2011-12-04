@@ -1,0 +1,66 @@
+<?php
+/**
+ * Cette vue sert à l'inscription du pilote dans le système
+ * lors de l'installation de celui-ci.
+ * @author Luc-Frédéric Langis
+ * @author Frédérik Paradis
+ */
+?>
+<div>
+
+    <?php echo $form->create(null); ?>
+
+    <h3><?php echo __('Informations du compte', true); ?> </h3>
+    <table border="0">
+        <tr>
+            <td class="liste" >
+                <?php
+                if (isset($erreurCompte)) {
+                    echo '<div  style="background: red">';
+                }
+                echo $form->input('nom_utilisateur', array('label' => array('class' => 'element', 'text' => __('Courriel', true) . ' <span class="star">*</span>')));
+                if (isset($erreurCompte)) {
+                    echo $erreurCompte;
+                }
+                echo $form->input('mot_de_passe', array('type' => 'password', 'label' => array('class' => 'element', 'text' => __('Mot de passe', true) . ' <span class="star">*</span>')));
+                echo $form->input('mot_de_passe_confirmation', array('type' => 'password', 'label' => array('class' => 'element', 'text' => __('Confirmer mot de passe', true) . ' <span class="star">*</span>')));
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td class="liste">
+
+                <h3><?php echo __('Informations personnelles', true); ?> </h3>
+
+                <?php
+                echo __('<p style="font-size:x-small;">Téléphone ex. 555-555-5555</p>', true);
+                echo $form->input('nom', array('label' => array('class' => 'element', 'text' => __('Nom', true) . ' <span class="star">*</span>')));
+                echo $form->input('prenom', array('label' => array('class' => 'element', 'text' => __('Prénom', true) . ' <span class="star">*</span>')));
+                echo $form->input('tel_maison', array('label' => array('class' => 'element', 'text' => __('Téléphone à la maison', true) . ' <span class="star">*</span>')));
+                echo $form->input('sexe', array(
+                    'before' => $form->label('sexe', __('Sexe', true) . ' <span class="star">*</span>', array('class' => 'element')),
+                    'separator' => ' ',
+                    'options' => array('1' => __('Masculin', true), '2' => __('Féminin', true)),
+                    'type' => 'radio',
+                    'legend' => false
+                        )
+                );
+                echo $form->input('tel_bureau', array('label' => array('class' => 'element', 'text' => __('Téléphone au bureau', true))));
+                echo $form->input('poste_bureau', array('label' => array('class' => 'element', 'text' => __('Numéro de poste du <br> téléphone au bureau', true))));
+                echo '<br>';
+                echo $form->input('tel_autre', array('label' => array('class' => 'element', 'text' => __('Cellulaire', true))));
+                echo $form->input('profession', array('label' => array('class' => 'element', 'text' => __('Emploi', true))));
+                ?>
+            </td>
+            <td class="liste">
+                <!--	?php echo '<h2>captcha à intégrer</h2>'; //$captchaTool->show(); ?>--> 
+            </td>
+        </tr>
+    </table>
+
+    <p align="right">
+<?php echo $this->Form->button(__('Valider l\'inscription', true), array('type' => 'submit')); ?>
+        <?php echo $form->end(); ?>
+    </p>
+    <p style="clear:left;padding-top: 16px;"><?php __('Les champs marqu&eacute;s d\'une &eacute;toile (<span class="star">*</span>) sont obligatoires.', true); ?></p>
+</div>
