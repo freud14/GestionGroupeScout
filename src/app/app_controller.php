@@ -10,8 +10,8 @@ class AppController extends Controller {
                 setlocale(LC_ALL, SET_LOCALE_ACTUEL, SET_LOCALE_ACTUEL_WINDOWS);
                 $this->Session->write("url", $this->params['url']);
                 $resultat = $this->Session->read('authentification.id_compte');
-                //pr($this->params['url']); 
-                if (empty($resultat) && ($this->params['url']['url'] != 'connexion') && ($this->params['url']['url'] != 'inscrire_adulte')) {
+                $pageNonConnecte = array('connexion', 'inscrire_adulte', 'installation');
+                if (empty($resultat) && !in_array($this->params['controller'], $pageNonConnecte)) {
 
                         $this->redirect(array('controller' => 'connexion', 'action' => 'index'));
                 }
