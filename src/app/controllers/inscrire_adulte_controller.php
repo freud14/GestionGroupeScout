@@ -125,6 +125,7 @@ class InscrireAdulteController extends AppController {
 
 		//Si le compte existe déjà
 		$compteExistant = $this->Compte->find('first', array('conditions' => array('Compte.nom_utilisateur' => $this->data['InscrireAdulte']['nom_utilisateur'])));
+
 		if (!empty($this->data)) {
 			$this->InscrireAdulte->set($this->data);
 			if ($this->InscrireAdulte->validates() && (empty($compteExistant))) {
@@ -170,8 +171,11 @@ class InscrireAdulteController extends AppController {
 			} else {
 				$this->Session->setFlash(__('Oups, petite erreur, veuillez ressayer plus tard', true));
 				//L'erreur ne peut être géré par le modèle, donc elle est faite manuellement
-				$erreur = '<div  style="background: red"> <font color="white"> &nbsp; L\'adresse courriel est déjà utilisée</font></div>';
-				$this->set('erreurCompte', $erreur);
+				if(!empty($compteExistant)){
+					$erreur = '<font color="white"> &nbsp; L\'adresse courriel est déjà utilisée</font></div>';
+					$this->set('erreurCompte', $erreur);
+				}
+				
 			}
 		}
 	}
@@ -241,9 +245,10 @@ class InscrireAdulteController extends AppController {
 				}
 			}else{
 				//L'erreur ne peut être géré par le modèle, donc elle est faite manuellement
-					$erreur = '<div  style="background: red"> <font color="white"> &nbsp; L\'adresse courriel est déjà utilisée</font></div>';
+				if(!empty($compteExistant)){
+					$erreur = '<font color="white"> &nbsp; L\'adresse courriel est déjà utilisée</font></div>';
 					$this->set('erreurCompte', $erreur);
-					$erreur = null;
+				}
 			}
 		}
 	}
