@@ -26,7 +26,7 @@ class InscriptionConfirmationController extends AppController {
 		$this->Session->write('InscriptionAutorisation', null);
 		$this->_navigation();
 		$this->set('title_for_layout', __('Inscription d\'un enfant réussie', true));
-		$this->set('titre', __('Fin de l\'inscrtiption', true));
+		$this->set('titre', __('Fin de l\'inscription', true));
 
 		$this->set('nom', $nom);
 	}
