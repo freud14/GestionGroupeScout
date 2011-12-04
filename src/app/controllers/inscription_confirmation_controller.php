@@ -10,7 +10,6 @@ class InscriptionConfirmationController extends AppController {
 	function beforeFilter() {
 		parent::beforeFilter();
 		$this->layout = 'parent';
-		setlocale(LC_ALL, 'fr_CA.utf8');
 	}
 
 	/**

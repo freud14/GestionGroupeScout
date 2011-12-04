@@ -1,11 +1,16 @@
 label.element
 {
-	width: 210px;
+	width: 240px;
 	/*width: 150px;*/
 	display:inline-block;
 	float:left;
 	vertical-align:top;
 	clear: both;
+}
+
+textarea
+{
+    resize: none
 }
 
 .input
