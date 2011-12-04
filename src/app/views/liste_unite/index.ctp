@@ -27,7 +27,7 @@ if (!empty($autorisation)) {
 
 	echo '</td>' .
 	'<td >';
-	echo $this->Form->button(__('Appliquer', true), array('type' => 'summit'));
+	echo $this->Form->button(__('Voir', true), array('type' => 'summit'));
 	echo $form->end();
 	echo '</td>' .
 	'<td >';
