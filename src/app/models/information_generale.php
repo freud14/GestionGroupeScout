@@ -91,7 +91,7 @@ class InformationGenerale extends AppModel {
 				'required' => true,
 				'allowEmpty' => false,
 				'on' => 'create',
-				'message' => 'L\'adresse doit être spécifié.'
+				'message' => 'L\'adresse doit être spécifiée.'
 			)
 		),
 		//Vérifie que le champ ville n'est pas vide.
@@ -101,7 +101,7 @@ class InformationGenerale extends AppModel {
 				'required' => true,
 				'allowEmpty' => false,
 				'on' => 'create',
-				'message' => 'La ville doit être spécifié.'
+				'message' => 'La ville doit être spécifiée.'
 			)
 		),
 		//Vérifie le format du code postal.
