@@ -67,7 +67,12 @@ class ProfilController extends AppController {
 			}
 			
 			$this->set('profil', $profil);
-			$this->set('implication', $option);
+			if(!empty($option)){
+				$this->set('implication', $option);
+			}else{
+				$this->set('implication', null);
+			}
+			
 			
 		} else {
 			$profil = array();
