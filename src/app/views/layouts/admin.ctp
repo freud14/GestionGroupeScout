@@ -67,7 +67,7 @@ if (!empty($autorisation)) {
 						</li>
 					<?php } ?>
 
-					<?php if ($accesNum >= 3) { //Si l'utilisateur est un administrateur ou un pilote'?>
+					<?php if ($accesNum >= 4) { //Si l'utilisateur est un administrateur ou un pilote'?>
 						<li>
 							<a>Gestion du système</a> 
 
