@@ -166,7 +166,7 @@ class GestionnairePaiementController extends AppController {
 		$item_name .= __(' de ', true) . $adulte['Adulte']['prenom'] . ' ' . $adulte['Adulte']['nom'];
 
 		//On finalise nos arguements pour l'URL.
-		$paypal = sprintf("&amount=%d&return=%s&rm=1&cancel_return=%s&item_name=%s", $montant_total, $return_url, $cancel_url, urlencode($item_name));
+		$paypal = sprintf("&amount=%d&return=%s&rm=1&cancel_return=%s&item_name=%s", $montant_total, $return_url, $cancel_url, urlencode(utf8_decode($item_name)));
 
 		//On redirige l'utilisateur vers paypal.
 		$this->redirect(PAYPAL_URL . $paypal);
