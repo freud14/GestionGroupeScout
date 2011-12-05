@@ -50,7 +50,7 @@ class AppController extends Controller {
                 $retour = true;
                 $nom_fichier = 'installation_effectuee.txt';
                 $fichier = @file_get_contents($nom_fichier, FILE_USE_INCLUDE_PATH);
-                if($fichier !== false && $fichier == '0') {
+                if($fichier !== false && trim($fichier) == '0') {
                         $retour = false;
                 }
                 return $retour;

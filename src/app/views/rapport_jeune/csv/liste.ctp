@@ -7,7 +7,7 @@
 /**
  * Le séparateur de fichier
  */
-define('SEPARATEUR', ',');
+define('SEPARATEUR', ';');
 
 /**
  * Mets des guillemets double autour de la chaine passée
@@ -104,5 +104,5 @@ foreach ($inscriptions as $inscription) {
 }
 
 //On enlève le dernier retour de ligne et on affiche le contenu.
-echo trim($affiche);
+echo trim(utf8_decode($affiche));
 ?>
