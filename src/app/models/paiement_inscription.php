@@ -72,7 +72,7 @@ class PaiementInscription extends AppModel {
 							LEFT JOIN factures
 								ON factures.inscription_id = Inscription.id
                             JOIN annees
-                                ON inscriptions.annee_id = annees.id
+                                ON Inscription.annee_id = annees.id
 					WHERE 
 						Inscription.date_fin IS NULL AND #Pour les inscriptions non terminées
 						annees.date_fin IS NULL AND # Pour l\'année actuelle

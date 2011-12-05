@@ -51,19 +51,21 @@ class PaiementMembre extends AppModel {
 								COUNT(paiements.date_reception) AS nb_paiement_recu, #On compte le nombre de paiements reçus.
 								COUNT(paiements.date_paiements) AS nb_paiement_encaisse #On trouve le nombre de paiements payés
 							FROM
-								adultes Adulte
-									JOIN adultes_enfants
-										ON adultes_enfants.adulte_id = Adulte.id
-											JOIN enfants
-												ON adultes_enfants.enfant_id = enfants.id
-													JOIN inscriptions
-														ON inscriptions.enfant_id = enfants.id
-															LEFT JOIN factures
-																ON inscriptions.id = factures.inscription_id
-																	LEFT JOIN paiements
-																		ON factures.id = paiements.facture_id
-													JOIN annees
-														ON inscriptions.annee_id = annees.id
+                                comptes
+                                    JOIN adultes Adulte
+                                        ON Adulte.compte_id = comptes.id
+                                        JOIN adultes_enfants
+                                            ON adultes_enfants.adulte_id = Adulte.id
+                                                JOIN enfants
+                                                    ON adultes_enfants.enfant_id = enfants.id
+                                                        JOIN inscriptions
+                                                            ON inscriptions.enfant_id = enfants.id
+                                                                LEFT JOIN factures
+                                                                    ON inscriptions.id = factures.inscription_id
+                                                                        LEFT JOIN paiements
+                                                                            ON factures.id = paiements.facture_id
+                                                        JOIN annees
+                                                            ON inscriptions.annee_id = annees.id
 							WHERE
 								inscriptions.date_fin IS NULL AND
 								annees.date_fin IS NULL  #Pour l'année actuelle
@@ -113,7 +115,7 @@ class PaiementMembre extends AppModel {
 										LEFT JOIN paiements Paiement
 											ON Facture.id = Paiement.facture_id
                                     JOIN annees
-                                        ON inscriptions.annee_id = annees.id
+                                        ON Inscription.annee_id = annees.id
 							WHERE
 								annees.date_fin IS NULL AND #Pour l\'année actuelle
 								Inscription.id = ' . intval($inscription_id) . ' #Pour l\'inscription voulue
