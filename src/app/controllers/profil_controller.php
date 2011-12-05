@@ -23,6 +23,25 @@ class ProfilController extends AppController {
         $this->loadModel('AutorisationsCompte');
     }
 
+	/*
+         * Cette méthode vérifie quel bouton a été cliqué et exécute la bonne action.
+         * Si le bouton annuler a été cliquer on valide les champs et on renvoit vers l'accueil
+         * Si le bouton mettre à jour a été cliqué et fait l'enregistrement des modifications
+         */
+
+        private function _navigation() {
+
+                //Si le bouton suivant est cliqué
+                if (array_key_exists('annuler', $this->params['form'])) {
+                     $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
+                        
+                } elseif (array_key_exists('valider', $this->params['form'])) {
+                   //Appel la mise à jour
+					$this->_majMembre();
+                }
+        }
+	
+	
     /**
      * Permet à un membre de modifier ses informations personnelles
      * à l'aide de formulaire de profil
@@ -38,6 +57,8 @@ class ProfilController extends AppController {
         //Initialise les checkboxs d'implications
         $this->set('option', $this->_initImplication());
 
+		$this->_navigation();
+		
         //Initialise le profil
 		if(empty($this->data)){
 			$profil = $this->Adulte->find('first', array('recursive' => 2,'conditions' => array('Adulte.compte_id' => $this->Session->read('authentification.id_compte'))));
@@ -65,10 +86,6 @@ class ProfilController extends AppController {
 		
      
 		}
-	
-
-        //Appel la mise à jour
-        $this->_majMembre();
     }
 
 

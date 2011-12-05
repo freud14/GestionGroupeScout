@@ -60,8 +60,8 @@
 
 	<p align="right">
 
-<?php echo $this->Form->button(__('Annuler', true), array('type' => 'reset')); ?>
-		<?php echo $this->Form->button(__('Mettre à jour', true), array('type' => 'submit')); ?>
+<?php echo $this->Form->button(__('Annuler', true), array('type' => 'submit', 'name' => 'annuler')); ?>
+		<?php echo $this->Form->button(__('Mettre à jour', true), array('type' => 'submit', 'name' => 'valider')); ?>
 		<?php echo $form->end(); ?>
 			</p>
 			<p style="clear:left;padding-top: 16px;"><?php __('Les champs marqu&eacute;s d\'une &eacute;toile (<span class="star">*</span>) sont obligatoires.', true); ?></p>

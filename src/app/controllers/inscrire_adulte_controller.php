@@ -35,18 +35,12 @@ class InscrireAdulteController extends AppController {
         $this->set('ariane', __('<span style="color: green;">Inscription d\'un membre', true));
         $this->set('title_for_layout', __('Inscription d\'un membre', true));
 
+		$this->_navigation();
+		
         //Initialise les checkboxs d'implications
         $this->set('option', $this->_initImplication());
-
-        //enregistrement des membres
-        if ($this->_ajoutMembre()) {
-            $this->Session->write("authentification", $this->validerInformation->validerInformation(
-                    $this->data['InscrireAdulte']['nom_utilisateur'], 
-                    $this->data['InscrireAdulte']['mot_de_passe']
-                    )
-            );
-            $this->redirect(array('action' => 'view'));
-        }
+		
+       
     }
 
     /**
@@ -100,6 +94,33 @@ class InscrireAdulteController extends AppController {
         }
     }
 
+	/*
+         * Cette méthode vérifie quel bouton a été cliqué et exécute la bonne action.
+         * Si le bouton annuler a été cliquer on valide les champs et on renvoit vers l'accueil
+         * Si le bouton mettre à jour a été cliqué et fait l'enregistrement des modifications
+         */
+
+        private function _navigation() {
+
+                //Si le bouton suivant est cliqué
+                if (array_key_exists('annuler', $this->params['form'])) {
+                     $this->redirect(array('controller' => 'connexion', 'action' => 'index'));
+                        
+                } elseif (array_key_exists('valider', $this->params['form'])) {
+                    //enregistrement des membres
+					if ($this->_ajoutMembre()) {
+						$this->Session->write("authentification", $this->validerInformation->validerInformation(
+								$this->data['InscrireAdulte']['nom_utilisateur'], 
+								$this->data['InscrireAdulte']['mot_de_passe']
+								)
+						);
+						$this->redirect(array('action' => 'view'));
+                }
+        }
+	}
+	
+	
+	
     /**
      * Initilise la liste des implications par rapport à celle dans la base de données
      * @author Luc-Frédéric Langis
