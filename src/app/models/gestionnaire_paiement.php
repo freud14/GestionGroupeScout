@@ -64,9 +64,11 @@ class GestionnairePaiement extends AppModel {
 									ON factures.id = paiements.facture_id
 									LEFT JOIN paiement_types
 										ON paiements.paiement_type_id = paiement_types.id
+                            JOIN annees
+                                ON inscriptions.annee_id = annees.id
 					WHERE 
-						inscriptions.date_fin IS NULL AND #L\'année n\'est pas fini
-						inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) #On sélectionne l\'année actuelle.
+						inscriptions.date_fin IS NULL AND #L\'inscription n\'est pas fini
+						annees.date_fin IS NULL #On sélectionne l\'année actuelle.
 					GROUP BY
 						enfants.id,
 						enfants.prenom,
