@@ -1,5 +1,5 @@
 <div>
-	<?php echo $form->create('InscrireAdulte', array('url' => array('controller' => 'Inscrire_adulte', 'action' => 'profil'))); ?>
+	<?php echo $form->create('Profil', array('url' => array('controller' => 'profil', 'action' => 'index'))); ?>
 
 	<h3><?php echo __('Informations du compte', true); ?> </h3>
 	<table border="0">
@@ -20,7 +20,7 @@
 			<td class="liste">
 				<?php
 				if (isset($profil['Implication'][0]['id'])) {
-					echo $this->Form->input(__('Implication', true), array('type' => 'select', 'multiple' => 'checkbox', 'options' => $option, 'selected' => $profil['Implication'][0]['id'], 'label' => __('Souhaitez-vous vous impliquer ?', true)));
+					echo $this->Form->input(__('Implication', true), array('type' => 'select', 'multiple' => 'checkbox', 'options' => $option, 'selected' => $implication, 'label' => __('Souhaitez-vous vous impliquer ?', true)));
 				} else {
 					echo $this->Form->input(__('Implication', true), array('type' => 'select', 'multiple' => 'checkbox', 'options' => $option, 'label' => __('Souhaitez-vous vous impliquer ?', true)));
 				}

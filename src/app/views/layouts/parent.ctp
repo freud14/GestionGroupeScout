@@ -55,7 +55,7 @@ if (!empty($autorisation)) {
 
 					<li><?php echo $this->Html->link(__('Gestionnaire des paiements', true), array("controller" => "gestionnaire_paiement", "action" => "index")); ?></li>
 
-					<li><?php echo $this->Html->link(__('Mon profil', true) . " " . $this->Session->read('authentification.nom_adulte'), array("controller" => "inscrire_adulte", "action" => "profil")); ?></li>
+					<li><?php echo $this->Html->link(__('Mon profil', true) . " " . $this->Session->read('authentification.nom_adulte'), array("controller" => "profil", "action" => "index")); ?></li>
 
 
 					<?php if ($accesNum >= 1) { //Si l'utilisation a des droits plus grand que parent, on met un lien vers la section d'administration ?>
