@@ -10,7 +10,7 @@ label.element
 
 textarea
 {
-    resize: none
+    resize: none;
 }
 
 .input

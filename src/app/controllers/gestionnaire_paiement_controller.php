@@ -67,7 +67,7 @@ class GestionnairePaiementController extends AppController {
 
 			$this->set('id_adulte', $adulte_id);
 		}
-
+        
 		$this->set('inscriptions', $this->GestionnairePaiement->getInscriptions($adulte_id));
 	}
 

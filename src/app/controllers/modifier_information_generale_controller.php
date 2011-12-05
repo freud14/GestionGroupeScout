@@ -25,12 +25,14 @@ class ModifierInformationGeneraleController extends AppController {
      * @return boolean vrai si l'adulte est le parent de l'enfant sinon faux
      */
     private function _verifierEnfant($id_enfant, $id_parent) {
+	
         $adulte = $this->Adulte->find('first', array('conditions' => array('Adulte.id' => $id_parent)));
         $valeur = false;
         foreach ($adulte['Enfant'] as $enfant) {
             if ($enfant['id'] == $id_enfant) {
                 $valeur = true;
             }
+			
         }
         return $valeur;
     }
@@ -113,8 +115,8 @@ class ModifierInformationGeneraleController extends AppController {
     public function index($id_enfant) {
         //si la page ne c'est pas rapeler elle même
         $modification = true;
-        $id_adulte = $this->Session->read('authentification.id_compte');
-        //on vérifie si le compte a les droits de parent sur l'enfant
+        $id_adulte = $this->Session->read('authentification.id_adulte');
+		//on vérifie si le compte a les droits de parent sur l'enfant
         if ($this->_verifierEnfant($id_enfant, $id_adulte)) {
 
             if (array_key_exists('modifier', $this->params['form'])) {
@@ -130,7 +132,7 @@ class ModifierInformationGeneraleController extends AppController {
                 $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
             }
         } else {
-            $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
+          $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
         }
 
 

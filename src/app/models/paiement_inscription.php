@@ -39,9 +39,11 @@ class PaiementInscription extends AppModel {
 											adultes.id = ' . intval($adulte_id) . '
 							JOIN factures #Dont \'inscription a une facture
 								ON factures.inscription_id = inscriptions.id
+                            JOIN annees
+                                ON inscriptions.annee_id = annees.id
 					WHERE 
 						inscriptions.date_fin IS NULL AND #Pour les inscriptions non finis.
-						inscriptions.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) #Pour l\'année actuelle
+						annees.date_fin IS NULL #Pour l\'année actuelle
 						;', false);
 		return $retour[0][0]['nb_inscription_paye'];
 	}
@@ -69,9 +71,11 @@ class PaiementInscription extends AppModel {
 											adultes.id = ' . intval($adulte_id) . ' #Pour l\'adulte concerné
 							LEFT JOIN factures
 								ON factures.inscription_id = Inscription.id
+                            JOIN annees
+                                ON Inscription.annee_id = annees.id
 					WHERE 
 						Inscription.date_fin IS NULL AND #Pour les inscriptions non terminées
-						Inscription.annee_id = (SELECT id FROM annees ORDER BY date_debut LIMIT 1,1) AND # Pour l\'année actuelle
+						annees.date_fin IS NULL AND # Pour l\'année actuelle
 						factures.id IS NULL #Pour avoir les factures qui n\'ont pas été générées.
 						;', false), ENT_NOQUOTES);
 	}
