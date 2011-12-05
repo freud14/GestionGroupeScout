@@ -1,5 +1,5 @@
 <div>
-	<?php echo $form->create('InscrireAdulte', array('url' => array('controller' => 'Inscrire_adulte', 'action' => 'profil'))); ?>
+	<?php echo $form->create('Profil', array('url' => array('controller' => 'profil', 'action' => 'index'))); ?>
 
 	<h3><?php echo __('Informations du compte', true); ?> </h3>
 	<table border="0">
@@ -20,7 +20,7 @@
 			<td class="liste">
 				<?php
 				if (isset($profil['Implication'][0]['id'])) {
-					echo $this->Form->input(__('Implication', true), array('type' => 'select', 'multiple' => 'checkbox', 'options' => $option, 'selected' => $profil['Implication'][0]['id'], 'label' => __('Souhaitez-vous vous impliquer ?', true)));
+					echo $this->Form->input(__('Implication', true), array('type' => 'select', 'multiple' => 'checkbox', 'options' => $option, 'selected' => $implication, 'label' => __('Souhaitez-vous vous impliquer ?', true)));
 				} else {
 					echo $this->Form->input(__('Implication', true), array('type' => 'select', 'multiple' => 'checkbox', 'options' => $option, 'label' => __('Souhaitez-vous vous impliquer ?', true)));
 				}
@@ -60,8 +60,8 @@
 
 	<p align="right">
 
-<?php echo $this->Form->button(__('Annuler', true), array('type' => 'reset')); ?>
-		<?php echo $this->Form->button(__('Mettre à jour', true), array('type' => 'submit')); ?>
+<?php echo $this->Form->button(__('Annuler', true), array('type' => 'submit', 'name' => 'annuler')); ?>
+		<?php echo $this->Form->button(__('Mettre à jour', true), array('type' => 'submit', 'name' => 'valider')); ?>
 		<?php echo $form->end(); ?>
 			</p>
 			<p style="clear:left;padding-top: 16px;"><?php __('Les champs marqu&eacute;s d\'une &eacute;toile (<span class="star">*</span>) sont obligatoires.', true); ?></p>

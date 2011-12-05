@@ -62,9 +62,10 @@
 	
 	
 	} 
-	?> </table><?php
-	echo $form->button('Enregistrer', array('type'=>'submit','name' => 'enregistrer'));
-	
+	?> <tr><td colspan="5" style="text-align:right;padding-top:20px;"> <?php
+	echo $form->button('Enregistrer', array('type'=>'submit','name' => 'enregistrer'));?>
+	</td></tr>
+	</table><?php
 	echo $form->end();
 	
 ?>
