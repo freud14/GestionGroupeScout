@@ -42,16 +42,16 @@ class InscriptionAutorisationController extends AppController {
 		$this->Session->write("url", $this->params['url']);
 		if (array_key_exists('precedent', $this->params['form'])) {
 			$this->redirect(array('controller' => 'inscription_fiche_med', 'action' => 'index'));
-		} elseif (array_key_exists('accepter', $this->params['form'])) {
+		/*} elseif (array_key_exists('accepter', $this->params['form'])) {
 			//si le bouton suivant est cliqué
 			$this->Session->write("session", $this->params['data']);
-			//$this->redirect(array('controller'=>'inscription_confirmation', 'action'=>'index'));
+			$this->redirect(array('controller'=>'inscription_confirmation', 'action'=>'index'));*/
 		} elseif (array_key_exists('annuler', $this->params['form'])) {
 			$this->Session->write('info_gen', null);
 			$this->Session->write('fiche_med', null);
 			$this->Session->write('InscriptionAutorisation', null);
 			$this->redirect(array('controller' => 'accueil', 'action' => 'index'));
-			//DEVRAIT REDIRIGER VERS L'ACCUEIL
+			
 		}
 	}
 
@@ -66,7 +66,7 @@ class InscriptionAutorisationController extends AppController {
 	function index() {
 
 
-		$this->navigation();
+		
 
 		$this->set('title_for_layout', __('Autorisations', true));
 		$this->set('titre', __('Autorisations', true));
@@ -84,12 +84,15 @@ class InscriptionAutorisationController extends AppController {
 			if ($validationMDP['Compte']['mot_de_passe'] == hash('sha256', $this->data['InscriptionAutorisation']['motdepassestr'])) {
 				$erreurMDP = null;
 				$this->_ajoutEnfant();
+				
 			} else {
 				$erreurMDP = '<div  style="background: red">*Le mot de passe est invalide</div>';
 			}
 		}
+		$this->navigation();
 		$this->set('erreurMDP', $erreurMDP);
 		$this->set('parent', $information);
+		
 	}
 
 	/**

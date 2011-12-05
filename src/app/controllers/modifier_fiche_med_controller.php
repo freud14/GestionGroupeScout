@@ -44,7 +44,7 @@ class ModifierFicheMedController extends AppController {
         public function index($id_enfant) {
 
              
-                $id_adulte = $this->Session->read('authentification.id_compte');
+                $id_adulte = $this->Session->read('authentification.id_adulte');
                 $id_fiche_medicale = $this->Enfant->find('first', array('conditions' => array('Enfant.id' => $id_enfant)));
                 $id_fiche_medicale = $id_fiche_medicale['FicheMedicale'][0]['id'];
 
@@ -58,7 +58,7 @@ class ModifierFicheMedController extends AppController {
                                 $modification = false;
                         } elseif (array_key_exists('enregistrer', $this->params['form'])) {
                                 //TODO Mettre les validations
-                                $this->_updateFicheMed($id_enfant);
+                                $this->_updateFicheMed($id_fiche_medicale);
                         } elseif (array_key_exists('annuler', $this->params['form'])) {
                                 $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
                         }
@@ -113,7 +113,7 @@ class ModifierFicheMedController extends AppController {
          * @param int $id_fiche_medicale l'id de la fiche médicale que l'on souhaite modifier
          */
         private function _updateFicheMed($id_fiche_medicale) {
-
+								
                 $modification = $this->data;
                 $modification = $modification['ModifierFicheMed'];
 

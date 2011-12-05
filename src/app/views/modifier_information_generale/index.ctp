@@ -16,7 +16,7 @@
                             'options' => array('1' => __('Masculin', true), '2' => __('Féminin', true)),
                             'type' => 'radio',
                             'default' => $session['sexe'],
-                            'READONLY' => $modification,
+                            'disabled' => $modification,
                             'legend' => false
                                 )
                         );
@@ -69,7 +69,7 @@
 
                         <?php
                         echo $form->label('sexe_tuteur', __('Sexe', true), array('class' => 'element'));
-                        echo $form->radio('sexe_tuteur', array('1' => __('Masculin', true), '2' => __('Féminin', true)), array('READONLY' => $modification, 'label' => false, 'legend' => false, 'default' => $session['sexe_tuteur'],));
+                        echo $form->radio('sexe_tuteur', array('1' => __('Masculin', true), '2' => __('Féminin', true)), array('disabled' => $modification, 'label' => false, 'legend' => false, 'default' => $session['sexe_tuteur'],));
 
                         echo $form->input('courriel_tuteur', array('READONLY' => $modification, 'value' => $session['courriel_tuteur'], 'label' => array('class' => 'element', 'text' => __('Courriel', true))));
 
