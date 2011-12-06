@@ -204,7 +204,7 @@ class ListeUniteController extends AppController {
                                 'Inscription.annee_id' => $annee['Annee']['id'])));
 
 
-                        $titreUnite = 'Jeune non assignés';
+                        $titreUnite = 'Jeunes non assignés';
                 }
 
                 $this->set('titreUnite', $titreUnite);
