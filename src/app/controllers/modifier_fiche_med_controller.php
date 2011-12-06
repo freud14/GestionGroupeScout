@@ -13,20 +13,44 @@ class ModifierFicheMedController extends AppController {
                 $this->loadModel('Medicament');
                 $this->loadModel('Enfant');
                 $this->loadModel('Adulte');
-                $this->loadModel('Prescription');   
+                $this->loadModel('Prescription');
                 $this->loadModel('FicheMedicale');
                 $this->loadModel('FicheMedicalesMalady');
-                $this->loadModel('FicheMedicalesMedicament');           
+                $this->loadModel('FicheMedicalesMedicament');
                 $this->loadModel('QuestionGenerale');
                 $this->loadModel('FicheMedicalesQuestionGenerale');
         }
+
         /**
-         *Cette fonction vérifie si un enfant est l'enfant d'un adulte
+         * Cette fonction vérifie si un enfant est dans une unité ou l'adulte est animateur
+         * @param int $id_enfant l'id de l'enfant
+         * @param int $id_parent l'id de l'adulte
+         * @return boolean vrai si l'adulte est l'animateur de l'enfant sinon faux
+         */
+        private function _verifierAnimateur($id_enfant, $id_parent) {
+
+                $adulte = $this->Adulte->find('first', array('conditions' => array('Adulte.id' => $id_parent)));
+                $unite_enfant = $this->Enfant->find('first', array('conditions' => array('Enfant.id' => $id_enfant)));
+
+                $valeur = false;
+                if (!empty($unite_enfant['Inscription'][0]['unite_id'])) {
+                        $unite_enfant = $unite_enfant['Inscription'][0]['unite_id'];
+                        foreach ($adulte['Unite'] as $unite) {
+                                if ($unite['id'] == $unite_enfant) {
+                                        $valeur = true;
+                                }
+                        }
+                }
+                return $valeur;
+        }
+
+        /**
+         * Cette fonction vérifie si un enfant est l'enfant d'un adulte
          * @param int $id_enfant l'id de l'enfant
          * @param int $id_parent l'id de l'adulte
          * @return boolean vrai si l'adulte est le parent de l'enfant sinon faux
          */
-        private function _verifireEnfant($id_enfant, $id_parent) {
+        private function _verifierEnfant($id_enfant, $id_parent) {
                 $adulte = $this->Adulte->find('first', array('conditions' => array('Adulte.id' => $id_parent)));
                 $valeur = false;
                 foreach ($adulte['Enfant'] as $enfant) {
@@ -37,13 +61,13 @@ class ModifierFicheMedController extends AppController {
                 return $valeur;
         }
 
-    /**
-     *La fonction permet de visualiser et de modifier la fiche médicale d'un enfant
-     * @param int $id_enfant le id de l'enfant dont on désire voir la fiche médicale
-     */
+        /**
+         * La fonction permet de visualiser et de modifier la fiche médicale d'un enfant
+         * @param int $id_enfant le id de l'enfant dont on désire voir la fiche médicale
+         */
         public function index($id_enfant) {
 
-             
+
                 $id_adulte = $this->Session->read('authentification.id_adulte');
                 $id_fiche_medicale = $this->Enfant->find('first', array('conditions' => array('Enfant.id' => $id_enfant)));
                 $id_fiche_medicale = $id_fiche_medicale['FicheMedicale'][0]['id'];
@@ -51,20 +75,44 @@ class ModifierFicheMedController extends AppController {
                 $monAutorisaion = $this->_getAutorisation();
                 $modification = true;
 
-                //on vérifie si le compte a les droits de parent sur l'enfant
-                if ($this->_verifireEnfant($id_enfant, $id_adulte)) {
-                        
-                        if (array_key_exists('modifier', $this->params['form'])) {
+                $estAnimateur = $this->_verifierAnimateur($id_enfant, $id_adulte);
+                $estParent = $this->_verifierEnfant($id_enfant, $id_adulte);
+
+                //on vérifie si le compte a les droits de consultation sur l'enfant
+                if ($estParent || $estAnimateur || $this->_getAutorisation() > 1) {
+                        //on vérifie si le compte a les droits de modification sur l'enfant
+                        $droit_modification = ($estParent || $estAnimateur || $this->_getAutorisation() > 2);
+                        $this->set('droit_modification', $droit_modification);
+
+                        if (array_key_exists('modifier', $this->params['form']) && $droit_modification) {
                                 $modification = false;
                         } elseif (array_key_exists('enregistrer', $this->params['form'])) {
-                                //TODO Mettre les validations
+                                //$this->ModifierInformationGenerale->set($this->data);
+                                //Si les champs sont bien remplis
+                                //if ($this->ModifierInformationGenerale->validates()) {
                                 $this->_updateFicheMed($id_fiche_medicale);
-                        } elseif (array_key_exists('annuler', $this->params['form'])) {
+                                //}
+                        } elseif (array_key_exists('accueil', $this->params['form'])) {
                                 $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
                         }
                 } else {
                         $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
                 }
+
+                /*  //on vérifie si le compte a les droits de parent sur l'enfant
+                  if ($this->_verifireEnfant($id_enfant, $id_adulte)) {
+
+                  if (array_key_exists('modifier', $this->params['form'])) {
+                  $modification = false;
+                  } elseif (array_key_exists('enregistrer', $this->params['form'])) {
+                  //TODO Mettre les validations
+                  $this->_updateFicheMed($id_fiche_medicale);
+                  } elseif (array_key_exists('annuler', $this->params['form'])) {
+                  $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
+                  }
+                  } else {
+                  $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
+                  } */
 
                 $this->set('title_for_layout', __('Fiche médicale', true));
                 $this->set('titre', __('Fiche médicale', true));
@@ -72,7 +120,7 @@ class ModifierFicheMedController extends AppController {
 
                 $ficheMed = $this->FicheMedicale->find('first', array('conditions' => array('FicheMedicale.id' => $id_fiche_medicale)));
                 $antecedent = array();
-              
+
                 foreach ($ficheMed['Maladie'] as $maladie) {
                         $antecedent [] = $maladie['id'];
                 }
@@ -108,12 +156,13 @@ class ModifierFicheMedController extends AppController {
                 $this->set('questions', $listeQuestion);
                 $this->set('medicaments', $this->getMedicamentListe());
         }
+
         /**
-         *Permet de mettre a jour la fiche médicale d'un enfant
+         * Permet de mettre a jour la fiche médicale d'un enfant
          * @param int $id_fiche_medicale l'id de la fiche médicale que l'on souhaite modifier
          */
         private function _updateFicheMed($id_fiche_medicale) {
-								
+
                 $modification = $this->data;
                 $modification = $modification['ModifierFicheMed'];
 
@@ -126,7 +175,7 @@ class ModifierFicheMedController extends AppController {
                 //met la table prescription a jour
                 $this->Prescription->deleteAll(array('fiche_medicale_id' => $id_fiche_medicale));
                 if (!empty($modification['prescription'])) {
-              
+
                         $this->Prescription->create();
                         $this->Prescription->save(array('fiche_medicale_id' => $id_fiche_medicale, 'posologie' => $modification['prescription']));
                 }
@@ -172,20 +221,23 @@ class ModifierFicheMedController extends AppController {
                         }
                 }
         }
+
         /**
-         *retourne la liste des maladies
+         * retourne la liste des maladies
          * @return array la liste des maladies
          */
         public function getMaladieListe() {
                 return $this->Maladie->find('all');
         }
+
         /**
-         *Retourne la liste des question
+         * Retourne la liste des question
          * @return array liste des question
          */
         public function getQuestionListe() {
                 return $this->QuestionGenerale->find('all');
         }
+
         /**
          * retourne la liste des medicaments
          * @return array la liste des medicaments
