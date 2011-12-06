@@ -14,7 +14,7 @@
 ?> 
 
 
-	<table border=1><tr><th style ="width:200px"><?php echo __('Prenom / Nom',true); ?></th>
+	<table border=1><tr><th style ="width:200px"><?php echo __('Prénom / Nom',true); ?></th>
 	<th style ="width:120px"><?php echo __('Sexe',true); ?></th>
 	<th style ="width:120px"><?php echo __('Âge',true); ?></th>
 	<th style ="width:150px"><?php echo __('Groupe âge',true); ?></th>
