@@ -52,8 +52,8 @@ class GestionnairePaiementController extends AppController {
 	function index($adulte_id = NULL) {
 		//Si aucun id est passé, on affiche les enfants de l'utilisateur courrant
 		if ($adulte_id == NULL) {
-			$this->set('titre', __('Gestionaire de paiements', true));
-			$this->set('ariane', __('Gestionaire de paiements', true));
+			$this->set('titre', __('Gestionnaire de paiements', true));
+			$this->set('ariane', __('Gestionnaire de paiements', true));
 
 			$adulte_id = $this->Session->read('authentification.id_adulte');
 		} else {
@@ -79,7 +79,7 @@ class GestionnairePaiementController extends AppController {
 	 */
 	function effectuer_paiement() {
 		$this->set('titre', __('Effectuer un paiement', true));
-		$this->set('ariane', __('Gestionaire de paiements > Effectuer un paiement', true));
+		$this->set('ariane', __('Gestionnaire de paiements > Effectuer un paiement', true));
 
 		$adulte_id = $this->Session->read('authentification.id_adulte');
 
