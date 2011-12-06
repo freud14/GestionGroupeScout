@@ -13,8 +13,8 @@
 				if (isset($erreurCompte)) {
 					echo $erreurCompte;
 				}
-				echo $form->input('mot_de_passe', array('type' => 'password', 'label' => array('class' => 'element', 'text' => __('Mot de passe', true) . ' <span class="star">*</span>')));
-				echo $form->input('mot_de_passe_confirmation', array('type' => 'password', 'label' => array('class' => 'element', 'text' => __('Confirmer mot de passe', true) . ' <span class="star">*</span>')));
+				echo $form->input('mot_de_passe', array('type' => 'password', 'label' => array('class' => 'element', 'text' => __('Mot de passe', true))));
+				echo $form->input('mot_de_passe_confirmation', array('type' => 'password', 'label' => array('class' => 'element', 'text' => __('Confirmer mot de passe', true))));
 				?>
 			</td>
 			<td class="liste">
