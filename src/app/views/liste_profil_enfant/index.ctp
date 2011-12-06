@@ -12,7 +12,7 @@
 		<th><?php __('Nom de l\'enfant'); ?></th>
 		<th><?php __('Unité'); ?></th>
 		<th><?php echo wordwrap(__('Renseignement généraux', true), 20, '<br />'); ?></th>
-		<th><?php echo wordwrap(__('Fiche médicale'), 20, '<br />'); ?></th>
+		<th><?php echo wordwrap(__('Fiche médicale', true), 20, '<br />'); ?></th>
 	</tr>
 	<?php foreach ($enfants as $enfant) { ?>
 		<tr>

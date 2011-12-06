@@ -57,9 +57,12 @@ if (!empty($autorisation)) {
             '</th>' .
             '<th  style ="width:120px">' .
             'Âge' .
-            '</th>' .
-            '</tr>';
-
+            '</th>';
+            echo '<th>'.wordwrap(__('Renseignement généraux', true), 20, '<br />').'</th>
+            <th>'.wordwrap(__('Fiche médicale',true), 20, '<br />').'</th>';
+            echo '</tr>';
+            
+            
             foreach ($value['Inscription'] as $inscription) {
 
                 echo '<tr>' .
@@ -80,8 +83,12 @@ if (!empty($autorisation)) {
 
                 echo $inscription['Enfant']['date_naissance'];
 
-                echo '</td>' .
-                '</tr>';
+                echo '</td>';
+                
+                echo '<td style="text-align:center; vertical-align: middle;">'.nl2br($this->Html->link(wordwrap(__('Renseignement généraux', true), 20), array('controller' => 'modifier_information_generale', 'action' => 'index', $inscription['Enfant']['id']))).'</td>';
+                echo '<td style="text-align:center; vertical-align: middle;">'.nl2br($this->Html->link(wordwrap(__('Fiche médicale', true), 20), array('controller' => 'modifier_fiche_med', 'action' => 'index', $inscription['Enfant']['id']))).'</td>';
+                
+                echo '</tr>';
             }
 
 
