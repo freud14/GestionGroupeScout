@@ -92,7 +92,7 @@ class InstallationController extends AppController {
                     
                     //Si tout a été réussi, on crée le fichier de configuration
                     if ($succes) {
-                        $databaseFichier = file_get_contents("commentaire_cake.txt", true);
+                        $databaseFichier = file_get_contents('installation_database.txt', true);
                         $databaseFichier = sprintf($databaseFichier,
                                 addslashes($this->data['Installation']['serveur']), 
                                 addslashes($this->data['Installation']['utilisateur']), 

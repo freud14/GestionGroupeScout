@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Serveur: localhost
--- Généré le : Lun 05 Décembre 2011 à 14:53
+-- Généré le : Lun 05 Décembre 2011 à 20:48
 -- Version du serveur: 5.5.8
 -- Version de PHP: 5.3.5
 
@@ -25,18 +25,13 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Structure de la table `adresses`
 --
 
-DROP TABLE IF EXISTS `adresses`;
 CREATE TABLE IF NOT EXISTS `adresses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `adresses` varchar(100) COLLATE latin1_general_ci NOT NULL,
   `ville` varchar(45) COLLATE latin1_general_ci NOT NULL,
   `code_postal` varchar(6) COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=6 ;
-
---
--- Contenu de la table `adresses`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=13 ;
 
 
 -- --------------------------------------------------------
@@ -45,28 +40,21 @@ CREATE TABLE IF NOT EXISTS `adresses` (
 -- Structure de la table `adultes`
 --
 
-DROP TABLE IF EXISTS `adultes`;
 CREATE TABLE IF NOT EXISTS `adultes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `prenom` varchar(45) COLLATE latin1_general_ci NOT NULL,
   `nom` varchar(45) COLLATE latin1_general_ci NOT NULL,
   `tel_maison` varchar(12) COLLATE latin1_general_ci NOT NULL,
-  `sexe` varchar(11) COLLATE latin1_general_ci NOT NULL,
+  `sexe` varchar(11) COLLATE latin1_general_ci NOT NULL COMMENT 'Sexe de l''adulte ex:1 pour masculin ou 2 pour feminin ',
   `tel_bureau` varchar(12) COLLATE latin1_general_ci DEFAULT NULL,
-  `poste_bureau` varchar(11) COLLATE latin1_general_ci DEFAULT NULL,
+  `poste_bureau` varchar(11) COLLATE latin1_general_ci DEFAULT NULL COMMENT 'Poste du numéro de téléphone au travail (s''il y a lieu) Ex: 232 ',
   `tel_autre` varchar(12) COLLATE latin1_general_ci DEFAULT NULL,
   `profession` varchar(45) COLLATE latin1_general_ci DEFAULT NULL,
-  `compte_id` int(11) DEFAULT NULL,
+  `compte_id` int(11) DEFAULT NULL COMMENT 'ID du compte relié ',
   `courriel` varchar(256) COLLATE latin1_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_adultes_comptes` (`compte_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=22 ;
-
---
--- Contenu de la table `adultes`
---
-
-
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=37 ;
 
 -- --------------------------------------------------------
 
@@ -74,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `adultes` (
 -- Structure de la table `adultes_enfants`
 --
 
-DROP TABLE IF EXISTS `adultes_enfants`;
 CREATE TABLE IF NOT EXISTS `adultes_enfants` (
   `adulte_id` int(11) NOT NULL,
   `enfant_id` int(11) NOT NULL,
@@ -83,11 +70,7 @@ CREATE TABLE IF NOT EXISTS `adultes_enfants` (
   UNIQUE KEY `adulte_id_UNIQUE` (`adulte_id`,`enfant_id`),
   KEY `fk_adultes_enfants_adultes` (`adulte_id`),
   KEY `fk_adultes_enfants_enfants` (`enfant_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=13 ;
-
---
--- Contenu de la table `adultes_enfants`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=23 ;
 
 
 -- --------------------------------------------------------
@@ -96,7 +79,6 @@ CREATE TABLE IF NOT EXISTS `adultes_enfants` (
 -- Structure de la table `adultes_implications`
 --
 
-DROP TABLE IF EXISTS `adultes_implications`;
 CREATE TABLE IF NOT EXISTS `adultes_implications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `implication_id` int(11) NOT NULL,
@@ -105,11 +87,7 @@ CREATE TABLE IF NOT EXISTS `adultes_implications` (
   UNIQUE KEY `id_implications_UNIQUE` (`implication_id`,`adulte_id`),
   KEY `fk_adultes_implications_implications` (`implication_id`),
   KEY `fk_adultes_implications_adultes` (`adulte_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=9 ;
-
---
--- Contenu de la table `adultes_implications`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=15 ;
 
 
 -- --------------------------------------------------------
@@ -118,7 +96,6 @@ CREATE TABLE IF NOT EXISTS `adultes_implications` (
 -- Structure de la table `adultes_unites`
 --
 
-DROP TABLE IF EXISTS `adultes_unites`;
 CREATE TABLE IF NOT EXISTS `adultes_unites` (
   `adulte_id` int(11) NOT NULL,
   `unite_id` int(11) NOT NULL,
@@ -129,10 +106,6 @@ CREATE TABLE IF NOT EXISTS `adultes_unites` (
   KEY `fk_adultes_unites` (`unite_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;
 
---
--- Contenu de la table `adultes_unites`
---
-
 
 -- --------------------------------------------------------
 
@@ -140,21 +113,20 @@ CREATE TABLE IF NOT EXISTS `adultes_unites` (
 -- Structure de la table `annees`
 --
 
-DROP TABLE IF EXISTS `annees`;
 CREATE TABLE IF NOT EXISTS `annees` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date_debut` datetime NOT NULL,
-  `date_fin` datetime DEFAULT NULL,
-  `inscription` int(11) NOT NULL,
+  `date_debut` datetime NOT NULL COMMENT 'La date de début est la même que la date de fin de l''année précédente ',
+  `date_fin` datetime DEFAULT NULL COMMENT '"Lorsque la date de fin est inscrite, on crée une nouvelle année avec la  même date comme date de début" ',
+  `inscription` int(11) NOT NULL COMMENT 'est a 0 si les inscriptions sont possible pour cette année, sinon a 1.  ',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=4 ;
 
 --
 -- Contenu de la table `annees`
 --
+
 INSERT INTO `annees` (`id`, `date_debut`, `date_fin`, `inscription`) VALUES
 (3, '2011-08-05 09:57:03', NULL, 0);
-
 
 -- --------------------------------------------------------
 
@@ -162,10 +134,9 @@ INSERT INTO `annees` (`id`, `date_debut`, `date_fin`, `inscription`) VALUES
 -- Structure de la table `autorisations`
 --
 
-DROP TABLE IF EXISTS `autorisations`;
 CREATE TABLE IF NOT EXISTS `autorisations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nom_autorisations` varchar(45) COLLATE latin1_general_ci NOT NULL,
+  `nom_autorisations` varchar(45) COLLATE latin1_general_ci NOT NULL COMMENT 'Nom de l''autorisation ex. : Administrateur, trésorier, animateur… ',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;
 
@@ -185,7 +156,6 @@ INSERT INTO `autorisations` (`id`, `nom_autorisations`) VALUES
 -- Structure de la table `autorisations_comptes`
 --
 
-DROP TABLE IF EXISTS `autorisations_comptes`;
 CREATE TABLE IF NOT EXISTS `autorisations_comptes` (
   `autorisation_id` int(11) NOT NULL,
   `compte_id` int(11) NOT NULL,
@@ -194,11 +164,7 @@ CREATE TABLE IF NOT EXISTS `autorisations_comptes` (
   UNIQUE KEY `autorisation_id_UNIQUE` (`autorisation_id`,`compte_id`),
   KEY `FK_id_comptes` (`compte_id`),
   KEY `FK_id_autorisations` (`autorisation_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=12 ;
-
---
--- Contenu de la table `autorisations_comptes`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=14 ;
 
 
 -- --------------------------------------------------------
@@ -207,19 +173,13 @@ CREATE TABLE IF NOT EXISTS `autorisations_comptes` (
 -- Structure de la table `comptes`
 --
 
-DROP TABLE IF EXISTS `comptes`;
 CREATE TABLE IF NOT EXISTS `comptes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nom_utilisateur` varchar(45) COLLATE latin1_general_ci NOT NULL,
   `mot_de_passe` varchar(64) COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nom_utilisateur_UNIQUE` (`nom_utilisateur`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=18 ;
-
---
--- Contenu de la table `comptes`
---
-
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=23 ;
 
 
 -- --------------------------------------------------------
@@ -228,7 +188,6 @@ CREATE TABLE IF NOT EXISTS `comptes` (
 -- Structure de la table `comptes_notifications`
 --
 
-DROP TABLE IF EXISTS `comptes_notifications`;
 CREATE TABLE IF NOT EXISTS `comptes_notifications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `compte_id` int(11) NOT NULL,
@@ -240,10 +199,6 @@ CREATE TABLE IF NOT EXISTS `comptes_notifications` (
   KEY `fk_comptes_notifications_notifications` (`notification_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
---
--- Contenu de la table `comptes_notifications`
---
-
 
 -- --------------------------------------------------------
 
@@ -251,20 +206,15 @@ CREATE TABLE IF NOT EXISTS `comptes_notifications` (
 -- Structure de la table `contact_urgences`
 --
 
-DROP TABLE IF EXISTS `contact_urgences`;
 CREATE TABLE IF NOT EXISTS `contact_urgences` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `adulte_id` int(11) NOT NULL,
   `enfant_id` int(11) NOT NULL,
-  `lien` varchar(45) COLLATE latin1_general_ci NOT NULL,
+  `lien` varchar(45) COLLATE latin1_general_ci NOT NULL COMMENT 'Lien entre l''enfant et l''adulte  Ex. : mère, père',
   PRIMARY KEY (`id`),
   KEY `fk_contact_urgences_enfants` (`enfant_id`),
   KEY `fk_contact_urgences_adultes` (`adulte_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;
-
---
--- Contenu de la table `contact_urgences`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=12 ;
 
 
 -- --------------------------------------------------------
@@ -273,7 +223,6 @@ CREATE TABLE IF NOT EXISTS `contact_urgences` (
 -- Structure de la table `enfants`
 --
 
-DROP TABLE IF EXISTS `enfants`;
 CREATE TABLE IF NOT EXISTS `enfants` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(45) COLLATE latin1_general_ci NOT NULL,
@@ -285,11 +234,7 @@ CREATE TABLE IF NOT EXISTS `enfants` (
   `particularite_jeunes` varchar(200) COLLATE latin1_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_enfants_adresses` (`adresse_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=8 ;
-
---
--- Contenu de la table `enfants`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=15 ;
 
 
 -- --------------------------------------------------------
@@ -298,10 +243,9 @@ CREATE TABLE IF NOT EXISTS `enfants` (
 -- Structure de la table `factures`
 --
 
-DROP TABLE IF EXISTS `factures`;
 CREATE TABLE IF NOT EXISTS `factures` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `no_facture` varchar(45) COLLATE latin1_general_ci NOT NULL,
+  `no_facture` varchar(45) COLLATE latin1_general_ci NOT NULL COMMENT 'Numéro de facture (décidé par les scouts(non implémenté))',
   `date_facturation` datetime NOT NULL,
   `inscription_id` int(11) NOT NULL,
   `nb_versement_id` int(11) NOT NULL,
@@ -310,11 +254,7 @@ CREATE TABLE IF NOT EXISTS `factures` (
   KEY `fk_factures_nb_versements` (`nb_versement_id`),
   KEY `fk_factures_frateries` (`fraterie_id`),
   KEY `fk_factures_inscriptions` (`inscription_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=12 ;
-
---
--- Contenu de la table `factures`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=14 ;
 
 
 -- --------------------------------------------------------
@@ -323,20 +263,15 @@ CREATE TABLE IF NOT EXISTS `factures` (
 -- Structure de la table `fiche_medicales`
 --
 
-DROP TABLE IF EXISTS `fiche_medicales`;
 CREATE TABLE IF NOT EXISTS `fiche_medicales` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `enfant_id` int(11) NOT NULL,
-  `allergie` varchar(200) COLLATE latin1_general_ci DEFAULT NULL,
-  `phobie` varchar(200) COLLATE latin1_general_ci DEFAULT NULL,
+  `enfant_id` int(11) NOT NULL COMMENT 'l''enfant concerné par la fiche médicale ',
+  `allergie` varchar(200) COLLATE latin1_general_ci DEFAULT NULL COMMENT '"Allergie non spécifiée dans le questionnaire" ',
+  `phobie` varchar(200) COLLATE latin1_general_ci DEFAULT NULL COMMENT 'Phobie non spécifiée dans le questionnaire ',
   PRIMARY KEY (`id`),
   UNIQUE KEY `U_enfant` (`enfant_id`),
   KEY `fk_fiche_medicales_enfants` (`enfant_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=6 ;
-
---
--- Contenu de la table `fiche_medicales`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=13 ;
 
 
 -- --------------------------------------------------------
@@ -345,7 +280,6 @@ CREATE TABLE IF NOT EXISTS `fiche_medicales` (
 -- Structure de la table `fiche_medicales_maladies`
 --
 
-DROP TABLE IF EXISTS `fiche_medicales_maladies`;
 CREATE TABLE IF NOT EXISTS `fiche_medicales_maladies` (
   `maladie_id` int(11) NOT NULL,
   `fiche_medicale_id` int(11) NOT NULL,
@@ -354,11 +288,7 @@ CREATE TABLE IF NOT EXISTS `fiche_medicales_maladies` (
   UNIQUE KEY `maladie_id_UNIQUE` (`maladie_id`,`fiche_medicale_id`),
   KEY `fk_fiche_medicales_maladies_fiche_medicales` (`fiche_medicale_id`),
   KEY `fk_fiche_medicales_maladies_maladies` (`maladie_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=8 ;
-
---
--- Contenu de la table `fiche_medicales_maladies`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=16 ;
 
 
 -- --------------------------------------------------------
@@ -367,7 +297,6 @@ CREATE TABLE IF NOT EXISTS `fiche_medicales_maladies` (
 -- Structure de la table `fiche_medicales_medicaments`
 --
 
-DROP TABLE IF EXISTS `fiche_medicales_medicaments`;
 CREATE TABLE IF NOT EXISTS `fiche_medicales_medicaments` (
   `medicament_id` int(11) NOT NULL,
   `fiche_medicale_id` int(11) NOT NULL,
@@ -376,11 +305,7 @@ CREATE TABLE IF NOT EXISTS `fiche_medicales_medicaments` (
   UNIQUE KEY `medicament_id_UNIQUE` (`medicament_id`,`fiche_medicale_id`),
   KEY `fk_fiche_medicales_medicaments_fiche_medicales` (`fiche_medicale_id`),
   KEY `fk_fiche_medicales_medicaments_medicaments` (`medicament_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=6 ;
-
---
--- Contenu de la table `fiche_medicales_medicaments`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=67 ;
 
 
 -- --------------------------------------------------------
@@ -389,7 +314,6 @@ CREATE TABLE IF NOT EXISTS `fiche_medicales_medicaments` (
 -- Structure de la table `fiche_medicales_question_generales`
 --
 
-DROP TABLE IF EXISTS `fiche_medicales_question_generales`;
 CREATE TABLE IF NOT EXISTS `fiche_medicales_question_generales` (
   `fiche_medicale_id` int(11) NOT NULL,
   `question_generale_id` int(11) NOT NULL,
@@ -398,11 +322,7 @@ CREATE TABLE IF NOT EXISTS `fiche_medicales_question_generales` (
   UNIQUE KEY `fiche_medicale_id_UNIQUE` (`fiche_medicale_id`,`question_generale_id`),
   KEY `fk_fiche_medicales_question_generales_fiche_medicales` (`fiche_medicale_id`),
   KEY `fk_fiche_medicales_question_generales_question_generales` (`question_generale_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=7 ;
-
---
--- Contenu de la table `fiche_medicales_question_generales`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=39 ;
 
 
 -- --------------------------------------------------------
@@ -411,10 +331,9 @@ CREATE TABLE IF NOT EXISTS `fiche_medicales_question_generales` (
 -- Structure de la table `frateries`
 --
 
-DROP TABLE IF EXISTS `frateries`;
 CREATE TABLE IF NOT EXISTS `frateries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `position` int(11) NOT NULL,
+  `position` int(11) NOT NULL COMMENT 'Position de l''inscription du jeune dans la famille (ex: 2 pour 2 ieme enfant inscrit)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `position_UNIQUE` (`position`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=4 ;
@@ -434,15 +353,14 @@ INSERT INTO `frateries` (`id`, `position`) VALUES
 -- Structure de la table `groupe_ages`
 --
 
-DROP TABLE IF EXISTS `groupe_ages`;
 CREATE TABLE IF NOT EXISTS `groupe_ages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL,
-  `age_min` int(11) NOT NULL,
-  `age_max` int(11) NOT NULL,
-  `sexe` int(11) NOT NULL,
+  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL COMMENT '"Nom du groupe d''âge ex. Louveteau,  Exploratrice, Castor" ',
+  `age_min` int(11) NOT NULL COMMENT '"Âge minimum pour être dans le groupe  d''âge" ',
+  `age_max` int(11) NOT NULL COMMENT '"Âge maximum pour être dans le groupe  d''âge" ',
+  `sexe` int(11) NOT NULL COMMENT 'Sexe des enfants admis dans ce groupe âge ex. 1 pour Masculin 2 pour féminin et 0 pour mixte ',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci COMMENT='Un groupe d''âge ex:Éclaireur, Jeanette…  ' AUTO_INCREMENT=7 ;
 
 --
 -- Contenu de la table `groupe_ages`
@@ -460,12 +378,11 @@ INSERT INTO `groupe_ages` (`id`, `nom`, `age_min`, `age_max`, `sexe`) VALUES
 -- Structure de la table `implications`
 --
 
-DROP TABLE IF EXISTS `implications`;
 CREATE TABLE IF NOT EXISTS `implications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL,
+  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL COMMENT 'Ex. : Animation, Gestion ',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=6 ;
 
 --
 -- Contenu de la table `implications`
@@ -473,7 +390,7 @@ CREATE TABLE IF NOT EXISTS `implications` (
 
 INSERT INTO `implications` (`id`, `nom`) VALUES
 (1, 'Animation'),
-(2, 'Gestion / Comptabilité')
+(2, 'Gestion / Comptabilité'),
 (3, 'Accompagnement'),
 (4, 'Couture, costumes'),
 (5, 'Cuisine (cuistot)');
@@ -484,7 +401,6 @@ INSERT INTO `implications` (`id`, `nom`) VALUES
 -- Structure de la table `information_scolaires`
 --
 
-DROP TABLE IF EXISTS `information_scolaires`;
 CREATE TABLE IF NOT EXISTS `information_scolaires` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `enfant_id` int(11) NOT NULL,
@@ -493,11 +409,7 @@ CREATE TABLE IF NOT EXISTS `information_scolaires` (
   `nom_enseignant` varchar(45) COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_information_scolaires_enfants` (`enfant_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=6 ;
-
---
--- Contenu de la table `information_scolaires`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=13 ;
 
 
 -- --------------------------------------------------------
@@ -506,27 +418,22 @@ CREATE TABLE IF NOT EXISTS `information_scolaires` (
 -- Structure de la table `inscriptions`
 --
 
-DROP TABLE IF EXISTS `inscriptions`;
 CREATE TABLE IF NOT EXISTS `inscriptions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `enfant_id` int(11) NOT NULL,
   `groupe_age_id` int(11) NOT NULL,
-  `date_inscription` datetime NOT NULL,
-  `annee_id` int(11) NOT NULL,
-  `autorisation_photo` int(11) NOT NULL,
-  `autorisation_baignade` int(11) NOT NULL,
+  `date_inscription` datetime NOT NULL COMMENT 'Date de l''inscription ',
+  `annee_id` int(11) NOT NULL COMMENT 'Année de l''inscription ',
+  `autorisation_photo` int(11) NOT NULL COMMENT 'Si les scouts peuvent utiliser les photos de l''enfant',
+  `autorisation_baignade` int(11) NOT NULL COMMENT 'Si l''enfant peut se baigner ',
   `unite_id` int(11) DEFAULT NULL,
-  `date_fin` datetime DEFAULT NULL,
+  `date_fin` datetime DEFAULT NULL COMMENT 'Date de la désinscription. Est à "null" sauf si le jeune est désinscrit. ',
   PRIMARY KEY (`id`),
   KEY `fk_inscriptions_groupes_ages` (`groupe_age_id`),
   KEY `fk_inscriptions_annees` (`annee_id`),
   KEY `fk_inscriptions_enfants` (`enfant_id`),
   KEY `fk_inscriptions_unites` (`unite_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=9 ;
-
---
--- Contenu de la table `inscriptions`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=16 ;
 
 
 -- --------------------------------------------------------
@@ -535,10 +442,9 @@ CREATE TABLE IF NOT EXISTS `inscriptions` (
 -- Structure de la table `maladies`
 --
 
-DROP TABLE IF EXISTS `maladies`;
 CREATE TABLE IF NOT EXISTS `maladies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL,
+  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL COMMENT 'Nom de la maladie Ex. : Asthme ',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=27 ;
 
@@ -580,7 +486,6 @@ INSERT INTO `maladies` (`id`, `nom`) VALUES
 -- Structure de la table `medicaments`
 --
 
-DROP TABLE IF EXISTS `medicaments`;
 CREATE TABLE IF NOT EXISTS `medicaments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(100) COLLATE latin1_general_ci NOT NULL,
@@ -606,7 +511,6 @@ INSERT INTO `medicaments` (`id`, `nom`) VALUES
 -- Structure de la table `nb_versements`
 --
 
-DROP TABLE IF EXISTS `nb_versements`;
 CREATE TABLE IF NOT EXISTS `nb_versements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nb_versements` int(11) NOT NULL,
@@ -628,12 +532,11 @@ INSERT INTO `nb_versements` (`id`, `nb_versements`) VALUES
 -- Structure de la table `notifications`
 --
 
-DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE IF NOT EXISTS `notifications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_sujet_id` int(11) NOT NULL,
-  `detail` varchar(200) COLLATE latin1_general_ci DEFAULT NULL,
-  `date` datetime NOT NULL,
+  `type_sujet_id` int(11) NOT NULL COMMENT 'Le nom de la table modifiée',
+  `detail` varchar(200) COLLATE latin1_general_ci DEFAULT NULL COMMENT 'Les champs modifiés',
+  `date` datetime NOT NULL COMMENT 'Date le la modification',
   `id_sujet` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_notifications_type_sujets` (`type_sujet_id`),
@@ -653,23 +556,18 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 -- Structure de la table `paiements`
 --
 
-DROP TABLE IF EXISTS `paiements`;
 CREATE TABLE IF NOT EXISTS `paiements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date_paiements` datetime DEFAULT NULL,
-  `montant` int(10) unsigned NOT NULL,
+  `date_paiements` datetime DEFAULT NULL COMMENT 'La date à laquelle l''argent entre les mains des scouts ex: la date de réception si paiement en argent , si chèque, la date ou il est encaissé ',
+  `montant` int(10) unsigned NOT NULL COMMENT 'Si le montant du paiement est 0$ alors le paiement est non applicable(l''utilisateur s’est inscrit après la date de ce paiement) ',
   `facture_id` int(11) NOT NULL,
   `paiement_type_id` int(11) NOT NULL,
-  `date_reception` datetime DEFAULT NULL,
-  `ordre_paiement` int(11) NOT NULL,
+  `date_reception` datetime DEFAULT NULL COMMENT 'Date a laquelle les scouts on reçu les chèques(vide si ce n''est pas par chèque) ',
+  `ordre_paiement` int(11) NOT NULL COMMENT 'Ordre du paiement, Est a 0 si c''est un paiement uniqueEx: 1 pour premier etc...',
   PRIMARY KEY (`id`),
   KEY `fk_paiements_paiement_types` (`paiement_type_id`),
   KEY `fk_paiements_factures` (`facture_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=16 ;
-
---
--- Contenu de la table `paiements`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=18 ;
 
 
 -- --------------------------------------------------------
@@ -678,10 +576,9 @@ CREATE TABLE IF NOT EXISTS `paiements` (
 -- Structure de la table `paiement_types`
 --
 
-DROP TABLE IF EXISTS `paiement_types`;
 CREATE TABLE IF NOT EXISTS `paiement_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL,
+  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL COMMENT 'Ex.: Crédit, débit, Comptant, Chèque ',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=6 ;
 
@@ -702,18 +599,13 @@ INSERT INTO `paiement_types` (`id`, `nom`) VALUES
 -- Structure de la table `prescriptions`
 --
 
-DROP TABLE IF EXISTS `prescriptions`;
 CREATE TABLE IF NOT EXISTS `prescriptions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `posologie` varchar(200) COLLATE latin1_general_ci NOT NULL,
   `fiche_medicale_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_prescriptions_fiche_medicales` (`fiche_medicale_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=3 ;
-
---
--- Contenu de la table `prescriptions`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=4 ;
 
 
 -- --------------------------------------------------------
@@ -722,10 +614,9 @@ CREATE TABLE IF NOT EXISTS `prescriptions` (
 -- Structure de la table `question_generales`
 --
 
-DROP TABLE IF EXISTS `question_generales`;
 CREATE TABLE IF NOT EXISTS `question_generales` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `texte` varchar(200) COLLATE latin1_general_ci NOT NULL,
+  `texte` varchar(200) COLLATE latin1_general_ci NOT NULL COMMENT 'Texte de la question ',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=8 ;
 
@@ -748,7 +639,6 @@ INSERT INTO `question_generales` (`id`, `texte`) VALUES
 -- Structure de la table `recu_impots`
 --
 
-DROP TABLE IF EXISTS `recu_impots`;
 CREATE TABLE IF NOT EXISTS `recu_impots` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date_emission` datetime NOT NULL,
@@ -769,10 +659,9 @@ CREATE TABLE IF NOT EXISTS `recu_impots` (
 -- Structure de la table `type_sujets`
 --
 
-DROP TABLE IF EXISTS `type_sujets`;
 CREATE TABLE IF NOT EXISTS `type_sujets` (
   `id` int(11) NOT NULL,
-  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL,
+  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL COMMENT '"Nom de la table ex.  Enfant, adulte  ou fiche médicale" ',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
@@ -787,14 +676,13 @@ CREATE TABLE IF NOT EXISTS `type_sujets` (
 -- Structure de la table `unites`
 --
 
-DROP TABLE IF EXISTS `unites`;
 CREATE TABLE IF NOT EXISTS `unites` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `groupe_age_id` int(11) NOT NULL,
-  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL,
+  `nom` varchar(45) COLLATE latin1_general_ci NOT NULL COMMENT 'ex: Team wolf',
   PRIMARY KEY (`id`),
   KEY `fk_unite_groupe_age` (`groupe_age_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci COMMENT='Instance d''un groupe d''âge. Example : Castor Joyeux.  ' AUTO_INCREMENT=6 ;
 
 --
 -- Contenu de la table `unites`
@@ -812,14 +700,13 @@ INSERT INTO `unites` (`id`, `groupe_age_id`, `nom`) VALUES
 -- Structure de la table `versements`
 --
 
-DROP TABLE IF EXISTS `versements`;
 CREATE TABLE IF NOT EXISTS `versements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fraterie_id` int(11) NOT NULL,
-  `montant` int(11) NOT NULL,
-  `date` datetime DEFAULT NULL,
-  `position` int(11) NOT NULL,
-  `nb_versement_id` int(11) NOT NULL,
+  `montant` int(11) NOT NULL COMMENT 'Montant du versement ',
+  `date` datetime DEFAULT NULL COMMENT '"Date à laquelle le versement  doit être effectué" ',
+  `position` int(11) NOT NULL COMMENT 'Ordre du versement. Ex. : 1 pour 1er ,2 pour 2ieme  ou 3 pour 3ieme',
+  `nb_versement_id` int(11) NOT NULL COMMENT 'Le nombre de versements du plan de paiement (voir plan de PAIEMENT dans la table FRATERIE ',
   PRIMARY KEY (`id`),
   KEY `fk_versements_nb_versements` (`nb_versement_id`),
   KEY `fk_versements_frateries` (`fraterie_id`)
@@ -832,8 +719,8 @@ CREATE TABLE IF NOT EXISTS `versements` (
 INSERT INTO `versements` (`id`, `fraterie_id`, `montant`, `date`, `position`, `nb_versement_id`) VALUES
 (1, 1, 95, '2011-10-20 00:00:00', 1, 2),
 (2, 1, 50, '2011-11-20 00:00:00', 2, 2),
-(3, 1, 60, '2012-02-20 00:00:00', 3, 2),
-(4, 2, 85, '2011-10-20 00:00:00', 1, 2),
+(3, 1, 50, '2012-02-20 00:00:00', 3, 2),
+(4, 2, 35, '2011-10-20 00:00:00', 1, 2),
 (5, 2, 70, '2011-11-20 00:00:00', 2, 2),
 (6, 2, 70, '2012-02-20 00:00:00', 3, 2),
 (7, 1, 195, NULL, 0, 1),

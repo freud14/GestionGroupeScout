@@ -89,7 +89,6 @@
 			<?php
 			//On va chercher les différents groupes d'âge.
 			$liste = array();
-			$liste[''] = '';
 			foreach ($groupe_age as $groupe) {
 				$strGroupe = __('Mixte', true);
 				if($groupe['GroupeAge']['sexe'] == '1') {
