@@ -45,7 +45,11 @@ $frateries = $repartition['frateries'];
 			while ($anciennePosition == $fraterie['Fraterie']['position'] && $i < count($frateries)) {
 				if ($fraterie['Versement']['position'] == 0) {
 					//On formatte le nombre d'enfant selon l'ordre ordinal.
-					echo '<td>' . /*$nf->format(*/$fraterie['Fraterie']['position']/*, NumberFormatter::TYPE_INT32) */. ' ' . __('enfant', true) . ' (' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . ')</td>';
+                    $prefixe = 'e';
+                    if($fraterie['Fraterie']['position'] == 1) {
+                        $prefixe = 'er';
+                    }
+					echo '<td>' . /*$nf->format(*/$fraterie['Fraterie']['position']/*, NumberFormatter::TYPE_INT32) */.'<sup>'.$prefixe. '</sup> ' . __('enfant', true) . ' (' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . ')</td>';
 				} else {
 					echo '<td>' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . '</td>';
 				}

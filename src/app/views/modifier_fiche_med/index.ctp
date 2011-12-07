@@ -137,12 +137,19 @@ echo $form->create(null, array('url' => array('controller' => 'modifier_fiche_me
                         <div style="text-align:right;padding-top:20px"> 
 
                                 <?php
-                                echo $form->button(__('Annuler', true), array('type' => 'submit', 'name' => 'annuler'));
+                                if($modification){
+                                        echo $form->button(__('Retour à l\'accueil', true), array('type' => 'submit', 'name' => 'accueil'));
+                                }else{
+                                        echo $form->button(__('Annuler', true), array('type' => 'submit', 'name' => 'annuler'));
+                                }
                                 echo "&nbsp;&nbsp;&nbsp;";
-                                if ($modification) {
-                                        echo $form->button(__('Modifier', true), array('type' => 'submit', 'name' => 'modifier'));
-                                } else {
-                                        echo $form->button(__('Enregistrer', true), array('type' => 'submit', 'name' => 'enregistrer'));
+                                if ($droit_modification) {
+
+                                        if ($modification) {
+                                                echo $form->button(__('Basculer en modification', true), array('type' => 'submit', 'name' => 'modifier'));
+                                        } else {
+                                                echo $form->button(__('Enregistrer', true), array('type' => 'submit', 'name' => 'enregistrer'));
+                                        }
                                 }
                                 echo $form->end();
                                 ?>

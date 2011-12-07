@@ -52,11 +52,11 @@ class GestionnairePaiementController extends AppController {
 	function index($adulte_id = NULL) {
 		//Si aucun id est passé, on affiche les enfants de l'utilisateur courrant
 		if ($adulte_id == NULL) {
-			$this->set('titre', __('Gestionaire de paiements', true));
-			$this->set('ariane', __('Gestionaire de paiements', true));
+			$this->set('titre', __('Gestionnaire de paiements', true));
+			$this->set('ariane', __('Gestionnaire de paiements', true));
 
 			$adulte_id = $this->Session->read('authentification.id_adulte');
-		} else {
+		} else if($this->_getAutorisation() >= 3){
 			$this->layout = 'admin';
 			$this->set('title_for_layout', __('Gestion des paiements', true));
 			$this->set('titre', __('Statut du paiement', true));
@@ -67,6 +67,9 @@ class GestionnairePaiementController extends AppController {
 
 			$this->set('id_adulte', $adulte_id);
 		}
+        else {
+            $this->redirect(array('controller' => 'gestionnaire_paiement', 'action' => 'index'));
+        }
         
 		$this->set('inscriptions', $this->GestionnairePaiement->getInscriptions($adulte_id));
 	}
@@ -79,7 +82,7 @@ class GestionnairePaiementController extends AppController {
 	 */
 	function effectuer_paiement() {
 		$this->set('titre', __('Effectuer un paiement', true));
-		$this->set('ariane', __('Gestionaire de paiements > Effectuer un paiement', true));
+		$this->set('ariane', __('Gestionnaire de paiements > Effectuer un paiement', true));
 
 		$adulte_id = $this->Session->read('authentification.id_adulte');
 

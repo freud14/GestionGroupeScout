@@ -30,6 +30,9 @@ class PaiementMembreController extends AppController {
 	 */
 	function beforeFilter() {
 		parent::beforeFilter();
+        if($this->_getAutorisation() < 3){
+            $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
+        }
 		$this->loadModel('Adulte');
 		$this->layout = 'admin';
 		$this->set('title_for_layout', __('Gestion des paiements', true));
