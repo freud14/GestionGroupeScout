@@ -56,7 +56,7 @@ class GestionnairePaiementController extends AppController {
 			$this->set('ariane', __('Gestionnaire de paiements', true));
 
 			$adulte_id = $this->Session->read('authentification.id_adulte');
-		} else {
+		} else if($this->_getAutorisation() >= 3){
 			$this->layout = 'admin';
 			$this->set('title_for_layout', __('Gestion des paiements', true));
 			$this->set('titre', __('Statut du paiement', true));
@@ -67,6 +67,9 @@ class GestionnairePaiementController extends AppController {
 
 			$this->set('id_adulte', $adulte_id);
 		}
+        else {
+            $this->redirect(array('controller' => 'gestionnaire_paiement', 'action' => 'index'));
+        }
         
 		$this->set('inscriptions', $this->GestionnairePaiement->getInscriptions($adulte_id));
 	}
