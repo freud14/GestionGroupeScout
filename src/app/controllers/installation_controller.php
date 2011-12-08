@@ -13,7 +13,7 @@ class InstallationController extends AppController {
      * @var type 
      */
     var $helpers = array('Html', 'Form');
-    
+
     /**
      * Le nom du contrôleur.
      * @var string
@@ -30,9 +30,9 @@ class InstallationController extends AppController {
         $this->set('titre', __('Installation', true));
         $this->set('ariane', __('Installation', true));
         $this->layout = 'aucun_menu';
-        
+
         //Si l'installation a déjà été faite, on redirige l'utilisateur vers la page d'accueil.
-        if($this->_isInstallationEffecutee()) {
+        if ($this->_isInstallationEffecutee()) {
             $this->redirect(array('controller' => 'accueil', 'action' => 'index'));
         }
 
@@ -41,9 +41,7 @@ class InstallationController extends AppController {
 
         if (!empty($this->data)) {
             //On essaye de se connecter au serveur de BD fourni par l'utilisateur
-            $connexion = @mysql_connect($this->data['Installation']['serveur'], 
-                    $this->data['Installation']['utilisateur'], 
-                    $this->data['Installation']['mot_de_passe']);
+            $connexion = @mysql_connect($this->data['Installation']['serveur'], $this->data['Installation']['utilisateur'], $this->data['Installation']['mot_de_passe']);
 
             if ($connexion === false) {
                 $erreur = __('Impossible de se connecter au serveur de base de données.', true);
@@ -69,16 +67,16 @@ class InstallationController extends AppController {
                 }
 
                 if ($succes === true) {
-                    
+
                     //On regarde si l'utilisateur veut installer la démo ou pas.
                     $fichier = 'scout102vide.sql';
                     if ($this->data['Installation']['demo'] != '0') {
                         $fichier = 'scout102demo.sql';
                     }
-                    
+
                     //On prend chacune des requêtes SQL individuellement
                     $create = explode(';', file_get_contents($fichier, true));
-                    
+
                     //Et on les exécute.
                     foreach ($create as $query) {
                         if (trim($query) != '') {
@@ -89,24 +87,48 @@ class InstallationController extends AppController {
                             }
                         }
                     }
-                    
+
+
+                    $wikiCreate = explode(';', file_get_contents('wiki.sql', true));
+
+                    //Et on les exécute.
+                    foreach ($wikiCreate as $query) {
+                        if (trim($query) != '') {
+                            $succes = @mysql_query($query, $connexion);
+                            if (!$succes) {
+                                $erreur = __('Impossible de créer toutes les tables du wiki.', true);
+                                break;
+                            }
+                        }
+                    }
+
                     //Si tout a été réussi, on crée le fichier de configuration
                     if ($succes) {
                         $databaseFichier = file_get_contents('installation_database.txt', true);
-                        $databaseFichier = sprintf($databaseFichier,
-                                addslashes($this->data['Installation']['serveur']), 
-                                addslashes($this->data['Installation']['utilisateur']), 
-                                addslashes($this->data['Installation']['mot_de_passe']), 
-                                addslashes($bd));
-                        
+                        $databaseFichier = sprintf($databaseFichier, addslashes($this->data['Installation']['serveur']), addslashes($this->data['Installation']['utilisateur']), addslashes($this->data['Installation']['mot_de_passe']), addslashes($bd));
+
                         //On sauvegarde le fichier d'installation database.php.
                         copy("../config/database.php", "../config/database.install.php");
-                        
+
                         //On écrit le nouveau fichier de configuration.
                         file_put_contents("../config/database.php", $databaseFichier, FILE_USE_INCLUDE_PATH);
-                        
+
+
+                        //On crée le fichier de config du wiki.
+                        $wikiDatabaseFichier = file_get_contents('installation_wiki.txt', true);
+                        $wikiDatabaseFichier = sprintf($wikiDatabaseFichier, 
+                                $this->webroot, 
+                                addslashes($this->data['Installation']['serveur']), 
+                                addslashes($bd), 
+                                addslashes($this->data['Installation']['utilisateur']), 
+                                addslashes($this->data['Installation']['mot_de_passe'])
+                        );
+
+                        //On écrit le nouveau fichier de configuration.
+                        file_put_contents("../webroot/mediawiki/LocalSettings.php", $wikiDatabaseFichier, FILE_USE_INCLUDE_PATH);
+
                         @mysql_close($connexion);
-                        
+
                         //On redirige l'utilisateur vers la page pour créer le pilote du système.
                         $this->redirect(array('controller' => 'inscrire_adulte', 'action' => 'installation'));
                     }
@@ -121,5 +143,4 @@ class InstallationController extends AppController {
     }
 
 }
-
 ?>
