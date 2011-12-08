@@ -11,6 +11,7 @@ Unix:
  * chmod 757 app/config
  * chmod 666 app/config/database.*
  * chmod 646 app/installation_effecutee.txt
+ * chmod 757 app/webroot/mediawiki
 
 Assurez-vous que le fichier « app/installation_effecutee.txt » contient bien « 0 ».
 
