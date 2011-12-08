@@ -5,6 +5,12 @@ Configuration requise:
 
 Ce site web nécessite que le module rewrite de Apache soit activé.
 
+Activez les connexions sécurisées avec le site web dans la configuration d’Apache. Voici deux 
+liens vous aidant :
+ * http://www.patdef.fr/Configurer-apache2-pour-faire-du.html 
+ * http://httpd.apache.org/docs/2.3/fr/ssl/ssl_howto.html 
+
+
 Pour donner les droits nécessaires sur le site à Apache, si vous êtes sur un système GNU/Linux ou 
 Unix:
  * chmod -R 757 app/tmp 
