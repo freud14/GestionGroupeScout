@@ -76,8 +76,8 @@ if (!empty($autorisation)) {
 							</ul>
 						</li>
 					<?php } ?>
-					
 					<li style="float:right;"><?php echo $this->Html->link(__('Déconnexion ', true). $this->Session->read('authentification.nom_adulte'), array("controller" => "connexion", "action" => "detruire")); ?></li>
+					<li style="float:right;"><a href="<?php echo $this->webroot.'mediawiki'; ?>"><?php __('Aide '); ?></a></li>
 				</ul>
 			</div>
 			<?php echo $html->image('logo102.png', array('alt' => __('Accueil du site', true), 'style' => 'width:214px; height:125px; border:0px', 'class' => 'logo', 'url' => array("controller" => "accueil", "action" => "index"))); ?>
