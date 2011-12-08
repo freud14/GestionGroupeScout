@@ -1,0 +1,27 @@
+Configuration requise:
+ * Apache 2.2.17 avec le module Rewrite
+ * PHP 5.3.4
+ * MySQL 5.1.53
+
+Ce site web nécessite que le module rewrite de Apache soit activé.
+
+Pour donner les droits nécessaires sur le site à Apache, si vous êtes sur un système GNU/Linux ou 
+Unix:
+ * chmod -R 757 app/tmp 
+ * chmod 757 app/config
+ * chmod 666 app/config/database.*
+ * chmod 646 app/installation_effecutee.txt
+
+Assurez-vous que le fichier « app/installation_effecutee.txt » contient bien « 0 ».
+
+Lorsque le site est installé sur le serveur, connectez-vous à celui-ci dans un navigateur afin 
+de configurer la base de données. Pour l'installation en démonstration, assurez-vous de cocher la
+case « Installation démo? »
+
+Pour configurer le paiement PayPal, vous devez vous créer un bouton Paypal. Vous n'avez pas 
+besoin de remplir les informations demandées lors de la création du bouton PayPAl: vous
+n'avez qu'à créer le bouton. Lorsque le bouton est créé, copiez l'URL donnée par PayPal dans
+le fichier « app/config/core.php » à la ligne 79. Voici la ligne actuelle du fichier:
+	define('PAYPAL_URL', 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=828EWBBBAPU7W');.
+
+Voir le Wiki pour des scénarios à suivre pour s'approprier le système.
