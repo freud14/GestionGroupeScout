@@ -22,18 +22,16 @@ $frateries = $repartition['frateries'];
 			if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
 				$format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
 			}
-
-            //On change la locale pour avoir les dates en ISO-8859-1 au lieu de UTF-8
-            //pour que ça marche sur toutes les plateformes.
-            setlocale(LC_ALL, LOCALE_ACTUEL, SET_LOCALE_ACTUEL_WINDOWS);
             
 			//On affiche les dates des versements
 			foreach ($montants_versement as $versement) {
-				echo "<th>" . utf8_encode(strftime($format, strtotime($versement['Versement']['date']))) . "</th>";
+				//Si on est sur Windows, on encode notre date en UTF-8 sinon elle l'est déjà.
+				if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+					echo "<th>" . utf8_encode(strftime($format, strtotime($versement['Versement']['date']))) . "</th>";
+				} else {
+					echo "<th>" . strftime($format, strtotime($versement['Versement']['date'])) . "</th>";
+				}
 			}
-            
-            //Et on remet l'UTF-8 après.
-            setlocale(LC_ALL, SET_LOCALE_ACTUEL, SET_LOCALE_ACTUEL_WINDOWS);
 			?>
 		</tr>
 	</thead>
