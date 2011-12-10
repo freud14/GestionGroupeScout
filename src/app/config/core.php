@@ -58,7 +58,8 @@
 /**
  * Localisation actuel du site
  */
-	define('SET_LOCALE_ACTUEL', 'fr_CA.utf8');
+    define('LOCALE_ACTUEL', 'fr_CA');
+	define('SET_LOCALE_ACTUEL', LOCALE_ACTUEL.'.utf8');
 	define('SET_LOCALE_ACTUEL_WINDOWS', 'frc');
 	
 /*

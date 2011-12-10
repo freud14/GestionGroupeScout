@@ -23,20 +23,27 @@ $frateries = $repartition['frateries'];
 				$format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
 			}
 
+            //On change la locale pour avoir les dates en ISO-8859-1 au lieu de UTF-8
+            //pour que ça marche sur toutes les plateformes.
+            setlocale(LC_ALL, LOCALE_ACTUEL, SET_LOCALE_ACTUEL_WINDOWS);
+            
 			//On affiche les dates des versements
 			foreach ($montants_versement as $versement) {
-				$dateToString = strftime($format, strtotime($versement['Versement']['date']));
-				mb_detect_encoding($dateToString, "UTF-8") == "UTF-8" ? : $dateToString = utf8_encode($dateToString);
-				echo "<th>" . $dateToString . "</th>";
+				echo "<th>" . utf8_encode(strftime($format, strtotime($versement['Versement']['date']))) . "</th>";
 			}
+            
+            //Et on remet l'UTF-8 après.
+            setlocale(LC_ALL, SET_LOCALE_ACTUEL, SET_LOCALE_ACTUEL_WINDOWS);
 			?>
 		</tr>
 	</thead>
 	<tbody>
 		<?php
 		//On mets les locales numériques à 'C' à cause d'un bug entre setlocale et NumberFormatter
-		setlocale(LC_NUMERIC, 'C');
+		//setlocale(LC_NUMERIC, 'C');
 		//$nf = new NumberFormatter(SET_LOCALE_ACTUEL, NumberFormatter::ORDINAL);
+        
+        
 		$anciennePosition = 0;
 		//On affiche chacun des positions suivit du montant total 
 		// et du montant de chacun des versements pour chacun des dates.
@@ -63,7 +70,8 @@ $frateries = $repartition['frateries'];
 			$anciennePosition = $fraterie['Fraterie']['position'];
 			echo '</tr>';
 		}
-		setlocale(LC_ALL, SET_LOCALE_ACTUEL, SET_LOCALE_ACTUEL_WINDOWS);
+        
+		//setlocale(LC_ALL, SET_LOCALE_ACTUEL, SET_LOCALE_ACTUEL_WINDOWS);
 		?>
 	</tbody>
 </table>
