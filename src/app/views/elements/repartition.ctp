@@ -3,7 +3,6 @@
  * Cette vue affiche la répartition des paiements.
  * @author Frédérik Paradis
  */
-
 //On initialise une variable pour avoir les locales pour le signe de monnaie.
 $locale = localeconv();
 
@@ -23,10 +22,12 @@ $frateries = $repartition['frateries'];
 			if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
 				$format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
 			}
-			
+
 			//On affiche les dates des versements
 			foreach ($montants_versement as $versement) {
-				echo "<th>" . utf8_encode(strftime($format, strtotime($versement['Versement']['date']))) . "</th>";
+				$dateToString = strftime($format, strtotime($versement['Versement']['date']));
+				mb_detect_encoding($dateToString, "UTF-8") == "UTF-8" ? : $dateToString = utf8_encode($dateToString);
+				echo "<th>" . $dateToString . "</th>";
 			}
 			?>
 		</tr>
@@ -45,11 +46,11 @@ $frateries = $repartition['frateries'];
 			while ($anciennePosition == $fraterie['Fraterie']['position'] && $i < count($frateries)) {
 				if ($fraterie['Versement']['position'] == 0) {
 					//On formatte le nombre d'enfant selon l'ordre ordinal.
-                    $prefixe = 'e';
-                    if($fraterie['Fraterie']['position'] == 1) {
-                        $prefixe = 'er';
-                    }
-					echo '<td>' . /*$nf->format(*/$fraterie['Fraterie']['position']/*, NumberFormatter::TYPE_INT32) */.'<sup>'.$prefixe. '</sup> ' . __('enfant', true) . ' (' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . ')</td>';
+					$prefixe = 'e';
+					if ($fraterie['Fraterie']['position'] == 1) {
+						$prefixe = 'er';
+					}
+					echo '<td>' . /* $nf->format( */$fraterie['Fraterie']['position']/* , NumberFormatter::TYPE_INT32) */ . '<sup>' . $prefixe . '</sup> ' . __('enfant', true) . ' (' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . ')</td>';
 				} else {
 					echo '<td>' . $fraterie['Versement']['montant'] . ' ' . $locale['currency_symbol'] . '</td>';
 				}
