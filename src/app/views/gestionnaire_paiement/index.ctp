@@ -64,14 +64,22 @@ $locale = localeconv();
 				if ($inscription[0]['dernier_paiement'] == '') {
 					$inscription[0]['dernier_paiement'] = __('Non disponible', true);
 				} else {
-					$inscription[0]['dernier_paiement'] = utf8_encode(strftime($format, strtotime($inscription[0]['dernier_paiement'])));
+					if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+						$inscription[0]['dernier_paiement'] = utf8_encode(strftime($format, strtotime($inscription[0]['dernier_paiement'])));
+					} else {
+						$inscription[0]['dernier_paiement'] = strftime($format, strtotime($inscription[0]['dernier_paiement']));
+					}
 				}
 
 				//Si la date du prochain paiement vaut NULL, on affiche « Non disponible »
 				if ($inscription[0]['prochain_paiement'] == '') {
 					$inscription[0]['prochain_paiement'] = __('Non disponible', true);
 				} else {
-					$inscription[0]['prochain_paiement'] = utf8_encode(strftime($format, strtotime($inscription[0]['prochain_paiement'])));
+					if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+						$inscription[0]['prochain_paiement'] = utf8_encode(strftime($format, strtotime($inscription[0]['prochain_paiement'])));
+					} else {
+						$inscription[0]['prochain_paiement'] = strftime($format, strtotime($inscription[0]['prochain_paiement']));
+					}
 				}
 				?>
 
